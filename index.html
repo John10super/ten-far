@@ -463,7 +463,7 @@ select option:first-child{color:#C4C9D4}
     </div>
     <div class="grid4 mt-8">
       <div class="field">
-        <label data-i18n="lAge" style="display:flex;align-items:center;gap:6px">年齡 (歲)<span id="ageAutoTag" style="display:none;font-size:9px;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:1px 5px;font-weight:600;letter-spacing:.3px">AUTO</span></label>
+        <label style="display:flex;align-items:center;gap:6px"><span data-i18n="lAge">年齡 (歲)</span><span id="ageAutoTag" style="display:none;font-size:9px;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:1px 5px;font-weight:600;letter-spacing:.3px">AUTO</span></label>
         <input type="number" id="clientAge" placeholder="35" oninput="document.getElementById('ageAutoTag').style.display='none';recalc()">
       </div>
       <div class="field"><label data-i18n="lSpouseAge">配偶年齡 (如有)</label><input type="number" id="spouseAge" placeholder="—" oninput="recalc()"></div>
@@ -535,7 +535,7 @@ select option:first-child{color:#C4C9D4}
       <div class="field"><label data-i18n="lCarLoan">車貸餘額 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="carLoan" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><label data-i18n="lCarMonthly">車貸月供 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="carMonthly" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><label data-i18n="lCCPersonal">信用卡 + 私人貸款 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ccPersonal" placeholder="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lAnnualPrem">年繳保費合計 (RM) <span style="color:#10B981;font-size:9px">[自動計算]</span></label><div class="calc-display" id="annualPremiumDisplay">—<span class="calc-badge">AUTO</span></div></div>
+      <div class="field"><label><span data-i18n="lAnnualPrem">年繳保費合計 (RM)</span> <span data-i18n="autoCalcTag" style="color:#10B981;font-size:9px">[自動計算]</span></label><div class="calc-display" id="annualPremiumDisplay">—<span class="calc-badge">AUTO</span></div></div>
     </div>
   </div>
 </div>
@@ -573,13 +573,13 @@ select option:first-child{color:#C4C9D4}
             <th class="nc">#</th>
             <th data-i18n="thInsurer">保險公司</th>
             <th data-i18n="thPolicyNo">保單號碼 (選填)</th>
-            <th data-i18n="thDeath">身故 Death<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thTPD">全殘 TPD<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thPA">意外身故 PA<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thCI">危疾 CI<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thECI">早期危疾<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thDis">殘障月收入<br><span style="font-weight:400;opacity:.7">(RM/月)</span></th>
-            <th data-i18n="thPrem">年繳保費<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thDeath">身故 Death</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thTPD">全殘 TPD</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thPA">意外身故 PA</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thCI">危疾 CI</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thECI">早期危疾</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thDis">殘障月收入</span><br><span style="font-weight:400;opacity:.7">(RM/月)</span></th>
+            <th><span data-i18n="thPrem">年繳保費</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
@@ -608,12 +608,12 @@ select option:first-child{color:#C4C9D4}
           <tr>
             <th class="nc">#</th>
             <th data-i18n="thInsurer">保險公司</th>
-            <th data-i18n="thRoomBoard">每日病房費<br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th data-i18n="thLifetimeLimit">終身限額<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thAnnualLimit">年度限額<br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th data-i18n="thDailyHosp">每日住院津貼<br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th data-i18n="thCIWaiver">CI 豁免保費<br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
-            <th data-i18n="thTPDWaiver">TPD 豁免保費<br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
+            <th><span data-i18n="thRoomBoard">每日病房費</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
+            <th><span data-i18n="thLifetimeLimit">終身限額</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thAnnualLimit">年度限額</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thDailyHosp">每日住院津貼</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
+            <th><span data-i18n="thCIWaiver">CI 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
+            <th><span data-i18n="thTPDWaiver">TPD 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
@@ -888,6 +888,15 @@ const I18N = {
     rdMHI200:'醫療卡終身限額是否足以支付 RM200k 重大疾病',
     rdMHICI200:'醫療卡 + 危疾合併是否超過 RM200k × 2',
     bmMo:'個月',
+    autoCalcTag:'[自動計算]',
+    unnamedClient:'未命名客戶',
+    drawerEmptyHint:'填完後按「💾 儲存」即可保留',
+    btnDelete:'刪除',
+    printModalTitle:'列印前必做設定',
+    printModalDesc:'請在列印對話框中<b>關閉「頁眉頁腳」</b>，否則網址列會出現在每頁上方。',
+    printModalSteps:'🍎 <b>Safari</b>：勾選「頁眉和頁腳」→ 取消勾選<br>🌐 <b>Chrome</b>：更多設定 → 頁眉和頁腳 → 關閉',
+    printModalConfirm:'✓ 繼續列印',
+    printModalCancel:'取消',
   },
   en: {
     tagSetting:'Settings', tagInput:'Input', tagCalc:'Calculate', tagAnalysis:'Analysis',
@@ -993,6 +1002,15 @@ const I18N = {
     rdMHI200:'Medical card lifetime limit vs RM200k critical illness cost',
     rdMHICI200:'Medical + CI combined vs RM200k × 2',
     bmMo:'months',
+    autoCalcTag:'[Auto Calc]',
+    unnamedClient:'Unnamed Client',
+    drawerEmptyHint:'Fill in & click 💾 Save to store a record',
+    btnDelete:'Delete',
+    printModalTitle:'Before You Print',
+    printModalDesc:'In the print dialog, <b>turn off "Headers & Footers"</b> to keep the URL bar off each page.',
+    printModalSteps:'🍎 <b>Safari</b>: Headers & Footers → uncheck<br>🌐 <b>Chrome</b>: More settings → Headers and footers → off',
+    printModalConfirm:'✓ Print Now',
+    printModalCancel:'Cancel',
   },
   bm: {
     tagSetting:'Tetapan', tagInput:'Input', tagCalc:'Kiraan', tagAnalysis:'Analisis',
@@ -1098,6 +1116,15 @@ const I18N = {
     rdMHI200:'Had seumur hidup kad perubatan berbanding kos RM200k penyakit kritikal',
     rdMHICI200:'Perubatan + CI gabungan berbanding RM200k × 2',
     bmMo:'bulan',
+    autoCalcTag:'[Kira Auto]',
+    unnamedClient:'Pelanggan Tanpa Nama',
+    drawerEmptyHint:'Isi & klik 💾 Simpan untuk simpan rekod',
+    btnDelete:'Padam',
+    printModalTitle:'Sebelum Cetak',
+    printModalDesc:'Dalam dialog cetak, <b>matikan "Pengepala & Pengaki"</b> supaya URL tidak muncul di setiap halaman.',
+    printModalSteps:'🍎 <b>Safari</b>: Pengepala & Pengaki → nyahcentang<br>🌐 <b>Chrome</b>: Tetapan lanjutan → Pengepala dan pengaki → matikan',
+    printModalConfirm:'✓ Cetak Sekarang',
+    printModalCancel:'Batal',
   }
 };
 
@@ -1887,7 +1914,7 @@ function getAllRecords() {
 }
 
 function saveRecord() {
-  const clientName = (document.getElementById('clientName').value||'').trim() || '未命名客戶';
+  const clientName = (document.getElementById('clientName').value||'').trim() || L('unnamedClient');
   const data = {};
   INPUT_IDS.forEach(id => { const el=document.getElementById(id); if(el) data[id]=el.value; });
   const now = new Date();
@@ -1950,7 +1977,7 @@ function renderRecords() {
   const el = document.getElementById('recordsList');
   if(!el) return;
   if(records.length === 0) {
-    el.innerHTML = `<div class="drawer-empty">${L('drawerEmpty')}<br><br>填完後按「💾 儲存」即可保留</div>`;
+    el.innerHTML = `<div class="drawer-empty">${L('drawerEmpty')}<br><br>${L('drawerEmptyHint')}</div>`;
   } else {
     el.innerHTML = records.map(r => `
       <div class="record-item" onclick="loadRecord(${r.id})">
@@ -1958,7 +1985,7 @@ function renderRecords() {
           <div class="record-name">${r.clientName}</div>
           <div class="record-meta">${r.savedAt}</div>
         </div>
-        <button class="record-del" title="刪除" onclick="event.stopPropagation();deleteRecord(${r.id})">🗑</button>
+        <button class="record-del" title="${L('btnDelete')}" onclick="event.stopPropagation();deleteRecord(${r.id})">🗑</button>
       </div>`).join('');
   }
   // Sync FAB badge
@@ -2041,15 +2068,14 @@ function printPrepare() {
   m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px';
   m.innerHTML = `<div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:380px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25)">
     <div style="text-align:center;font-size:36px;margin-bottom:10px">🖨</div>
-    <h3 style="font-size:16px;font-weight:800;margin-bottom:8px;text-align:center;color:#0D2B5E">列印前必做設定</h3>
-    <p style="font-size:13px;color:#6B7280;margin-bottom:14px;line-height:1.7;text-align:center">請在列印對話框中<b>關閉「頁眉頁腳」</b>，否則網址列會出現在每頁上方。</p>
+    <h3 style="font-size:16px;font-weight:800;margin-bottom:8px;text-align:center;color:#0D2B5E">${L('printModalTitle')}</h3>
+    <p style="font-size:13px;color:#6B7280;margin-bottom:14px;line-height:1.7;text-align:center">${L('printModalDesc')}</p>
     <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:12px;color:#1D4ED8;line-height:1.9">
-      🍎 <b>Safari</b>：勾選「頁眉和頁腳」→ 取消勾選<br>
-      🌐 <b>Chrome</b>：更多設定 → 頁眉和頁腳 → 關閉
+      ${L('printModalSteps')}
     </div>
     <div style="display:flex;gap:10px">
-      <button onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:12px;background:#FF2B1E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">✓ 繼續列印</button>
-      <button onclick="document.getElementById('printTipModal').remove()" style="flex:1;padding:12px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">取消</button>
+      <button onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:12px;background:#FF2B1E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">${L('printModalConfirm')}</button>
+      <button onclick="document.getElementById('printTipModal').remove()" style="flex:1;padding:12px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">${L('printModalCancel')}</button>
     </div>
   </div>`;
   document.body.appendChild(m);
@@ -2091,7 +2117,7 @@ function preparePrintView() {
       const coCell = medRows[0].querySelector('td:nth-child(2)');
       if (coCell && !coCell.dataset.printOrig) {
         coCell.dataset.printOrig = coCell.innerHTML;
-        coCell.innerHTML = '<span style="color:#9CA3AF;font-style:italic;font-size:9pt">— 無醫療保障 / No Medical Card —</span>';
+        coCell.innerHTML = `<span style="color:#9CA3AF;font-style:italic;font-size:9pt">${L('noMedCard')}</span>`;
       }
     }
   }
