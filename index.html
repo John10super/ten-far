@@ -407,13 +407,6 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
       <div class="field"><label data-i18n="lPlannerEmail">Email / 公司</label><input id="plannerEmail" value="tenconsultancy10@gmail.com" oninput="recalc();autoSaveProfile()"></div>
       <div class="field"><label data-i18n="lReportDate">報告日期</label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
     </div>
-    <div class="profile-sub" id="profileSubAssump">計算假設</div>
-    <div class="assumption-grid">
-      <div class="field"><label data-i18n="lInflation">通脹率 (%)</label><input type="number" id="inflationRate" value="3.69" step="0.1" oninput="recalc();autoSaveProfile()"></div>
-      <div class="field"><label data-i18n="lInterest">利率 / FD Rate (%)</label><input type="number" id="interestRate" value="2.5" step="0.1" oninput="recalc();autoSaveProfile()"></div>
-      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ide" value="20000" oninput="recalc();autoSaveProfile()"></div></div>
-      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rrf" value="5000" oninput="recalc();autoSaveProfile()"></div></div>
-    </div>
   </div>
   <div class="profile-save-row">
     <button class="btn btn-save" style="flex:1;padding:10px" onclick="saveProfile()">💾 儲存設定</button>
@@ -530,6 +523,22 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
       <div class="field"><label data-i18n="lCarMonthly">車貸月供 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="carMonthly" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><label data-i18n="lCCPersonal">信用卡 + 私人貸款 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ccPersonal" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><label data-i18n="lAnnualPrem">年繳保費合計 (RM) <span style="color:#10B981;font-size:9px">[自動計算]</span></label><div class="calc-display" id="annualPremiumDisplay">—<span class="calc-badge">AUTO</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ASSUMPTIONS (compact, between financial profile & insurance) ══ -->
+<div class="section no-print">
+  <div class="section-header">
+    <span class="section-tag tag-input" data-i18n="tagSetting">設定</span>
+    <h2 data-i18n="assumpTitle" style="font-size:13px;font-weight:700">📐 計算假設</h2>
+  </div>
+  <div class="section-body" style="padding:14px 20px">
+    <div class="assumption-grid">
+      <div class="field"><label data-i18n="lInflation">通脹率 (%)</label><input type="number" id="inflationRate" value="3.69" step="0.1" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lInterest">利率 / FD Rate (%)</label><input type="number" id="interestRate" value="2.5" step="0.1" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ide" value="20000" oninput="recalc()"></div></div>
+      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rrf" value="5000" oninput="recalc()"></div></div>
     </div>
   </div>
 </div>
@@ -1131,7 +1140,6 @@ function setLang(lang) {
   // 6b. Profile drawer labels
   const pdt = document.getElementById('profileDrawerTitle'); if(pdt) pdt.textContent = L('profileDrawerTitle');
   const psa = document.getElementById('profileSubAdvisor'); if(psa) psa.textContent = L('profileSubAdvisor');
-  const pss = document.getElementById('profileSubAssump'); if(pss) pss.textContent = L('profileSubAssump');
   const pstag = document.getElementById('profileSavedTag'); if(pstag) pstag.textContent = L('profileSavedTag');
   const psb = document.querySelector('.profile-save-row .btn-save'); if(psb) psb.childNodes[0].textContent = L('profileSaveBtn');
   // Re-sync the badge count after innerHTML update
@@ -2051,8 +2059,7 @@ window.addEventListener('afterprint',  restorePrintView);
 
 // ══ PROFILE SETTING ══
 const PROFILE_KEY  = 'far_advisor_profile';
-const PROFILE_IDS  = ['plannerName','plannerPhone','plannerEmail','reportDate',
-                      'inflationRate','interestRate','ide','rrf'];
+const PROFILE_IDS  = ['plannerName','plannerPhone','plannerEmail','reportDate'];
 
 function toggleProfile() {
   const ov = document.getElementById('profileOverlay');
