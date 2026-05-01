@@ -134,14 +134,14 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .badge.ok{background:#D1FAE5;color:#065F46}.badge.warn{background:#FEF3C7;color:#92400E}.badge.gap{background:#FEE2E2;color:#991B1B}
 .status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
 .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}.dot-gap{background:var(--gap)}
-.prog-wrap{background:#E5E7EB;border-radius:99px;height:8px;overflow:hidden;margin-top:4px}
+.prog-wrap{background:#E5E7EB;border-radius:99px;height:4px;overflow:hidden;margin-top:7px}
 .prog-bar{height:100%;border-radius:99px;transition:.5s}
 .prog-ok{background:var(--ok)}.prog-warn{background:var(--warn)}.prog-gap{background:var(--gap)}
-.cmp-table{width:100%;border-collapse:collapse;font-size:12px}
-.cmp-table th{padding:9px 12px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+.cmp-table th{padding:11px 14px;text-align:right;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .cmp-table th:first-child{text-align:left}
-.cmp-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:center}
-.cmp-table td:first-child{text-align:left;font-weight:500}
+.cmp-table td{padding:13px 14px;border-bottom:1px solid var(--border);text-align:right;vertical-align:middle}
+.cmp-table td:first-child{text-align:left;font-weight:500;vertical-align:middle}
 .cmp-table td:last-child{white-space:nowrap}
 .analysis-table{table-layout:fixed}
 .analysis-table td:last-child{white-space:normal;word-wrap:break-word}
@@ -1685,7 +1685,8 @@ function recalc() {
   ];
   setHtml('gapComparison', `
     <table class="cmp-table">
-      <thead><tr class="thead-dark"><th>${L('thCoverage')}</th><th class="col-current">${L('thCurrent')}</th><th class="col-need">${L('thNeed')}</th><th class="col-gap">${L('thGap')}</th><th>%</th></tr></thead>
+      <colgroup><col style="width:38%"><col style="width:15%"><col style="width:15%"><col style="width:22%"><col style="width:10%"></colgroup>
+      <thead><tr class="thead-dark"><th style="text-align:left">${L('thCoverage')}</th><th class="col-current">${L('thCurrent')}</th><th class="col-need">${L('thNeed')}</th><th class="col-gap">${L('thGap')}</th><th>%</th></tr></thead>
       <tbody>
         ${gapItems.map(g => {
           const gap = g.current - g.need;
@@ -1693,11 +1694,11 @@ function recalc() {
           const covPct = g.need>0 ? Math.min(200, g.current/g.need*100) : 100;
           const pb = progressBar(g.current, Math.max(g.current, g.need)*1.1, ok?'ok':'gap');
           return `<tr>
-            <td><b>${g.cat}</b>${g.note?`<div class="text-sm">${g.note}</div>`:''}${pb}</td>
+            <td><b>${g.cat}</b>${g.note?`<div class="text-sm" style="color:var(--muted);font-weight:400;margin-top:2px">${g.note}</div>`:''}${pb}</td>
             <td class="current-val">${fmtRaw(g.current)}</td>
             <td class="need-val">${fmtRaw(g.need)}</td>
-            <td class="${ok?'gap-val positive':'gap-val'}">${ok?'+ ':'-'} ${fmtRaw(Math.abs(gap))}</td>
-            <td>${covPct.toFixed(0)}%</td>
+            <td class="${ok?'gap-val positive':'gap-val'}">${ok?'+&nbsp;':'−&nbsp;'}${fmtRaw(Math.abs(gap))}</td>
+            <td style="color:var(--muted);font-weight:600">${covPct.toFixed(0)}%</td>
           </tr>`;
         }).join('')}
       </tbody>
