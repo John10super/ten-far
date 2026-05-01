@@ -128,9 +128,9 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .analysis-table th{background:var(--dark);color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:600}
 .analysis-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
 .analysis-table tr:nth-child(even) td{background:#FAFAFA}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:10.5px;font-weight:700;white-space:nowrap;flex-shrink:0;vertical-align:middle}
 .badge.ok{background:#D1FAE5;color:#065F46}.badge.warn{background:#FEF3C7;color:#92400E}.badge.gap{background:#FEE2E2;color:#991B1B}
-.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
 .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}.dot-gap{background:var(--gap)}
 .prog-wrap{background:#E5E7EB;border-radius:99px;height:8px;overflow:hidden;margin-top:4px}
 .prog-bar{height:100%;border-radius:99px;transition:.5s}
@@ -140,6 +140,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .cmp-table th:first-child{text-align:left}
 .cmp-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:center}
 .cmp-table td:first-child{text-align:left;font-weight:500}
+.cmp-table td:last-child,.analysis-table td:last-child{white-space:nowrap}
 .cmp-table .thead-dark th{background:var(--dark);color:#fff}
 .cmp-table .thead-dark th.col-current{background:#374151}
 .cmp-table .thead-dark th.col-need{background:#1D4ED8}
@@ -1109,31 +1110,39 @@ function setLang(lang) {
   if(cnEl) cnEl.placeholder = L('consultantNotePlh');
 }
 
-// ══ INSURERS (grouped) ══
+// ══ INSURERS (grouped, A-Z within each group) ══
 const INSURER_GROUPS = [
   { label: null, items: [''] },
+  // ─ Conventional Life Insurance ─ (BNM-licensed, A-Z)
   { label: 'Conventional Life Insurance', items: [
     'AIA Bhd',
-    'Allianz Life Insurance Malaysia Bhd',
+    'Allianz Life Insurance Malaysia Berhad',
     'AmMetLife Insurance Berhad',
-    'Great Eastern Life Assurance Malaysia Bhd',
-    'Hong Leong Assurance Bhd',
+    'Etiqa Life Insurance Berhad',
+    'FWD Insurance Berhad',
+    'Generali Life Insurance Malaysia Berhad',
+    'Great Eastern Life Assurance (Malaysia) Berhad',
+    'Hong Leong Assurance Berhad',
     'Manulife Insurance Berhad',
     'MCIS Insurance Berhad',
-    'Prudential Assurance Malaysia Bhd',
-    'Sun Life Malaysia Assurance Bhd',
+    'Prudential Assurance Malaysia Berhad',
+    'Sun Life Malaysia Assurance Berhad',
     'Tokio Marine Life Insurance Malaysia Bhd',
-    'Zurich Life Insurance Malaysia Bhd',
+    'Zurich Life Insurance Malaysia Berhad',
   ]},
+  // ─ Takaful Life Insurance ─ (BNM-licensed, A-Z)
   { label: 'Takaful Life Insurance', items: [
-    'AIA PUBLIC Takaful Bhd',
-    'Etiqa Family Takaful Bhd',
-    'Great Eastern Takaful Bhd',
-    'Hong Leong MSIG Takaful Bhd',
-    'Prudential BSN Takaful Bhd',
-    'Sun Life Malaysia Takaful Bhd',
-    'Syarikat Takaful Malaysia Keluarga Bhd',
-    'Takaful Ikhlas Family Bhd (Zurich Takaful)',
+    'AIA PUBLIC Takaful Berhad',
+    'AmMetLife Takaful Berhad',
+    'Etiqa Family Takaful Berhad',
+    'FWD Takaful Berhad',
+    'Great Eastern Takaful Berhad',
+    'Hong Leong MSIG Takaful Berhad',
+    'Prudential BSN Takaful Berhad',
+    'Sun Life Malaysia Takaful Berhad',
+    'Syarikat Takaful Malaysia Keluarga Berhad',
+    'Takaful Ikhlas Family Berhad',
+    'Zurich Takaful Malaysia Berhad',
   ]},
   { label: 'Other', items: ['Other / Lain-lain'] },
 ];
