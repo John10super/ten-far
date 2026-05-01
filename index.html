@@ -323,10 +323,11 @@ select option:first-child{color:#C4C9D4}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .kpi-value{font-size:22px}
-  .section-body{overflow-x:hidden;padding:14px 16px}
+  .section-body{overflow-x:visible;padding:14px 16px}
   .section-header{padding:13px 16px}
-  .analysis-table,.cmp-table{min-width:480px}
-  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scroll:touch}
+  .analysis-table{table-layout:auto;min-width:580px}
+  .cmp-table{table-layout:auto;min-width:480px}
   .policy-hint{display:block}
   .container{padding:14px 12px}
   .gap-cards-grid{flex-wrap:wrap}
@@ -356,8 +357,8 @@ select option:first-child{color:#C4C9D4}
   .policy-tbl select{width:105px;font-size:12px}
   .signature-area{padding:14px 12px}
   .grid3.sig-grid{grid-template-columns:1fr;gap:14px}
-  .cmp-table{min-width:420px}
-  .analysis-table{min-width:380px}
+  .cmp-table{table-layout:auto;min-width:420px}
+  .analysis-table{table-layout:auto;min-width:540px}
   .btn-final-save{font-size:14px;padding:11px 28px}
   .gap-cards-grid{flex-direction:column}
   .gap-card{flex:1 1 100%}
