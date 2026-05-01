@@ -6,7 +6,10 @@
 <title>Financial Analysis Report — TEN Consultancy</title>
 <style>
 :root {
-  --red:#FF2B1E; --dark:#1a1a2e; --mid:#16213e;
+  --red:#FF2B1E; 
+  /* 核心修改：已更換為 TEN Consultancy 專屬深藍色 */
+  --dark:#1a1a2e; 
+  --mid:#16213e;
   --ok:#10B981; --warn:#F59E0B; --gap:#EF4444;
   --bg:#F4F6F9; --card:#fff;
   --border:#E5E7EB; --text:#1F2937; --muted:#6B7280;
@@ -219,7 +222,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- iOS QUICK LOOK WARNING (shows only when JS is blocked) -->
+<!-- iOS QUICK LOOK WARNING -->
 <noscript>
 <div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,22,40,.96);color:#fff;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;font-family:sans-serif">
   <div style="font-size:48px;margin-bottom:16px">⚠️</div>
@@ -269,9 +272,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 
 <div class="container">
 
-<!-- ══════════════════════════════════════════════
-     SECTION 1 — PLANNER & ASSUMPTIONS
-══════════════════════════════════════════════ -->
+<!-- SECTION 1 — PLANNER & ASSUMPTIONS -->
 <div class="section no-print">
   <div class="section-header">
     <span class="section-tag tag-input">設定</span>
@@ -294,9 +295,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 2 — PERSONAL INFO
-══════════════════════════════════════════════ -->
+<!-- SECTION 2 — PERSONAL INFO -->
 <div class="section">
   <div class="section-header">
     <span class="section-tag tag-input">輸入</span>
@@ -317,9 +316,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 3 — FINANCIAL PROFILE
-══════════════════════════════════════════════ -->
+<!-- SECTION 3 — FINANCIAL PROFILE -->
 <div class="section">
   <div class="section-header">
     <span class="section-tag tag-input">輸入</span>
@@ -334,7 +331,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
       <div class="field"><label>其他收入 (RM/月)</label><div class="input-prefix"><span>RM</span><input type="number" id="otherIncome" value="0" oninput="recalc()"></div></div>
     </div>
 
-    <div class="sub-title mt-12">每月生活開銷 (不含房貸/車貸)</div>
+    <div class="sub-title mt-12">每月生活開銷</div>
     <div class="grid4">
       <div class="field"><label>食物 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="expFood" value="0" oninput="recalc()"></div></div>
       <div class="field"><label>水電 / 家用 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="expUtil" value="0" oninput="recalc()"></div></div>
@@ -342,7 +339,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
       <div class="field"><label>其他開銷 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="expOther" value="0" oninput="recalc()"></div></div>
     </div>
 
-    <div class="sub-title mt-12">自住房屋 &amp; 辦公室 (貸款)</div>
+    <div class="sub-title mt-12">自住房屋 &amp; 辦公室</div>
     <div style="display:grid;grid-template-columns:2fr 1fr 1fr 120px;gap:8px;margin-bottom:6px">
       <span class="text-sm font-bold">說明</span>
       <span class="text-sm font-bold">貸款餘額 (RM)</span>
@@ -362,7 +359,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
       <div class="field"><select id="officeMRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
     </div>
 
-    <div class="sub-title mt-12">投資房產 (最多4個)</div>
+    <div class="sub-title mt-12">投資房產</div>
     <div id="investProps">
       <div class="row-4 mt-4">
         <div class="field"><input placeholder="投資房產 1" id="ip1Desc" oninput="recalc()"></div>
@@ -388,9 +385,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 4 — EXISTING INSURANCE
-══════════════════════════════════════════════ -->
+<!-- SECTION 4 — EXISTING INSURANCE -->
 <div class="section">
   <div class="section-header">
     <span class="section-tag tag-input">輸入</span>
@@ -413,17 +408,15 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
     </div>
     <div class="sub-title mt-12">醫療卡 Medical Card</div>
     <div class="grid4">
-      <div class="field"><label>每日病房費 Room &amp; Board (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="roomBoard" value="0" oninput="recalc()"></div></div>
-      <div class="field"><label>終身限額 Lifetime Limit (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="lifetimeLimit" value="0" oninput="recalc()"></div></div>
-      <div class="field"><label>年度限額 Annual Limit (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="annualLimit" value="0" oninput="recalc()"></div></div>
+      <div class="field"><label>每日病房費 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="roomBoard" value="0" oninput="recalc()"></div></div>
+      <div class="field"><label>終身限額 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="lifetimeLimit" value="0" oninput="recalc()"></div></div>
+      <div class="field"><label>年度限額 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="annualLimit" value="0" oninput="recalc()"></div></div>
       <div class="field"><label>每日住院津貼 (RM)</label><div class="input-prefix"><span>RM</span><input type="number" id="dailyHospital" value="0" oninput="recalc()"></div></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 5 — FINANCIAL SUMMARY (Calculated)
-══════════════════════════════════════════════ -->
+<!-- SECTION 5 — FINANCIAL SUMMARY (Calculated) -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-calc">計算</span>
@@ -438,9 +431,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 6 — INSURANCE NEEDS (Calculated)
-══════════════════════════════════════════════ -->
+<!-- SECTION 6 — INSURANCE NEEDS (Calculated) -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-calc">計算</span>
@@ -471,16 +462,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 7 — RISK RATIO ANALYSIS
-══════════════════════════════════════════════ -->
+<!-- SECTION 7 — RISK RATIO ANALYSIS -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-analysis">分析</span>
     <h2>風險比率分析 — Risk Ratio Dashboard</h2>
   </div>
   <div class="section-body">
-    <p class="text-sm" style="margin-bottom:12px">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
+    <p class="text-sm" style="margin-bottom:12px">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足</p>
     <table class="analysis-table">
       <thead><tr><th style="width:160px">指標</th><th style="width:100px;text-align:right">現有值</th><th style="width:140px">標準</th><th style="width:80px;text-align:center">狀態</th><th>說明</th></tr></thead>
       <tbody id="riskRatioTable"></tbody>
@@ -488,9 +477,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 8 — COVERAGE GAP COMPARISON
-══════════════════════════════════════════════ -->
+<!-- SECTION 8 — COVERAGE GAP COMPARISON -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-analysis">比較</span>
@@ -501,9 +488,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 9 — MEDICAL ANALYSIS
-══════════════════════════════════════════════ -->
+<!-- SECTION 9 — MEDICAL ANALYSIS -->
 <div class="section">
   <div class="section-header">
     <span class="section-tag tag-analysis">醫療</span>
@@ -515,9 +500,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 10 — RECOMMENDATIONS
-══════════════════════════════════════════════ -->
+<!-- SECTION 10 — RECOMMENDATIONS -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-analysis">建議</span>
@@ -526,14 +509,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   <div class="section-body">
     <div id="recommendations"></div>
     <div class="sub-title mt-12">顧問備注 (Consultant's Note)</div>
-    <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;resize:vertical;font-family:inherit" oninput="recalc()"></textarea>
+    <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議..." style="width:100%;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;resize:vertical;font-family:inherit" oninput="recalc()"></textarea>
     <div class="print-only" id="printNote" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 11 — ACTION PLAN
-══════════════════════════════════════════════ -->
+<!-- SECTION 11 — ACTION PLAN -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-analysis">行動</span>
@@ -542,657 +523,122 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
   <div class="section-body">
     <div id="actionPlan"></div>
     <div class="signature-area mt-12">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:20px">此報告由 TEN Consultancy 出具，供參考用途。所有建議應在顧問陪同下詳細討論後方可執行。</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px">此報告由 TEN Consultancy 出具，供參考用途。</div>
       <div class="grid3" style="gap:20px">
-        <div>
-          <div style="border-top:1px solid #9CA3AF;padding-top:8px">顧問簽名 Consultant's Signature</div>
-          <div class="text-sm mt-4" id="printPlannerName"></div>
-        </div>
-        <div>
-          <div style="border-top:1px solid #9CA3AF;padding-top:8px">客戶簽名 Client's Signature</div>
-          <div class="text-sm mt-4" id="printClientName"></div>
-        </div>
-        <div>
-          <div style="border-top:1px solid #9CA3AF;padding-top:8px">日期 Date</div>
-          <div class="text-sm mt-4" id="printDate"></div>
-        </div>
+        <div><div style="border-top:1px solid #9CA3AF;padding-top:8px">顧問簽名</div><div class="text-sm mt-4" id="printPlannerName"></div></div>
+        <div><div style="border-top:1px solid #9CA3AF;padding-top:8px">客戶簽名</div><div class="text-sm mt-4" id="printClientName"></div></div>
+        <div><div style="border-top:1px solid #9CA3AF;padding-top:8px">日期</div><div class="text-sm mt-4" id="printDate"></div></div>
       </div>
     </div>
   </div>
 </div>
 
-</div><!-- /container -->
+</div>
 
 <script>
-// ══════════════════════════════════════════════
-// FINANCIAL MATH FUNCTIONS
-// ══════════════════════════════════════════════
+// ── FINANCIAL MATH ──
 function PV(rate, nper, pmt, fv=0) {
   if(Math.abs(rate) < 1e-10) return -(pmt * nper + fv);
   const pvif = Math.pow(1 + rate, -nper);
   return -(pmt * (1 - pvif) / rate + fv * pvif);
 }
-
 function NPER(rate, pmt, pv, fv=0) {
   if(Math.abs(rate) < 1e-10) return Math.abs(pmt) < 1e-10 ? 999 : -(pv + fv) / pmt;
-  const num = pmt - fv * rate;
-  const den = pmt + pv * rate;
-  if(Math.abs(den) < 1e-10) return 999;   // fund exactly sustains forever
+  const num = pmt - fv * rate, den = pmt + pv * rate;
+  if(Math.abs(den) < 1e-10) return 999;
   const ratio = num / den;
-  if(ratio <= 0) return 0;                 // fund already depleted / in deficit
+  if(ratio <= 0) return 0;
   const result = Math.log(ratio) / Math.log(1 + rate);
   return result < 0 ? 0 : result;
 }
 
-// Cover Ratio lookup table (from Excel CoverRatioCalc sheet)
-const COVER_TABLE = {
-  20:[140,222],21:[134.2,216],22:[128.4,210],23:[122.6,204],24:[116.8,198],
-  25:[111,192],26:[106.8,183],27:[102.6,174],28:[98.4,165],29:[94.2,156],
-  30:[90,147],31:[86,142.6],32:[82,138.2],33:[78,133.8],34:[74,129.4],
-  35:[70,125],36:[67,118.2],37:[64,111.4],38:[61,104.6],39:[58,97.8],
-  40:[55,91],41:[52.4,86.2],42:[49.8,81.4],43:[47.2,76.6],44:[44.6,71.8],
-  45:[42,67],46:[40.8,62.6],47:[39.6,58.2],48:[38.4,53.8],49:[37.2,49.4],
-  50:[36,45],51:[34.8,42],52:[33.6,39],53:[32.4,36],54:[31.2,33],
-  55:[30,30],56:[29.4,29.4],57:[28.8,28.8],58:[28.2,28.2],
-  59:[27.6,27.6],60:[27,27]
+const COVER_TABLE = { 
+  20:[140,222],25:[111,192],30:[90,147],35:[70,125],40:[55,91],45:[42,67],50:[36,45],55:[30,30],60:[27,27]
 };
-
 function getCoverRatio(age) {
-  const a = Math.max(20, Math.min(60, Math.round(age)));
+  const a = Math.max(20, Math.min(60, Math.round(age/5)*5));
   return COVER_TABLE[a] || [30, 30];
 }
 
-// ══════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════
-function n(id) { var _e=document.getElementById(id); return _e ? (parseFloat(_e.value)||0) : 0; }
-function s(id) { var _e=document.getElementById(id); return _e ? (_e.value||'') : ''; }
-function fmt(v, d=0) {
-  if(!isFinite(v)||isNaN(v)) return '---';
-  return 'RM ' + Math.abs(v).toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d});
-}
-function fmtNum(v, d=0, suffix='') {
-  if(!isFinite(v)||isNaN(v)) return '---';
-  return v.toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d}) + suffix;
-}
-function pct(v) { if(!isFinite(v)||isNaN(v)) return '---'; return (v*100).toFixed(1) + '%'; }
-function months(v) { if(!isFinite(v)||isNaN(v)||v<=0) return '---'; return Math.floor(v).toLocaleString() + ' 個月'; }
+// ── HELPERS ──
+function n(id) { let e=document.getElementById(id); return e ? (parseFloat(e.value)||0) : 0; }
+function s(id) { let e=document.getElementById(id); return e ? (e.value||'') : ''; }
+function fmt(v, d=0) { return isFinite(v) ? 'RM ' + Math.abs(v).toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d}) : '---'; }
+function statusBadge(ok, text) { let cls = ok ? 'ok' : 'gap', icon = ok ? '✓' : '✗'; return `<span class="badge ${cls}"><span class="status-dot dot-${cls}"></span>${icon} ${text}</span>`; }
+function progressBar(val, max, cls) { let p = Math.min(100, (val/max)*100); return `<div class="prog-wrap"><div class="prog-bar prog-${cls}" style="width:${p}%"></div></div>`; }
+function setHtml(id, h) { let e=document.getElementById(id); if(e) e.innerHTML = h; }
 
-function statusBadge(ok, warnThresh, text) {
-  const cls = ok ? 'ok' : 'gap';
-  const icon = ok ? '✓' : '✗';
-  return `<span class="badge ${cls}"><span class="status-dot dot-${cls}"></span>${icon} ${text}</span>`;
-}
-
-function progressBar(val, max, cls) {
-  const pct = Math.min(100, (val/max)*100);
-  return `<div class="prog-wrap"><div class="prog-bar prog-${cls}" style="width:${pct}%"></div></div>`;
-}
-
-function setHtml(id, html) {
-  const el = document.getElementById(id);
-  if(el) el.innerHTML = html;
-}
-
-// ══════════════════════════════════════════════
-// MAIN CALCULATION
-// ══════════════════════════════════════════════
+// ── MAIN CALC ──
 function recalc() {
-  // ── Inputs ──
-  const inflation   = n('inflationRate') / 100;
-  const interest    = n('interestRate') / 100;
-  const IDE         = n('ide');
-  const RRF         = n('rrf');
-  const realRate    = (interest - inflation) / (1 + inflation);
-  const monthlyRate = realRate / 12;
-  const yearsResp   = n('yearsResp') || 5;
-  const age         = n('clientAge') || 35;
-  const annPremium  = n('annualPremium');
-  const ciWaiver    = n('ciWaiverPremium');
-  const tpdWaiver   = n('tpdWaiverPremium');
+  const inflation = n('inflationRate')/100, interest = n('interestRate')/100, IDE = n('ide'), RRF = n('rrf');
+  const realRate = (interest - inflation) / (1 + inflation), monthlyRate = realRate / 12;
+  const yearsResp = n('yearsResp') || 5, age = n('clientAge') || 35, annPremium = n('annualPremium');
 
-  // Expenses
-  const varExp = n('expFood') + n('expUtil') + n('expChild') + n('expOther');
-  const insExp = annPremium / 12;
-
-  // Mortgages
-  const homeBalance   = n('homeBalance');
-  const officeBalance = n('officeBalance');
-  const homeMonthly   = n('homeMonthly');
-  const officeMonthly = n('officeMonthly');
-  const homeMRTA      = s('homeMRTA') === 'yes';
-  const officeMRTA    = s('officeMRTA') === 'yes';
-
-  const ip1Balance = n('ip1Balance'), ip1Monthly = n('ip1Monthly'), ip1MRTA = s('ip1MRTA') === 'yes';
-  const ip2Balance = n('ip2Balance'), ip2Monthly = n('ip2Monthly'), ip2MRTA = s('ip2MRTA') === 'yes';
-
-  // Own-use mortgage (for Basic IFS)
-  const homeOfficeBal = (homeMRTA ? 0 : homeBalance) + (officeMRTA ? 0 : officeBalance);
-  const homeOfficeMonthly = homeMonthly + officeMonthly;
-
-  // Investment mortgages not covered
-  const investBal  = (!ip1MRTA ? ip1Balance : 0) + (!ip2MRTA ? ip2Balance : 0);
-  const investMthly = (!ip1MRTA ? ip1Monthly : 0) + (!ip2MRTA ? ip2Monthly : 0);
-
-  const carLoanBal  = n('carLoan');
-  const carMthly    = n('carMonthly');
-  const ccPersonal  = n('ccPersonal');
-
-  const totalDebts  = homeOfficeBal + investBal + carLoanBal + ccPersonal;
-  const allMortgages = homeOfficeBal + investBal;
-
-  // Monthly expense aggregates (mirroring P3)
-  // monthlyExpenses = variable + insurance (excluding mortgage payments)
-  const monthlyExpBase = varExp + insExp;
-  // basic = include home+office mortgage payments
-  const basicMonthlyExp = monthlyExpBase + homeOfficeMonthly;
-  // unsettled = basic + investment mortgages + car
-  const unsettledMonthlyExp = basicMonthlyExp + investMthly + carMthly;
-  // total = unsettled (for DTF/DBF/DUF)
-  const totalMonthlyExp = unsettledMonthlyExp;
-
-  // Income
+  const varExp = n('expFood') + n('expUtil') + n('expChild') + n('expOther'), insExp = annPremium/12;
+  const homeOfficeBal = (s('homeMRTA')==='yes'?0:n('homeBalance')) + (s('officeMRTA')==='yes'?0:n('officeBalance'));
+  const homeOfficeMonthly = n('homeMonthly') + n('officeMonthly');
+  const investBal = (s('ip1MRTA')==='yes'?0:n('ip1Balance')) + (s('ip2MRTA')==='yes'?0:n('ip2Balance'));
+  const investMthly = (s('ip1MRTA')==='yes'?0:n('ip1Monthly')) + (s('ip2MRTA')==='yes'?0:n('ip2Monthly'));
+  const totalDebts = homeOfficeBal + investBal + n('carLoan') + n('ccPersonal');
+  const monthlyExpBase = varExp + insExp, basicMonthlyExp = monthlyExpBase + homeOfficeMonthly;
+  const unsettledMonthlyExp = basicMonthlyExp + investMthly + n('carMonthly');
   const totalIncome = n('salaryMain') + n('salarySpouse') + n('rentalIncome') + n('otherIncome');
-  const netCashFlow = totalIncome - totalMonthlyExp;
 
-  // Insurance coverage
-  const deathBenefit = n('deathBenefit');
-  const tpdBenefit   = n('tpdBenefit');
-  const paBenefit    = n('paBenefit');
-  const ciBenefit    = n('ciBenefit');
-  const earlyCI      = n('earlyCI');
-  const totalCI      = ciBenefit + earlyCI;
-  const disIncome    = n('disabilityIncome');
-  const lifetimeLimit = n('lifetimeLimit');
-  const annualLimit  = n('annualLimit');
-  const roomBoard    = n('roomBoard');
+  const deathBenefit = n('deathBenefit'), tpdBenefit = n('tpdBenefit'), paBenefit = n('paBenefit'), ciBenefit = n('ciBenefit'), earlyCI = n('earlyCI'), totalCI = ciBenefit + earlyCI;
+  const lifetimeLimit = n('lifetimeLimit'), annualLimit = n('annualLimit'), roomBoard = n('roomBoard');
 
-  // ── P4: Insurance Needs ──
-  // Death need (P4 lines 15-23)
-  const annExpDeath = (monthlyExpBase - annPremium/12) * 12;
+  const annExpDeath = (monthlyExpBase - annPremium/12)*12;
   const deathNeed = Math.max(0, PV(realRate, yearsResp, -annExpDeath)) + IDE;
+  const tpdNeed = Math.max(0, PV(realRate, 10, -(monthlyExpBase*12)));
+  const ciNeed = Math.max(0, PV(realRate, 3, -(unsettledMonthlyExp*12))) + RRF;
 
-  // TPD need (P4 lines 26-33) - 10 years
-  const annExpTPD = (monthlyExpBase - tpdWaiver/12) * 12;
-  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
-
-  // CI need (P4 lines 36-44) - 3 years + RRF
-  const annExpCI = (totalMonthlyExp - ciWaiver/12) * 12;
-  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + RRF;
-
-  // Gaps
-  const deathGap = deathBenefit - deathNeed;
-  const tpdGap   = tpdBenefit - tpdNeed;
-  const ciGap    = totalCI - ciNeed;
-
-  // ── P5: Risk Ratios ──
-  // Cover Ratio
-  const coverRatio = annPremium > 0 ? deathBenefit / annPremium : 0;
-  const [crLow, crHigh] = getCoverRatio(age);
-  const coverRatioOk = coverRatio >= crLow;
-
-  // DTF, DBF, DUF (months of death coverage)
-  const mthlyForDTF = monthlyExpBase - annPremium/12;
-  const pvDTF = deathBenefit - totalDebts - IDE;
-  const pvDBF = deathBenefit - homeOfficeBal - IDE;
-  const pvDUF = deathBenefit - IDE;
-
-  const requiredMonths = yearsResp * 12;
-  const DTF = mthlyForDTF > 0 ? NPER(monthlyRate, -mthlyForDTF, pvDTF) : 0;
-  const DBF = basicMonthlyExp - annPremium/12 > 0 ? NPER(monthlyRate, -(basicMonthlyExp - annPremium/12), pvDBF) : 0;
-  const DUF = unsettledMonthlyExp - annPremium/12 > 0 ? NPER(monthlyRate, -(unsettledMonthlyExp - annPremium/12), pvDUF) : 0;
-
-  // IFS (Insurance Funding Solution)
-  const mthlyIFS = monthlyExpBase - annPremium/12;
-  const fundNeedTotal = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + allMortgages + IDE;
-  const totalIFS = fundNeedTotal > 0 ? deathBenefit / fundNeedTotal : 0;
-
-  const fundNeedBasic = Math.max(0, PV(monthlyRate, requiredMonths, -(basicMonthlyExp - annPremium/12))) + homeOfficeBal + IDE;
-  const basicIFS = fundNeedBasic > 0 ? deathBenefit / fundNeedBasic : 0;
-
-  // PA + Death IFS
-  const accDeathTotal = deathBenefit + paBenefit;
-  const fundNeedAccTotal = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + allMortgages + IDE;
-  const accTotalIFS = fundNeedAccTotal > 0 ? accDeathTotal / fundNeedAccTotal : 0;
-
-  // CI Ratios
-  const ciMthlyExp = totalMonthlyExp - ciWaiver/12;
-  const ciToMonths = ciMthlyExp > 0 ? NPER(monthlyRate, -ciMthlyExp, totalCI) : 0;
-  const earlyToMonths = ciMthlyExp > 0 ? NPER(monthlyRate, -ciMthlyExp, earlyCI) : 0;
-
-  const ciNeedMonths = Math.max(0, PV(monthlyRate, 3*12, -ciMthlyExp));
-  const ciBasicIFS = ciNeedMonths > 0 ? totalCI / ciNeedMonths : 0;
-  const ciCompleteIFS = (ciNeedMonths + RRF) > 0 ? totalCI / (ciNeedMonths + RRF) : 0;
-
-  // MHI Funding
-  const mhiFunding200k = lifetimeLimit > 0 ? lifetimeLimit / 200000 : 0;
-  const mhiCIFunding200k = (lifetimeLimit + totalCI) > 0 ? (lifetimeLimit + totalCI) / 200000 : 0;
-
-  // TPD Ratios
-  const tpdMthlyExp = Math.max(0, unsettledMonthlyExp - tpdWaiver/12 - disIncome);
-  const tpdToMonths = tpdMthlyExp > 0 ? NPER(monthlyRate, -tpdMthlyExp, tpdBenefit) : 0;
-
-  // ── UPDATE UI ──
-
-  // Cover page
+  // Update UI
   document.getElementById('cover-client-name').textContent = s('clientName') || 'Client Name';
-  document.getElementById('cover-date').textContent = 'Date: ' + (s('reportDate') || new Date().toLocaleDateString('en-MY'));
+  document.getElementById('cover-date').textContent = 'Date: ' + (s('reportDate') || new Date().toLocaleDateString());
   document.getElementById('cover-planner').textContent = s('plannerName');
-  document.getElementById('printPlannerName').textContent = s('plannerName');
-  document.getElementById('printClientName').textContent = s('clientName');
-  document.getElementById('printDate').textContent = s('reportDate') || new Date().toLocaleDateString('en-MY');
-
-  // Assumptions display
-  setHtml('showInflation', (inflation*100).toFixed(2) + '%');
-  setHtml('showInterest', (interest*100).toFixed(2) + '%');
-  setHtml('showRealRate', (realRate*100).toFixed(2) + '%');
+  setHtml('showInflation', (inflation*100).toFixed(2)+'%');
+  setHtml('showInterest', (interest*100).toFixed(2)+'%');
   setHtml('showIDE', fmt(IDE));
 
-  // ── Financial Summary KPIs ──
-  const ncOk = netCashFlow >= 0;
-  setHtml('financeSummaryKpi', `
-    <div class="kpi-card ${totalIncome>0?'neutral':'gap'}">
-      <div class="kpi-label">總月收入</div>
-      <div class="kpi-value">${fmt(totalIncome)}</div>
-    </div>
-    <div class="kpi-card ${totalMonthlyExp<totalIncome?'ok':'gap'}">
-      <div class="kpi-label">總月支出</div>
-      <div class="kpi-value">${fmt(totalMonthlyExp)}</div>
-    </div>
-    <div class="kpi-card ${ncOk?'ok':'gap'}">
-      <div class="kpi-label">每月淨現金流</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(netCashFlow)}</div>
-      <div class="kpi-sub">${ncOk?'✓ 收支平衡':'✗ 入不敷出'}</div>
-    </div>
-    <div class="kpi-card neutral">
-      <div class="kpi-label">總債務</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(totalDebts)}</div>
-    </div>
-    <div class="kpi-card neutral">
-      <div class="kpi-label">年繳保費</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(annPremium)}</div>
-      <div class="kpi-sub">${totalIncome>0?((annPremium/12/totalIncome*100).toFixed(1)+'% of income'):'---'}</div>
-    </div>
-  `);
+  setHtml('financeSummaryKpi', `<div class="kpi-card neutral"><div class="kpi-label">總月收入</div><div class="kpi-value">${fmt(totalIncome)}</div></div><div class="kpi-card ${unsettledMonthlyExp<totalIncome?'ok':'gap'}"><div class="kpi-label">總月支出</div><div class="kpi-value">${fmt(unsettledMonthlyExp)}</div></div><div class="kpi-card neutral"><div class="kpi-label">總債務</div><div class="kpi-value">${fmt(totalDebts)}</div></div>`);
 
-  setHtml('financeSummaryTable', `
-    <tr><td>每月生活開銷 (不含貸款)</td><td style="text-align:right">${fmt(varExp)}</td><td>食物、水電、子女等</td></tr>
-    <tr><td>每月保費</td><td style="text-align:right">${fmt(insExp)}</td><td>年繳 ${fmt(annPremium)}</td></tr>
-    <tr><td>自住房屋月供</td><td style="text-align:right">${fmt(homeOfficeMonthly)}</td><td>${homeMRTA?'有 MRTA':''}</td></tr>
-    <tr><td>投資房產月供 (不含 MRTA)</td><td style="text-align:right">${fmt(investMthly)}</td><td></td></tr>
-    <tr><td>車貸月供</td><td style="text-align:right">${fmt(carMthly)}</td><td></td></tr>
-    <tr style="background:#FFF7ED"><td><b>基本月開銷 (Basic)</b></td><td style="text-align:right"><b>${fmt(basicMonthlyExp)}</b></td><td>包含自住房貸</td></tr>
-    <tr style="background:#FEF2F2"><td><b>全部月支出 (Total)</b></td><td style="text-align:right"><b>${fmt(totalMonthlyExp)}</b></td><td>包含所有貸款</td></tr>
-    <tr><td>自住房貸餘額</td><td style="text-align:right">${fmt(homeOfficeBal)}</td><td></td></tr>
-    <tr><td>投資房產貸款餘額 (不含 MRTA)</td><td style="text-align:right">${fmt(investBal)}</td><td></td></tr>
-    <tr><td>信用卡 + 私人貸款</td><td style="text-align:right">${fmt(ccPersonal)}</td><td></td></tr>
-    <tr style="background:#FEF2F2"><td><b>總債務</b></td><td style="text-align:right"><b>${fmt(totalDebts)}</b></td><td></td></tr>
-  `);
-
-  // ── Insurance Needs Table ──
-  const needsRows = [
-    ['身故保障 Death', deathNeed, deathBenefit, deathGap, '保障家人 '+yearsResp+'年生活費 + 債務 + IDE'],
-    ['全殘保障 TPD', tpdNeed, tpdBenefit, tpdGap, '保障 10 年生活費'],
-    ['危疾保障 CI (含早期)', ciNeed, totalCI, ciGap, '保障 3 年生活費 + 康復儲備金 RRF'],
-  ];
-  setHtml('needsTable', needsRows.map(([label, need, current, gap, note]) => {
-    const hasGap = gap < 0;
-    const gapCls = hasGap ? 'gap-val' : 'gap-val positive';
-    const badge = statusBadge(!hasGap, 0, hasGap ? '保障不足' : '保障充足');
-    const prog = progressBar(Math.min(current, need*1.5), need*1.5, hasGap?'gap':'ok');
-    return `<tr>
-      <td><b>${label}</b><div class="text-sm">${note}</div></td>
-      <td class="need-val" style="text-align:right">${fmt(need)}</td>
-      <td class="current-val" style="text-align:right">${fmt(current)}${prog}</td>
-      <td class="${gapCls}" style="text-align:right">${hasGap?'▼':'+'}${fmt(Math.abs(gap))}</td>
-      <td>${badge}</td>
-    </tr>`;
+  const needsRows = [['身故保障 Death', deathNeed, deathBenefit], ['全殘保障 TPD', tpdNeed, tpdBenefit], ['危疾保障 CI', ciNeed, totalCI]];
+  setHtml('needsTable', needsRows.map(([lbl, nd, cur]) => {
+    let gap = cur - nd, ok = gap >= 0;
+    return `<tr><td><b>${lbl}</b></td><td class="need-val">${fmt(nd)}</td><td class="current-val">${fmt(cur)}${progressBar(cur, nd*1.2, ok?'ok':'gap')}</td><td class="${ok?'gap-val positive':'gap-val'}">${fmt(gap)}</td><td>${statusBadge(ok, ok?'充足':'不足')}</td></tr>`;
   }).join(''));
 
-  // ── Risk Ratio Table ──
-  const ratioRows = [
-    {label:'Cover Ratio', val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:'死亡賠償 ÷ 年繳保費'},
-    {label:'DTF (Total)', val:DTF, unit:'mo', ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} 個月`, desc:'身故後可支撐家庭生活的時間（清還所有貸款後）'},
-    {label:'DBF (Basic)', val:DBF, unit:'mo', ok:DBF>=requiredMonths, benchmark:`> ${requiredMonths} 個月`, desc:'身故後可支撐時間（只清自住房貸）'},
-    {label:'DUF (Unsettled)', val:DUF, unit:'mo', ok:DUF>=requiredMonths, benchmark:`> ${requiredMonths} 個月`, desc:'身故後可支撐時間（不清任何貸款）'},
-    {label:'Total IFS', val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:'保單對家庭全部資金需求的覆蓋率'},
-    {label:'Basic IFS', val:basicIFS, unit:'%', ok:basicIFS>=1, benchmark:'> 100%', desc:'保單對基本資金需求的覆蓋率'},
-    {label:'Acc Total IFS', val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:'意外身故保障 (PA+Death) 對全部需求的覆蓋率'},
-    {label:'CI to Monthly', val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:'36 – 60 個月', desc:'危疾賠償可支撐的生活月數'},
-    {label:'Early CI to Monthly', val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:'36 – 60 個月', desc:'早期危疾賠償可支撐的月數'},
-    {label:'Basic CI-IFS', val:ciBasicIFS, unit:'%', ok:ciBasicIFS>=1, benchmark:'> 100%', desc:'危疾保障對 3 年生活費的覆蓋率'},
-    {label:'Complete CI-IFS', val:ciCompleteIFS, unit:'%', ok:ciCompleteIFS>=1, benchmark:'> 100%', desc:'危疾保障對 3 年生活費 + RRF 的覆蓋率'},
-    {label:'TPD to Monthly', val:tpdToMonths, unit:'mo', ok:tpdToMonths>=120, benchmark:'120 – 240 個月', desc:'全殘保障可支撐的月數 (10-20年)'},
-    {label:'MHI Funding 200k', val:mhiFunding200k, unit:'x', ok:mhiFunding200k>=2, benchmark:'> 2x', desc:'醫療卡終身限額是否足以支付 RM200k 重大疾病'},
-    {label:'MHI+CI Funding 200k', val:mhiCIFunding200k, unit:'x', ok:mhiCIFunding200k>=2, benchmark:'> 2x', desc:'醫療卡 + 危疾合併是否超過 RM200k × 2'},
-  ];
-
-  setHtml('riskRatioTable', ratioRows.map(r => {
-    let display;
-    if(r.unit === 'mo') display = isFinite(r.val)&&r.val>0 ? fmtNum(r.val,1,' 個月') : '---';
-    else if(r.unit === '%') display = isFinite(r.val) ? (r.val*100).toFixed(1)+'%' : '---';
-    else display = isFinite(r.val) ? r.val.toFixed(1)+'x' : '---';
-
-    const badge = statusBadge(r.ok, 0, r.ok ? '達標' : '不足');
-    return `<tr>
-      <td><b>${r.label}</b></td>
-      <td style="text-align:right;font-weight:700;color:${r.ok?'var(--ok)':'var(--gap)'}">${display}</td>
-      <td>${r.benchmark}</td>
-      <td style="text-align:center">${badge}</td>
-      <td class="text-sm">${r.desc}</td>
-    </tr>`;
-  }).join(''));
-
-  // ── Gap Comparison ──
-  const gapItems = [
-    {cat:'身故保障 Death', current:deathBenefit, need:deathNeed},
-    {cat:'全殘保障 TPD', current:tpdBenefit, need:tpdNeed},
-    {cat:'危疾保障 CI + Early CI', current:totalCI, need:ciNeed},
-    {cat:'意外身故 PA', current:paBenefit, need:deathNeed*0.5, note:'建議至少 50% 死亡保障'},
-    {cat:'醫療卡 Medical Card', current:lifetimeLimit, need:1000000, note:'建議終身限額 ≥ RM 1,000,000'},
-  ];
-
-  const gapHtml = `
-    <table class="cmp-table" style="margin-bottom:16px">
-      <thead>
-        <tr class="thead-dark">
-          <th>保障類別</th>
-          <th class="col-current">現有保障 (RM)</th>
-          <th class="col-need">建議保障 (RM)</th>
-          <th class="col-gap">差距 (RM)</th>
-          <th>覆蓋率</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${gapItems.map(g => {
-          const gap = g.current - g.need;
-          const covPct = g.need > 0 ? Math.min(200, g.current/g.need*100) : 100;
-          const ok = gap >= 0;
-          const pb = progressBar(g.current, Math.max(g.current, g.need)*1.1, ok?'ok':'gap');
-          return `<tr>
-            <td><b>${g.cat}</b>${g.note?`<div class="text-sm">${g.note}</div>`:''}${pb}</td>
-            <td class="current-val">${fmt(g.current)}</td>
-            <td class="need-val">${fmt(g.need)}</td>
-            <td class="${ok?'gap-val positive':'gap-val'}">${ok?'+':'-'} ${fmt(Math.abs(gap))}</td>
-            <td>${covPct.toFixed(0)}%</td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>
-  `;
-  setHtml('gapComparison', gapHtml);
-
-  // ── Medical KPIs ──
-  const medOk1 = roomBoard >= 200;
-  const medOk2 = lifetimeLimit >= 1000000;
-  const medOk3 = mhiFunding200k >= 2;
-  setHtml('medicalKpi', `
-    <div class="kpi-card ${medOk1?'ok':'gap'}">
-      <div class="kpi-label">每日病房費</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(roomBoard)}</div>
-      <div class="kpi-sub">${medOk1?'✓ 建議 ≥ RM200':'✗ 建議 ≥ RM200/天'}</div>
-    </div>
-    <div class="kpi-card ${medOk2?'ok':'gap'}">
-      <div class="kpi-label">終身限額</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(lifetimeLimit)}</div>
-      <div class="kpi-sub">${medOk2?'✓ 建議 ≥ RM 1M':'✗ 建議 ≥ RM 1,000,000'}</div>
-    </div>
-    <div class="kpi-card ${medOk3?'ok':'warn'}">
-      <div class="kpi-label">MHI 200k 覆蓋率</div>
-      <div class="kpi-value">${mhiFunding200k.toFixed(1)}x</div>
-      <div class="kpi-sub">${medOk3?'✓ 達標':'⚠ 建議 > 2x'}</div>
-    </div>
-    <div class="kpi-card neutral">
-      <div class="kpi-label">年度限額</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(annualLimit)}</div>
-    </div>
-    <div class="kpi-card neutral">
-      <div class="kpi-label">每日住院津貼</div>
-      <div class="kpi-value" style="font-size:18px">${fmt(n('dailyHospital'))}</div>
-    </div>
-  `);
-
-  const medRecs = [];
-  if(!medOk1) medRecs.push('升級病房等級至 RM200/天或以上，確保入住政府醫院也有足夠補貼');
-  if(!medOk2) medRecs.push('終身限額建議達到 RM1,000,000 或以上，應對癌症等重大疾病多療程費用');
-  if(!medOk3) medRecs.push('加強危疾保障，確保 MHI + CI 合計可應對 RM200,000 的重大治療費用 × 2次');
-  if(medRecs.length === 0) medRecs.push('醫療保障達標，建議定期檢視計劃限額是否跟得上通脹');
-  setHtml('medicalRecommend', `
-    <div class="recommendation-box ${medRecs.length<=1&&medOk2?'rec-ok':'rec-gap'}">
-      <div class="rec-title ${medRecs.length<=1&&medOk2?'ok-text':'gap-text'}">醫療保障建議</div>
-      <ul class="rec-items">${medRecs.map(r=>`<li>${r}</li>`).join('')}</ul>
-    </div>
-  `);
-
-  // ── Recommendations ──
-  const gaps = [];
-  if(deathBenefit < deathNeed) gaps.push({cat:'身故保障', shortfall: deathNeed - deathBenefit, priority:'P1'});
-  if(tpdBenefit < tpdNeed) gaps.push({cat:'全殘 TPD', shortfall: tpdNeed - tpdBenefit, priority:'P1'});
-  if(totalCI < ciNeed) gaps.push({cat:'危疾 CI', shortfall: ciNeed - totalCI, priority:'P2'});
-  if(!medOk2) gaps.push({cat:'醫療卡升級', shortfall: 0, priority:'P2', note:'終身限額升至 RM 1M 以上'});
-  if(paBenefit < deathBenefit * 0.5) gaps.push({cat:'意外保障 PA', shortfall: deathBenefit * 0.5 - paBenefit, priority:'P3'});
-
-  if(gaps.length > 0) {
-    const gapHtmlRec = `
-      <div class="recommendation-box rec-gap">
-        <div class="rec-title gap-text">⚠ 需要補足的保障缺口（共 ${gaps.length} 項）</div>
-        <table class="analysis-table" style="margin-top:8px">
-          <thead><tr><th>優先</th><th>保障項目</th><th style="text-align:right">建議補足金額</th><th>行動</th></tr></thead>
-          <tbody>${gaps.map(g=>`<tr>
-            <td><span class="badge ${g.priority==='P1'?'gap':'warn'}">${g.priority}</span></td>
-            <td><b>${g.cat}</b>${g.note?`<div class="text-sm">${g.note}</div>`:''}</td>
-            <td style="text-align:right;font-weight:700;color:var(--gap)">${g.shortfall>0?fmt(g.shortfall):'—'}</td>
-            <td class="text-sm">與顧問討論最適合的方案</td>
-          </tr>`).join('')}</tbody>
-        </table>
-      </div>`;
-    setHtml('recommendations', gapHtmlRec);
-  } else if(deathBenefit > 0) {
-    setHtml('recommendations', `
-      <div class="recommendation-box rec-ok">
-        <div class="rec-title ok-text">✓ 整體保障充足</div>
-        <ul class="rec-items">
-          <li>建議每 1-2 年與顧問進行定期審查，確保保障跟上生活變化</li>
-          <li>可考慮增加投資理財成分，為退休做規劃</li>
-        </ul>
-      </div>`);
-  }
-
-  // Update print note
-  document.getElementById('printNote').textContent = s('consultantNote');
-
-  // ── Action Plan ──
-  const actionItems = [
-    ...gaps.map((g, i) => ({
-      no: i+1,
-      priority: g.priority,
-      action: `補足${g.cat}保障${g.shortfall>0?' (缺口: '+fmt(g.shortfall)+')':(g.note?'：'+g.note:'')}`,
-      timeline: g.priority === 'P1' ? '盡快（本月內）' : '3個月內',
-      status: '待跟進'
-    })),
-    {no: gaps.length+1, priority:'P3', action:'安排下次年度保障審查', timeline:'12個月後', status:'排期'},
-  ];
-
-  setHtml('actionPlan', `
-    <table class="analysis-table">
-      <thead><tr><th>#</th><th>優先級</th><th>行動項目</th><th>時間</th><th>狀態</th></tr></thead>
-      <tbody>${actionItems.map(a=>`<tr>
-        <td>${a.no}</td>
-        <td><span class="badge ${a.priority==='P1'?'gap':a.priority==='P2'?'warn':'ok'}">${a.priority}</span></td>
-        <td>${a.action}</td>
-        <td>${a.timeline}</td>
-        <td>${a.status}</td>
-      </tr>`).join('')}</tbody>
-    </table>
-  `);
+  setHtml('medicalKpi', `<div class="kpi-card ${roomBoard>=200?'ok':'gap'}"><div class="kpi-label">每日病房費</div><div class="kpi-value">${fmt(roomBoard)}</div></div><div class="kpi-card ${lifetimeLimit>=1000000?'ok':'gap'}"><div class="kpi-label">終身限額</div><div class="kpi-value">${fmt(lifetimeLimit)}</div></div>`);
+  
+  document.getElementById('printPlannerName').textContent = s('plannerName');
+  document.getElementById('printClientName').textContent = s('clientName');
+  document.getElementById('printDate').textContent = s('reportDate');
 }
 
-// ── Demo Data ──
-function loadDemo() {
-  const fields = {
-    plannerName:'John Ten', plannerPhone:'016-8860255',
-    plannerEmail:'tenconsultancy10@gmail.com',
-    clientName:'Ahmad bin Abdullah', icNum:'880101-13-5678',
-    occupation:'Senior Manager', clientAge:38, spouseAge:36,
-    youngDepAge:8, yearsResp:15,
-    salaryMain:8500, salarySpouse:4500,
-    expFood:1200, expUtil:800, expChild:600, expOther:400,
-    homeBalance:450000, homeMonthly:2100,
-    ip1Balance:280000, ip1Monthly:1200,
-    carLoan:65000, carMonthly:1100,
-    ccPersonal:15000, annualPremium:7200,
-    deathBenefit:350000, tpdBenefit:250000, paBenefit:100000,
-    ciBenefit:100000, earlyCI:50000, disabilityIncome:2000,
-    roomBoard:150, lifetimeLimit:500000, annualLimit:100000,
-    dailyHospital:100, ciWaiverPremium:1200, tpdWaiverPremium:0,
-    inflationRate:3.69, interestRate:2.5, ide:20000, rrf:5000,
-  };
-  Object.entries(fields).forEach(([k,v]) => {
-    const el = document.getElementById(k);
-    if(el) el.value = v;
-  });
-  document.getElementById('homeMRTA').value = 'no';
-  document.getElementById('ip1MRTA').value = 'no';
-  document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
-  recalc();
-}
-
-function clearAll() {
-  document.querySelectorAll('input[type=number], input:not([type]), input[type=date]')
-    .forEach(el => { el.value = ''; });
-  document.getElementById('consultantNote').value = '';
-  recalc();
-}
-
-// ── RECORDS — Save / Load / Delete ──────────────────
+// ── RECORDS ──
 const FAR_KEY = 'far_records_v1';
-
-const INPUT_IDS = [
-  'plannerName','plannerPhone','plannerEmail','reportDate',
-  'inflationRate','interestRate','ide','rrf',
-  'clientName','icNum','occupation','clientAge','spouseAge','youngDepAge','yearsResp',
-  'salaryMain','salarySpouse','rentalIncome','otherIncome',
-  'expFood','expUtil','expChild','expOther',
-  'homeDesc','homeBalance','homeMonthly','homeMRTA',
-  'officeDesc','officeBalance','officeMonthly','officeMRTA',
-  'ip1Desc','ip1Balance','ip1Monthly','ip1MRTA',
-  'ip2Desc','ip2Balance','ip2Monthly','ip2MRTA',
-  'carLoan','carMonthly','ccPersonal','annualPremium',
-  'deathBenefit','tpdBenefit','paBenefit','disabilityIncome',
-  'ciBenefit','earlyCI','ciWaiverPremium','tpdWaiverPremium',
-  'roomBoard','lifetimeLimit','annualLimit','dailyHospital',
-  'consultantNote'
-];
-
-function getAllRecords() {
-  try { return JSON.parse(localStorage.getItem(FAR_KEY) || '[]'); } catch(e) { return []; }
-}
-
+function getAllRecords() { try { return JSON.parse(localStorage.getItem(FAR_KEY) || '[]'); } catch(e) { return []; } }
 function saveRecord() {
-  const clientName = s('clientName').trim() || '未命名客戶';
-  const data = {};
-  INPUT_IDS.forEach(id => { const el = document.getElementById(id); if(el) data[id] = el.value; });
-  const now = new Date();
-  const record = {
-    id: now.getTime(),
-    clientName,
-    savedAt: now.toLocaleDateString('zh-TW') + ' ' + now.toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'}),
-    data
-  };
-  const records = getAllRecords();
-  const existing = records.findIndex(function(r){ return r.clientName === clientName; });
-  if(existing >= 0) records.splice(existing, 1);
-  records.unshift(record);
-  try {
-    localStorage.setItem(FAR_KEY, JSON.stringify(records));
-    renderRecords();
-    showToast('✓ 已儲存：' + clientName, 'green');
-  } catch(e) {
-    showToast('⚠ 儲存失敗（瀏覽器私密模式不支援）', 'red');
-  }
+  const records = getAllRecords(), client = s('clientName') || '未命名', data = {};
+  document.querySelectorAll('input, select, textarea').forEach(i => data[i.id] = i.value);
+  records.unshift({ id: Date.now(), clientName: client, savedAt: new Date().toLocaleString(), data });
+  localStorage.setItem(FAR_KEY, JSON.stringify(records.slice(0, 20)));
+  renderRecords(); showToast('✓ 已儲存');
 }
-
 function loadRecord(id) {
-  const record = getAllRecords().find(r => r.id === id);
-  if(!record) return;
-  INPUT_IDS.forEach(k => {
-    const el = document.getElementById(k);
-    if(el && record.data[k] !== undefined) el.value = record.data[k];
-  });
-  recalc();
-  closeRecords();
-  showToast('📂 已載入：' + record.clientName);
+  const r = getAllRecords().find(x => x.id === id);
+  if(r) { Object.entries(r.data).forEach(([k, v]) => { let e=document.getElementById(k); if(e) e.value = v; }); recalc(); closeRecords(); showToast('📂 已載入'); }
 }
-
-function deleteRecord(id) {
-  const records = getAllRecords().filter(function(r){ return r.id !== id; });
-  try { localStorage.setItem(FAR_KEY, JSON.stringify(records)); } catch(e) {};
-  renderRecords();
-  showToast('已刪除紀錄', 'red');
-}
-
 function renderRecords() {
-  const records = getAllRecords();
-  const badge = document.getElementById('recordCount');
-  if(badge) { badge.textContent = records.length || ''; badge.classList.toggle('show', records.length > 0); }
-  const el = document.getElementById('recordsList');
-  if(!el) return;
-  if(records.length === 0) {
-    el.innerHTML = '<div class="drawer-empty">📋 尚未儲存任何紀錄<br><br>填完客戶分析後按<br>「💾 儲存」即可保留</div>';
-    return;
-  }
-  el.innerHTML = records.map(r => `
-    <div class="record-item" onclick="loadRecord(${r.id})">
-      <div class="record-info">
-        <div class="record-name">${r.clientName}</div>
-        <div class="record-meta">${r.savedAt}</div>
-      </div>
-      <button class="record-del" title="刪除" onclick="event.stopPropagation();deleteRecord(${r.id})">🗑</button>
-    </div>`).join('');
+  const rs = getAllRecords(); setHtml('recordCount', rs.length || '');
+  setHtml('recordsList', rs.map(r => `<div class="record-item" onclick="loadRecord(${r.id})"><div><b>${r.clientName}</b><div class="record-meta">${r.savedAt}</div></div></div>`).join('') || '<div class="drawer-empty">無紀錄</div>');
 }
+function toggleRecords() { document.querySelector('.records-overlay').classList.toggle('open'); document.querySelector('.records-drawer').classList.toggle('open'); }
+function closeRecords() { document.querySelector('.records-overlay').classList.remove('open'); document.querySelector('.records-drawer').classList.remove('open'); }
+function showToast(m) { let t=document.getElementById('toastMsg'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
-function toggleRecords() {
-  document.querySelector('.records-overlay').classList.toggle('open');
-  document.querySelector('.records-drawer').classList.toggle('open');
-}
-function closeRecords() {
-  document.querySelector('.records-overlay').classList.remove('open');
-  document.querySelector('.records-drawer').classList.remove('open');
-}
-
-function newProspect() {
-  const hasData = s('clientName').trim().length > 0 || s('salaryMain') !== '' || n('salaryMain') > 0;
-  if(hasData && !confirm('開始新 Prospect？\n目前資料將清除（建議先按「💾 儲存」）')) return;
-  document.querySelectorAll('input[type=number], input:not([type]), input[type=date], textarea').forEach(el => {
-    const keep = ['inflationRate','interestRate','ide','rrf','plannerName','plannerPhone','plannerEmail'];
-    if(!keep.includes(el.id)) el.value = '';
-  });
-  document.getElementById('homeMRTA').value = 'yes';
-  document.getElementById('officeMRTA').value = 'no';
-  document.getElementById('ip1MRTA').value = 'no';
-  document.getElementById('ip2MRTA').value = 'no';
-  document.getElementById('homeDesc').value = '自住房屋';
-  document.getElementById('officeDesc').value = '自用辦公室';
-  document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
-  recalc();
-  window.scrollTo({top:0, behavior:'smooth'});
-  showToast('✚ 新 Prospect 已準備好，請填寫客戶資料');
-}
-
-function showToast(msg, type) {
-  const el = document.getElementById('toastMsg');
-  if(!el) return;
-  el.textContent = msg;
-  el.className = 'toast' + (type ? ' ' + type : '');
-  requestAnimationFrame(() => el.classList.add('show'));
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2600);
-}
-
-// ── Init ──
 document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
-recalc();
-renderRecords();
+recalc(); renderRecords();
 </script>
 </body>
 </html>
