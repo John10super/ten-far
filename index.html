@@ -306,10 +306,19 @@ select option:first-child{color:#C4C9D4}
 }
 
 /* ── MOBILE ─── */
+/* ── TABLET (769px – 1024px) ── */
+@media (max-width:1024px) and (min-width:769px){
+  .container{padding:18px 14px}
+  .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
+  .grid4{grid-template-columns:1fr 1fr}
+  .gap-cards-grid{flex-wrap:wrap}
+  .gap-card{flex:1 1 calc(50% - 4px)}
+  .screen-header h1{font-size:12px}
+}
+/* ── MOBILE (≤ 768px) ── */
 @media (max-width:768px){
   .grid3{grid-template-columns:1fr 1fr}
   .grid4{grid-template-columns:1fr 1fr}
-
   .row-3,.row-4{grid-template-columns:1fr 1fr}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
@@ -320,10 +329,14 @@ select option:first-child{color:#C4C9D4}
   .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .policy-hint{display:block}
   .container{padding:14px 12px}
+  .gap-cards-grid{flex-wrap:wrap}
+  .gap-card{flex:1 1 calc(50% - 4px)}
+  .screen-header h1{font-size:11px;letter-spacing:-.2px}
 }
+/* ── SMALL MOBILE (≤ 480px) ── */
 @media (max-width:480px){
   body{font-size:14px}
-  .screen-header h1{font-size:11.5px}
+  .screen-header h1{font-size:10px}
   .grid2{grid-template-columns:1fr 1fr}
   .grid3,.grid4{grid-template-columns:1fr 1fr}
   .row-3,.row-4{grid-template-columns:1fr 1fr}
@@ -346,6 +359,8 @@ select option:first-child{color:#C4C9D4}
   .cmp-table{min-width:420px}
   .analysis-table{min-width:380px}
   .btn-final-save{font-size:14px;padding:11px 28px}
+  .gap-cards-grid{flex-direction:column}
+  .gap-card{flex:1 1 100%}
 }
 </style>
 </head>
