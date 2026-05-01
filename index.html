@@ -448,11 +448,14 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
   <div class="section-body">
     <div class="grid3">
       <div class="field"><label data-i18n="lClientName">客戶姓名</label><input id="clientName" placeholder="Full Name" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lICNum">身份證號碼</label><input id="icNum" placeholder="XXXXXX-XX-XXXX" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lICNum">身份證號碼</label><input id="icNum" placeholder="XXXXXX-XX-XXXX" oninput="onIcInput()"></div>
       <div class="field"><label data-i18n="lOccupation">職業</label><input id="occupation" placeholder="Occupation" oninput="recalc()"></div>
     </div>
     <div class="grid4 mt-8">
-      <div class="field"><label data-i18n="lAge">年齡 (歲)</label><input type="number" id="clientAge" placeholder="35" oninput="recalc()"></div>
+      <div class="field">
+        <label data-i18n="lAge" style="display:flex;align-items:center;gap:6px">年齡 (歲)<span id="ageAutoTag" style="display:none;font-size:9px;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:1px 5px;font-weight:600;letter-spacing:.3px">AUTO</span></label>
+        <input type="number" id="clientAge" placeholder="35" oninput="document.getElementById('ageAutoTag').style.display='none';recalc()">
+      </div>
       <div class="field"><label data-i18n="lSpouseAge">配偶年齡 (如有)</label><input type="number" id="spouseAge" placeholder="—" oninput="recalc()"></div>
       <div class="field"><label data-i18n="lYoungDep">最小受撫養人年齡</label><input type="number" id="youngDepAge" placeholder="—" oninput="recalc()"></div>
       <div class="field"><label data-i18n="lYearsResp">負擔責任年數 (年)</label><input type="number" id="yearsResp" placeholder="15" oninput="recalc()"></div>
@@ -1379,6 +1382,53 @@ function fmtNum(v, d=0, suffix='') {
   if(!isFinite(v)||isNaN(v)) return '—';
   return v.toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d}) + suffix;
 }
+// ── Next Birthday Age from Malaysia IC ──
+// IC format: YYMMDD-PB-XXXX (dashes optional)
+// "Next Birthday Age" = age they will turn at their NEXT birthday
+function calcNextBirthdayAge(ic) {
+  const clean = ic.replace(/[-\s]/g, '');
+  if(clean.length < 6) return null;
+  const yy = parseInt(clean.substring(0,2),10);
+  const mm = parseInt(clean.substring(2,4),10);
+  const dd = parseInt(clean.substring(4,6),10);
+  if(isNaN(yy)||isNaN(mm)||isNaN(dd)) return null;
+  if(mm<1||mm>12||dd<1||dd>31) return null;
+
+  // Year resolution: YY <= current 2-digit year → 2000s, else 1900s
+  const today    = new Date();
+  const curYear  = today.getFullYear();
+  const curYY    = curYear % 100;
+  const birthYear = (yy <= curYY) ? 2000 + yy : 1900 + yy;
+
+  const curMonth = today.getMonth() + 1; // 1-12
+  const curDay   = today.getDate();
+
+  // Has this year's birthday already passed (or is today)?
+  let passed;
+  if(mm < curMonth)      passed = true;
+  else if(mm > curMonth) passed = false;
+  else                   passed = (dd <= curDay); // same month: passed if day ≤ today
+
+  const nextBirthdayYear = passed ? curYear + 1 : curYear;
+  const age = nextBirthdayYear - birthYear;
+  return age > 0 ? age : null;
+}
+
+function onIcInput() {
+  recalc();
+  const ic  = document.getElementById('icNum').value;
+  const age = calcNextBirthdayAge(ic);
+  const ageEl = document.getElementById('clientAge');
+  const tag   = document.getElementById('ageAutoTag');
+  if(age !== null) {
+    ageEl.value = age;
+    if(tag) tag.style.display = 'inline';
+    recalc(); // re-run with updated age
+  } else {
+    if(tag) tag.style.display = 'none';
+  }
+}
+
 function statusBadge(ok, text) {
   const cls = ok ? 'ok' : 'gap', icon = ok ? '✓' : '✗';
   return `<span class="badge ${cls}"><span class="status-dot dot-${cls}"></span>${icon} ${text}</span>`;
