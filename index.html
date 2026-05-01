@@ -101,6 +101,28 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .kpi-card.neutral .kpi-value{color:var(--dark)}
 .kpi-sub{font-size:11.5px;color:var(--muted);margin-top:5px;font-weight:500}
 
+/* ── COMPACT KPI (Medical) & GAP CARDS (Recommendations) ── */
+.kpi-sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:10px}
+.kpi-card-sm{padding:9px 12px !important;border-radius:9px !important;border-left:4px solid transparent !important}
+.kpi-card-sm .kpi-label{font-size:9px !important;margin-bottom:3px !important}
+.kpi-card-sm .kpi-value{font-size:17px !important;font-weight:800 !important;line-height:1.2 !important}
+.kpi-card-sm .kpi-sub{font-size:9.5px !important;margin-top:2px !important}
+.gap-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:6px}
+.gap-card{border-radius:8px;padding:9px 12px;border-left:3px solid transparent}
+.gap-card.p1{background:#FEF2F2;border-color:var(--gap)}
+.gap-card.p2{background:#FFFBEB;border-color:var(--warn)}
+.gap-card.p3{background:#F0F9FF;border-color:#38BDF8}
+.gap-card .gc-prio{font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+.gap-card.p1 .gc-prio{color:#991B1B}
+.gap-card.p2 .gc-prio{color:#92400E}
+.gap-card.p3 .gc-prio{color:#0369A1}
+.gap-card .gc-cat{font-size:11px;font-weight:700;line-height:1.3;margin-bottom:3px;color:var(--text)}
+.gap-card .gc-amt{font-size:13px;font-weight:800}
+.gap-card.p1 .gc-amt{color:#991B1B}
+.gap-card.p2 .gc-amt{color:#92400E}
+.gap-card.p3 .gc-amt{color:#0369A1}
+.gap-card .gc-note{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+
 /* ── TABLES ─── */
 .analysis-table{width:100%;border-collapse:collapse;font-size:12px}
 .analysis-table th{background:var(--dark);color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:600}
@@ -654,7 +676,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
     <h2 data-i18n="s9Title">醫療保障分析</h2>
   </div>
   <div class="section-body">
-    <div class="kpi-grid" id="medicalKpi"></div>
+    <div class="kpi-sm-grid" id="medicalKpi"></div>
     <div id="medicalRecommend" class="mt-8"></div>
   </div>
 </div>
@@ -792,6 +814,7 @@ const I18N = {
     drawerSaveBtn:'💾 儲存目前分析',
     drawerEmpty:'📋 尚未儲存任何紀錄',
     btnAddPolicy:'新增保單', btnAddMedCard:'新增醫療卡',
+    consultantNotePlh:'在此輸入額外建議、產品方案、保費報價等...',
     confirmNew:'開始新 Prospect？\n目前資料將清除（建議先按「💾 儲存」）',
     toastSaved:'✓ 已儲存：',
     toastSaveFail:'⚠ 儲存失敗（私密模式不支援）',
@@ -892,6 +915,7 @@ const I18N = {
     drawerSaveBtn:'💾 Save Current Analysis',
     drawerEmpty:'📋 No records saved yet',
     btnAddPolicy:'Add Policy', btnAddMedCard:'Add Medical Card',
+    consultantNotePlh:'Enter additional recommendations, product proposals, premium quotes...',
     confirmNew:'Start new prospect?\nCurrent data will be cleared (recommend saving first).',
     toastSaved:'✓ Saved: ',
     toastSaveFail:'⚠ Save failed (private mode not supported)',
@@ -992,6 +1016,7 @@ const I18N = {
     drawerSaveBtn:'💾 Simpan Analisis Semasa',
     drawerEmpty:'📋 Tiada rekod disimpan lagi',
     btnAddPolicy:'Tambah Polisi', btnAddMedCard:'Tambah Kad Perubatan',
+    consultantNotePlh:'Masukkan cadangan tambahan, cadangan produk, sebut harga premium...',
     confirmNew:'Mulakan prospek baharu?\nData semasa akan dipadam (disyorkan simpan dahulu).',
     toastSaved:'✓ Disimpan: ',
     toastSaveFail:'⚠ Gagal simpan (mod persendirian tidak disokong)',
@@ -1040,8 +1065,9 @@ function setLang(lang) {
   recalc();
   // Refresh elements not covered by data-i18n
   // 1. Insurer dropdown placeholder option
-  document.querySelectorAll('select[id^="p"][id$="co"]').forEach(sel => {
-    if(sel.options[0] && sel.options[0].value === '') sel.options[0].textContent = L('insSelect');
+  document.querySelectorAll('select[id^="p"][id$="co"], select[id^="pm"][id$="co"]').forEach(sel => {
+    const ph = Array.from(sel.options).find(o => o.value === '');
+    if(ph) ph.textContent = L('insSelect');
   });
   // 2. Policy number placeholders
   for(let i=1;i<=10;i++){
@@ -1078,18 +1104,41 @@ function setLang(lang) {
   // 8. Medical hint text
   const medHintEl = document.getElementById('medHintText');
   if(medHintEl) medHintEl.textContent = '💡 ' + L('medHint');
+  // 9. Consultant's Note placeholder
+  const cnEl = document.getElementById('consultantNote');
+  if(cnEl) cnEl.placeholder = L('consultantNotePlh');
 }
 
-// ══ INSURERS LIST ══
-const INSURERS = [
-  '','AmMetLife','AIA Bhd','Great Eastern Life',
-  'Prudential BSN Takaful','Etiqa Life Insurance',
-  'Allianz Life Insurance Malaysia','Manulife Insurance Berhad',
-  'Sun Life Malaysia','Zurich Life Insurance Malaysia',
-  'Tokio Marine Life Insurance','MCIS Insurance Berhad',
-  'Hong Leong Assurance','Takaful Malaysia',
-  'Takaful Ikhlas','Other / Lain-lain'
+// ══ INSURERS (grouped) ══
+const INSURER_GROUPS = [
+  { label: null, items: [''] },
+  { label: 'Conventional Life Insurance', items: [
+    'AIA Bhd',
+    'Allianz Life Insurance Malaysia Bhd',
+    'AmMetLife Insurance Berhad',
+    'Great Eastern Life Assurance Malaysia Bhd',
+    'Hong Leong Assurance Bhd',
+    'Manulife Insurance Berhad',
+    'MCIS Insurance Berhad',
+    'Prudential Assurance Malaysia Bhd',
+    'Sun Life Malaysia Assurance Bhd',
+    'Tokio Marine Life Insurance Malaysia Bhd',
+    'Zurich Life Insurance Malaysia Bhd',
+  ]},
+  { label: 'Takaful Life Insurance', items: [
+    'AIA PUBLIC Takaful Bhd',
+    'Etiqa Family Takaful Bhd',
+    'Great Eastern Takaful Bhd',
+    'Hong Leong MSIG Takaful Bhd',
+    'Prudential BSN Takaful Bhd',
+    'Sun Life Malaysia Takaful Bhd',
+    'Syarikat Takaful Malaysia Keluarga Bhd',
+    'Takaful Ikhlas Family Bhd (Zurich Takaful)',
+  ]},
+  { label: 'Other', items: ['Other / Lain-lain'] },
 ];
+// Flat list (for backwards compat with save/load value matching)
+const INSURERS = [].concat(...INSURER_GROUPS.map(g => g.items));
 
 // ══ POLICY ROW MANAGEMENT ══
 let lifeVisibleRows = 1;
@@ -1097,8 +1146,16 @@ let medVisibleRows  = 1;
 const LIFE_MAX = 10;
 const MED_MAX  = 5;
 
+function buildInsurerOpts() {
+  return INSURER_GROUPS.map(g => {
+    if(!g.label) return `<option value="">${L('insSelect')}</option>`;
+    const items = g.items.map(c => `<option value="${c}">${c}</option>`).join('');
+    return `<optgroup label="${g.label}">${items}</optgroup>`;
+  }).join('');
+}
+
 function buildPolicyRows() {
-  const opts = INSURERS.map(c => `<option value="${c}">${c || L('insSelect')}</option>`).join('');
+  const opts = buildInsurerOpts();
   let lifeHtml = '';
   for (let i = 1; i <= LIFE_MAX; i++) {
     lifeHtml += `<tr id="lifeRow${i}"${i>1?' style="display:none"':''}>
@@ -1115,7 +1172,7 @@ function buildPolicyRows() {
       <td class="no-print"><button class="policy-row-del" id="lifeDelBtn${i}" onclick="removeLifeRow(${i})" title="Remove">✕</button></td>
     </tr>`;
   }
-  const medOpts = INSURERS.map(c => `<option value="${c}">${c || L('insSelect')}</option>`).join('');
+  const medOpts = buildInsurerOpts();
   let medHtml = '';
   for (let i = 1; i <= MED_MAX; i++) {
     medHtml += `<tr id="medRow${i}"${i>1?' style="display:none"':''}>
@@ -1530,26 +1587,26 @@ function recalc() {
   // ── Medical KPIs ──
   const medOk1 = roomBoard >= 200, medOk2 = lifetimeLimit >= 1000000, medOk3 = mhiFunding200k >= 2;
   setHtml('medicalKpi', `
-    <div class="kpi-card ${medOk1?'ok':'gap'}">
+    <div class="kpi-card kpi-card-sm ${medOk1?'ok':'gap'}">
       <div class="kpi-label">${L('kpiRoomBoard')}</div>
       <div class="kpi-value">${fmtRaw(roomBoard)}</div>
       <div class="kpi-sub">${medOk1?'✓ ≥ RM200':'✗ ≥ RM200/day'}</div>
     </div>
-    <div class="kpi-card ${medOk2?'ok':'gap'}">
+    <div class="kpi-card kpi-card-sm ${medOk2?'ok':'gap'}">
       <div class="kpi-label">${L('kpiLifetime')}</div>
       <div class="kpi-value">${fmtRaw(lifetimeLimit)}</div>
-      <div class="kpi-sub">${medOk2?'✓ ≥ RM 1M':'✗ ≥ RM 1,000,000'}</div>
+      <div class="kpi-sub">${medOk2?'✓ ≥ 1M':'✗ ≥ RM 1M'}</div>
     </div>
-    <div class="kpi-card ${medOk3?'ok':'warn'}">
+    <div class="kpi-card kpi-card-sm ${medOk3?'ok':'warn'}">
       <div class="kpi-label">${L('kpiMHI')}</div>
       <div class="kpi-value">${mhiFunding200k>0?mhiFunding200k.toFixed(1)+'x':'—'}</div>
-      <div class="kpi-sub">${medOk3?'✓ > 2x':'⚠ > 2x'}</div>
+      <div class="kpi-sub">${medOk3?'✓ >2x':'⚠ >2x'}</div>
     </div>
-    <div class="kpi-card neutral">
+    <div class="kpi-card kpi-card-sm neutral">
       <div class="kpi-label">${L('kpiAnnual')}</div>
       <div class="kpi-value">${fmtRaw(annualLimit)}</div>
     </div>
-    <div class="kpi-card neutral">
+    <div class="kpi-card kpi-card-sm neutral">
       <div class="kpi-label">${L('kpiDailyHosp')}</div>
       <div class="kpi-value">${fmtRaw(dailyHospital)}</div>
     </div>
@@ -1576,16 +1633,17 @@ function recalc() {
   if(gaps.length > 0) {
     setHtml('recommendations', `
       <div class="recommendation-box rec-gap">
-        <div class="rec-title gap-text">${L('recGapTitle').replace('%n', gaps.length)}</div>
-        <table class="analysis-table" style="margin-top:8px">
-          <thead><tr><th>${L('apriPriority')}</th><th>${L('apriAction')}</th><th style="text-align:right">${L('thNeed')}</th><th>${L('apriNote')}</th></tr></thead>
-          <tbody>${gaps.map(g=>`<tr>
-            <td><span class="badge ${g.priority==='P1'?'gap':'warn'}">${g.priority}</span></td>
-            <td><b>${g.cat}</b>${g.note?`<div class="text-sm">${g.note}</div>`:''}</td>
-            <td style="text-align:right;font-weight:700;color:var(--gap)">${g.shortfall>0?fmtRaw(g.shortfall):'—'}</td>
-            <td class="text-sm">${L('apriNote')}</td>
-          </tr>`).join('')}</tbody>
-        </table>
+        <div class="rec-title gap-text" style="font-size:12px;margin-bottom:6px">${L('recGapTitle').replace('%n', gaps.length)}</div>
+        <div class="gap-cards-grid">
+          ${gaps.map(g=>`
+          <div class="gap-card ${g.priority.toLowerCase()}">
+            <div class="gc-prio">${g.priority}</div>
+            <div class="gc-cat">${g.cat}</div>
+            <div class="gc-amt">${g.shortfall>0?fmtRaw(g.shortfall):'—'}</div>
+            ${g.note?`<div class="gc-note">${g.note}</div>`:''}
+          </div>`).join('')}
+        </div>
+        <div class="text-sm" style="margin-top:8px;color:var(--muted)">↳ ${L('apriNote')}</div>
       </div>`);
   } else if(deathBenefit > 0) {
     setHtml('recommendations', `
