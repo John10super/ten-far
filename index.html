@@ -598,7 +598,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
     <h2 data-i18n="s5Title">財務摘要</h2>
   </div>
   <div class="section-body">
-    <div class="kpi-grid" id="financeSummaryKpi"></div>
+    <div class="kpi-sm-grid" id="financeSummaryKpi"></div>
     <div class="table-scroll">
       <table class="analysis-table">
         <thead><tr><th data-i18n="thItem">項目</th><th style="text-align:right" data-i18n="thAmount">金額 (RM)</th><th data-i18n="thNote">備注</th></tr></thead>
@@ -1466,26 +1466,26 @@ function recalc() {
   // ── Financial Summary KPIs ──
   const ncOk = netCashFlow >= 0;
   setHtml('financeSummaryKpi', `
-    <div class="kpi-card ${totalIncome>0?'neutral':'gap'}">
+    <div class="kpi-card kpi-card-sm ${totalIncome>0?'neutral':'gap'}">
       <div class="kpi-label">${L('kpiIncome')}</div>
       <div class="kpi-value">${fmtRaw(totalIncome)}</div>
     </div>
-    <div class="kpi-card ${totalMonthlyExp<totalIncome?'ok':'gap'}">
+    <div class="kpi-card kpi-card-sm ${totalMonthlyExp<totalIncome?'ok':'gap'}">
       <div class="kpi-label">${L('kpiExpense')}</div>
       <div class="kpi-value">${fmtRaw(totalMonthlyExp)}</div>
     </div>
-    <div class="kpi-card ${ncOk?'ok':'gap'}">
+    <div class="kpi-card kpi-card-sm ${ncOk?'ok':'gap'}">
       <div class="kpi-label">${L('kpiCashflow')}</div>
-      <div class="kpi-value" style="font-size:20px">${netCashFlow>=0?'RM +':'RM -'}${Math.abs(netCashFlow).toLocaleString('en-MY')}</div>
+      <div class="kpi-value">${netCashFlow>=0?'RM +':'RM -'}${Math.abs(netCashFlow).toLocaleString('en-MY')}</div>
       <div class="kpi-sub">${ncOk?L('cashOk'):L('cashGap')}</div>
     </div>
-    <div class="kpi-card neutral">
+    <div class="kpi-card kpi-card-sm neutral">
       <div class="kpi-label">${L('kpiDebt')}</div>
-      <div class="kpi-value" style="font-size:20px">${fmtRaw(totalDebts)}</div>
+      <div class="kpi-value">${fmtRaw(totalDebts)}</div>
     </div>
-    <div class="kpi-card neutral">
+    <div class="kpi-card kpi-card-sm neutral">
       <div class="kpi-label">${L('kpiPremium')}</div>
-      <div class="kpi-value" style="font-size:20px">${fmtRaw(annPremium)}</div>
+      <div class="kpi-value">${fmtRaw(annPremium)}</div>
       <div class="kpi-sub">${totalIncome>0?((annPremium/12/totalIncome*100).toFixed(1)+'% of income'):'—'}</div>
     </div>
   `);
