@@ -40,6 +40,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .fab-panel-hdr button:hover{background:#F3F4F6}
 .fab-item{padding:10px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:13px;font-weight:600;text-align:left;color:var(--text);transition:.15s;display:flex;align-items:center;gap:8px;width:100%}
 .fab-item:hover{background:#F3F4F6}
+.fab-item-profile{color:#6366F1}.fab-item-profile:hover{background:#EEF2FF !important}
 .fab-item-save{color:#065F46}.fab-item-save:hover{background:#ECFDF5 !important}
 .fab-item-print{color:var(--red)}.fab-item-print:hover{background:#FEF2F2 !important}
 .fab-divider{height:1px;background:var(--border);margin:2px 0}
@@ -107,8 +108,8 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .kpi-card-sm .kpi-label{font-size:10px !important;margin-bottom:4px !important;letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kpi-card-sm .kpi-value{font-size:16px !important;font-weight:800 !important;line-height:1.3 !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kpi-card-sm .kpi-sub{font-size:10px !important;margin-top:3px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gap-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:6px}
-.gap-card{border-radius:8px;padding:9px 12px;border-left:3px solid transparent}
+.gap-cards-grid{display:flex;gap:8px;margin-top:6px}
+.gap-card{flex:1;min-width:0;border-radius:8px;padding:9px 12px;border-left:3px solid transparent}
 .gap-card.p1{background:#FEF2F2;border-color:var(--gap)}
 .gap-card.p2{background:#FFFBEB;border-color:var(--warn)}
 .gap-card.p3{background:#F0F9FF;border-color:#38BDF8}
@@ -189,6 +190,17 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .signature-area{border:1px dashed #D1D5DB;border-radius:8px;padding:14px 18px;text-align:center;color:var(--muted);font-size:11px;margin-top:8px}
 .record-badge{background:var(--red);color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-left:3px;display:none;vertical-align:middle}
 .record-badge.show{display:inline}
+
+/* ── PROFILE DRAWER ── */
+.profile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200}
+.profile-overlay.open{display:block}
+.profile-drawer{position:fixed;top:0;right:0;width:380px;max-width:95vw;height:100%;background:#fff;z-index:201;box-shadow:-4px 0 28px rgba(0,0,0,.22);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.profile-drawer.open{transform:translateX(0)}
+.profile-drawer-body{flex:1;overflow-y:auto;padding:18px 20px}
+.profile-sub{font-size:10.5px;font-weight:800;color:var(--dark);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 10px;padding-bottom:5px;border-bottom:2px solid var(--border)}
+.profile-save-row{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:8px;align-items:center}
+.profile-saved-tag{font-size:11px;color:#10B981;font-weight:600;opacity:0;transition:.3s}
+.profile-saved-tag.show{opacity:1}
 
 /* ── DRAWER ─── */
 .records-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200}
@@ -358,6 +370,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
     </button>
     <button class="fab-item" onclick="newProspect();closeFab()">✚ 新 Prospect</button>
     <button class="fab-item" onclick="loadDemo();closeFab()">📋 載入示範</button>
+    <button class="fab-item fab-item-profile" onclick="toggleProfile();closeFab()">⚙ 顧問設定</button>
     <button class="fab-item fab-item-save" onclick="saveRecord();closeFab()">💾 儲存分析</button>
     <div class="fab-divider"></div>
     <button class="fab-item fab-item-print" onclick="closeFab();printPrepare()">🖨 列印 / PDF</button>
@@ -374,6 +387,37 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
   <div class="drawer-list" id="recordsList"><div class="drawer-empty">載入中...</div></div>
   <div class="drawer-foot">
     <button class="btn btn-save" style="width:100%;padding:10px" onclick="saveRecord()">💾 儲存目前分析</button>
+  </div>
+</div>
+
+<!-- PROFILE DRAWER -->
+<div class="profile-overlay no-print" id="profileOverlay" onclick="closeProfile()"></div>
+<div class="profile-drawer no-print" id="profileDrawer">
+  <div class="drawer-hdr">
+    <h3 id="profileDrawerTitle">⚙ 顧問設定</h3>
+    <button class="drawer-close" onclick="closeProfile()">✕</button>
+  </div>
+  <div class="profile-drawer-body">
+    <div class="profile-sub" id="profileSubAdvisor">顧問資訊</div>
+    <div class="grid2" style="margin-bottom:10px">
+      <div class="field"><label data-i18n="lPlannerName">顧問姓名</label><input id="plannerName" value="John Ten" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lPlannerPhone">顧問聯絡</label><input id="plannerPhone" value="016-8860255" oninput="recalc();autoSaveProfile()"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label data-i18n="lPlannerEmail">Email / 公司</label><input id="plannerEmail" value="tenconsultancy10@gmail.com" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lReportDate">報告日期</label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
+    </div>
+    <div class="profile-sub" id="profileSubAssump">計算假設</div>
+    <div class="assumption-grid">
+      <div class="field"><label data-i18n="lInflation">通脹率 (%)</label><input type="number" id="inflationRate" value="3.69" step="0.1" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lInterest">利率 / FD Rate (%)</label><input type="number" id="interestRate" value="2.5" step="0.1" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ide" value="20000" oninput="recalc();autoSaveProfile()"></div></div>
+      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rrf" value="5000" oninput="recalc();autoSaveProfile()"></div></div>
+    </div>
+  </div>
+  <div class="profile-save-row">
+    <button class="btn btn-save" style="flex:1;padding:10px" onclick="saveProfile()">💾 儲存設定</button>
+    <span class="profile-saved-tag" id="profileSavedTag">✓ 已儲存</span>
   </div>
 </div>
 
@@ -401,29 +445,6 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 </div>
 
 <div class="container">
-
-<!-- ══ SECTION 1 — PLANNER & ASSUMPTIONS ══ -->
-<div class="section no-print">
-  <div class="section-header">
-    <span class="section-tag tag-input" data-i18n="tagSetting">設定</span>
-    <h2 data-i18n="s1Title">顧問資訊 &amp; 假設條件</h2>
-  </div>
-  <div class="section-body">
-    <div class="grid4">
-      <div class="field"><label data-i18n="lPlannerName">顧問姓名</label><input id="plannerName" value="John Ten" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lPlannerPhone">顧問聯絡</label><input id="plannerPhone" value="016-8860255" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lPlannerEmail">Email / 公司</label><input id="plannerEmail" value="tenconsultancy10@gmail.com" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lReportDate">報告日期</label><input type="date" id="reportDate" oninput="recalc()"></div>
-    </div>
-    <div class="divider"></div>
-    <div class="assumption-grid">
-      <div class="field"><label data-i18n="lInflation">通脹率 (%)</label><input type="number" id="inflationRate" value="3.69" step="0.1" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lInterest">利率 / FD Rate (%)</label><input type="number" id="interestRate" value="2.5" step="0.1" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ide" value="20000" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rrf" value="5000" oninput="recalc()"></div></div>
-    </div>
-  </div>
-</div>
 
 <!-- ══ SECTION 2 — PERSONAL INFO ══ -->
 <div class="section">
@@ -818,6 +839,9 @@ const I18N = {
     drawerEmpty:'📋 尚未儲存任何紀錄',
     btnAddPolicy:'新增保單', btnAddMedCard:'新增醫療卡',
     consultantNotePlh:'在此輸入額外建議、產品方案、保費報價等...',
+    fabProfile:'⚙ 顧問設定',
+    profileDrawerTitle:'⚙ 顧問設定', profileSubAdvisor:'顧問資訊', profileSubAssump:'計算假設',
+    profileSaveBtn:'💾 儲存設定', profileSavedTag:'✓ 已儲存',
     confirmNew:'開始新 Prospect？\n目前資料將清除（建議先按「💾 儲存」）',
     toastSaved:'✓ 已儲存：',
     toastSaveFail:'⚠ 儲存失敗（私密模式不支援）',
@@ -919,6 +943,9 @@ const I18N = {
     drawerEmpty:'📋 No records saved yet',
     btnAddPolicy:'Add Policy', btnAddMedCard:'Add Medical Card',
     consultantNotePlh:'Enter additional recommendations, product proposals, premium quotes...',
+    fabProfile:'⚙ Profile Setting',
+    profileDrawerTitle:'⚙ Profile Setting', profileSubAdvisor:'Advisor Info', profileSubAssump:'Assumptions',
+    profileSaveBtn:'💾 Save Profile', profileSavedTag:'✓ Saved',
     confirmNew:'Start new prospect?\nCurrent data will be cleared (recommend saving first).',
     toastSaved:'✓ Saved: ',
     toastSaveFail:'⚠ Save failed (private mode not supported)',
@@ -1020,6 +1047,9 @@ const I18N = {
     drawerEmpty:'📋 Tiada rekod disimpan lagi',
     btnAddPolicy:'Tambah Polisi', btnAddMedCard:'Tambah Kad Perubatan',
     consultantNotePlh:'Masukkan cadangan tambahan, cadangan produk, sebut harga premium...',
+    fabProfile:'⚙ Tetapan Profil',
+    profileDrawerTitle:'⚙ Tetapan Profil', profileSubAdvisor:'Maklumat Penasihat', profileSubAssump:'Andaian',
+    profileSaveBtn:'💾 Simpan Profil', profileSavedTag:'✓ Disimpan',
     confirmNew:'Mulakan prospek baharu?\nData semasa akan dipadam (disyorkan simpan dahulu).',
     toastSaved:'✓ Disimpan: ',
     toastSaveFail:'⚠ Gagal simpan (mod persendirian tidak disokong)',
@@ -1095,8 +1125,15 @@ function setLang(lang) {
   if(fabItems[0]) fabItems[0].innerHTML = `📂 ${L('fabRecords')}<span class="fab-record-badge" id="fabRecordBadge"></span>`;
   if(fabItems[1]) fabItems[1].textContent = L('fabNew');
   if(fabItems[2]) fabItems[2].textContent = L('fabDemo');
-  if(fabItems[3]) fabItems[3].textContent = L('fabSaveMenu');
-  if(fabItems[4]) fabItems[4].textContent = L('fabPrint');
+  if(fabItems[3]) fabItems[3].textContent = L('fabProfile');
+  if(fabItems[4]) fabItems[4].textContent = L('fabSaveMenu');
+  if(fabItems[5]) fabItems[5].textContent = L('fabPrint');
+  // 6b. Profile drawer labels
+  const pdt = document.getElementById('profileDrawerTitle'); if(pdt) pdt.textContent = L('profileDrawerTitle');
+  const psa = document.getElementById('profileSubAdvisor'); if(psa) psa.textContent = L('profileSubAdvisor');
+  const pss = document.getElementById('profileSubAssump'); if(pss) pss.textContent = L('profileSubAssump');
+  const pstag = document.getElementById('profileSavedTag'); if(pstag) pstag.textContent = L('profileSavedTag');
+  const psb = document.querySelector('.profile-save-row .btn-save'); if(psb) psb.childNodes[0].textContent = L('profileSaveBtn');
   // Re-sync the badge count after innerHTML update
   renderRecords();
   // 7. Drawer header and save button
@@ -2012,9 +2049,55 @@ function restorePrintView() {
 window.addEventListener('beforeprint', preparePrintView);
 window.addEventListener('afterprint',  restorePrintView);
 
+// ══ PROFILE SETTING ══
+const PROFILE_KEY  = 'far_advisor_profile';
+const PROFILE_IDS  = ['plannerName','plannerPhone','plannerEmail','reportDate',
+                      'inflationRate','interestRate','ide','rrf'];
+
+function toggleProfile() {
+  const ov = document.getElementById('profileOverlay');
+  const dr = document.getElementById('profileDrawer');
+  const open = dr.classList.contains('open');
+  if(open) { ov.classList.remove('open'); dr.classList.remove('open'); }
+  else      { ov.classList.add('open');   dr.classList.add('open'); }
+}
+function closeProfile() {
+  document.getElementById('profileOverlay').classList.remove('open');
+  document.getElementById('profileDrawer').classList.remove('open');
+}
+function saveProfile() {
+  const p = {};
+  PROFILE_IDS.forEach(id => { const el=document.getElementById(id); if(el) p[id]=el.value; });
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+    const tag = document.getElementById('profileSavedTag');
+    if(tag) { tag.classList.add('show'); setTimeout(()=>tag.classList.remove('show'), 2200); }
+  } catch(e) { showToast('⚠ Save failed','red'); }
+}
+function autoSaveProfile() {
+  clearTimeout(window._profileTimer);
+  window._profileTimer = setTimeout(saveProfile, 700);
+}
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY);
+    if(!raw) return;
+    const p = JSON.parse(raw);
+    PROFILE_IDS.forEach(id => {
+      if(p[id] !== undefined) {
+        const el = document.getElementById(id);
+        if(el) el.value = p[id];
+      }
+    });
+  } catch(e) {}
+}
+
 // ══ INIT ══
 buildPolicyRows();
-document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+loadProfile();
+// Set today as default date only if profile has no saved date
+if(!document.getElementById('reportDate').value)
+  document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
 recalc();
 renderRecords();
 
