@@ -451,6 +451,11 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
       <div class="field"><label data-i18n="lICNum">身份證號碼</label><input id="icNum" placeholder="XXXXXX-XX-XXXX" oninput="onIcInput()"></div>
       <div class="field"><label data-i18n="lOccupation">職業</label><input id="occupation" placeholder="Occupation" oninput="recalc()"></div>
     </div>
+    <div class="grid3 mt-8">
+      <div class="field"><label data-i18n="lContact1">聯絡電話 1</label><input id="clientContact1" placeholder="012-XXXXXXX" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lContact2">聯絡電話 2 (如有)</label><input id="clientContact2" placeholder="—" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lClientEmail">電郵地址</label><input type="email" id="clientEmail" placeholder="example@email.com" oninput="recalc()"></div>
+    </div>
     <div class="grid4 mt-8">
       <div class="field">
         <label data-i18n="lAge" style="display:flex;align-items:center;gap:6px">年齡 (歲)<span id="ageAutoTag" style="display:none;font-size:9px;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:1px 5px;font-weight:600;letter-spacing:.3px">AUTO</span></label>
@@ -784,6 +789,7 @@ const I18N = {
     lPlannerName:'顧問姓名', lPlannerPhone:'顧問聯絡', lPlannerEmail:'Email / 公司', lReportDate:'報告日期',
     lInflation:'通脹率 (%)', lInterest:'利率 / FD Rate (%)', lIDE:'即時身故費用 IDE (RM)', lRRF:'CI 康復儲備金 RRF (RM)',
     lClientName:'客戶姓名', lICNum:'身份證號碼', lOccupation:'職業', lAge:'年齡 (歲)',
+    lContact1:'聯絡電話 1', lContact2:'聯絡電話 2 (如有)', lClientEmail:'電郵地址',
     lSpouseAge:'配偶年齡 (如有)', lYoungDep:'最小受撫養人年齡', lYearsResp:'負擔責任年數 (年)',
     stIncome:'月收入', stExpenses:'每月生活開銷 (不含房貸/車貸)', stHomeLoans:'自住房屋 & 辦公室 (貸款)',
     stInvestProp:'投資房產 (最多4個)', stOtherDebt:'其他負債',
@@ -889,6 +895,7 @@ const I18N = {
     lPlannerName:'Advisor Name', lPlannerPhone:'Advisor Contact', lPlannerEmail:'Email / Company', lReportDate:'Report Date',
     lInflation:'Inflation Rate (%)', lInterest:'Interest / FD Rate (%)', lIDE:'Immediate Death Expense IDE (RM)', lRRF:'CI Recovery Reserve RRF (RM)',
     lClientName:'Client Name', lICNum:'IC Number', lOccupation:'Occupation', lAge:'Age (years)',
+    lContact1:'Contact No. 1', lContact2:'Contact No. 2 (optional)', lClientEmail:'Email Address',
     lSpouseAge:'Spouse Age (if any)', lYoungDep:'Youngest Dependent Age', lYearsResp:'Years of Responsibility',
     stIncome:'Monthly Income', stExpenses:'Monthly Living Expenses (excl. loans)', stHomeLoans:'Home & Office Loans',
     stInvestProp:'Investment Properties (up to 4)', stOtherDebt:'Other Debts',
@@ -993,6 +1000,7 @@ const I18N = {
     lPlannerName:'Nama Penasihat', lPlannerPhone:'Hubungi Penasihat', lPlannerEmail:'E-mel / Syarikat', lReportDate:'Tarikh Laporan',
     lInflation:'Kadar Inflasi (%)', lInterest:'Kadar Faedah / FD (%)', lIDE:'Perbelanjaan Kematian Segera IDE (RM)', lRRF:'Rizab Pemulihan CI RRF (RM)',
     lClientName:'Nama Pelanggan', lICNum:'No. Kad Pengenalan', lOccupation:'Pekerjaan', lAge:'Umur (tahun)',
+    lContact1:'No. Hubungi 1', lContact2:'No. Hubungi 2 (jika ada)', lClientEmail:'Alamat E-mel',
     lSpouseAge:'Umur Pasangan (jika ada)', lYoungDep:'Umur Tanggungan Termuda', lYearsResp:'Tahun Tanggungjawab',
     stIncome:'Pendapatan Bulanan', stExpenses:'Perbelanjaan Bulanan (tidak termasuk pinjaman)', stHomeLoans:'Pinjaman Rumah & Pejabat',
     stInvestProp:'Hartanah Pelaburan (max 4)', stOtherDebt:'Hutang Lain',
@@ -1795,7 +1803,9 @@ function loadDemo() {
     plannerName:'John Ten', plannerPhone:'016-8860255',
     plannerEmail:'tenconsultancy10@gmail.com',
     clientName:'Ahmad bin Abdullah', icNum:'880101-13-5678',
-    occupation:'Senior Manager', clientAge:38, spouseAge:36,
+    occupation:'Senior Manager',
+    clientContact1:'012-3456789', clientContact2:'', clientEmail:'ahmad@example.com',
+    clientAge:38, spouseAge:36,
     youngDepAge:8, yearsResp:15,
     salaryMain:8500, salarySpouse:4500,
     expFood:1200, expUtil:800, expChild:600, expOther:400,
@@ -1854,7 +1864,8 @@ function _allPolicyIds() {
 const BASE_IDS = [
   'plannerName','plannerPhone','plannerEmail','reportDate',
   'inflationRate','interestRate','ide','rrf',
-  'clientName','icNum','occupation','clientAge','spouseAge','youngDepAge','yearsResp',
+  'clientName','icNum','occupation','clientContact1','clientContact2','clientEmail',
+  'clientAge','spouseAge','youngDepAge','yearsResp',
   'salaryMain','salarySpouse','rentalIncome','otherIncome',
   'expFood','expUtil','expChild','expOther',
   'homeDesc','homeBalance','homeMonthly','homeMRTA',
