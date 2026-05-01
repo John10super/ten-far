@@ -142,7 +142,9 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .cmp-table th:first-child{text-align:left}
 .cmp-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:center}
 .cmp-table td:first-child{text-align:left;font-weight:500}
-.cmp-table td:last-child,.analysis-table td:last-child{white-space:nowrap}
+.cmp-table td:last-child{white-space:nowrap}
+.analysis-table{table-layout:fixed}
+.analysis-table td:last-child{white-space:normal;word-wrap:break-word}
 .cmp-table .thead-dark th{background:var(--dark);color:#fff}
 .cmp-table .thead-dark th.col-current{background:#374151}
 .cmp-table .thead-dark th.col-need{background:#1D4ED8}
@@ -695,7 +697,7 @@ select option:first-child{color:#C4C9D4}
     <p class="text-sm" style="margin-bottom:12px" data-i18n="riskLegend">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
     <div class="table-scroll">
       <table class="analysis-table">
-        <thead><tr><th style="width:150px" data-i18n="thIndicator">指標</th><th style="width:100px;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:140px" data-i18n="thBenchmark">標準</th><th style="width:80px;text-align:center" data-i18n="thStatus">狀態</th><th data-i18n="thDesc">說明</th></tr></thead>
+        <thead><tr><th style="width:20%" data-i18n="thIndicator">指標</th><th style="width:13%;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:18%" data-i18n="thBenchmark">標準</th><th style="width:14%;text-align:center" data-i18n="thStatus">狀態</th><th style="width:35%" data-i18n="thDesc">說明</th></tr></thead>
         <tbody id="riskRatioTable"></tbody>
       </table>
     </div>
