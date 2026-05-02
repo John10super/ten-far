@@ -753,7 +753,7 @@ select option:first-child{color:#C4C9D4}
     <div id="recommendations"></div>
     <div class="sub-title mt-12" data-i18n="stConsultantNote">顧問備注 (Consultant's Note)</div>
     <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6" oninput="recalc()"></textarea>
-    <div id="printNote" style="font-size:12px;line-height:1.8;padding:8px 0;display:none"></div>
+    <div id="printNote" class="print-only" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
   </div>
 </div>
 
@@ -830,7 +830,7 @@ const I18N = {
     totTotal:'合計 Total', totMaxSum:'最高 / 合計',
     assumpTitle:'📐 計算假設', assumpInflation:'通脹率：', assumpInterest:'存款利率：', assumpReal:'調整後實際利率：', assumpIDE:'即時身故費用：',
     riskLegend:'⭐ = 符合標準 | ⚠ = 邊緣 | ✗ = 保障不足，需要補足',
-    sigNote:'此報告由 TEN Consultancy 出具，供參考用途。所有建議應在顧問陪同下詳細討論後方可執行。',
+    sigNote:'此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。',
     sigConsultant:'顧問簽名', sigClient:'客戶簽名', sigDate:'日期 Date',
     btnSaveReport:'💾 儲存此分析報告',
     // Dynamic strings
@@ -945,7 +945,7 @@ const I18N = {
     totTotal:'Total', totMaxSum:'Max / Total',
     assumpTitle:'📐 Calculation Assumptions', assumpInflation:'Inflation:', assumpInterest:'Interest Rate:', assumpReal:'Real Rate (adj.):', assumpIDE:'Immediate Death Exp.:',
     riskLegend:'⭐ = Meets Standard | ⚠ = Borderline | ✗ = Insufficient',
-    sigNote:'This report is prepared by TEN Consultancy for reference purposes only. All recommendations should be discussed in detail with your advisor before implementation.',
+    sigNote:'This report is prepared by <strong style="color:var(--dark)">TEN Consultancy</strong> for reference purposes only.<br>All recommendations should be discussed in detail with your advisor before implementation.',
     sigConsultant:"Consultant's Signature", sigClient:"Client's Signature", sigDate:'Date',
     btnSaveReport:'💾 Save This Analysis Report',
     kpiIncome:'Total Monthly Income', kpiExpense:'Total Monthly Expense', kpiCashflow:'Net Monthly Cashflow', kpiDebt:'Total Debt', kpiPremium:'Annual Premium',
@@ -1059,7 +1059,7 @@ const I18N = {
     totTotal:'Jumlah', totMaxSum:'Maks / Jumlah',
     assumpTitle:'📐 Andaian Pengiraan', assumpInflation:'Inflasi:', assumpInterest:'Kadar Faedah:', assumpReal:'Kadar Benar (laras):', assumpIDE:'Perbelanjaan Kematian Segera:',
     riskLegend:'⭐ = Memenuhi Piawaian | ⚠ = Sempadan | ✗ = Tidak Mencukupi',
-    sigNote:'Laporan ini disediakan oleh TEN Consultancy untuk rujukan sahaja. Semua cadangan hendaklah dibincangkan bersama penasihat anda sebelum dilaksanakan.',
+    sigNote:'Laporan ini disediakan oleh <strong style="color:var(--dark)">TEN Consultancy</strong> untuk rujukan sahaja.<br>Semua cadangan hendaklah dibincangkan bersama penasihat anda sebelum dilaksanakan.',
     sigConsultant:'Tandatangan Penasihat', sigClient:'Tandatangan Pelanggan', sigDate:'Tarikh',
     btnSaveReport:'💾 Simpan Laporan Analisis Ini',
     kpiIncome:'Jumlah Pendapatan Bulanan', kpiExpense:'Jumlah Perbelanjaan Bulanan', kpiCashflow:'Aliran Tunai Bersih', kpiDebt:'Jumlah Hutang', kpiPremium:'Premium Tahunan',
@@ -1214,6 +1214,9 @@ function setLang(lang) {
   // 9. Consultant's Note placeholder
   const cnEl = document.getElementById('consultantNote');
   if(cnEl) cnEl.placeholder = L('consultantNotePlh');
+  // 10. sigNote — has child elements so needs innerHTML update
+  const sigNoteEl = document.querySelector('[data-i18n="sigNote"]');
+  if(sigNoteEl) sigNoteEl.innerHTML = L('sigNote');
 }
 
 // ══ INSURERS (grouped, A-Z within each group) ══
@@ -1573,7 +1576,7 @@ function recalc() {
 
   // ── Insurance Needs ──
   const annExpDeath = (monthlyExpBase - annPremium/12) * 12;
-  const deathNeed = Math.max(0, PV(realRate, yearsResp, -annExpDeath)) + IDE;
+  const deathNeed = Math.max(0, PV(realRate, yearsResp, -annExpDeath)) + IDE + totalDebts;
   const annExpTPD = (monthlyExpBase - tpdWaiverPremium/12) * 12;
   const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
   const annExpCI = (totalMonthlyExp - ciWaiverPremium/12) * 12;
@@ -1822,7 +1825,7 @@ function recalc() {
   // Print note
   const pn = document.getElementById('printNote');
   const noteText = s('consultantNote');
-  if(pn) { pn.textContent = noteText; pn.style.display = noteText ? 'block' : 'none'; }
+  if(pn) { pn.textContent = noteText; }  // visibility handled by .print-only CSS
 
   // ── Action Plan ──
   const actionItems = [
@@ -1877,6 +1880,7 @@ function loadDemo() {
   document.getElementById('ip1MRTA').value = 'no';
   document.getElementById('p1co').value = 'AmMetLife';
   document.getElementById('p1pno').value = 'AM-2024-8866';
+  document.getElementById('pm1co').value = 'AmMetLife';
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
   recalc();
   showToast(L('toastDemo'), 'green');
