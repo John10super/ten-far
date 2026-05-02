@@ -486,6 +486,26 @@ select option:first-child{color:#C4C9D4}
       <div class="field"><label data-i18n="lYoungDep">最小受撫養人年齡</label><input type="number" id="youngDepAge" placeholder="—" oninput="recalc()"></div>
       <div class="field"><label data-i18n="lYearsResp">負擔責任年數 (年)</label><input type="number" id="yearsResp" placeholder="15" oninput="recalc()"></div>
     </div>
+    <div class="grid4 mt-8">
+      <div class="field">
+        <label data-i18n="lParentSupport">需要撫養父母</label>
+        <div style="display:flex;gap:20px;align-items:center;padding:9px 0">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px">
+            <input type="radio" name="parentSupport" id="parentSupportYes" value="yes" onchange="onParentSupportChange(this)">
+            <span data-i18n="optYes">是</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px">
+            <input type="radio" name="parentSupport" id="parentSupportNo" value="no" checked onchange="onParentSupportChange(this)">
+            <span data-i18n="optNo">否</span>
+          </label>
+        </div>
+        <input type="hidden" id="parentSupport" value="no">
+      </div>
+      <div class="field" id="parentAgeWrap" style="display:none">
+        <label data-i18n="lParentAge">父母年齡（最長壽）</label>
+        <input type="number" id="parentAge" placeholder="—" oninput="recalc()">
+      </div>
+    </div>
   </div>
 </div>
 
@@ -812,6 +832,7 @@ const I18N = {
     lClientName:'客戶姓名', lICNum:'身份證號碼', lOccupation:'職業', lAge:'年齡 (歲)',
     lContact1:'聯絡電話 1', lContact2:'聯絡電話 2 (如有)', lClientEmail:'電郵地址',
     lSpouseAge:'配偶年齡 (如有)', lYoungDep:'最小受撫養人年齡', lYearsResp:'負擔責任年數 (年)',
+    lParentSupport:'需要撫養父母', lParentAge:'父母年齡（最長壽）', optYes:'是', optNo:'否',
     stIncome:'月收入', stExpenses:'每月生活開銷 (不含房貸/車貸)', stHomeLoans:'自住房屋 & 辦公室 (貸款)',
     stInvestProp:'投資房產 (最多4個)', stOtherDebt:'其他負債',
     stLifeCoverage:'人壽 / 傷殘 / 危疾 保障', stMedCard:'醫療卡 Medical Card',
@@ -927,6 +948,7 @@ const I18N = {
     lClientName:'Client Name', lICNum:'IC Number', lOccupation:'Occupation', lAge:'Age (years)',
     lContact1:'Contact No. 1', lContact2:'Contact No. 2 (optional)', lClientEmail:'Email Address',
     lSpouseAge:'Spouse Age (if any)', lYoungDep:'Youngest Dependent Age', lYearsResp:'Years of Responsibility',
+    lParentSupport:'Parent Support', lParentAge:'Parent Age (Oldest)', optYes:'Yes', optNo:'No',
     stIncome:'Monthly Income', stExpenses:'Monthly Living Expenses (excl. loans)', stHomeLoans:'Home & Office Loans',
     stInvestProp:'Investment Properties (up to 4)', stOtherDebt:'Other Debts',
     stLifeCoverage:'Life / TPD / Critical Illness Coverage', stMedCard:'Medical Card',
@@ -1041,6 +1063,7 @@ const I18N = {
     lClientName:'Nama Pelanggan', lICNum:'No. Kad Pengenalan', lOccupation:'Pekerjaan', lAge:'Umur (tahun)',
     lContact1:'No. Hubungi 1', lContact2:'No. Hubungi 2 (jika ada)', lClientEmail:'Alamat E-mel',
     lSpouseAge:'Umur Pasangan (jika ada)', lYoungDep:'Umur Tanggungan Termuda', lYearsResp:'Tahun Tanggungjawab',
+    lParentSupport:'Sokongan Ibu Bapa', lParentAge:'Umur Ibu Bapa (Tertua)', optYes:'Ya', optNo:'Tidak',
     stIncome:'Pendapatan Bulanan', stExpenses:'Perbelanjaan Bulanan (tidak termasuk pinjaman)', stHomeLoans:'Pinjaman Rumah & Pejabat',
     stInvestProp:'Hartanah Pelaburan (max 4)', stOtherDebt:'Hutang Lain',
     stLifeCoverage:'Liputan Nyawa / OKU / Penyakit Kritikal', stMedCard:'Kad Perubatan',
@@ -1879,12 +1902,30 @@ function loadDemo() {
   // Set selects
   document.getElementById('homeMRTA').value = 'no';
   document.getElementById('ip1MRTA').value = 'no';
+  // Parent support demo: Yes, age 68
+  document.getElementById('parentSupport').value = 'yes';
+  document.getElementById('parentAge').value = 68;
+  document.getElementById('parentSupportYes').checked = true;
+  document.getElementById('parentSupportNo').checked  = false;
+  document.getElementById('parentAgeWrap').style.display = '';
   document.getElementById('p1co').value = 'AmMetLife';
   document.getElementById('p1pno').value = 'AM-2024-8866';
   document.getElementById('pm1co').value = 'AmMetLife';
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
   recalc();
   showToast(L('toastDemo'), 'green');
+}
+
+function onParentSupportChange(el) {
+  document.getElementById('parentSupport').value = el.value;
+  const wrap = document.getElementById('parentAgeWrap');
+  if (el.value === 'yes') {
+    wrap.style.display = '';
+  } else {
+    wrap.style.display = 'none';
+    document.getElementById('parentAge').value = '';
+    recalc();
+  }
 }
 
 function clearAll() {
@@ -1897,6 +1938,11 @@ function clearAll() {
     const co=document.getElementById(`p${i}co`); if(co) co.value='';
   }
   document.getElementById('consultantNote').value = '';
+  // Reset parent support
+  document.getElementById('parentSupport').value = 'no';
+  document.getElementById('parentSupportYes').checked = false;
+  document.getElementById('parentSupportNo').checked  = true;
+  document.getElementById('parentAgeWrap').style.display = 'none';
   recalc();
 }
 
@@ -1919,7 +1965,7 @@ const BASE_IDS = [
   'plannerName','plannerPhone','plannerEmail','reportDate',
   'inflationRate','interestRate','ide','rrf',
   'clientName','icNum','occupation','clientContact1','clientContact2','clientEmail',
-  'clientAge','spouseAge','youngDepAge','yearsResp',
+  'clientAge','spouseAge','youngDepAge','yearsResp','parentSupport','parentAge',
   'salaryMain','salarySpouse','rentalIncome','otherIncome',
   'expFood','expUtil','expChild','expOther',
   'homeDesc','homeBalance','homeMonthly','homeMRTA',
@@ -1964,6 +2010,11 @@ function loadRecord(id) {
     const el = document.getElementById(k);
     if(el && record.data[k] !== undefined) el.value = record.data[k];
   });
+  // Restore parentSupport radio + toggle visibility
+  const psVal = record.data['parentSupport'] || 'no';
+  document.getElementById('parentSupportYes').checked = (psVal === 'yes');
+  document.getElementById('parentSupportNo').checked  = (psVal !== 'yes');
+  document.getElementById('parentAgeWrap').style.display = (psVal === 'yes') ? '' : 'none';
   // Restore visible row counts based on saved data
   let lr = 1;
   for(let i=2;i<=10;i++) {
