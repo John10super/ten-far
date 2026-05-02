@@ -77,7 +77,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .input-prefix > span.prefix-rm{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none;z-index:1}
 .input-prefix input{padding-left:30px}
 .row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end}
-.row-4{display:grid;grid-template-columns:2fr 1fr 1fr 48px;gap:8px;align-items:end}
+.row-4{display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;align-items:end}
 .row-inv{display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;align-items:end}
 .sub-title{font-size:11px;font-weight:800;color:var(--dark);text-transform:uppercase;letter-spacing:.7px;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
 
@@ -535,23 +535,26 @@ select option:first-child{color:#C4C9D4}
     </div>
 
     <div class="sub-title mt-12" data-i18n="stHomeLoans">自住房屋 &amp; 辦公室 (貸款)</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px;gap:8px;margin-bottom:6px">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px">
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
-      <span class="text-sm font-bold" data-i18n="thMRTA">有 MRTA?</span>
+      <span class="text-sm font-bold" style="white-space:nowrap">MRTA</span>
+      <span></span>
     </div>
     <div class="row-4 mt-4">
       <div class="field"><input id="homeDesc" value="自住房屋" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="homeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div></div>
     </div>
     <div class="row-4 mt-4">
       <div class="field"><input id="officeDesc" value="自用辦公室" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="officeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div></div>
     </div>
 
     <div class="sub-title mt-12" data-i18n="stInvestProp">投資房產</div>
@@ -559,7 +562,7 @@ select option:first-child{color:#C4C9D4}
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
-      <span class="text-sm font-bold" data-i18n="thMRTA">有 MRTA?</span>
+      <span class="text-sm font-bold" style="white-space:nowrap">MRTA</span>
       <span></span>
     </div>
     <div class="row-inv" id="invRow1">
