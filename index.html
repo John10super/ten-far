@@ -78,6 +78,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .input-prefix input{padding-left:30px}
 .row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end}
 .row-4{display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;align-items:end}
+.row-inv{display:grid;grid-template-columns:2fr 1fr 1fr 80px 28px;gap:8px;align-items:end}
 .sub-title{font-size:11px;font-weight:800;color:var(--dark);text-transform:uppercase;letter-spacing:.7px;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
 
 /* ── LANGUAGE SWITCHER ─── */
@@ -552,19 +553,43 @@ select option:first-child{color:#C4C9D4}
       <div class="field"><select id="officeMRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
     </div>
 
-    <div class="sub-title mt-12" data-i18n="stInvestProp">投資房產 (最多4個)</div>
-    <div class="row-4 mt-4">
+    <div class="sub-title mt-12" data-i18n="stInvestProp">投資房產</div>
+    <div class="row-inv mt-4" id="invRow1">
       <div class="field"><input placeholder="投資房產 1" id="ip1Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip1Balance" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip1Monthly" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><select id="ip1MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <button class="policy-row-del no-print" id="invDelBtn1" onclick="removeInvRow(1)" title="Remove">✕</button>
     </div>
-    <div class="row-4 mt-4">
+    <div class="row-inv mt-4" id="invRow2" style="display:none">
       <div class="field"><input placeholder="投資房產 2" id="ip2Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip2Balance" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip2Monthly" placeholder="0" oninput="recalc()"></div></div>
       <div class="field"><select id="ip2MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <button class="policy-row-del no-print" id="invDelBtn2" onclick="removeInvRow(2)" title="Remove">✕</button>
     </div>
+    <div class="row-inv mt-4" id="invRow3" style="display:none">
+      <div class="field"><input placeholder="投資房產 3" id="ip3Desc" oninput="recalc()"></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip3Balance" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip3Monthly" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><select id="ip3MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <button class="policy-row-del no-print" id="invDelBtn3" onclick="removeInvRow(3)" title="Remove">✕</button>
+    </div>
+    <div class="row-inv mt-4" id="invRow4" style="display:none">
+      <div class="field"><input placeholder="投資房產 4" id="ip4Desc" oninput="recalc()"></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip4Balance" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip4Monthly" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><select id="ip4MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <button class="policy-row-del no-print" id="invDelBtn4" onclick="removeInvRow(4)" title="Remove">✕</button>
+    </div>
+    <div class="row-inv mt-4" id="invRow5" style="display:none">
+      <div class="field"><input placeholder="投資房產 5" id="ip5Desc" oninput="recalc()"></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip5Balance" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip5Monthly" placeholder="0" oninput="recalc()"></div></div>
+      <div class="field"><select id="ip5MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <button class="policy-row-del no-print" id="invDelBtn5" onclick="removeInvRow(5)" title="Remove">✕</button>
+    </div>
+    <button id="addInvRowBtn" class="btn-add-row no-print" onclick="addInvRow()">＋ <span data-i18n="btnAddInvProp">新增房產</span></button>
 
     <div class="sub-title mt-12" data-i18n="stOtherDebt">其他負債</div>
     <div class="grid4">
@@ -834,7 +859,7 @@ const I18N = {
     lSpouseAge:'配偶年齡 (如有)', lYoungDep:'最小受撫養人年齡', lYearsResp:'負擔責任年數 (年)',
     lParentSupport:'需要撫養父母', lParentAge:'父母年齡（最長壽）', optYes:'是', optNo:'否',
     stIncome:'月收入', stExpenses:'每月生活開銷 (不含房貸/車貸)', stHomeLoans:'自住房屋 & 辦公室 (貸款)',
-    stInvestProp:'投資房產 (最多4個)', stOtherDebt:'其他負債',
+    stInvestProp:'投資房產', stOtherDebt:'其他負債', btnAddInvProp:'新增房產',
     stLifeCoverage:'人壽 / 傷殘 / 危疾 保障', stMedCard:'醫療卡 Medical Card',
     stConsultantNote:'顧問備注 (Consultant\'s Note)',
     lSalaryMain:'月薪 — 本人 (RM)', lSalarySpouse:'月薪 — 配偶 (RM)', lRental:'租金收入 (RM/月)', lOtherIncome:'其他收入 (RM/月)',
@@ -886,8 +911,7 @@ const I18N = {
     policyNoPlh:'如有',
     homeDescDef:'自住房屋',
     officeDescDef:'自用辦公室',
-    ip1Plh:'投資房產 1',
-    ip2Plh:'投資房產 2',
+    ip1Plh:'投資房產 1', ip2Plh:'投資房產 2', ip3Plh:'投資房產 3', ip4Plh:'投資房產 4', ip5Plh:'投資房產 5',
     fabMenu:'操作選單',
     fabRecords:'客戶紀錄',
     fabNew:'✚ 新 Prospect',
@@ -950,7 +974,7 @@ const I18N = {
     lSpouseAge:'Spouse Age (if any)', lYoungDep:'Youngest Dependent Age', lYearsResp:'Years of Responsibility',
     lParentSupport:'Parent Support', lParentAge:'Parent Age (Oldest)', optYes:'Yes', optNo:'No',
     stIncome:'Monthly Income', stExpenses:'Monthly Living Expenses (excl. loans)', stHomeLoans:'Home & Office Loans',
-    stInvestProp:'Investment Properties (up to 4)', stOtherDebt:'Other Debts',
+    stInvestProp:'Investment Properties', stOtherDebt:'Other Debts', btnAddInvProp:'Add Property',
     stLifeCoverage:'Life / TPD / Critical Illness Coverage', stMedCard:'Medical Card',
     stConsultantNote:"Consultant's Note",
     lSalaryMain:'Salary — Self (RM)', lSalarySpouse:'Salary — Spouse (RM)', lRental:'Rental Income (RM/mo)', lOtherIncome:'Other Income (RM/mo)',
@@ -1001,8 +1025,8 @@ const I18N = {
     policyNoPlh:'If any',
     homeDescDef:'Own Home',
     officeDescDef:'Own Office',
-    ip1Plh:'Investment Property 1',
-    ip2Plh:'Investment Property 2',
+    ip1Plh:'Investment Property 1', ip2Plh:'Investment Property 2', ip3Plh:'Investment Property 3', ip4Plh:'Investment Property 4', ip5Plh:'Investment Property 5',
+    stInvestProp:'Investment Properties', btnAddInvProp:'Add Property',
     fabMenu:'Quick Actions',
     fabRecords:'Client Records',
     fabNew:'✚ New Prospect',
@@ -1065,7 +1089,7 @@ const I18N = {
     lSpouseAge:'Umur Pasangan (jika ada)', lYoungDep:'Umur Tanggungan Termuda', lYearsResp:'Tahun Tanggungjawab',
     lParentSupport:'Sokongan Ibu Bapa', lParentAge:'Umur Ibu Bapa (Tertua)', optYes:'Ya', optNo:'Tidak',
     stIncome:'Pendapatan Bulanan', stExpenses:'Perbelanjaan Bulanan (tidak termasuk pinjaman)', stHomeLoans:'Pinjaman Rumah & Pejabat',
-    stInvestProp:'Hartanah Pelaburan (max 4)', stOtherDebt:'Hutang Lain',
+    stInvestProp:'Hartanah Pelaburan', stOtherDebt:'Hutang Lain', btnAddInvProp:'Tambah Hartanah',
     stLifeCoverage:'Liputan Nyawa / OKU / Penyakit Kritikal', stMedCard:'Kad Perubatan',
     stConsultantNote:'Nota Penasihat',
     lSalaryMain:'Gaji — Diri Sendiri (RM)', lSalarySpouse:'Gaji — Pasangan (RM)', lRental:'Pendapatan Sewa (RM/bln)', lOtherIncome:'Pendapatan Lain (RM/bln)',
@@ -1116,8 +1140,8 @@ const I18N = {
     policyNoPlh:'Jika ada',
     homeDescDef:'Rumah Sendiri',
     officeDescDef:'Pejabat Sendiri',
-    ip1Plh:'Hartanah Pelaburan 1',
-    ip2Plh:'Hartanah Pelaburan 2',
+    ip1Plh:'Hartanah Pelaburan 1', ip2Plh:'Hartanah Pelaburan 2', ip3Plh:'Hartanah Pelaburan 3', ip4Plh:'Hartanah Pelaburan 4', ip5Plh:'Hartanah Pelaburan 5',
+    stInvestProp:'Hartanah Pelaburan', btnAddInvProp:'Tambah Hartanah',
     fabMenu:'Menu Tindakan',
     fabRecords:'Rekod Pelanggan',
     fabNew:'✚ Prospek Baru',
@@ -1199,8 +1223,7 @@ function setLang(lang) {
     if(pno) pno.placeholder = L('policyNoPlh');
   }
   // 3. Investment property placeholders
-  const ip1 = document.getElementById('ip1Desc'); if(ip1) ip1.placeholder = L('ip1Plh');
-  const ip2 = document.getElementById('ip2Desc'); if(ip2) ip2.placeholder = L('ip2Plh');
+  for(let i=1;i<=5;i++){ const ipd=document.getElementById(`ip${i}Desc`); if(ipd) ipd.placeholder=L(`ip${i}Plh`); }
   // 4. Home/office desc defaults — update only if still at a known default
   const knownHomeDefaults = ['自住房屋','Own Home','Rumah Sendiri'];
   const knownOfficeDefaults = ['自用辦公室','Own Office','Pejabat Sendiri'];
@@ -1284,8 +1307,10 @@ const INSURERS = [].concat(...INSURER_GROUPS.map(g => g.items));
 // ══ POLICY ROW MANAGEMENT ══
 let lifeVisibleRows = 1;
 let medVisibleRows  = 1;
+let ipVisibleRows   = 1;
 const LIFE_MAX = 15;
 const MED_MAX  = 5;
+const IP_MAX   = 5;
 
 function buildInsurerOpts() {
   return INSURER_GROUPS.map(g => {
@@ -1352,6 +1377,44 @@ function updateRowButtons() {
     const b = document.getElementById('medDelBtn'+i);
     if(b) b.style.display = medVisibleRows > 1 ? '' : 'none';
   }
+  // Inv add button
+  const addInv = document.getElementById('addInvRowBtn');
+  if(addInv) addInv.style.display = ipVisibleRows >= IP_MAX ? 'none' : 'inline-flex';
+  // Inv del buttons
+  for(let i=1;i<=IP_MAX;i++){
+    const b = document.getElementById('invDelBtn'+i);
+    if(b) b.style.display = ipVisibleRows > 1 ? '' : 'none';
+  }
+}
+
+function addInvRow() {
+  if(ipVisibleRows >= IP_MAX) return;
+  ipVisibleRows++;
+  const row = document.getElementById('invRow'+ipVisibleRows);
+  if(row) row.style.display = '';
+  updateRowButtons();
+}
+
+function removeInvRow(idx) {
+  if(ipVisibleRows <= 1) return;
+  const fields = ['Desc','Balance','Monthly','MRTA'];
+  for(let i=idx; i<ipVisibleRows; i++) {
+    fields.forEach(f => {
+      const src = document.getElementById(`ip${i+1}${f}`);
+      const dst = document.getElementById(`ip${i}${f}`);
+      if(src && dst) dst.value = src.value;
+    });
+  }
+  // Clear last row
+  fields.forEach(f => {
+    const el = document.getElementById(`ip${ipVisibleRows}${f}`);
+    if(el) el.value = (f==='MRTA') ? 'no' : '';
+  });
+  const lastRow = document.getElementById('invRow'+ipVisibleRows);
+  if(lastRow) lastRow.style.display = 'none';
+  ipVisibleRows--;
+  updateRowButtons();
+  recalc();
 }
 
 function addLifeRow() {
@@ -1538,12 +1601,13 @@ function recalc() {
   // Mortgages
   const homeBalance   = n('homeBalance'), homeMonthly = n('homeMonthly'), homeMRTA = s('homeMRTA')==='yes';
   const officeBalance = n('officeBalance'), officeMonthly = n('officeMonthly'), officeMRTA = s('officeMRTA')==='yes';
-  const ip1Balance = n('ip1Balance'), ip1Monthly = n('ip1Monthly'), ip1MRTA = s('ip1MRTA')==='yes';
-  const ip2Balance = n('ip2Balance'), ip2Monthly = n('ip2Monthly'), ip2MRTA = s('ip2MRTA')==='yes';
   const homeOfficeBal = (homeMRTA?0:homeBalance) + (officeMRTA?0:officeBalance);
   const homeOfficeMonthly = homeMonthly + officeMonthly;
-  const investBal   = (!ip1MRTA?ip1Balance:0) + (!ip2MRTA?ip2Balance:0);
-  const investMthly = (!ip1MRTA?ip1Monthly:0) + (!ip2MRTA?ip2Monthly:0);
+  let investBal = 0, investMthly = 0;
+  for(let i=1;i<=5;i++){
+    const mrta = s(`ip${i}MRTA`)==='yes';
+    if(!mrta){ investBal += n(`ip${i}Balance`); investMthly += n(`ip${i}Monthly`); }
+  }
   const carLoanBal  = n('carLoan'), carMthly = n('carMonthly'), ccPersonal = n('ccPersonal');
   const totalDebts  = homeOfficeBal + investBal + carLoanBal + ccPersonal;
   const allMortgages= homeOfficeBal + investBal;
@@ -1936,6 +2000,8 @@ function clearAll() {
   for(let i=1;i<=15;i++) {
     const co=document.getElementById(`p${i}co`); if(co) co.value='';
   }
+  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m)m.value='no'; }
+  ipVisibleRows=1; for(let i=2;i<=5;i++){ const r=document.getElementById('invRow'+i); if(r)r.style.display='none'; }
   document.getElementById('consultantNote').value = '';
   // Reset parent support
   document.getElementById('parentSupport').value = 'no';
@@ -1971,6 +2037,9 @@ const BASE_IDS = [
   'officeDesc','officeBalance','officeMonthly','officeMRTA',
   'ip1Desc','ip1Balance','ip1Monthly','ip1MRTA',
   'ip2Desc','ip2Balance','ip2Monthly','ip2MRTA',
+  'ip3Desc','ip3Balance','ip3Monthly','ip3MRTA',
+  'ip4Desc','ip4Balance','ip4Monthly','ip4MRTA',
+  'ip5Desc','ip5Balance','ip5Monthly','ip5MRTA',
   'carLoan','carMonthly','ccPersonal','consultantNote'
 ];
 const INPUT_IDS = [...BASE_IDS, ..._allPolicyIds()];
@@ -2014,6 +2083,13 @@ function loadRecord(id) {
   document.getElementById('parentSupportYes').checked = (psVal === 'yes');
   document.getElementById('parentSupportNo').checked  = (psVal !== 'yes');
   document.getElementById('parentAgeWrap').style.display = (psVal === 'yes') ? '' : 'none';
+  // Restore inv property rows
+  let ir = 1;
+  for(let i=2;i<=5;i++) {
+    if(record.data[`ip${i}Balance`] || record.data[`ip${i}Desc`]) ir=i;
+  }
+  ipVisibleRows=0; for(let i=1;i<=ir;i++) { ipVisibleRows++; const r=document.getElementById('invRow'+i); if(r)r.style.display=''; }
+  for(let i=ir+1;i<=5;i++) { const r=document.getElementById('invRow'+i); if(r)r.style.display='none'; }
   // Restore visible row counts based on saved data
   let lr = 1;
   for(let i=2;i<=15;i++) {
@@ -2094,8 +2170,8 @@ function newProspect() {
   document.getElementById('officeDesc').value = L('officeDescDef');
   document.getElementById('homeMRTA').value = 'yes';
   document.getElementById('officeMRTA').value = 'no';
-  document.getElementById('ip1MRTA').value = 'no';
-  document.getElementById('ip2MRTA').value = 'no';
+  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m)m.value='no'; }
+  ipVisibleRows=1; for(let i=2;i<=5;i++){ const r=document.getElementById('invRow'+i); if(r)r.style.display='none'; }
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
   buildPolicyRows(); // rebuild rows back to 1 visible, clear all data
   recalc();
