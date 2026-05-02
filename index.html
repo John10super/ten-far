@@ -181,7 +181,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:.15s}
 .btn-add-row:hover{border-color:var(--red);color:var(--red);background:#FFF5F5}
 /* Custom MRTA checkbox — hides native iOS/Android control, uses styled label */
-.mrta-chk{position:absolute;opacity:0;width:0;height:0;pointer-events:none;margin:0}
+.mrta-chk{-webkit-appearance:none;appearance:none;position:absolute;opacity:0;width:0;height:0;pointer-events:none;margin:0}
 .mrta-field{display:flex;justify-content:center;align-items:center;padding-top:4px}
 .mrta-lbl{width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:5px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;flex-shrink:0;-webkit-user-select:none;user-select:none}
 .mrta-lbl:hover{border-color:#9CA3AF}
@@ -399,7 +399,12 @@ select option:first-child{color:#C4C9D4}
 @media (max-width:768px){
   .grid3{grid-template-columns:1fr 1fr}
   .grid4{grid-template-columns:1fr 1fr}
-  .row-3,.row-4,.row-inv{grid-template-columns:1fr 1fr}
+  .row-3{grid-template-columns:1fr 1fr}
+  /* Loan rows: keep 4 cols in one row, compact 32px MRTA column */
+  .row-4{grid-template-columns:2fr 1fr 1fr 32px}
+  .row-inv{grid-template-columns:2fr 1fr 1fr 32px 22px}
+  .prop-hdr-4{grid-template-columns:2fr 1fr 1fr 32px 0 !important}
+  .prop-hdr-inv{grid-template-columns:2fr 1fr 1fr 32px 22px !important}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .kpi-value{font-size:22px}
@@ -414,6 +419,10 @@ select option:first-child{color:#C4C9D4}
   .gap-cards-grid{flex-wrap:wrap}
   .gap-card{flex:1 1 calc(50% - 4px)}
   .screen-header h1{font-size:13px;letter-spacing:-.1px}
+  /* Loan row compact inputs on mobile (1fr ≈ 70-80px) */
+  .row-4 .input-prefix input,.row-inv .input-prefix input{font-size:12px;padding:8px 4px}
+  .row-4 .input-prefix span.prefix-rm,.row-inv .input-prefix span.prefix-rm{font-size:11px}
+  .row-4 .field input,.row-inv .field input{font-size:13px;padding:9px 8px}
   /* PCC table — mobile */
   .pcc-wrap{margin-top:8px}
   .pcc-table{font-size:12px;min-width:440px}
@@ -436,7 +445,11 @@ select option:first-child{color:#C4C9D4}
   .screen-header h1{font-size:11.5px}
   .grid2{grid-template-columns:1fr 1fr}
   .grid3,.grid4{grid-template-columns:1fr 1fr}
-  .row-3,.row-4,.row-inv{grid-template-columns:1fr 1fr}
+  .row-3{grid-template-columns:1fr 1fr}
+  .row-4{grid-template-columns:2fr 1fr 1fr 28px}
+  .row-inv{grid-template-columns:2fr 1fr 1fr 28px 20px}
+  .prop-hdr-4{grid-template-columns:2fr 1fr 1fr 28px 0 !important}
+  .prop-hdr-inv{grid-template-columns:2fr 1fr 1fr 28px 20px !important}
   .field input,.field select{padding:11px 10px;font-size:15px;min-height:46px}
   .input-prefix input{padding-left:28px}
   .container{padding:10px 10px}
@@ -647,7 +660,7 @@ select option:first-child{color:#C4C9D4}
     </div>
 
     <div class="sub-title mt-12" data-i18n="stHomeLoans">自住房屋 &amp; 辦公室 (貸款)</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px">
+    <div class="prop-hdr prop-hdr-4" style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px">
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
@@ -670,7 +683,7 @@ select option:first-child{color:#C4C9D4}
     </div>
 
     <div class="sub-title mt-12" data-i18n="stInvestProp">投資房產</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px;margin-top:8px">
+    <div class="prop-hdr prop-hdr-inv" style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px;margin-top:8px">
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
