@@ -400,11 +400,11 @@ select option:first-child{color:#C4C9D4}
   .grid3{grid-template-columns:1fr 1fr}
   .grid4{grid-template-columns:1fr 1fr}
   .row-3{grid-template-columns:1fr 1fr}
-  /* Loan rows: keep 4 cols in one row, compact 32px MRTA column */
-  .row-4{grid-template-columns:2fr 1fr 1fr 32px}
-  .row-inv{grid-template-columns:2fr 1fr 1fr 32px 22px}
-  .prop-hdr-4{grid-template-columns:2fr 1fr 1fr 32px 0 !important}
-  .prop-hdr-inv{grid-template-columns:2fr 1fr 1fr 32px 22px !important}
+  /* Loan rows: 4 cols in one row — minmax(0,Xfr) prevents input min-content from expanding cols */
+  .row-4{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px !important}
+  .row-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px 22px !important}
+  .prop-hdr-4{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px 0 !important}
+  .prop-hdr-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px 22px !important}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .kpi-value{font-size:22px}
@@ -419,10 +419,12 @@ select option:first-child{color:#C4C9D4}
   .gap-cards-grid{flex-wrap:wrap}
   .gap-card{flex:1 1 calc(50% - 4px)}
   .screen-header h1{font-size:13px;letter-spacing:-.1px}
-  /* Loan row compact inputs on mobile (1fr ≈ 70-80px) */
-  .row-4 .input-prefix input,.row-inv .input-prefix input{font-size:12px;padding:8px 4px}
-  .row-4 .input-prefix span.prefix-rm,.row-inv .input-prefix span.prefix-rm{font-size:11px}
-  .row-4 .field input,.row-inv .field input{font-size:13px;padding:9px 8px}
+  /* Loan row compact inputs — prevent content from overflowing narrow 1fr cells */
+  .row-4 .field,.row-inv .field{min-width:0;overflow:hidden}
+  .row-4 .field input,.row-4 .field select,.row-inv .field input,.row-inv .field select{min-width:0;width:100%;font-size:12px;padding:9px 6px}
+  .row-4 .input-prefix,.row-inv .input-prefix{min-width:0}
+  .row-4 .input-prefix input,.row-inv .input-prefix input{font-size:12px;padding:9px 4px}
+  .row-4 .input-prefix span.prefix-rm,.row-inv .input-prefix span.prefix-rm{font-size:10px}
   /* PCC table — mobile */
   .pcc-wrap{margin-top:8px}
   .pcc-table{font-size:12px;min-width:440px}
@@ -446,10 +448,10 @@ select option:first-child{color:#C4C9D4}
   .grid2{grid-template-columns:1fr 1fr}
   .grid3,.grid4{grid-template-columns:1fr 1fr}
   .row-3{grid-template-columns:1fr 1fr}
-  .row-4{grid-template-columns:2fr 1fr 1fr 28px}
-  .row-inv{grid-template-columns:2fr 1fr 1fr 28px 20px}
-  .prop-hdr-4{grid-template-columns:2fr 1fr 1fr 28px 0 !important}
-  .prop-hdr-inv{grid-template-columns:2fr 1fr 1fr 28px 20px !important}
+  .row-4{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px !important}
+  .row-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 20px !important}
+  .prop-hdr-4{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 0 !important}
+  .prop-hdr-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 20px !important}
   .field input,.field select{padding:11px 10px;font-size:15px;min-height:46px}
   .input-prefix input{padding-left:28px}
   .container{padding:10px 10px}
