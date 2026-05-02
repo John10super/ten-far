@@ -596,7 +596,7 @@ select option:first-child{color:#C4C9D4}
 <div class="section">
   <div class="section-header">
     <span class="section-tag tag-input" data-i18n="tagInput">輸入</span>
-    <h2 data-i18n="s4Title">現有保險保障 — 最多 10 份保單</h2>
+    <h2 data-i18n="s4Title">現有保險保障</h2>
   </div>
   <div class="section-body">
 
@@ -822,7 +822,7 @@ const I18N = {
     tagSetting:'設定', tagInput:'輸入', tagCalc:'計算', tagAnalysis:'分析',
     tagCompare:'比較', tagMedical:'醫療', tagRecommend:'建議', tagAction:'行動',
     s1Title:'顧問資訊 & 假設條件', s2Title:'個人資料', s3Title:'財務狀況',
-    s4Title:'現有保險保障 — 最多 10 份保單', s5Title:'財務摘要',
+    s4Title:'現有保險保障', s5Title:'財務摘要',
     s6Title:'保險需求分析 — Insurance Need Coverage',
     s7Title:'風險比率分析 — Risk Ratio Dashboard',
     s8Title:'保障缺口總覽 — Before vs After',
@@ -939,7 +939,7 @@ const I18N = {
     tagSetting:'Settings', tagInput:'Input', tagCalc:'Calculate', tagAnalysis:'Analysis',
     tagCompare:'Compare', tagMedical:'Medical', tagRecommend:'Recommend', tagAction:'Action',
     s1Title:'Advisor Info & Assumptions', s2Title:'Personal Details', s3Title:'Financial Profile',
-    s4Title:'Existing Insurance Coverage — Up to 10 Policies', s5Title:'Financial Summary',
+    s4Title:'Existing Insurance Coverage', s5Title:'Financial Summary',
     s6Title:'Insurance Needs Analysis', s7Title:'Risk Ratio Dashboard',
     s8Title:'Coverage Gap Overview — Before vs After',
     s9Title:'Medical Coverage Analysis', s10Title:'Recommendations', s11Title:'Action Plan',
@@ -1054,7 +1054,7 @@ const I18N = {
     tagSetting:'Tetapan', tagInput:'Input', tagCalc:'Kiraan', tagAnalysis:'Analisis',
     tagCompare:'Banding', tagMedical:'Perubatan', tagRecommend:'Cadangan', tagAction:'Tindakan',
     s1Title:'Maklumat Penasihat & Andaian', s2Title:'Maklumat Peribadi', s3Title:'Profil Kewangan',
-    s4Title:'Liputan Insurans Sedia Ada — Sehingga 10 Polisi', s5Title:'Ringkasan Kewangan',
+    s4Title:'Liputan Insurans Sedia Ada', s5Title:'Ringkasan Kewangan',
     s6Title:'Analisis Keperluan Insurans', s7Title:'Papan Pemuka Nisbah Risiko',
     s8Title:'Jurang Liputan — Sebelum vs Selepas',
     s9Title:'Analisis Liputan Perubatan', s10Title:'Cadangan', s11Title:'Pelan Tindakan',
@@ -1194,7 +1194,7 @@ function setLang(lang) {
     if(ph) ph.textContent = L('insSelect');
   });
   // 2. Policy number placeholders
-  for(let i=1;i<=10;i++){
+  for(let i=1;i<=15;i++){
     const pno = document.getElementById(`p${i}pno`);
     if(pno) pno.placeholder = L('policyNoPlh');
   }
@@ -1284,7 +1284,7 @@ const INSURERS = [].concat(...INSURER_GROUPS.map(g => g.items));
 // ══ POLICY ROW MANAGEMENT ══
 let lifeVisibleRows = 1;
 let medVisibleRows  = 1;
-const LIFE_MAX = 10;
+const LIFE_MAX = 15;
 const MED_MAX  = 5;
 
 function buildInsurerOpts() {
@@ -1548,10 +1548,10 @@ function recalc() {
   const totalDebts  = homeOfficeBal + investBal + carLoanBal + ccPersonal;
   const allMortgages= homeOfficeBal + investBal;
 
-  // ── Aggregate insurance from all 10 policies ──
+  // ── Aggregate insurance from all 15 policies ──
   let deathBenefit=0, tpdBenefit=0, paBenefit=0, ciBenefit=0, earlyCI=0, disabilityIncome=0, annPremium=0;
   let roomBoard=0, lifetimeLimit=0, annualLimit=0, dailyHospital=0, ciWaiverPremium=0, tpdWaiverPremium=0;
-  for (let i=1; i<=10; i++) {
+  for (let i=1; i<=15; i++) {
     deathBenefit    += n(`p${i}death`);
     tpdBenefit      += n(`p${i}tpd`);
     paBenefit       += n(`p${i}pa`);
@@ -1934,7 +1934,7 @@ function clearAll() {
     if(!keep.includes(el.id)) el.value = '';
   });
   document.querySelectorAll('select:not([id$="MRTA"]):not([id^="p"])').forEach(el => el.selectedIndex=0);
-  for(let i=1;i<=10;i++) {
+  for(let i=1;i<=15;i++) {
     const co=document.getElementById(`p${i}co`); if(co) co.value='';
   }
   document.getElementById('consultantNote').value = '';
@@ -1951,7 +1951,7 @@ const FAR_KEY = 'far_records_v2';
 
 function _allPolicyIds() {
   const ids = [];
-  for(let i=1;i<=10;i++) {
+  for(let i=1;i<=15;i++) {
     ids.push(`p${i}co`,`p${i}pno`,
       `p${i}death`,`p${i}tpd`,`p${i}pa`,`p${i}ci`,`p${i}eci`,`p${i}dis`,`p${i}prem`);
   }
@@ -2017,7 +2017,7 @@ function loadRecord(id) {
   document.getElementById('parentAgeWrap').style.display = (psVal === 'yes') ? '' : 'none';
   // Restore visible row counts based on saved data
   let lr = 1;
-  for(let i=2;i<=10;i++) {
+  for(let i=2;i<=15;i++) {
     if(record.data[`p${i}co`] || record.data[`p${i}death`] || record.data[`p${i}prem`]) lr=i;
   }
   let mr = 1;
@@ -2027,7 +2027,7 @@ function loadRecord(id) {
   // Show the right number of rows
   lifeVisibleRows=0; for(let i=1;i<=lr;i++) { lifeVisibleRows++; const r=document.getElementById('lifeRow'+i); if(r)r.style.display=''; }
   medVisibleRows=0; for(let i=1;i<=mr;i++) { medVisibleRows++; const r=document.getElementById('medRow'+i); if(r)r.style.display=''; }
-  for(let i=lr+1;i<=10;i++) { const r=document.getElementById('lifeRow'+i); if(r)r.style.display='none'; }
+  for(let i=lr+1;i<=15;i++) { const r=document.getElementById('lifeRow'+i); if(r)r.style.display='none'; }
   for(let i=mr+1;i<=5;i++) { const r=document.getElementById('medRow'+i); if(r)r.style.display='none'; }
   updateRowButtons();
   recalc();
