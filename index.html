@@ -839,7 +839,7 @@ const I18N = {
     cashOk:'✓ 收支平衡', cashGap:'✗ 入不敷出',
     fsVarExp:'每月生活開銷 (不含貸款)', fsPremium:'每月保費', fsHomeMthly:'自住房屋月供',
     fsInvMthly:'投資房產月供 (不含 MRTA)', fsCarMthly:'車貸月供', fsBasic:'基本月開銷 (Basic)', fsTotal:'全部月支出 (Total)',
-    fsHomeBal:'自住房貸餘額', fsInvBal:'投資房產貸款餘額 (不含 MRTA)', fsCCP:'信用卡 + 私人貸款', fsTotalDebt:'總債務',
+    fsHomeBal:'自住房貸餘額', fsInvBal:'投資房產貸款餘額 (不含 MRTA)', fsCarBal:'車貸餘額', fsCCP:'信用卡 + 私人貸款', fsTotalDebt:'總債務',
     nDeath:'身故保障 Death', nTPD:'全殘保障 TPD', nCI:'危疾保障 CI (含早期)', nPA:'意外身故 PA', nMed:'醫療卡 Medical Card',
     nDeathNote:'保障家人 %y 年生活費 + 債務 + IDE', nTPDNote:'保障 10 年生活費', nCINote:'保障 3 年生活費 + 康復儲備金 RRF',
     nPANote:'建議至少 50% 死亡保障', nMedNote:'建議終身限額 ≥ RM 1,000,000',
@@ -953,7 +953,7 @@ const I18N = {
     cashOk:'✓ Positive Cashflow', cashGap:'✗ Deficit',
     fsVarExp:'Monthly Living Expenses (excl. loans)', fsPremium:'Monthly Premium', fsHomeMthly:'Home Loan Monthly',
     fsInvMthly:'Investment Property Monthly (excl. MRTA)', fsCarMthly:'Car Loan Monthly', fsBasic:'Basic Monthly Expenses', fsTotal:'Total Monthly Expenses',
-    fsHomeBal:'Home Loan Balance', fsInvBal:'Investment Property Balance (excl. MRTA)', fsCCP:'Credit Card + Personal Loan', fsTotalDebt:'Total Debt',
+    fsHomeBal:'Home Loan Balance', fsInvBal:'Investment Property Balance (excl. MRTA)', fsCarBal:'Car Loan Balance', fsCCP:'Credit Card + Personal Loan', fsTotalDebt:'Total Debt',
     nDeath:'Death Benefit', nTPD:'Total Permanent Disability (TPD)', nCI:'Critical Illness CI (incl. Early)', nPA:'Personal Accident (PA)', nMed:'Medical Card',
     nDeathNote:'Covers family %y years + debts + IDE', nTPDNote:'Covers 10 years expenses', nCINote:'Covers 3 years expenses + RRF',
     nPANote:'Recommend at least 50% of death coverage', nMedNote:'Recommend lifetime limit ≥ RM 1,000,000',
@@ -1067,7 +1067,7 @@ const I18N = {
     cashOk:'✓ Aliran Tunai Positif', cashGap:'✗ Defisit',
     fsVarExp:'Perbelanjaan Hidup Bulanan (tidak termasuk pinjaman)', fsPremium:'Premium Bulanan', fsHomeMthly:'Ansuran Rumah Bulanan',
     fsInvMthly:'Ansuran Hartanah Pelaburan (tidak termasuk MRTA)', fsCarMthly:'Ansuran Kereta Bulanan', fsBasic:'Perbelanjaan Asas Bulanan', fsTotal:'Jumlah Perbelanjaan Bulanan',
-    fsHomeBal:'Baki Pinjaman Rumah', fsInvBal:'Baki Hartanah Pelaburan (tidak termasuk MRTA)', fsCCP:'Kad Kredit + Pinjaman Peribadi', fsTotalDebt:'Jumlah Hutang',
+    fsHomeBal:'Baki Pinjaman Rumah', fsInvBal:'Baki Hartanah Pelaburan (tidak termasuk MRTA)', fsCarBal:'Baki Pinjaman Kereta', fsCCP:'Kad Kredit + Pinjaman Peribadi', fsTotalDebt:'Jumlah Hutang',
     nDeath:'Faedah Kematian', nTPD:'Hilang Upaya Kekal (TPD)', nCI:'Penyakit Kritikal (termasuk Awal)', nPA:'Kemalangan Diri (PA)', nMed:'Kad Perubatan',
     nDeathNote:'Melindungi keluarga %y tahun + hutang + IDE', nTPDNote:'Melindungi 10 tahun perbelanjaan', nCINote:'Melindungi 3 tahun perbelanjaan + RRF',
     nPANote:'Disyorkan sekurang-kurangnya 50% liputan kematian', nMedNote:'Disyorkan had seumur hidup ≥ RM 1,000,000',
@@ -1665,6 +1665,7 @@ function recalc() {
     <tr style="background:#FEF2F2"><td><b>${L('fsTotal')}</b></td><td style="text-align:right"><b>${fmtRaw(totalMonthlyExp)}</b></td><td></td></tr>
     <tr><td>${L('fsHomeBal')}</td><td style="text-align:right">${fmtRaw(homeOfficeBal)}</td><td></td></tr>
     <tr><td>${L('fsInvBal')}</td><td style="text-align:right">${fmtRaw(investBal)}</td><td></td></tr>
+    <tr><td>${L('fsCarBal')}</td><td style="text-align:right">${fmtRaw(carLoanBal)}</td><td></td></tr>
     <tr><td>${L('fsCCP')}</td><td style="text-align:right">${fmtRaw(ccPersonal)}</td><td></td></tr>
     <tr style="background:#FEF2F2"><td><b>${L('fsTotalDebt')}</b></td><td style="text-align:right"><b>${fmtRaw(totalDebts)}</b></td><td></td></tr>
   `);
