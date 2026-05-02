@@ -194,6 +194,33 @@ select option:first-child{color:#C4C9D4}
 .rec-items{list-style:none;display:flex;flex-direction:column;gap:4px}
 .rec-items li{font-size:12px;display:flex;align-items:flex-start;gap:6px}
 .rec-items li::before{content:'→';font-weight:700;flex-shrink:0}
+/* ── PLAN COMPARISON TABLE ─── */
+.pcc-wrap{margin-top:12px;overflow-x:auto}
+.pcc-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+.pcc-table thead th{padding:10px 12px;font-weight:700;text-align:center;vertical-align:top}
+.pcc-th-lbl{background:#1e3a6e;color:#fff;text-align:left !important;border-radius:8px 0 0 0}
+.pcc-th-a{background:#4B5563;color:#fff;min-width:130px}
+.pcc-th-b{background:var(--red);color:#fff;min-width:130px}
+.pcc-th-c{background:#0D2B5E;color:#fff;min-width:130px;border-radius:0 8px 0 0}
+.pcc-th-sub{font-size:10px;font-weight:400;opacity:.82;display:block;margin-top:3px;letter-spacing:.3px}
+.pcc-table tbody tr:nth-child(even){background:#F9FAFB}
+.pcc-table tbody td{padding:9px 12px;border-bottom:1px solid #E5E7EB;vertical-align:middle}
+.pcc-lbl{font-weight:600;color:var(--dark);background:#F4F6F9 !important;width:150px}
+.pcc-col-b{background:rgba(255,43,30,.04) !important}
+.pcc-row-gap td{background:#FEF2F2 !important}
+.pcc-row-gap .pcc-lbl{background:#FCE7E7 !important;color:#B91C1C}
+.pcc-gap-cell{font-size:12px;color:#B91C1C;font-weight:600;line-height:1.8}
+.pcc-input{width:100%;border:1.5px solid #E5E7EB;border-radius:6px;padding:5px 8px;font-size:13px;text-align:right;background:#fff;color:var(--text)}
+.pcc-input:focus{border-color:var(--red);outline:none;box-shadow:0 0 0 2px rgba(255,43,30,.15)}
+.pcc-input-b{border-color:#FECACA;background:#FFFAFA}
+.pcc-input-b:focus{border-color:var(--red)}
+.pcc-input-txt{text-align:left}
+.pcc-row-adjusted td{border-top:2.5px solid #F59E0B !important;border-bottom:none !important}
+.pcc-row-adjusted .pcc-lbl{background:#FFF3C4 !important;color:#92400E;border-left:3px solid #F59E0B}
+.pcc-adj-cell{background:#FFFBEB !important;font-size:12px;line-height:1.6;font-weight:700}
+.pcc-adj-ok{color:#059669;display:block}
+.pcc-adj-gap{color:#DC2626;display:block}
+
 .signature-area{border:1px dashed #D1D5DB;border-radius:8px;padding:14px 18px;text-align:center;color:var(--muted);font-size:11px;margin-top:8px}
 .record-badge{background:var(--red);color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-left:3px;display:none;vertical-align:middle}
 .record-badge.show{display:inline}
@@ -807,6 +834,62 @@ select option:first-child{color:#C4C9D4}
   </div>
   <div class="section-body">
     <div id="recommendations"></div>
+    <!-- ── Plan A/B/C Comparison ── -->
+    <div class="sub-title mt-12" data-i18n="stPlanCmp">保障方案比較</div>
+    <div class="pcc-wrap">
+      <table class="pcc-table">
+        <thead>
+          <tr>
+            <th class="pcc-th-lbl" data-i18n="pccItem">保障項目</th>
+            <th class="pcc-th-a">Plan A<span class="pcc-th-sub" data-i18n="pccPlanA">基本保障</span></th>
+            <th class="pcc-th-b">Plan B ★<span class="pcc-th-sub" data-i18n="pccPlanB">建議方案</span></th>
+            <th class="pcc-th-c">Plan C<span class="pcc-th-sub" data-i18n="pccPlanC">全面保障</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pcc-row-gap">
+            <td class="pcc-lbl" data-i18n="pccGapRow">保障缺口 (現有)</td>
+            <td colspan="3" id="pccGapDisplay" class="pcc-gap-cell">—</td>
+          </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccDeath">新增身故保障額</td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_death" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_death" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_death" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+          </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccTPD">新增全殘保障 TPD 額</td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_tpd" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+          </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccCI">新增危疾保障 CI 額</td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_ci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+          </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccECI">新增危疾保障 CI (含早期)額</td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_eci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+          </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccMed">新醫療卡 Medical Card</td>
+            <td><input type="text" id="planA_med" class="pcc-input pcc-input-txt" placeholder="e.g. SmartMed 200" oninput="recalc()"></td>
+            <td class="pcc-col-b"><input type="text" id="planB_med" class="pcc-input pcc-input-b pcc-input-txt" placeholder="e.g. SmartMed 350" oninput="recalc()"></td>
+            <td><input type="text" id="planC_med" class="pcc-input pcc-input-txt" placeholder="e.g. SmartMed 500" oninput="recalc()"></td>
+          </tr>
+          <tr class="pcc-row-adjusted">
+            <td class="pcc-lbl" data-i18n="pccAdjRow">調整後差額 / 多出保障額</td>
+            <td id="pccAdjA" class="pcc-adj-cell">—</td>
+            <td id="pccAdjB" class="pcc-adj-cell pcc-col-b">—</td>
+            <td id="pccAdjC" class="pcc-adj-cell">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="sub-title mt-12" data-i18n="stConsultantNote">顧問備注 (Consultant's Note)</div>
     <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6" oninput="recalc()"></textarea>
     <div id="printNote" class="print-only" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
@@ -873,6 +956,9 @@ const I18N = {
     stInvestProp:'投資房產', stOtherDebt:'其他負債', btnAddInvProp:'新增房產',
     stLifeCoverage:'人壽 / 傷殘 / 危疾 保障', stMedCard:'醫療卡 Medical Card',
     stConsultantNote:'顧問備注 (Consultant\'s Note)',
+    stPlanCmp:'保障方案比較',pccItem:'保障項目',pccPlanA:'基本保障',pccPlanB:'建議方案',pccPlanC:'全面保障',
+    pccGapRow:'保障缺口 (現有)',pccDeath:'新增身故保障額',pccTPD:'新增全殘保障 TPD 額',pccCI:'新增危疾保障 CI 額',
+    pccECI:'新增危疾保障 CI (含早期)額',pccMed:'新醫療卡 Medical Card',pccAdjRow:'調整後差額 / 多出保障額',
     lSalaryMain:'月薪 — 本人 (RM)', lSalarySpouse:'月薪 — 配偶 (RM)', lRental:'租金收入 (RM/月)', lOtherIncome:'其他收入 (RM/月)',
     lFood:'食物 (RM)', lUtil:'水電 / 家用 (RM)', lChild:'子女教育 (RM)', lOtherExp:'其他開銷 (RM)',
     lCarLoan:'車貸餘額 (RM)', lCarMonthly:'車貸月供 (RM)', lCCPersonal:'信用卡 + 私人貸款 (RM)', lAnnualPrem:'年繳保費合計 (RM)',
@@ -988,6 +1074,9 @@ const I18N = {
     stInvestProp:'Investment Properties', stOtherDebt:'Other Debts', btnAddInvProp:'Add Property',
     stLifeCoverage:'Life / TPD / Critical Illness Coverage', stMedCard:'Medical Card',
     stConsultantNote:"Consultant's Note",
+    stPlanCmp:'Plan Comparison',pccItem:'Coverage Item',pccPlanA:'Basic',pccPlanB:'Recommended',pccPlanC:'Comprehensive',
+    pccGapRow:'Current Gap',pccDeath:'Add. Death Benefit',pccTPD:'Add. TPD Amount',pccCI:'Add. CI Amount',
+    pccECI:'Add. CI (incl. Early)',pccMed:'New Medical Card',pccAdjRow:'Adjusted Gap / Surplus',
     lSalaryMain:'Salary — Self (RM)', lSalarySpouse:'Salary — Spouse (RM)', lRental:'Rental Income (RM/mo)', lOtherIncome:'Other Income (RM/mo)',
     lFood:'Food (RM)', lUtil:'Utilities / Household (RM)', lChild:'Children Education (RM)', lOtherExp:'Other Expenses (RM)',
     lCarLoan:'Car Loan Balance (RM)', lCarMonthly:'Car Loan Monthly (RM)', lCCPersonal:'Credit Card + Personal Loan (RM)', lAnnualPrem:'Total Annual Premium (RM)',
@@ -1103,6 +1192,9 @@ const I18N = {
     stInvestProp:'Hartanah Pelaburan', stOtherDebt:'Hutang Lain', btnAddInvProp:'Tambah Hartanah',
     stLifeCoverage:'Liputan Nyawa / OKU / Penyakit Kritikal', stMedCard:'Kad Perubatan',
     stConsultantNote:'Nota Penasihat',
+    stPlanCmp:'Perbandingan Pelan',pccItem:'Item Perlindungan',pccPlanA:'Asas',pccPlanB:'Cadangan',pccPlanC:'Komprehensif',
+    pccGapRow:'Jurang Semasa',pccDeath:'Faedah Kematian Tambahan',pccTPD:'Jumlah OKU Tambahan',pccCI:'Jumlah CI Tambahan',
+    pccECI:'Jumlah CI (termasuk Awal)',pccMed:'Kad Perubatan Baru',pccAdjRow:'Baki / Lebihan Selepas Pelarasan',
     lSalaryMain:'Gaji — Diri Sendiri (RM)', lSalarySpouse:'Gaji — Pasangan (RM)', lRental:'Pendapatan Sewa (RM/bln)', lOtherIncome:'Pendapatan Lain (RM/bln)',
     lFood:'Makanan (RM)', lUtil:'Utiliti / Rumah (RM)', lChild:'Pendidikan Anak (RM)', lOtherExp:'Perbelanjaan Lain (RM)',
     lCarLoan:'Baki Pinjaman Kereta (RM)', lCarMonthly:'Ansuran Kereta Bulanan (RM)', lCCPersonal:'Kad Kredit + Pinjaman Peribadi (RM)', lAnnualPrem:'Jumlah Premium Tahunan (RM)',
@@ -1923,6 +2015,39 @@ function recalc() {
       </div>`);
   }
 
+  // ── Plan Comparison ──
+  const deathShortfall = Math.max(0, deathNeed - deathBenefit);
+  const tpdShortfall   = Math.max(0, tpdNeed - tpdBenefit);
+  const ciShortfall    = Math.max(0, ciNeed - totalCI);
+  const gapParts = [];
+  if(deathShortfall>0) gapParts.push(L('gapDeath')+': <b>RM '+deathShortfall.toLocaleString('en-MY')+'</b>');
+  if(tpdShortfall>0)   gapParts.push(L('gapTPD')+': <b>RM '+tpdShortfall.toLocaleString('en-MY')+'</b>');
+  if(ciShortfall>0)    gapParts.push(L('gapCI')+': <b>RM '+ciShortfall.toLocaleString('en-MY')+'</b>');
+  const pccGapEl = document.getElementById('pccGapDisplay');
+  if(pccGapEl) pccGapEl.innerHTML = gapParts.length
+    ? gapParts.join('&nbsp;&nbsp;|&nbsp;&nbsp;')
+    : '<span style="color:#059669;font-weight:700">✓ '+L('recOkTitle')+'</span>';
+  const _fmtAdj = (v) => {
+    const abs = Math.abs(v).toLocaleString('en-MY');
+    return v >= 0
+      ? '<span class="pcc-adj-ok">＋RM '+abs+'</span>'
+      : '<span class="pcc-adj-gap">－RM '+abs+'</span>';
+  };
+  ['A','B','C'].forEach(pl => {
+    const nd = n('plan'+pl+'_death');
+    const nt = n('plan'+pl+'_tpd');
+    const nc = n('plan'+pl+'_ci');
+    const ad = (deathBenefit + nd) - deathNeed;
+    const at = (tpdBenefit  + nt) - tpdNeed;
+    const ac = (totalCI     + nc) - ciNeed;
+    const el = document.getElementById('pccAdj'+pl);
+    if(!el) return;
+    el.innerHTML =
+      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-bottom:1px">'+L('gapDeath')+'</span>'+_fmtAdj(ad)+
+      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-top:5px;margin-bottom:1px">'+L('gapTPD')+'</span>'+_fmtAdj(at)+
+      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-top:5px;margin-bottom:1px">'+L('gapCI')+'</span>'+_fmtAdj(ac);
+  });
+
   // Print note
   const pn = document.getElementById('printNote');
   const noteText = s('consultantNote');
@@ -2056,7 +2181,10 @@ const BASE_IDS = [
   'ip3Desc','ip3Balance','ip3Monthly','ip3MRTA',
   'ip4Desc','ip4Balance','ip4Monthly','ip4MRTA',
   'ip5Desc','ip5Balance','ip5Monthly','ip5MRTA',
-  'carLoan','carMonthly','ccPersonal','consultantNote'
+  'carLoan','carMonthly','ccPersonal','consultantNote',
+  'planA_death','planA_tpd','planA_ci','planA_eci','planA_med',
+  'planB_death','planB_tpd','planB_ci','planB_eci','planB_med',
+  'planC_death','planC_tpd','planC_ci','planC_eci','planC_med'
 ];
 const INPUT_IDS = [...BASE_IDS, ..._allPolicyIds()];
 
