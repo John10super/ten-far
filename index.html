@@ -881,6 +881,12 @@ select option:first-child{color:#C4C9D4}
             <td class="pcc-col-b"><input type="text" id="planB_med" class="pcc-input pcc-input-b pcc-input-txt" placeholder="e.g. SmartMed 350" oninput="recalc()"></td>
             <td><input type="text" id="planC_med" class="pcc-input pcc-input-txt" placeholder="e.g. SmartMed 500" oninput="recalc()"></td>
           </tr>
+          <tr>
+            <td class="pcc-lbl" data-i18n="pccPremium">每月保費 (RM)</td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_premium" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_premium" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_premium" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+          </tr>
           <tr class="pcc-row-adjusted">
             <td class="pcc-lbl" data-i18n="pccAdjRow">調整後差額 / 多出保障額</td>
             <td id="pccAdjA" class="pcc-adj-cell">—</td>
@@ -958,7 +964,7 @@ const I18N = {
     stConsultantNote:'顧問備注 (Consultant\'s Note)',
     stPlanCmp:'保障方案比較',pccItem:'保障項目',pccPlanA:'基本保障',pccPlanB:'建議方案',pccPlanC:'全面保障',
     pccGapRow:'保障缺口 (現有)',pccDeath:'新增身故保障額',pccTPD:'新增全殘保障 TPD 額',pccCI:'新增危疾保障 CI 額',
-    pccECI:'新增危疾保障 CI (含早期)額',pccMed:'新醫療卡 Medical Card',pccAdjRow:'調整後差額 / 多出保障額',
+    pccECI:'新增危疾保障 CI (含早期)額',pccMed:'新醫療卡 Medical Card',pccPremium:'每月保費 (RM)',pccAdjRow:'調整後差額 / 多出保障額',
     lSalaryMain:'月薪 — 本人 (RM)', lSalarySpouse:'月薪 — 配偶 (RM)', lRental:'租金收入 (RM/月)', lOtherIncome:'其他收入 (RM/月)',
     lFood:'食物 (RM)', lUtil:'水電 / 家用 (RM)', lChild:'子女教育 (RM)', lOtherExp:'其他開銷 (RM)',
     lCarLoan:'車貸餘額 (RM)', lCarMonthly:'車貸月供 (RM)', lCCPersonal:'信用卡 + 私人貸款 (RM)', lAnnualPrem:'年繳保費合計 (RM)',
@@ -1076,7 +1082,7 @@ const I18N = {
     stConsultantNote:"Consultant's Note",
     stPlanCmp:'Plan Comparison',pccItem:'Coverage Item',pccPlanA:'Basic',pccPlanB:'Recommended',pccPlanC:'Comprehensive',
     pccGapRow:'Current Gap',pccDeath:'Add. Death Benefit',pccTPD:'Add. TPD Amount',pccCI:'Add. CI Amount',
-    pccECI:'Add. CI (incl. Early)',pccMed:'New Medical Card',pccAdjRow:'Adjusted Gap / Surplus',
+    pccECI:'Add. CI (incl. Early)',pccMed:'New Medical Card',pccPremium:'Monthly Premium (RM)',pccAdjRow:'Adjusted Gap / Surplus',
     lSalaryMain:'Salary — Self (RM)', lSalarySpouse:'Salary — Spouse (RM)', lRental:'Rental Income (RM/mo)', lOtherIncome:'Other Income (RM/mo)',
     lFood:'Food (RM)', lUtil:'Utilities / Household (RM)', lChild:'Children Education (RM)', lOtherExp:'Other Expenses (RM)',
     lCarLoan:'Car Loan Balance (RM)', lCarMonthly:'Car Loan Monthly (RM)', lCCPersonal:'Credit Card + Personal Loan (RM)', lAnnualPrem:'Total Annual Premium (RM)',
@@ -1194,7 +1200,7 @@ const I18N = {
     stConsultantNote:'Nota Penasihat',
     stPlanCmp:'Perbandingan Pelan',pccItem:'Item Perlindungan',pccPlanA:'Asas',pccPlanB:'Cadangan',pccPlanC:'Komprehensif',
     pccGapRow:'Jurang Semasa',pccDeath:'Faedah Kematian Tambahan',pccTPD:'Jumlah OKU Tambahan',pccCI:'Jumlah CI Tambahan',
-    pccECI:'Jumlah CI (termasuk Awal)',pccMed:'Kad Perubatan Baru',pccAdjRow:'Baki / Lebihan Selepas Pelarasan',
+    pccECI:'Jumlah CI (termasuk Awal)',pccMed:'Kad Perubatan Baru',pccPremium:'Premium Bulanan (RM)',pccAdjRow:'Baki / Lebihan Selepas Pelarasan',
     lSalaryMain:'Gaji — Diri Sendiri (RM)', lSalarySpouse:'Gaji — Pasangan (RM)', lRental:'Pendapatan Sewa (RM/bln)', lOtherIncome:'Pendapatan Lain (RM/bln)',
     lFood:'Makanan (RM)', lUtil:'Utiliti / Rumah (RM)', lChild:'Pendidikan Anak (RM)', lOtherExp:'Perbelanjaan Lain (RM)',
     lCarLoan:'Baki Pinjaman Kereta (RM)', lCarMonthly:'Ansuran Kereta Bulanan (RM)', lCCPersonal:'Kad Kredit + Pinjaman Peribadi (RM)', lAnnualPrem:'Jumlah Premium Tahunan (RM)',
@@ -2182,9 +2188,9 @@ const BASE_IDS = [
   'ip4Desc','ip4Balance','ip4Monthly','ip4MRTA',
   'ip5Desc','ip5Balance','ip5Monthly','ip5MRTA',
   'carLoan','carMonthly','ccPersonal','consultantNote',
-  'planA_death','planA_tpd','planA_ci','planA_eci','planA_med',
-  'planB_death','planB_tpd','planB_ci','planB_eci','planB_med',
-  'planC_death','planC_tpd','planC_ci','planC_eci','planC_med'
+  'planA_death','planA_tpd','planA_ci','planA_eci','planA_med','planA_premium',
+  'planB_death','planB_tpd','planB_ci','planB_eci','planB_med','planB_premium',
+  'planC_death','planC_tpd','planC_ci','planC_eci','planC_med','planC_premium'
 ];
 const INPUT_IDS = [...BASE_IDS, ..._allPolicyIds()];
 
