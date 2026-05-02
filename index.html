@@ -228,10 +228,16 @@ select option:first-child{color:#C4C9D4}
 .pcc-row-sub .pcc-lbl{padding-left:22px;font-weight:500;color:var(--muted);background:#F9FAFB !important;font-size:12px}
 .pcc-row-premium td{background:#F0FDF4 !important;border-top:1.5px solid #A7F3D0 !important}
 .pcc-row-premium .pcc-lbl{background:#DCFCE7 !important;color:#065F46;border-left:3px solid #10B981}
-.pcc-type-sel{width:100%;border:1px solid #C7D2FE;border-radius:4px;padding:3px 6px;font-size:10px;font-weight:700;color:#4338CA;background:#EEF2FF;margin-bottom:5px;cursor:pointer}
-.pcc-type-sel:focus{outline:none;border-color:#6366F1}
-.pcc-type-sel-b{border-color:#FECACA;background:#FFF0F0;color:var(--red)}
-.pcc-type-sel-b:focus{border-color:var(--red)}
+.pcc-ao-btn{display:block;width:100%;padding:6px 8px;background:#F8F9FF;border:1.5px dashed #A5B4FC;border-radius:6px;font-size:11px;font-weight:700;color:#6366F1;cursor:pointer;text-align:center;transition:.15s;white-space:nowrap}
+.pcc-ao-btn:hover{background:#EEF2FF;border-color:#6366F1}
+.pcc-ao-btn-b{background:#FFF5F5;border-color:#FECACA;color:#B91C1C}
+.pcc-ao-active{display:flex;align-items:center;gap:5px}
+.pcc-ao-active .input-prefix{flex:1;min-width:0;display:flex}
+.pcc-ao-badge{display:inline-flex;align-items:center;gap:3px;background:#EEF2FF;color:#4338CA;font-size:9px;font-weight:700;padding:4px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.pcc-ao-badge button{background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:11px;padding:0;line-height:1;margin-left:2px}
+.pcc-ao-badge button:hover{color:#DC2626}
+.pcc-ao-badge-b{background:#FFF0F0;color:#B91C1C}
+.pcc-mc-dash{color:var(--muted);font-size:13px}
 
 .signature-area{border:1px dashed #D1D5DB;border-radius:8px;padding:14px 18px;text-align:center;color:var(--muted);font-size:11px;margin-top:8px}
 .record-badge{background:var(--red);color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-left:3px;display:none;vertical-align:middle}
@@ -859,70 +865,151 @@ select option:first-child{color:#C4C9D4}
           </tr>
         </thead>
         <tbody>
+          <!-- Gap row -->
           <tr class="pcc-row-gap">
             <td class="pcc-lbl" data-i18n="pccGapRow">保障缺口 (現有)</td>
             <td colspan="3" id="pccGapDisplay" class="pcc-gap-cell">—</td>
           </tr>
+          <!-- Death — always visible -->
           <tr>
             <td class="pcc-lbl" data-i18n="pccDeath">新增身故保障額</td>
             <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_death" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
             <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_death" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
             <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_death" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
           </tr>
+          <!-- TPD — Add On toggle -->
           <tr>
             <td class="pcc-lbl" data-i18n="pccTPD">新增全殘保障 TPD 額</td>
-            <td><select id="planA_tpd_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><select id="planB_tpd_type" class="pcc-type-sel pcc-type-sel-b" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_tpd" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><select id="planC_tpd_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_tpd_A_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('tpd','A')">＋ Add On</button></div>
+              <div id="pcc_tpd_A_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('tpd','A','planA_tpd')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_tpd_B_off"><button type="button" class="pcc-ao-btn pcc-ao-btn-b" onclick="pccOn('tpd','B')">＋ Add On</button></div>
+              <div id="pcc_tpd_B_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge pcc-ao-badge-b">Add On<button type="button" onclick="pccOff('tpd','B','planB_tpd')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_tpd" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td>
+              <div id="pcc_tpd_C_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('tpd','C')">＋ Add On</button></div>
+              <div id="pcc_tpd_C_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('tpd','C','planC_tpd')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_tpd" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
           </tr>
+          <!-- CI — Add On toggle -->
           <tr>
             <td class="pcc-lbl" data-i18n="pccCI">新增危疾保障 CI 額</td>
-            <td><select id="planA_ci_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><select id="planB_ci_type" class="pcc-type-sel pcc-type-sel-b" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_ci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><select id="planC_ci_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_ci_A_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('ci','A')">＋ Add On</button></div>
+              <div id="pcc_ci_A_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('ci','A','planA_ci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_ci_B_off"><button type="button" class="pcc-ao-btn pcc-ao-btn-b" onclick="pccOn('ci','B')">＋ Add On</button></div>
+              <div id="pcc_ci_B_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge pcc-ao-badge-b">Add On<button type="button" onclick="pccOff('ci','B','planB_ci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_ci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td>
+              <div id="pcc_ci_C_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('ci','C')">＋ Add On</button></div>
+              <div id="pcc_ci_C_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('ci','C','planC_ci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_ci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
           </tr>
+          <!-- ECI — Add On toggle -->
           <tr>
             <td class="pcc-lbl" data-i18n="pccECI">新增危疾保障 CI (含早期)額</td>
-            <td><select id="planA_eci_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><select id="planB_eci_type" class="pcc-type-sel pcc-type-sel-b" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_eci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><select id="planC_eci_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_eci_A_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('eci','A')">＋ Add On</button></div>
+              <div id="pcc_eci_A_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('eci','A','planA_eci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_eci_B_off"><button type="button" class="pcc-ao-btn pcc-ao-btn-b" onclick="pccOn('eci','B')">＋ Add On</button></div>
+              <div id="pcc_eci_B_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge pcc-ao-badge-b">Add On<button type="button" onclick="pccOff('eci','B','planB_eci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_eci" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
+            <td>
+              <div id="pcc_eci_C_off"><button type="button" class="pcc-ao-btn" onclick="pccOn('eci','C')">＋ Add On</button></div>
+              <div id="pcc_eci_C_on" style="display:none" class="pcc-ao-active"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccOff('eci','C','planC_eci')">✕</button></span><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_eci" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+            </td>
           </tr>
+          <!-- Medical Card group header — Add On toggle per plan -->
           <tr class="pcc-row-grp">
             <td class="pcc-lbl" data-i18n="pccMedGrp">醫療卡 Medical Card</td>
-            <td><select id="planA_mc_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select></td>
-            <td class="pcc-col-b"><select id="planB_mc_type" class="pcc-type-sel pcc-type-sel-b" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select></td>
-            <td><select id="planC_mc_type" class="pcc-type-sel" onchange="recalc()"><option value="addon">Add On 附加險</option><option value="standalone">Standalone 獨立保單</option></select></td>
+            <td>
+              <div id="pcc_mc_A_off"><button type="button" class="pcc-ao-btn" onclick="pccMcOn('A')">＋ Add On</button></div>
+              <div id="pcc_mc_A_on" style="display:none"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccMcOff('A')">✕</button></span></div>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_mc_B_off"><button type="button" class="pcc-ao-btn pcc-ao-btn-b" onclick="pccMcOn('B')">＋ Add On</button></div>
+              <div id="pcc_mc_B_on" style="display:none"><span class="pcc-ao-badge pcc-ao-badge-b">Add On<button type="button" onclick="pccMcOff('B')">✕</button></span></div>
+            </td>
+            <td>
+              <div id="pcc_mc_C_off"><button type="button" class="pcc-ao-btn" onclick="pccMcOn('C')">＋ Add On</button></div>
+              <div id="pcc_mc_C_on" style="display:none"><span class="pcc-ao-badge">Add On<button type="button" onclick="pccMcOff('C')">✕</button></span></div>
+            </td>
           </tr>
-          <tr class="pcc-row-sub">
+          <!-- MC sub-rows — hidden until at least one plan activates MC -->
+          <tr class="pcc-mc-sub pcc-row-sub" style="display:none">
             <td class="pcc-lbl" data-i18n="pccMCRB">↳ 每日病房費 Room &amp; Board</td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_rb" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_rb" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_rb" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_mc_A_rb_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_rb" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_A_rb_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_mc_B_rb_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_rb" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_B_rb_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td>
+              <div id="pcc_mc_C_rb_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_rb" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_C_rb_off" class="pcc-mc-dash">—</span>
+            </td>
           </tr>
-          <tr class="pcc-row-sub">
+          <tr class="pcc-mc-sub pcc-row-sub" style="display:none">
             <td class="pcc-lbl" data-i18n="pccMCAL">↳ 年度限額 Annual Limit</td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_al" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_al" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_al" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_mc_A_al_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_al" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_A_al_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_mc_B_al_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_al" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_B_al_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td>
+              <div id="pcc_mc_C_al_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_al" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_C_al_off" class="pcc-mc-dash">—</span>
+            </td>
           </tr>
-          <tr class="pcc-row-sub">
+          <tr class="pcc-mc-sub pcc-row-sub" style="display:none">
             <td class="pcc-lbl" data-i18n="pccMCCP">↳ 自付費 Co-Payment</td>
-            <td><input type="text" id="planA_mc_cp" class="pcc-input pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></td>
-            <td class="pcc-col-b"><input type="text" id="planB_mc_cp" class="pcc-input pcc-input-b pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></td>
-            <td><input type="text" id="planC_mc_cp" class="pcc-input pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></td>
+            <td>
+              <div id="pcc_mc_A_cp_on" style="display:none"><input type="text" id="planA_mc_cp" class="pcc-input pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></div>
+              <span id="pcc_mc_A_cp_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_mc_B_cp_on" style="display:none"><input type="text" id="planB_mc_cp" class="pcc-input pcc-input-b pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></div>
+              <span id="pcc_mc_B_cp_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td>
+              <div id="pcc_mc_C_cp_on" style="display:none"><input type="text" id="planC_mc_cp" class="pcc-input pcc-input-txt" placeholder="e.g. 0% / 10%" oninput="recalc()"></div>
+              <span id="pcc_mc_C_cp_off" class="pcc-mc-dash">—</span>
+            </td>
           </tr>
-          <tr class="pcc-row-sub">
+          <tr class="pcc-mc-sub pcc-row-sub" style="display:none">
             <td class="pcc-lbl" data-i18n="pccMCLL">↳ 終身限額 Lifetime Limit</td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_ll" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td class="pcc-col-b"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_ll" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
-            <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_ll" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
+            <td>
+              <div id="pcc_mc_A_ll_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_mc_ll" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_A_ll_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td class="pcc-col-b">
+              <div id="pcc_mc_B_ll_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planB_mc_ll" class="pcc-input pcc-input-b" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_B_ll_off" class="pcc-mc-dash">—</span>
+            </td>
+            <td>
+              <div id="pcc_mc_C_ll_on" style="display:none"><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planC_mc_ll" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+              <span id="pcc_mc_C_ll_off" class="pcc-mc-dash">—</span>
+            </td>
           </tr>
+          <!-- Adjusted row -->
           <tr class="pcc-row-adjusted">
             <td class="pcc-lbl" data-i18n="pccAdjRow">調整後差額 / 多出保障額</td>
             <td id="pccAdjA" class="pcc-adj-cell">—</td>
             <td id="pccAdjB" class="pcc-adj-cell pcc-col-b">—</td>
             <td id="pccAdjC" class="pcc-adj-cell">—</td>
           </tr>
+          <!-- Premium — always visible -->
           <tr class="pcc-row-premium">
             <td class="pcc-lbl" data-i18n="pccPremium">每月保費 (RM)</td>
             <td><div class="input-prefix"><span>RM</span><input type="text" inputmode="numeric" id="planA_premium" class="pcc-input" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></td>
@@ -2197,6 +2284,52 @@ function clearAll() {
 // ══ SAVE / LOAD / DELETE RECORDS ══
 const FAR_KEY = 'far_records_v2';
 
+/* ── Plan Comparison Toggle Functions (v4.28) ── */
+function pccOn(row,pl){
+  var off=document.getElementById('pcc_'+row+'_'+pl+'_off');
+  var on=document.getElementById('pcc_'+row+'_'+pl+'_on');
+  if(off)off.style.display='none';if(on)on.style.display='flex';recalc();}
+function pccOff(row,pl,inputId){
+  var off=document.getElementById('pcc_'+row+'_'+pl+'_off');
+  var on=document.getElementById('pcc_'+row+'_'+pl+'_on');
+  if(off)off.style.display='block';if(on)on.style.display='none';
+  var el=document.getElementById(inputId);if(el){el.value='';recalc();}}
+function pccMcOn(pl){
+  var off=document.getElementById('pcc_mc_'+pl+'_off');
+  var on=document.getElementById('pcc_mc_'+pl+'_on');
+  if(off)off.style.display='none';if(on)on.style.display='block';
+  ['rb','al','cp','ll'].forEach(function(f){
+    var d=document.getElementById('pcc_mc_'+pl+'_'+f+'_on');
+    var s=document.getElementById('pcc_mc_'+pl+'_'+f+'_off');
+    if(d)d.style.display='block';if(s)s.style.display='none';
+  });
+  document.querySelectorAll('.pcc-mc-sub').forEach(function(r){r.style.display='';});
+  recalc();}
+function pccMcOff(pl){
+  var off=document.getElementById('pcc_mc_'+pl+'_off');
+  var on=document.getElementById('pcc_mc_'+pl+'_on');
+  if(off)off.style.display='block';if(on)on.style.display='none';
+  ['rb','al','cp','ll'].forEach(function(f){
+    var d=document.getElementById('pcc_mc_'+pl+'_'+f+'_on');
+    var s=document.getElementById('pcc_mc_'+pl+'_'+f+'_off');
+    if(d)d.style.display='none';if(s)s.style.display='inline';
+    var el=document.getElementById('plan'+pl+'_mc_'+f);if(el)el.value='';
+  });
+  var anyMcOn=['A','B','C'].some(function(p){
+    var o=document.getElementById('pcc_mc_'+p+'_on');return o&&o.style.display!=='none';});
+  if(!anyMcOn)document.querySelectorAll('.pcc-mc-sub').forEach(function(r){r.style.display='none';});
+  recalc();}
+function pccRestoreToggles(){
+  ['A','B','C'].forEach(function(pl){
+    ['tpd','ci','eci'].forEach(function(row){
+      var el=document.getElementById('plan'+pl+'_'+row);
+      if(el&&parseFloat((el.value||'').replace(/,/g,''))>0)pccOn(row,pl);});
+    var hasMc=['rb','al','ll'].some(function(f){
+      var el=document.getElementById('plan'+pl+'_mc_'+f);
+      return el&&parseFloat((el.value||'').replace(/,/g,''))>0;});
+    var hasCp=document.getElementById('plan'+pl+'_mc_cp');
+    if(hasMc||(hasCp&&hasCp.value.trim()))pccMcOn(pl);});}
+
 function _allPolicyIds() {
   const ids = [];
   for(let i=1;i<=15;i++) {
@@ -2224,12 +2357,12 @@ const BASE_IDS = [
   'ip4Desc','ip4Balance','ip4Monthly','ip4MRTA',
   'ip5Desc','ip5Balance','ip5Monthly','ip5MRTA',
   'carLoan','carMonthly','ccPersonal','consultantNote',
-  'planA_death','planA_tpd','planA_tpd_type','planA_ci','planA_ci_type','planA_eci','planA_eci_type',
-  'planA_mc_type','planA_mc_rb','planA_mc_al','planA_mc_cp','planA_mc_ll','planA_premium',
-  'planB_death','planB_tpd','planB_tpd_type','planB_ci','planB_ci_type','planB_eci','planB_eci_type',
-  'planB_mc_type','planB_mc_rb','planB_mc_al','planB_mc_cp','planB_mc_ll','planB_premium',
-  'planC_death','planC_tpd','planC_tpd_type','planC_ci','planC_ci_type','planC_eci','planC_eci_type',
-  'planC_mc_type','planC_mc_rb','planC_mc_al','planC_mc_cp','planC_mc_ll','planC_premium'
+  'planA_death','planA_tpd','planA_ci','planA_eci',
+  'planA_mc_rb','planA_mc_al','planA_mc_cp','planA_mc_ll','planA_premium',
+  'planB_death','planB_tpd','planB_ci','planB_eci',
+  'planB_mc_rb','planB_mc_al','planB_mc_cp','planB_mc_ll','planB_premium',
+  'planC_death','planC_tpd','planC_ci','planC_eci',
+  'planC_mc_rb','planC_mc_al','planC_mc_cp','planC_mc_ll','planC_premium'
 ];
 const INPUT_IDS = [...BASE_IDS, ..._allPolicyIds()];
 
@@ -2295,6 +2428,7 @@ function loadRecord(id) {
   for(let i=mr+1;i<=5;i++) { const r=document.getElementById('medRow'+i); if(r)r.style.display='none'; }
   updateRowButtons();
   formatAllInputs();
+  pccRestoreToggles();
   recalc();
   closeRecords();
   showToast(L('toastLoaded') + record.clientName);
