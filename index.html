@@ -480,10 +480,10 @@ select option:first-child{color:#C4C9D4}
     <div class="grid4 mt-8">
       <div class="field">
         <label style="display:flex;align-items:center;gap:6px"><span data-i18n="lAge">年齡 (歲)</span><span id="ageAutoTag" style="display:none;font-size:9px;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:1px 5px;font-weight:600;letter-spacing:.3px">AUTO</span></label>
-        <input type="number" id="clientAge" placeholder="35" oninput="document.getElementById('ageAutoTag').style.display='none';recalc()">
+        <input type="number" id="clientAge" placeholder="35" min="0" oninput="if(this.value<0)this.value=0;document.getElementById('ageAutoTag').style.display='none';recalc()">
       </div>
-      <div class="field"><label data-i18n="lSpouseAge">配偶年齡 (如有)</label><input type="number" id="spouseAge" placeholder="—" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lYoungDep">最小受撫養人年齡</label><input type="number" id="youngDepAge" placeholder="—" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lSpouseAge">配偶年齡 (如有)</label><input type="number" id="spouseAge" placeholder="—" min="0" oninput="if(this.value<0)this.value=0;recalc()"></div>
+      <div class="field"><label data-i18n="lYoungDep">最小受撫養人年齡</label><input type="number" id="youngDepAge" placeholder="—" min="0" oninput="if(this.value<0)this.value=0;recalc()"></div>
       <div class="field"><label data-i18n="lYearsResp">負擔責任年數 (年)</label><input type="number" id="yearsResp" placeholder="15" oninput="recalc()"></div>
     </div>
     <div class="grid4 mt-8">
@@ -503,7 +503,7 @@ select option:first-child{color:#C4C9D4}
       </div>
       <div class="field" id="parentAgeWrap" style="display:none">
         <label data-i18n="lParentAge">父母年齡（最長壽）</label>
-        <input type="number" id="parentAge" placeholder="—" oninput="recalc()">
+        <input type="number" id="parentAge" placeholder="—" min="0" oninput="if(this.value<0)this.value=0;recalc()">
       </div>
     </div>
   </div>
