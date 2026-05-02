@@ -77,8 +77,8 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .input-prefix > span.prefix-rm{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none;z-index:1}
 .input-prefix input{padding-left:30px}
 .row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:end}
-.row-4{display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;align-items:end}
-.row-inv{display:grid;grid-template-columns:2fr 1fr 1fr 80px 28px;gap:8px;align-items:end}
+.row-4{display:grid;grid-template-columns:2fr 1fr 1fr 48px;gap:8px;align-items:end}
+.row-inv{display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;align-items:end}
 .sub-title{font-size:11px;font-weight:800;color:var(--dark);text-transform:uppercase;letter-spacing:.7px;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border)}
 
 /* ── LANGUAGE SWITCHER ─── */
@@ -173,6 +173,7 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .policy-row-del:hover{background:#FEE2E2}
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:.15s}
 .btn-add-row:hover{border-color:var(--red);color:var(--red);background:#FFF5F5}
+.mrta-chk{width:20px;height:20px;cursor:pointer;accent-color:var(--red);display:block;margin:auto}
 .policy-total-row td{background:#EFF6FF !important;font-weight:700;border-top:2px solid var(--dark);padding:8px 8px;font-size:11px}
 
 /* ── MISC ─── */
@@ -519,22 +520,22 @@ select option:first-child{color:#C4C9D4}
   <div class="section-body">
     <div class="sub-title" data-i18n="stIncome">月收入</div>
     <div class="grid4">
-      <div class="field"><label data-i18n="lSalaryMain">月薪 — 本人 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="salaryMain" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lSalarySpouse">月薪 — 配偶 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="salarySpouse" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lRental">租金收入 (RM/月)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rentalIncome" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lOtherIncome">其他收入 (RM/月)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="otherIncome" placeholder="0" min="0" oninput="recalc()"></div></div>
+      <div class="field"><label data-i18n="lSalaryMain">月薪 — 本人 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="salaryMain" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lSalarySpouse">月薪 — 配偶 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="salarySpouse" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lRental">租金收入 (RM/月)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="rentalIncome" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lOtherIncome">其他收入 (RM/月)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="otherIncome" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
     </div>
 
     <div class="sub-title mt-12" data-i18n="stExpenses">每月生活開銷 (不含房貸/車貸)</div>
     <div class="grid4">
-      <div class="field"><label data-i18n="lFood">食物 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="expFood" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lUtil">水電 / 家用 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="expUtil" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lChild">子女教育 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="expChild" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lOtherExp">其他開銷 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="expOther" placeholder="0" min="0" oninput="recalc()"></div></div>
+      <div class="field"><label data-i18n="lFood">食物 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="expFood" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lUtil">水電 / 家用 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="expUtil" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lChild">子女教育 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="expChild" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lOtherExp">其他開銷 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="expOther" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
     </div>
 
     <div class="sub-title mt-12" data-i18n="stHomeLoans">自住房屋 &amp; 辦公室 (貸款)</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:8px;margin-bottom:6px">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px;gap:8px;margin-bottom:6px">
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
@@ -542,19 +543,19 @@ select option:first-child{color:#C4C9D4}
     </div>
     <div class="row-4 mt-4">
       <div class="field"><input id="homeDesc" value="自住房屋" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="homeBalance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="homeMonthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="homeMRTA" onchange="recalc()"><option value="yes">YES</option><option value="no">NO</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="homeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
     </div>
     <div class="row-4 mt-4">
       <div class="field"><input id="officeDesc" value="自用辦公室" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="officeBalance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="officeMonthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="officeMRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="officeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
     </div>
 
     <div class="sub-title mt-12" data-i18n="stInvestProp">投資房產</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 80px 28px;gap:8px;margin-bottom:6px;margin-top:8px">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 48px 28px;gap:8px;margin-bottom:6px;margin-top:8px">
       <span class="text-sm font-bold" data-i18n="thDesc">說明</span>
       <span class="text-sm font-bold" data-i18n="thBalance">貸款餘額 (RM)</span>
       <span class="text-sm font-bold" data-i18n="thMonthly">月供 (RM)</span>
@@ -563,46 +564,46 @@ select option:first-child{color:#C4C9D4}
     </div>
     <div class="row-inv" id="invRow1">
       <div class="field"><input placeholder="投資房產 1" id="ip1Desc" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip1Balance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip1Monthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="ip1MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip1Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip1Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip1MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
       <button class="policy-row-del no-print" id="invDelBtn1" onclick="removeInvRow(1)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow2" style="display:none">
       <div class="field"><input placeholder="投資房產 2" id="ip2Desc" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip2Balance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip2Monthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="ip2MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip2Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip2Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip2MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
       <button class="policy-row-del no-print" id="invDelBtn2" onclick="removeInvRow(2)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow3" style="display:none">
       <div class="field"><input placeholder="投資房產 3" id="ip3Desc" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip3Balance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip3Monthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="ip3MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip3Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip3Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip3MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
       <button class="policy-row-del no-print" id="invDelBtn3" onclick="removeInvRow(3)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow4" style="display:none">
       <div class="field"><input placeholder="投資房產 4" id="ip4Desc" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip4Balance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip4Monthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="ip4MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip4Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip4Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip4MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
       <button class="policy-row-del no-print" id="invDelBtn4" onclick="removeInvRow(4)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow5" style="display:none">
       <div class="field"><input placeholder="投資房產 5" id="ip5Desc" oninput="recalc()"></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip5Balance" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ip5Monthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><select id="ip5MRTA" onchange="recalc()"><option value="no">NO</option><option value="yes">YES</option></select></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip5Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip5Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip5MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
       <button class="policy-row-del no-print" id="invDelBtn5" onclick="removeInvRow(5)" title="Remove">✕</button>
     </div>
     <button id="addInvRowBtn" class="btn-add-row no-print" onclick="addInvRow()">＋ <span data-i18n="btnAddInvProp">新增房產</span></button>
 
     <div class="sub-title mt-12" data-i18n="stOtherDebt">其他負債</div>
     <div class="grid4">
-      <div class="field"><label data-i18n="lCarLoan">車貸餘額 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="carLoan" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lCarMonthly">車貸月供 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="carMonthly" placeholder="0" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lCCPersonal">信用卡 + 私人貸款 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ccPersonal" placeholder="0" min="0" oninput="recalc()"></div></div>
+      <div class="field"><label data-i18n="lCarLoan">車貸餘額 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="carLoan" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lCarMonthly">車貸月供 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="carMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lCCPersonal">信用卡 + 私人貸款 (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ccPersonal" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><label><span data-i18n="lAnnualPrem">年繳保費合計 (RM)</span> <span data-i18n="autoCalcTag" style="color:#10B981;font-size:9px">[自動計算]</span></label><div class="calc-display" id="annualPremiumDisplay">—<span class="calc-badge">AUTO</span></div></div>
     </div>
   </div>
@@ -618,8 +619,8 @@ select option:first-child{color:#C4C9D4}
     <div class="assumption-grid">
       <div class="field"><label data-i18n="lInflation">通脹率 (%)</label><input type="number" id="inflationRate" value="3.69" step="0.1" oninput="recalc()"></div>
       <div class="field"><label data-i18n="lInterest">利率 / FD Rate (%)</label><input type="number" id="interestRate" value="2.5" step="0.1" oninput="recalc()"></div>
-      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="ide" value="20000" min="0" oninput="recalc()"></div></div>
-      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="number" id="rrf" value="5000" min="0" oninput="recalc()"></div></div>
+      <div class="field"><label data-i18n="lIDE">即時身故費用 IDE (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ide" value="20,000" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
+      <div class="field"><label data-i18n="lRRF">CI 康復儲備金 RRF (RM)</label><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="rrf" value="5,000" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
     </div>
   </div>
 </div>
@@ -1409,13 +1410,13 @@ function removeInvRow(idx) {
     fields.forEach(f => {
       const src = document.getElementById(`ip${i+1}${f}`);
       const dst = document.getElementById(`ip${i}${f}`);
-      if(src && dst) dst.value = src.value;
+      if(src && dst) { if(src.type==='checkbox') dst.checked=src.checked; else dst.value=src.value; }
     });
   }
   // Clear last row
   fields.forEach(f => {
     const el = document.getElementById(`ip${ipVisibleRows}${f}`);
-    if(el) el.value = (f==='MRTA') ? 'no' : '';
+    if(el) { if(el.type==='checkbox') el.checked=false; else el.value=''; }
   });
   const lastRow = document.getElementById('invRow'+ipVisibleRows);
   if(lastRow) lastRow.style.display = 'none';
@@ -1440,7 +1441,7 @@ function removeLifeRow(idx) {
     fields.forEach(f => {
       const src = document.getElementById(`p${i+1}${f}`);
       const dst = document.getElementById(`p${i}${f}`);
-      if(src && dst) dst.value = src.value;
+      if(src && dst) { if(src.type==='checkbox') dst.checked=src.checked; else dst.value=src.value; }
     });
   }
   // Clear and hide last row
@@ -1470,7 +1471,7 @@ function removeMedRow(idx) {
     fields.forEach(f => {
       const src = document.getElementById(`p${i+1}${f}`);
       const dst = document.getElementById(`p${i}${f}`);
-      if(src && dst) dst.value = src.value;
+      if(src && dst) { if(src.type==='checkbox') dst.checked=src.checked; else dst.value=src.value; }
     });
     const srcCo = document.getElementById(`pm${i+1}co`);
     const dstCo = document.getElementById(`pm${i}co`);
@@ -1519,7 +1520,10 @@ function getCoverRatio(age) {
 }
 
 // ══ HELPERS ══
-function n(id) { const e=document.getElementById(id); return e ? (parseFloat(e.value)||0) : 0; }
+function n(id) { const e=document.getElementById(id); return e ? (parseFloat((e.value||"").replace(/,/g,""))||0) : 0; }
+function fmtInput(el){const raw=(el.value||"").replace(/[^\d]/g,"");if(raw==="")return;const num=parseInt(raw,10);if(isNaN(num)||num<0){el.value="0";return;}el.value=num.toLocaleString("en-MY");}
+function unFmtInput(el){el.value=(el.value||"").replace(/,/g,"");try{el.select();}catch(e){}}
+function formatAllInputs(){document.querySelectorAll("input[data-fmt='1']").forEach(fmtInput);}
 function s(id) { const e=document.getElementById(id); return e ? (e.value||'') : ''; }
 function fmt(v, d=0) {
   if(!isFinite(v)||isNaN(v)) return '—';
@@ -1606,13 +1610,13 @@ function recalc() {
   const varExp = n('expFood') + n('expUtil') + n('expChild') + n('expOther');
 
   // Mortgages
-  const homeBalance   = n('homeBalance'), homeMonthly = n('homeMonthly'), homeMRTA = s('homeMRTA')==='yes';
-  const officeBalance = n('officeBalance'), officeMonthly = n('officeMonthly'), officeMRTA = s('officeMRTA')==='yes';
+  const homeBalance   = n('homeBalance'), homeMonthly = n('homeMonthly'), homeMRTA = !!(document.getElementById('homeMRTA')||{}).checked;
+  const officeBalance = n('officeBalance'), officeMonthly = n('officeMonthly'), officeMRTA = !!(document.getElementById('officeMRTA')||{}).checked;
   const homeOfficeBal = (homeMRTA?0:homeBalance) + (officeMRTA?0:officeBalance);
   const homeOfficeMonthly = homeMonthly + officeMonthly;
   let investBal = 0, investMthly = 0;
   for(let i=1;i<=5;i++){
-    const mrta = s(`ip${i}MRTA`)==='yes';
+    const mrta = !!(document.getElementById(`ip${i}MRTA`)||{}).checked;
     if(!mrta){ investBal += n(`ip${i}Balance`); investMthly += n(`ip${i}Monthly`); }
   }
   const carLoanBal  = n('carLoan'), carMthly = n('carMonthly'), ccPersonal = n('ccPersonal');
@@ -1970,8 +1974,8 @@ function loadDemo() {
     if(el) el.value = v;
   });
   // Set selects
-  document.getElementById('homeMRTA').value = 'no';
-  document.getElementById('ip1MRTA').value = 'no';
+  document.getElementById('homeMRTA').checked = false;
+  document.getElementById('ip1MRTA').checked = false;
   // Parent support demo: Yes, age 68
   document.getElementById('parentSupport').value = 'yes';
   document.getElementById('parentAge').value = 68;
@@ -1982,6 +1986,7 @@ function loadDemo() {
   document.getElementById('p1pno').value = 'AM-2024-8866';
   document.getElementById('pm1co').value = 'AmMetLife';
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+  formatAllInputs();
   recalc();
   showToast(L('toastDemo'), 'green');
 }
@@ -1999,15 +2004,16 @@ function onParentSupportChange(el) {
 }
 
 function clearAll() {
-  document.querySelectorAll('input[type=number], input:not([type]), input[type=date], textarea').forEach(el => {
+  document.querySelectorAll('input[type=number], input[type=text], input:not([type]), input[type=date], textarea').forEach(el => {
     const keep = ['inflationRate','interestRate','ide','rrf','plannerName','plannerPhone','plannerEmail'];
     if(!keep.includes(el.id)) el.value = '';
   });
-  document.querySelectorAll('select:not([id$="MRTA"]):not([id^="p"])').forEach(el => el.selectedIndex=0);
+  document.querySelectorAll('select:not([id^="p"])').forEach(el => el.selectedIndex=0);
   for(let i=1;i<=15;i++) {
     const co=document.getElementById(`p${i}co`); if(co) co.value='';
   }
-  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m)m.value='no'; }
+  ['homeMRTA','officeMRTA'].forEach(id => { const m=document.getElementById(id); if(m) m.checked=false; });
+  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m) m.checked=false; }
   ipVisibleRows=1; for(let i=2;i<=5;i++){ const r=document.getElementById('invRow'+i); if(r)r.style.display='none'; }
   document.getElementById('consultantNote').value = '';
   // Reset parent support
@@ -2058,7 +2064,7 @@ function getAllRecords() {
 function saveRecord() {
   const clientName = (document.getElementById('clientName').value||'').trim() || L('unnamedClient');
   const data = {};
-  INPUT_IDS.forEach(id => { const el=document.getElementById(id); if(el) data[id]=el.value; });
+  INPUT_IDS.forEach(id => { const el=document.getElementById(id); if(el) data[id]=el.type==='checkbox'?(el.checked?'yes':'no'):el.value; });
   const now = new Date();
   const record = {
     id: now.getTime(), clientName,
@@ -2083,7 +2089,7 @@ function loadRecord(id) {
   if(!record) return;
   INPUT_IDS.forEach(k => {
     const el = document.getElementById(k);
-    if(el && record.data[k] !== undefined) el.value = record.data[k];
+    if(el) { if(el.type==='checkbox') el.checked=(record.data[k]==='yes'); else if(record.data[k]!==undefined) el.value=record.data[k]; }
   });
   // Restore parentSupport radio + toggle visibility
   const psVal = record.data['parentSupport'] || 'no';
@@ -2112,6 +2118,7 @@ function loadRecord(id) {
   for(let i=lr+1;i<=15;i++) { const r=document.getElementById('lifeRow'+i); if(r)r.style.display='none'; }
   for(let i=mr+1;i<=5;i++) { const r=document.getElementById('medRow'+i); if(r)r.style.display='none'; }
   updateRowButtons();
+  formatAllInputs();
   recalc();
   closeRecords();
   showToast(L('toastLoaded') + record.clientName);
@@ -2169,15 +2176,15 @@ function closeRecords() {
 function newProspect() {
   const hasData = (document.getElementById('clientName').value||'').trim().length>0;
   if(hasData && !confirm(L('confirmNew'))) return;
-  document.querySelectorAll('input[type=number], input:not([type]):not([id="homeDesc"]):not([id="officeDesc"]), input[type=date], textarea').forEach(el => {
+  document.querySelectorAll('input[type=number], input[type=text]:not([id="homeDesc"]):not([id="officeDesc"]), input:not([type]):not([id="homeDesc"]):not([id="officeDesc"]), input[type=date], textarea').forEach(el => {
     const keep = ['inflationRate','interestRate','ide','rrf','plannerName','plannerPhone','plannerEmail'];
     if(!keep.includes(el.id)) el.value = '';
   });
   document.getElementById('homeDesc').value = L('homeDescDef');
   document.getElementById('officeDesc').value = L('officeDescDef');
-  document.getElementById('homeMRTA').value = 'yes';
-  document.getElementById('officeMRTA').value = 'no';
-  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m)m.value='no'; }
+  document.getElementById('homeMRTA').checked = true;
+  document.getElementById('officeMRTA').checked = false;
+  for(let i=1;i<=5;i++){ const m=document.getElementById(`ip${i}MRTA`); if(m) m.checked=false; }
   ipVisibleRows=1; for(let i=2;i<=5;i++){ const r=document.getElementById('invRow'+i); if(r)r.style.display='none'; }
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
   buildPolicyRows(); // rebuild rows back to 1 visible, clear all data
@@ -2352,6 +2359,7 @@ loadProfile();
 // Set today as default date only if profile has no saved date
 if(!document.getElementById('reportDate').value)
   document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+formatAllInputs();
 recalc();
 renderRecords();
 
