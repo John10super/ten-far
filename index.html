@@ -89,6 +89,13 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .calc-display{display:flex;align-items:center;padding:8px 12px;background:#F9FAFB;border:1px solid var(--border);border-radius:6px;font-size:13px;font-weight:700;color:var(--text);min-height:37px}
 .calc-badge{font-size:9px;background:#D1FAE5;color:#065F46;border-radius:4px;padding:2px 5px;margin-left:6px;font-weight:600}
 
+/* ── YES / NO PILL TOGGLE (是/否) ── */
+.yn-toggle{display:inline-flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:#F9FAFB;margin-top:4px}
+.yn-toggle input[type=radio]{position:absolute;opacity:0;width:0;height:0;pointer-events:none;margin:0;padding:0}
+.yn-opt{display:inline-block;padding:8px 22px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);background:transparent;transition:background .15s,color .15s;-webkit-user-select:none;user-select:none;white-space:nowrap;line-height:1.4}
+.yn-opt:first-of-type{border-right:1.5px solid var(--border)}
+.yn-toggle input[type=radio]:checked + .yn-opt{background:var(--dark);color:#fff}
+
 /* ── KPI CARDS ─── */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:16px}
 .kpi-card{border-radius:12px;padding:16px 18px;border-left:5px solid transparent}
@@ -384,7 +391,8 @@ select option:first-child{color:#C4C9D4}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .kpi-value{font-size:22px}
-  .section-body{overflow-x:visible;padding:14px 16px}
+  .section-body{overflow-x:hidden;padding:14px 16px}
+  .policy-wrap{overflow-x:auto !important;-webkit-overflow-scrolling:touch}
   .section-header{padding:13px 16px}
   .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scroll:touch}
   .analysis-table{table-layout:auto;min-width:580px}
@@ -582,15 +590,11 @@ select option:first-child{color:#C4C9D4}
     <div class="grid4 mt-8">
       <div class="field">
         <label data-i18n="lParentSupport">需要撫養父母</label>
-        <div style="display:flex;gap:20px;align-items:center;padding:9px 0">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px">
-            <input type="radio" name="parentSupport" id="parentSupportYes" value="yes" onchange="onParentSupportChange(this)">
-            <span data-i18n="optYes">是</span>
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px">
-            <input type="radio" name="parentSupport" id="parentSupportNo" value="no" checked onchange="onParentSupportChange(this)">
-            <span data-i18n="optNo">否</span>
-          </label>
+        <div class="yn-toggle">
+          <input type="radio" name="parentSupport" id="parentSupportYes" value="yes" onchange="onParentSupportChange(this)">
+          <label for="parentSupportYes" class="yn-opt" data-i18n="optYes">是</label>
+          <input type="radio" name="parentSupport" id="parentSupportNo" value="no" checked onchange="onParentSupportChange(this)">
+          <label for="parentSupportNo" class="yn-opt" data-i18n="optNo">否</label>
         </div>
         <input type="hidden" id="parentSupport" value="no">
       </div>
