@@ -484,7 +484,7 @@ select option:first-child{color:#C4C9D4}
       </div>
       <div class="field"><label data-i18n="lSpouseAge">配偶年齡 (如有)</label><input type="number" id="spouseAge" placeholder="—" min="0" oninput="if(this.value<0)this.value=0;recalc()"></div>
       <div class="field"><label data-i18n="lYoungDep">最小受撫養人年齡</label><input type="number" id="youngDepAge" placeholder="—" min="0" oninput="if(this.value<0)this.value=0;recalc()"></div>
-      <div class="field"><label data-i18n="lYearsResp">負擔責任年數 (年)</label><input type="number" id="yearsResp" placeholder="15" oninput="recalc()"></div>
+      <div class="field"><label data-i18n="lYearsResp">負擔責任年數 (年)</label><input type="number" id="yearsResp" placeholder="15" min="0" oninput="if(this.value<0)this.value=0;recalc()"></div>
     </div>
     <div class="grid4 mt-8">
       <div class="field">
