@@ -206,9 +206,9 @@ select option:first-child{color:#C4C9D4}
 .pcc-table tbody tr:nth-child(even){background:#F9FAFB}
 .pcc-table tbody td{padding:9px 12px;border-bottom:1px solid #E5E7EB;vertical-align:middle}
 .pcc-lbl{font-weight:600;color:var(--dark);background:#F4F6F9 !important;font-size:12px;overflow:hidden;text-overflow:ellipsis}
-.pcc-table .input-prefix{width:100%;display:flex;align-items:center;border:1.5px solid #E5E7EB;border-radius:7px;background:#fff;overflow:hidden}
+.pcc-table .input-prefix{width:100% !important;display:flex !important;align-items:center;border:1.5px solid #E5E7EB;border-radius:7px;background:#fff;overflow:hidden;box-sizing:border-box}
 .pcc-table .input-prefix span{padding:0 7px;font-size:11px;color:var(--muted);border-right:1px solid #E5E7EB;background:#F9FAFB;align-self:stretch;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
-.pcc-table .input-prefix input{width:0;min-width:30px;flex:1;border:none;outline:none;padding:6px 8px;font-size:13px;text-align:right;background:transparent;color:var(--text);box-shadow:none}
+.pcc-table .input-prefix input{width:0 !important;min-width:30px !important;flex:1 !important;border:none !important;outline:none;padding:6px 8px;font-size:13px;text-align:right;background:transparent !important;color:var(--text);box-shadow:none !important}
 .pcc-col-b{background:rgba(255,43,30,.04) !important}
 .pcc-row-gap td{background:#FEF2F2 !important}
 .pcc-row-gap .pcc-lbl{background:#FCE7E7 !important;color:#B91C1C}
@@ -216,9 +216,9 @@ select option:first-child{color:#C4C9D4}
 .pcc-input{width:100%;border:1.5px solid #E5E7EB;border-radius:6px;padding:5px 8px;font-size:13px;text-align:right;background:#fff;color:var(--text)}
 .pcc-input:focus{border-color:var(--red);outline:none;box-shadow:0 0 0 2px rgba(255,43,30,.15)}
 .pcc-table .input-prefix .pcc-input{border:none;border-radius:0;box-shadow:none;padding:6px 8px;background:transparent;width:0;flex:1}
-.pcc-input-b{border-color:#FECACA;background:#FFFAFA}
-.pcc-input-b:focus{border-color:var(--red)}
-.pcc-col-b .pcc-table .input-prefix,.pcc-col-b .input-prefix{border-color:#FECACA}
+/* pcc-input-b: only colour the wrapper border (input itself uses flex, no border) */
+.pcc-col-b .input-prefix{border-color:#FECACA !important}
+.pcc-col-b .input-prefix input:focus{border:none !important;box-shadow:none !important}
 .pcc-input-txt{text-align:left;width:100%}
 .pcc-row-adjusted td{border-top:2.5px solid #F59E0B !important;border-bottom:none !important}
 .pcc-row-adjusted .pcc-lbl{background:#FFF3C4 !important;color:#92400E;border-left:3px solid #F59E0B}
@@ -857,6 +857,12 @@ select option:first-child{color:#C4C9D4}
     <div class="sub-title mt-12" data-i18n="stPlanCmp">保障方案比較</div>
     <div class="pcc-wrap">
       <table class="pcc-table">
+        <colgroup>
+          <col style="width:22%">
+          <col style="width:26%">
+          <col style="width:26%">
+          <col style="width:26%">
+        </colgroup>
         <thead>
           <tr>
             <th class="pcc-th-lbl" data-i18n="pccItem">保障項目</th>
@@ -2226,9 +2232,9 @@ const FAR_KEY = 'far_records_v2';
 /* ── Plan Comparison Row Toggle Functions (v4.29) ── */
 function pccRowOn(type){
   if(type==='mc'){
-    document.querySelectorAll('.pcc-mc-rows').forEach(function(r){r.style.display='';});
+    document.querySelectorAll('.pcc-mc-rows').forEach(function(r){r.style.display='table-row';});
   } else {
-    var r=document.getElementById('pcc_row_'+type);if(r)r.style.display='';
+    var r=document.getElementById('pcc_row_'+type);if(r)r.style.display='table-row';
   }
   var btn=document.getElementById('addcov_'+type+'_btn');
   if(btn)btn.classList.add('pcc-addcov-active');
