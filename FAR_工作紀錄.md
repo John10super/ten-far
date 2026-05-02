@@ -4,7 +4,7 @@
 > **GitHub Pages：** https://john10super.github.io/ten-far/  
 > **主源文件：** `📤 Serena 輸出/03 簡報/FAR-v4.html`  
 > **GitHub Repo：** `/Users/ten/ten-far/index.html`  
-> **最後更新：** 02/05/2026（v4.13）
+> **最後更新：** 02/05/2026（v4.21）
 
 ---
 
@@ -210,8 +210,6 @@ DTF = 死亡保障可支撐家庭的月數（清所有貸款後）
 
 ---
 
----
-
 ### v4.14 — 新增「需要撫養父母」欄位（02/05/2026）
 **Commit:** `pending`
 
@@ -227,11 +225,46 @@ DTF = 死亡保障可支撐家庭的月數（清所有貸款後）
 
 ---
 
+### v4.15–v4.20 — 多項優化（02/05/2026）
+**Commits:** 多次
+
+- v4.15/16：年齡/年數欄位禁止輸入負數（`min="0"` + inline oninput 守衛）
+- v4.17：保單行數上限 10→15，標題移除「最多十五份保單」字眼
+- v4.18：風險比率表移除 Complete CI-IFS 行
+- v4.19：投資房產動態新增最多5個（+新增按鈕 / ✕ 刪除按鈕），`IP_MAX=5`
+- v4.20：所有財務欄位禁止負數；欄位排版一致（`row-4`/`row-inv` 統一80px MRTA欄）；投資房產新增欄位標題行
+
+---
+
+### v4.21 — 千數符號、MRTA Checkbox、禁負數（02/05/2026）
+**Commit:** `3128b65`
+
+**功能新增 / 修復：**
+
+#### 千數符號顯示（所有 RM 金額欄位）
+- 所有財務金額輸入由 `type="number"` 改為 `type="text" inputmode="numeric"`
+- 新增 `fmtInput(el)` — 失焦時自動格式化（如 450000 → 450,000）
+- 新增 `unFmtInput(el)` — 聚焦時移除逗號便於編輯
+- 新增 `formatAllInputs()` — loadDemo/loadRecord/init 後統一格式化
+- `n(id)` helper 更新：讀取前自動剝離逗號再 parseFloat
+
+#### 禁止負數（強化）
+- 所有金額欄位的 `oninput` 即時剔除 `-` 符號（不等到失焦）
+- `fmtInput` 失焦時額外 `Math.max(0, num)` 確保永不為負
+
+#### MRTA → Checkbox（更簡潔）
+- 7 個 MRTA 欄位（home/office/ip1-5）由 YES/NO `<select>` 改為 `<input type="checkbox">`
+- 視覺：小方塊（20×20px）紅色強調色，點擊即切換
+- MRTA 欄寬由 80px 縮減至 48px，版面更整潔
+- JS 全面更新：`s('...MRTA')==='yes'` → `.checked`；save/load/clearAll/newProspect/removeInvRow 均已同步
+
+---
+
 ## 🔧 已知待辦 / 未來改善方向
 
 | 項目 | 說明 | 優先級 |
 |------|------|--------|
-| 投資房產 ip3/ip4 | 工具說「最多4個」但只有 ip1/ip2 | P3 |
+| ~~投資房產 ip3/ip4~~ | ✅ 已完成 — 最多5個 | 完成 |
 | CI 建議金額本地化 | 目前固定建議 RM1M 醫療終身限額 | P3 |
 | 保費合理性警告 | 保費超過月收入 10-15% 時給出警告 | P3 |
 | 報告 PDF 直接下載 | 目前只能靠瀏覽器列印 | P3 |
