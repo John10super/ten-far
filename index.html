@@ -180,7 +180,13 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .policy-row-del:hover{background:#FEE2E2}
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:.15s}
 .btn-add-row:hover{border-color:var(--red);color:var(--red);background:#FFF5F5}
-.mrta-chk{width:20px;height:20px;cursor:pointer;accent-color:var(--red);display:block;margin:auto}
+/* Custom MRTA checkbox — hides native iOS/Android control, uses styled label */
+.mrta-chk{position:absolute;opacity:0;width:0;height:0;pointer-events:none;margin:0}
+.mrta-field{display:flex;justify-content:center;align-items:center;padding-top:4px}
+.mrta-lbl{width:22px;height:22px;min-width:22px;border:2px solid var(--border);border-radius:5px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;flex-shrink:0;-webkit-user-select:none;user-select:none}
+.mrta-lbl:hover{border-color:#9CA3AF}
+.mrta-chk:checked + .mrta-lbl{background:var(--red);border-color:var(--red)}
+.mrta-chk:checked + .mrta-lbl::after{content:'✓';color:#fff;font-size:13px;font-weight:800;line-height:1}
 .policy-total-row td{background:#EFF6FF !important;font-weight:700;border-top:2px solid var(--dark);padding:8px 8px;font-size:11px}
 
 /* ── MISC ─── */
@@ -232,9 +238,12 @@ select option:first-child{color:#C4C9D4}
 .pcc-input-txt{text-align:left;width:100%}
 .pcc-row-adjusted td{border-top:2.5px solid #F59E0B !important;border-bottom:none !important}
 .pcc-row-adjusted .pcc-lbl{background:#FFF3C4 !important;color:#92400E;border-left:3px solid #F59E0B}
-.pcc-adj-cell{background:#FFFBEB !important;font-size:12px;line-height:1.6;font-weight:700}
-.pcc-adj-ok{color:#059669;display:block}
-.pcc-adj-gap{color:#DC2626;display:block}
+.pcc-adj-cell{background:#FFFBEB !important;padding:6px 10px !important}
+.pcc-adj-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid rgba(245,158,11,.18)}
+.pcc-adj-row:last-child{border-bottom:none}
+.pcc-adj-lbl{font-size:10px;color:var(--muted);font-weight:500;white-space:nowrap;flex-shrink:0}
+.pcc-adj-ok{color:#059669;font-size:11px;font-weight:700;white-space:nowrap;text-align:right}
+.pcc-adj-gap{color:#DC2626;font-size:11px;font-weight:700;white-space:nowrap;text-align:right}
 .pcc-row-grp td{background:#EEF2FF !important;border-bottom:none !important;padding:5px 12px}
 .pcc-row-grp .pcc-lbl{background:#E0E7FF !important;color:#3730A3;font-size:11px;font-weight:700;letter-spacing:.3px}
 .pcc-row-sub .pcc-lbl{padding-left:22px;font-weight:500;color:var(--muted);background:#F9FAFB !important;font-size:12px}
@@ -352,6 +361,9 @@ select option:first-child{color:#C4C9D4}
   .ten-print-footer .tf-logo{color:var(--red);font-weight:900;font-size:11pt;letter-spacing:1px}
 
   .btn-add-row,.policy-row-del{display:none !important}
+  /* Custom checkbox: show border box + tick in print */
+  .mrta-lbl{display:flex !important;width:14px !important;height:14px !important;border:1.5px solid #555 !important;border-radius:3px !important;background:#fff !important}
+  .mrta-chk:checked + .mrta-lbl{background:var(--red) !important;border-color:var(--red) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .recommendation-box,.signature-area{page-break-inside:avoid}
   /* Restore spacing between disclaimer and signature lines in print */
   .signature-area [data-i18n="sigNote"]{margin-bottom:32px !important}
@@ -387,7 +399,7 @@ select option:first-child{color:#C4C9D4}
 @media (max-width:768px){
   .grid3{grid-template-columns:1fr 1fr}
   .grid4{grid-template-columns:1fr 1fr}
-  .row-3,.row-4{grid-template-columns:1fr 1fr}
+  .row-3,.row-4,.row-inv{grid-template-columns:1fr 1fr}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .kpi-value{font-size:22px}
@@ -413,7 +425,9 @@ select option:first-child{color:#C4C9D4}
   .pcc-lbl{font-size:11px;padding-right:3px}
   .pcc-addcov-chips{gap:5px}
   .pcc-addcov-chip{font-size:10px;padding:4px 10px}
-  .pcc-adj-cell{font-size:11px;line-height:1.5}
+  .pcc-adj-cell{padding:5px 7px !important}
+  .pcc-adj-lbl{font-size:9px}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:10px}
   .pcc-gap-cell{font-size:11px;line-height:1.7}
 }
 /* ── SMALL MOBILE (≤ 480px) ── */
@@ -422,7 +436,7 @@ select option:first-child{color:#C4C9D4}
   .screen-header h1{font-size:11.5px}
   .grid2{grid-template-columns:1fr 1fr}
   .grid3,.grid4{grid-template-columns:1fr 1fr}
-  .row-3,.row-4{grid-template-columns:1fr 1fr}
+  .row-3,.row-4,.row-inv{grid-template-columns:1fr 1fr}
   .field input,.field select{padding:11px 10px;font-size:15px;min-height:46px}
   .input-prefix input{padding-left:28px}
   .container{padding:10px 10px}
@@ -460,7 +474,10 @@ select option:first-child{color:#C4C9D4}
   .pcc-addcov-chip{font-size:9px;padding:3px 7px}
   .pcc-adj-cell{font-size:10px;line-height:1.4;padding:5px 4px !important}
   .pcc-gap-cell{font-size:10px;line-height:1.6}
-  .pcc-adj-ok,.pcc-adj-gap{font-size:11px}
+  .pcc-adj-cell{padding:4px 5px !important}
+  .pcc-adj-row{padding:2px 0}
+  .pcc-adj-lbl{font-size:9px}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:10px}
   .pcc-row-addcov td{padding:6px 4px}
   .pcc-input-txt{font-size:10px}
 }
@@ -641,14 +658,14 @@ select option:first-child{color:#C4C9D4}
       <div class="field"><input id="homeDesc" value="自住房屋" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="homeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="homeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="homeMRTA" class="mrta-chk" onchange="recalc()"><label for="homeMRTA" class="mrta-lbl"></label></div>
       <div></div>
     </div>
     <div class="row-4 mt-4">
       <div class="field"><input id="officeDesc" value="自用辦公室" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeBalance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="officeMonthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="officeMRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="officeMRTA" class="mrta-chk" onchange="recalc()"><label for="officeMRTA" class="mrta-lbl"></label></div>
       <div></div>
     </div>
 
@@ -664,35 +681,35 @@ select option:first-child{color:#C4C9D4}
       <div class="field"><input placeholder="投資房產 1" id="ip1Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip1Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip1Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip1MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="ip1MRTA" class="mrta-chk" onchange="recalc()"><label for="ip1MRTA" class="mrta-lbl"></label></div>
       <button class="policy-row-del no-print" id="invDelBtn1" onclick="removeInvRow(1)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow2" style="display:none">
       <div class="field"><input placeholder="投資房產 2" id="ip2Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip2Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip2Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip2MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="ip2MRTA" class="mrta-chk" onchange="recalc()"><label for="ip2MRTA" class="mrta-lbl"></label></div>
       <button class="policy-row-del no-print" id="invDelBtn2" onclick="removeInvRow(2)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow3" style="display:none">
       <div class="field"><input placeholder="投資房產 3" id="ip3Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip3Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip3Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip3MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="ip3MRTA" class="mrta-chk" onchange="recalc()"><label for="ip3MRTA" class="mrta-lbl"></label></div>
       <button class="policy-row-del no-print" id="invDelBtn3" onclick="removeInvRow(3)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow4" style="display:none">
       <div class="field"><input placeholder="投資房產 4" id="ip4Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip4Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip4Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip4MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="ip4MRTA" class="mrta-chk" onchange="recalc()"><label for="ip4MRTA" class="mrta-lbl"></label></div>
       <button class="policy-row-del no-print" id="invDelBtn4" onclick="removeInvRow(4)" title="Remove">✕</button>
     </div>
     <div class="row-inv mt-4" id="invRow5" style="display:none">
       <div class="field"><input placeholder="投資房產 5" id="ip5Desc" oninput="recalc()"></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip5Balance" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
       <div class="field"><div class="input-prefix"><span class="prefix-rm">RM</span><input type="text" inputmode="numeric" id="ip5Monthly" placeholder="0" data-fmt="1" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()"></div></div>
-      <div class="field" style="display:flex;justify-content:center;align-items:center;padding-top:4px"><input type="checkbox" id="ip5MRTA" class="mrta-chk" onchange="recalc()" title="MRTA?"></div>
+      <div class="field mrta-field"><input type="checkbox" id="ip5MRTA" class="mrta-chk" onchange="recalc()"><label for="ip5MRTA" class="mrta-lbl"></label></div>
       <button class="policy-row-del no-print" id="invDelBtn5" onclick="removeInvRow(5)" title="Remove">✕</button>
     </div>
     <button id="addInvRowBtn" class="btn-add-row no-print" onclick="addInvRow()">＋ <span data-i18n="btnAddInvProp">新增房產</span></button>
@@ -2156,6 +2173,8 @@ function recalc() {
       ? '<span class="pcc-adj-ok">＋RM '+abs+'</span>'
       : '<span class="pcc-adj-gap">－RM '+abs+'</span>';
   };
+  const _adjRow = (lbl, v) =>
+    '<div class="pcc-adj-row"><span class="pcc-adj-lbl">'+lbl+'</span>'+_fmtAdj(v)+'</div>';
   ['A','B','C'].forEach(pl => {
     const nd = n('plan'+pl+'_death');
     const nt = n('plan'+pl+'_tpd');
@@ -2165,10 +2184,7 @@ function recalc() {
     const ac = (totalCI     + nc) - ciNeed;
     const el = document.getElementById('pccAdj'+pl);
     if(!el) return;
-    el.innerHTML =
-      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-bottom:1px">'+L('gapDeath')+'</span>'+_fmtAdj(ad)+
-      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-top:5px;margin-bottom:1px">'+L('gapTPD')+'</span>'+_fmtAdj(at)+
-      '<span style="font-size:10px;color:var(--muted);display:block;font-weight:400;margin-top:5px;margin-bottom:1px">'+L('gapCI')+'</span>'+_fmtAdj(ac);
+    el.innerHTML = _adjRow(L('gapDeath'),ad) + _adjRow(L('gapTPD'),at) + _adjRow(L('gapCI'),ac);
   });
 
   // Print note
