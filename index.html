@@ -927,39 +927,13 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
-<!-- ══ SECTION 8 — COVERAGE GAP ══ -->
-<div class="section break-before">
-  <div class="section-header">
-    <span class="section-tag tag-analysis" data-i18n="tagCompare">比較</span>
-    <h2 data-i18n="s8Title">保障缺口總覽 — Before vs After</h2>
-  </div>
-  <div class="section-body">
-    <div class="table-scroll" id="gapComparison"></div>
-  </div>
-</div>
-
-<!-- ══ SECTION 9 — MEDICAL ANALYSIS ══ -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-tag tag-analysis" data-i18n="tagMedical">醫療</span>
-    <h2 data-i18n="s9Title" style="font-size:13px;font-weight:700">醫療保障分析</h2>
-  </div>
-  <div class="section-body">
-    <div class="kpi-sm-grid" id="medicalKpi"></div>
-    <div id="medicalRecommend" class="mt-8"></div>
-  </div>
-</div>
-
-<!-- ══ SECTION 10 — RECOMMENDATIONS ══ -->
+<!-- ══ PLAN RECOMMENDATIONS ══ -->
 <div class="section break-before">
   <div class="section-header">
     <span class="section-tag tag-analysis" data-i18n="tagRecommend">建議</span>
-    <h2 data-i18n="s10Title">建議方案 — Recommendations</h2>
+    <h2 data-i18n="stPlanCmp">保障需求建議方案</h2>
   </div>
   <div class="section-body">
-    <div id="recommendations"></div>
-    <!-- ── Plan A/B/C Comparison ── -->
-    <div class="sub-title mt-12" data-i18n="stPlanCmp">保障方案比較</div>
     <div class="pcc-wrap">
       <table class="pcc-table">
         <colgroup>
@@ -1069,6 +1043,40 @@ select option:first-child{color:#C4C9D4}
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 8 — COVERAGE GAP ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-analysis" data-i18n="tagCompare">比較</span>
+    <h2 data-i18n="s8Title">保障缺口總覽 — Before vs After</h2>
+  </div>
+  <div class="section-body">
+    <div class="table-scroll" id="gapComparison"></div>
+  </div>
+</div>
+
+<!-- ══ SECTION 9 — MEDICAL ANALYSIS ══ -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag tag-analysis" data-i18n="tagMedical">醫療</span>
+    <h2 data-i18n="s9Title" style="font-size:13px;font-weight:700">醫療保障分析</h2>
+  </div>
+  <div class="section-body">
+    <div class="kpi-sm-grid" id="medicalKpi"></div>
+    <div id="medicalRecommend" class="mt-8"></div>
+  </div>
+</div>
+
+<!-- ══ SECTION 10 — RECOMMENDATIONS ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-analysis" data-i18n="tagRecommend">建議</span>
+    <h2 data-i18n="s10Title">建議方案 — Recommendations</h2>
+  </div>
+  <div class="section-body">
+    <div id="recommendations"></div>
     <div class="sub-title mt-12" data-i18n="stConsultantNote">顧問備注 (Consultant's Note)</div>
     <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6" oninput="recalc()"></textarea>
     <div id="printNote" class="print-only" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
@@ -1135,7 +1143,7 @@ const I18N = {
     stInvestProp:'投資房產', stOtherDebt:'其他負債', btnAddInvProp:'新增房產',
     stLifeCoverage:'人壽 / 傷殘 / 危疾 保障', stMedCard:'醫療卡 Medical Card',
     stConsultantNote:'顧問備注 (Consultant\'s Note)',
-    stPlanCmp:'保障方案比較',pccItem:'保障項目',pccPlanA:'基本保障',pccPlanB:'建議方案',pccPlanC:'全面保障',
+    stPlanCmp:'保障需求建議方案',pccItem:'保障項目',pccPlanA:'基本保障',pccPlanB:'建議方案',pccPlanC:'全面保障',
     pccGapRow:'保障缺口 (現有)',pccDeath:'新增身故保障額',pccTPD:'新增全殘保障 TPD 額',pccCI:'新增危疾保障 CI 額',
     pccECI:'新增危疾保障 CI (含早期)額',pccMedGrp:'醫療卡 Medical Card',pccMCRB:'↳ 每日病房費 Room & Board',pccMCAL:'↳ 年度限額 Annual Limit',pccMCCP:'↳ 自付費 Co-Payment',pccMCLL:'↳ 終身限額 Lifetime Limit',pccPremium:'每月保費 (RM)',pccAdjRow:'調整後差額 / 多出保障額',
     lSalaryMain:'月薪 — 本人 (RM)', lSalarySpouse:'月薪 — 配偶 (RM)', lRental:'租金收入 (RM/月)', lOtherIncome:'其他收入 (RM/月)',
@@ -1148,6 +1156,7 @@ const I18N = {
     thDesc:'說明', thBalance:'貸款餘額 (RM)', thMonthly:'月供 (RM)', thMRTA:'有 MRTA?',
     thItem:'項目', thAmount:'金額 (RM)', thNote:'備注',
     thCoverage:'保障類別', thNeed:'所需保障', thCurrent:'現有保障', thGap:'缺口 / 盈餘', thStatus:'狀態',
+    thBefore:'現有 (Before)',
     thIndicator:'指標', thCurrentVal:'現有值', thBenchmark:'標準', thDesc2:'說明',
     totTotal:'合計 Total', totMaxSum:'最高 / 合計',
     assumpTitle:'📐 計算假設', assumpInflation:'通脹率：', assumpInterest:'存款利率：', assumpReal:'調整後實際利率：', assumpIDE:'即時身故費用：',
@@ -1253,7 +1262,7 @@ const I18N = {
     stInvestProp:'Investment Properties', stOtherDebt:'Other Debts', btnAddInvProp:'Add Property',
     stLifeCoverage:'Life / TPD / Critical Illness Coverage', stMedCard:'Medical Card',
     stConsultantNote:"Consultant's Note",
-    stPlanCmp:'Plan Comparison',pccItem:'Coverage Item',pccPlanA:'Basic',pccPlanB:'Recommended',pccPlanC:'Comprehensive',
+    stPlanCmp:'Recommended Protection Plan',pccItem:'Coverage Item',pccPlanA:'Basic',pccPlanB:'Recommended',pccPlanC:'Comprehensive',
     pccGapRow:'Current Gap',pccDeath:'Add. Death Benefit',pccTPD:'Add. TPD Amount',pccCI:'Add. CI Amount',
     pccECI:'Add. CI (incl. Early)',pccMedGrp:'Medical Card',pccMCRB:'↳ Room & Board/day',pccMCAL:'↳ Annual Limit',pccMCCP:'↳ Co-Payment',pccMCLL:'↳ Lifetime Limit',pccPremium:'Monthly Premium (RM)',pccAdjRow:'Adjusted Gap / Surplus',
     lSalaryMain:'Salary — Self (RM)', lSalarySpouse:'Salary — Spouse (RM)', lRental:'Rental Income (RM/mo)', lOtherIncome:'Other Income (RM/mo)',
@@ -1266,6 +1275,7 @@ const I18N = {
     thDesc:'Description', thBalance:'Loan Balance (RM)', thMonthly:'Monthly (RM)', thMRTA:'MRTA?',
     thItem:'Item', thAmount:'Amount (RM)', thNote:'Notes',
     thCoverage:'Coverage Type', thNeed:'Need', thCurrent:'Current', thGap:'Gap / Surplus', thStatus:'Status',
+    thBefore:'Before',
     thIndicator:'Indicator', thCurrentVal:'Current Value', thBenchmark:'Benchmark', thDesc2:'Description',
     totTotal:'Total', totMaxSum:'Max / Total',
     assumpTitle:'📐 Calculation Assumptions', assumpInflation:'Inflation:', assumpInterest:'Interest Rate:', assumpReal:'Real Rate (adj.):', assumpIDE:'Immediate Death Exp.:',
@@ -1371,7 +1381,7 @@ const I18N = {
     stInvestProp:'Hartanah Pelaburan', stOtherDebt:'Hutang Lain', btnAddInvProp:'Tambah Hartanah',
     stLifeCoverage:'Liputan Nyawa / OKU / Penyakit Kritikal', stMedCard:'Kad Perubatan',
     stConsultantNote:'Nota Penasihat',
-    stPlanCmp:'Perbandingan Pelan',pccItem:'Item Perlindungan',pccPlanA:'Asas',pccPlanB:'Cadangan',pccPlanC:'Komprehensif',
+    stPlanCmp:'Pelan Cadangan Perlindungan',pccItem:'Item Perlindungan',pccPlanA:'Asas',pccPlanB:'Cadangan',pccPlanC:'Komprehensif',
     pccGapRow:'Jurang Semasa',pccDeath:'Faedah Kematian Tambahan',pccTPD:'Jumlah OKU Tambahan',pccCI:'Jumlah CI Tambahan',
     pccECI:'Jumlah CI (termasuk Awal)',pccMedGrp:'Kad Perubatan',pccMCRB:'↳ Caj Bilik/hari',pccMCAL:'↳ Had Tahunan',pccMCCP:'↳ Bayaran Bersama',pccMCLL:'↳ Had Seumur Hidup',pccPremium:'Premium Bulanan (RM)',pccAdjRow:'Baki / Lebihan Selepas Pelarasan',
     lSalaryMain:'Gaji — Diri Sendiri (RM)', lSalarySpouse:'Gaji — Pasangan (RM)', lRental:'Pendapatan Sewa (RM/bln)', lOtherIncome:'Pendapatan Lain (RM/bln)',
@@ -1384,6 +1394,7 @@ const I18N = {
     thDesc:'Keterangan', thBalance:'Baki Pinjaman (RM)', thMonthly:'Bulanan (RM)', thMRTA:'MRTA?',
     thItem:'Perkara', thAmount:'Jumlah (RM)', thNote:'Catatan',
     thCoverage:'Jenis Liputan', thNeed:'Keperluan', thCurrent:'Semasa', thGap:'Jurang / Lebihan', thStatus:'Status',
+    thBefore:'Sebelum',
     thIndicator:'Penunjuk', thCurrentVal:'Nilai Semasa', thBenchmark:'Penanda Aras', thDesc2:'Penerangan',
     totTotal:'Jumlah', totMaxSum:'Maks / Jumlah',
     assumpTitle:'📐 Andaian Pengiraan', assumpInflation:'Inflasi:', assumpInterest:'Kadar Faedah:', assumpReal:'Kadar Benar (laras):', assumpIDE:'Perbelanjaan Kematian Segera:',
@@ -2093,32 +2104,55 @@ function recalc() {
     </tr>`;
   }).join(''));
 
-  // ── Gap Comparison ──
-  const gapItems = [
-    {cat:L('nDeath'), current:deathBenefit, need:deathNeed},
-    {cat:L('nTPD'), current:tpdBenefit, need:tpdNeed},
-    {cat:L('nCI'), current:totalCI, need:ciNeed},
-    {cat:L('nPA'), current:paBenefit, need:deathNeed*0.5, note:L('nPANote')},
-    {cat:L('nMed'), current:lifetimeLimit, need:1000000, note:L('nMedNote')},
+  // ── Gap Comparison — Before vs After Plan A/B/C ──
+  const _gcBefore = (val, need) => {
+    const ok = val >= need;
+    const diff = Math.abs(val - need);
+    return `<span style="display:block;color:${ok?'var(--ok)':'var(--gap)'};font-weight:700;font-size:12px">${fmtRaw(val)}</span>`
+      + `<span style="display:block;font-size:10px;font-weight:600;color:${ok?'var(--ok)':'var(--gap)'};margin-top:1px">${ok?'✓ ＋'+fmtRaw(diff):'－'+fmtRaw(diff)}</span>`;
+  };
+  const _gcAfter = (after, orig, need) => {
+    if(after === orig) return `<span style="color:var(--muted);font-size:11px;font-weight:500">—</span>`;
+    const ok = after >= need;
+    const diff = Math.abs(after - need);
+    return `<span style="display:block;color:${ok?'var(--ok)':'var(--gap)'};font-weight:700;font-size:12px">${fmtRaw(after)}</span>`
+      + `<span style="display:block;font-size:10px;font-weight:600;color:${ok?'var(--ok)':'var(--gap)'};margin-top:1px">${ok?'✓ ＋'+fmtRaw(diff):'－'+fmtRaw(diff)}</span>`;
+  };
+  const gapRows = [
+    {cat:L('nDeath'), need:deathNeed, cur:deathBenefit,
+     aA:deathBenefit+n('planA_death'), aB:deathBenefit+n('planB_death'), aC:deathBenefit+n('planC_death')},
+    {cat:L('nTPD'),   need:tpdNeed,   cur:tpdBenefit,
+     aA:tpdBenefit+n('planA_tpd'),    aB:tpdBenefit+n('planB_tpd'),    aC:tpdBenefit+n('planC_tpd')},
+    {cat:L('nCI'),    need:ciNeed,    cur:totalCI,
+     aA:totalCI+n('planA_ci')+n('planA_eci'), aB:totalCI+n('planB_ci')+n('planB_eci'), aC:totalCI+n('planC_ci')+n('planC_eci')},
+    {cat:L('nMed'),   need:1000000,   cur:lifetimeLimit, note:L('nMedNote'),
+     aA:lifetimeLimit+n('planA_mc_ll'), aB:lifetimeLimit+n('planB_mc_ll'), aC:lifetimeLimit+n('planC_mc_ll')},
   ];
   setHtml('gapComparison', `
-    <table class="cmp-table">
-      <colgroup><col style="width:38%"><col style="width:15%"><col style="width:15%"><col style="width:22%"><col style="width:10%"></colgroup>
-      <thead><tr class="thead-dark"><th style="text-align:left">${L('thCoverage')}</th><th class="col-current">${L('thCurrent')}</th><th class="col-need">${L('thNeed')}</th><th class="col-gap">${L('thGap')}</th><th>%</th></tr></thead>
+    <table class="cmp-table" style="min-width:520px">
+      <colgroup>
+        <col style="width:22%"><col style="width:11%">
+        <col style="width:16.75%"><col style="width:16.75%"><col style="width:16.75%"><col style="width:16.75%">
+      </colgroup>
+      <thead>
+        <tr class="thead-dark">
+          <th style="text-align:left">${L('thCoverage')}</th>
+          <th class="col-need" style="text-align:right">${L('thNeed')}</th>
+          <th class="col-current" style="text-align:right">${L('thBefore')}</th>
+          <th style="background:#4B5563;color:#fff;text-align:right">Plan A<br><span style="font-size:9px;font-weight:400;opacity:.85">${L('pccPlanA')}</span></th>
+          <th style="background:var(--red);color:#fff;text-align:right">Plan B ★<br><span style="font-size:9px;font-weight:400;opacity:.85">${L('pccPlanB')}</span></th>
+          <th style="background:#0D2B5E;color:#fff;text-align:right">Plan C<br><span style="font-size:9px;font-weight:400;opacity:.85">${L('pccPlanC')}</span></th>
+        </tr>
+      </thead>
       <tbody>
-        ${gapItems.map(g => {
-          const gap = g.current - g.need;
-          const ok = gap >= 0;
-          const covPct = g.need>0 ? Math.min(200, g.current/g.need*100) : 100;
-          const pb = progressBar(g.current, Math.max(g.current, g.need)*1.1, ok?'ok':'gap');
-          return `<tr>
-            <td><b>${g.cat}</b>${g.note?`<div class="text-sm" style="color:var(--muted);font-weight:400;margin-top:2px">${g.note}</div>`:''}${pb}</td>
-            <td class="current-val">${fmtRaw(g.current)}</td>
-            <td class="need-val">${fmtRaw(g.need)}</td>
-            <td class="${ok?'gap-val positive':'gap-val'}">${ok?'+&nbsp;':'−&nbsp;'}${fmtRaw(Math.abs(gap))}</td>
-            <td style="color:var(--muted);font-weight:600">${covPct.toFixed(0)}%</td>
-          </tr>`;
-        }).join('')}
+        ${gapRows.map(g => `<tr>
+          <td><b>${g.cat}</b>${g.note?`<div class="text-sm" style="color:var(--muted);font-weight:400;margin-top:2px">${g.note}</div>`:''}</td>
+          <td class="need-val" style="text-align:right">${fmtRaw(g.need)}</td>
+          <td style="text-align:right">${_gcBefore(g.cur, g.need)}</td>
+          <td style="background:rgba(75,85,99,.05);text-align:right">${_gcAfter(g.aA, g.cur, g.need)}</td>
+          <td style="background:rgba(255,43,30,.04);text-align:right">${_gcAfter(g.aB, g.cur, g.need)}</td>
+          <td style="background:rgba(13,43,94,.05);text-align:right">${_gcAfter(g.aC, g.cur, g.need)}</td>
+        </tr>`).join('')}
       </tbody>
     </table>`);
 
