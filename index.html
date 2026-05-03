@@ -877,6 +877,23 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+<!-- ══ SECTION 7 — RATIO ANALYSIS (moved up) ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-analysis" data-i18n="tagAnalysis">分析</span>
+    <h2 data-i18n="s7Title">現有規劃對比需要比率分析</h2>
+  </div>
+  <div class="section-body">
+    <p class="text-sm" style="margin-bottom:12px" data-i18n="riskLegend">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
+    <div class="table-scroll">
+      <table class="analysis-table">
+        <thead><tr><th style="width:20%" data-i18n="thIndicator">指標</th><th style="width:13%;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:18%" data-i18n="thBenchmark">標準</th><th style="width:14%;text-align:center" data-i18n="thStatus">狀態</th><th style="width:35%" data-i18n="thDesc">說明</th></tr></thead>
+        <tbody id="riskRatioTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ══ SECTION 6 — INSURANCE NEEDS ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -905,23 +922,6 @@ select option:first-child{color:#C4C9D4}
           </tr>
         </thead>
         <tbody id="needsTable"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ══ SECTION 7 — RISK RATIO ANALYSIS ══ -->
-<div class="section break-before">
-  <div class="section-header">
-    <span class="section-tag tag-analysis" data-i18n="tagAnalysis">分析</span>
-    <h2 data-i18n="s7Title">風險比率分析 — Risk Ratio Dashboard</h2>
-  </div>
-  <div class="section-body">
-    <p class="text-sm" style="margin-bottom:12px" data-i18n="riskLegend">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
-    <div class="table-scroll">
-      <table class="analysis-table">
-        <thead><tr><th style="width:20%" data-i18n="thIndicator">指標</th><th style="width:13%;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:18%" data-i18n="thBenchmark">標準</th><th style="width:14%;text-align:center" data-i18n="thStatus">狀態</th><th style="width:35%" data-i18n="thDesc">說明</th></tr></thead>
-        <tbody id="riskRatioTable"></tbody>
       </table>
     </div>
   </div>
@@ -1130,7 +1130,7 @@ const I18N = {
     s1Title:'顧問資訊 & 假設條件', s2Title:'個人資料', s3Title:'財務狀況',
     s4Title:'現有保險保障', s5Title:'財務摘要',
     s6Title:'保險需求分析 — Insurance Need Coverage',
-    s7Title:'風險比率分析 — Risk Ratio Dashboard',
+    s7Title:'現有規劃對比需要比率分析',
     s8Title:'保障缺口總覽 — Before vs After',
     s9Title:'醫療保障分析', s10Title:'建議方案 — Recommendations', s11Title:'行動計劃 — Action Plan',
     lPlannerName:'顧問姓名', lPlannerPhone:'顧問聯絡', lPlannerEmail:'Email / 公司', lReportDate:'報告日期',
@@ -1249,7 +1249,7 @@ const I18N = {
     tagCompare:'Compare', tagMedical:'Medical', tagRecommend:'Recommend', tagAction:'Action',
     s1Title:'Advisor Info & Assumptions', s2Title:'Personal Details', s3Title:'Financial Profile',
     s4Title:'Existing Insurance Coverage', s5Title:'Financial Summary',
-    s6Title:'Insurance Needs Analysis', s7Title:'Risk Ratio Dashboard',
+    s6Title:'Insurance Needs Analysis', s7Title:'Existing vs Needs Ratio Analysis',
     s8Title:'Coverage Gap Overview — Before vs After',
     s9Title:'Medical Coverage Analysis', s10Title:'Recommendations', s11Title:'Action Plan',
     lPlannerName:'Advisor Name', lPlannerPhone:'Advisor Contact', lPlannerEmail:'Email / Company', lReportDate:'Report Date',
@@ -1368,7 +1368,7 @@ const I18N = {
     tagCompare:'Banding', tagMedical:'Perubatan', tagRecommend:'Cadangan', tagAction:'Tindakan',
     s1Title:'Maklumat Penasihat & Andaian', s2Title:'Maklumat Peribadi', s3Title:'Profil Kewangan',
     s4Title:'Liputan Insurans Sedia Ada', s5Title:'Ringkasan Kewangan',
-    s6Title:'Analisis Keperluan Insurans', s7Title:'Papan Pemuka Nisbah Risiko',
+    s6Title:'Analisis Keperluan Insurans', s7Title:'Analisis Nisbah Sedia Ada vs Keperluan',
     s8Title:'Jurang Liputan — Sebelum vs Selepas',
     s9Title:'Analisis Liputan Perubatan', s10Title:'Cadangan', s11Title:'Pelan Tindakan',
     lPlannerName:'Nama Penasihat', lPlannerPhone:'Hubungi Penasihat', lPlannerEmail:'E-mel / Syarikat', lReportDate:'Tarikh Laporan',
