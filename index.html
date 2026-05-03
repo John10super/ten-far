@@ -873,7 +873,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.55 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.56 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -3213,20 +3213,39 @@ function nextPage(){ if(farCurrentPage < FAR_TOTAL_PAGES) goToPage(farCurrentPag
 function prevPage(){ if(farCurrentPage > 1) goToPage(farCurrentPage - 1); }
 
 function saveAndNext(){
-  // Trigger save (recalc + persist via existing saveProfile if available)
-  if(typeof saveProfile === 'function') try{ saveProfile(); }catch(e){}
+  // 1) Recalc all outputs
   if(typeof recalc === 'function') try{ recalc(); }catch(e){}
-  // Show toast
-  const toast = document.getElementById('farToast');
-  if(toast){
-    toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 1100);
+  // 2) Save full client record to system (goes into records drawer for future retrieval)
+  let recordSaved = false;
+  let clientName = '';
+  const nameEl = document.getElementById('clientName');
+  if(nameEl) clientName = (nameEl.value || '').trim();
+  if(typeof saveRecord === 'function') {
+    try{ saveRecord(); recordSaved = true; }catch(e){ console.warn('saveRecord failed', e); }
   }
-  // Advance after brief delay (let user see confirmation)
-  setTimeout(()=> nextPage(), 550);
+  // 3) Backup: autosave advisor profile
+  if(typeof saveProfile === 'function') try{ saveProfile(); }catch(e){}
+  // 4) Toast feedback
+  //    - If saveRecord ran, it already shows its own toast with client name
+  //    - Otherwise (e.g., name still empty + saveRecord exists but failed), show wizard toast
+  if(!recordSaved){
+    const toast = document.getElementById('farToast');
+    if(toast){
+      toast.classList.add('show');
+      setTimeout(()=> toast.classList.remove('show'), 1100);
+    }
+  }
+  // 5) Advance after brief delay (let user see confirmation)
+  setTimeout(()=> nextPage(), 800);
 }
 
 function finishWizard(){
+  // Final save: persist full client record
+  if(typeof recalc === 'function') try{ recalc(); }catch(e){}
+  let recordSaved = false;
+  if(typeof saveRecord === 'function') {
+    try{ saveRecord(); recordSaved = true; }catch(e){}
+  }
   if(typeof saveProfile === 'function') try{ saveProfile(); }catch(e){}
   // Open in show-all mode so user sees the full report
   farShowAll = true;
@@ -3235,14 +3254,16 @@ function finishWizard(){
   const ico = document.getElementById('farShowAllIcon');
   if(lbl) lbl.textContent = '返回 Wizard';
   if(ico) ico.textContent = '🪟';
-  // Show finish toast
-  const toast = document.getElementById('farToast');
-  if(toast){
-    toast.querySelector('span:last-child').textContent = '報告已生成 — 完整檢視';
-    toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 2000);
+  // Show finish toast (only if saveRecord didn't already show one)
+  if(!recordSaved){
+    const toast = document.getElementById('farToast');
+    if(toast){
+      const txtEl = toast.querySelector('span:last-child');
+      if(txtEl) txtEl.textContent = '報告已生成 — 完整檢視';
+      toast.classList.add('show');
+      setTimeout(()=> toast.classList.remove('show'), 2000);
+    }
   }
-  if(typeof recalc === 'function') try{ recalc(); }catch(e){}
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
