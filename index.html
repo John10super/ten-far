@@ -763,6 +763,23 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+<!-- ══ SECTION 5 — FINANCIAL SUMMARY (moved up before assumptions) ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-calc" data-i18n="tagCalc">計算</span>
+    <h2 data-i18n="s5Title">財務摘要</h2>
+  </div>
+  <div class="section-body">
+    <div class="kpi-sm-grid" id="financeSummaryKpi"></div>
+    <div class="table-scroll">
+      <table class="analysis-table">
+        <thead><tr><th data-i18n="thItem">項目</th><th style="text-align:right" data-i18n="thAmount">金額 (RM)</th><th data-i18n="thNote">備注</th></tr></thead>
+        <tbody id="financeSummaryTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ══ ASSUMPTIONS (compact, between financial profile & insurance) ══ -->
 <div class="section no-print">
   <div class="section-header">
@@ -857,23 +874,6 @@ select option:first-child{color:#C4C9D4}
     <button id="addMedRowBtn" class="btn-add-row no-print" onclick="addMedRow()">＋ <span data-i18n="btnAddMedCard">新增醫療卡</span></button>
     <div class="text-sm mt-4" style="color:var(--muted)" id="medHintText">💡 病房費 / 終身 / 年度限額 顯示最高單份保單數值；住院津貼 / 豁免保費為各保單合計</div>
 
-  </div>
-</div>
-
-<!-- ══ SECTION 5 — FINANCIAL SUMMARY ══ -->
-<div class="section break-before">
-  <div class="section-header">
-    <span class="section-tag tag-calc" data-i18n="tagCalc">計算</span>
-    <h2 data-i18n="s5Title">財務摘要</h2>
-  </div>
-  <div class="section-body">
-    <div class="kpi-sm-grid" id="financeSummaryKpi"></div>
-    <div class="table-scroll">
-      <table class="analysis-table">
-        <thead><tr><th data-i18n="thItem">項目</th><th style="text-align:right" data-i18n="thAmount">金額 (RM)</th><th data-i18n="thNote">備注</th></tr></thead>
-        <tbody id="financeSummaryTable"></tbody>
-      </table>
-    </div>
   </div>
 </div>
 
