@@ -25,14 +25,14 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .btn-new{background:#6366F1;color:#fff}.btn-new:hover{filter:brightness(1.1)}
 
 /* ── FAB ACTION MENU ─── */
-.fab-container{position:fixed;top:54px;left:0;z-index:150}
-.fab-backdrop{display:none;position:fixed;inset:0;z-index:149}
+.fab-container{position:fixed;top:54px;left:0;z-index:1100}
+.fab-backdrop{display:none;position:fixed;inset:0;z-index:1099}
 .fab-backdrop.open{display:block}
 /* Button lives inside header — styles kept minimal */
 .fab-btn{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;letter-spacing:0}
 .fab-btn:hover{background:rgba(255,255,255,.26)}
 .fab-btn.open{background:var(--red);border-color:var(--red)}
-.fab-panel{position:absolute;top:8px;left:16px;bottom:auto;right:auto;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.22);padding:6px;min-width:220px;display:none;flex-direction:column;gap:2px;border:1px solid var(--border);z-index:200}
+.fab-panel{position:absolute;top:8px;left:16px;bottom:auto;right:auto;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.22);padding:6px;min-width:220px;display:none;flex-direction:column;gap:2px;border:1px solid var(--border);z-index:1101}
 .fab-panel.open{display:flex}
 .fab-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:8px 12px 6px;border-bottom:1px solid var(--border);margin-bottom:2px}
 .fab-panel-hdr span{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
@@ -869,7 +869,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.59 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.60 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -1060,7 +1060,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
   <div class="far-nav no-print">
     <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
-    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="nextPage()"><span data-i18n="navContinue">繼續 →</span></button></div>
   </div>
 </div>
 
@@ -1150,7 +1150,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
   <div class="far-nav no-print">
     <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
-    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="nextPage()"><span data-i18n="navContinue">繼續 →</span></button></div>
   </div>
 </div>
 
