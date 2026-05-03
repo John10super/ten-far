@@ -583,8 +583,8 @@ select option:first-child{color:#C4C9D4}
 /* "Show All" mode — overrides page hiding */
 body.far-show-all .far-page{display:block!important;animation:none}
 body.far-show-all .far-progress,body.far-show-all .far-nav{display:none!important}
-body.far-show-all .far-show-all-toggle{background:#FF2B1E;color:#fff}
-body.far-show-all .far-show-all-toggle:hover{background:#E11900}
+body.far-show-all .far-show-all-toggle{background:#FF2B1E;color:#fff;border-color:#FF2B1E}
+body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E11900}
 
 /* Print: always show all pages */
 @media print{
@@ -683,17 +683,19 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900}
   background:rgba(255,255,255,.25);font-size:13px;font-weight:900;
 }
 
-/* ── Show All Toggle ── */
+/* ── Show All Toggle (lives inside screen-header, next to lang switcher) ── */
 .far-show-all-toggle{
-  position:fixed;top:14px;right:18px;
-  background:#fff;border:1px solid #E5E7EB;
-  padding:7px 14px;border-radius:18px;
-  font-size:11px;font-weight:600;color:#4B5563;
-  cursor:pointer;z-index:850;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  transition:all .2s ease;font-family:inherit;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);
+  color:rgba(255,255,255,.85);
+  padding:6px 12px;border-radius:8px;
+  font-size:11.5px;font-weight:700;letter-spacing:.2px;
+  cursor:pointer;flex-shrink:0;
+  transition:all .15s ease;font-family:inherit;
+  display:inline-flex;align-items:center;gap:5px;
+  white-space:nowrap;
 }
-.far-show-all-toggle:hover{background:#F9FAFB;border-color:#D1D5DB}
+.far-show-all-toggle:hover{background:rgba(255,255,255,.22);color:#fff;border-color:rgba(255,255,255,.4)}
 
 /* Responsive — Mobile */
 @media(max-width:640px){
@@ -705,7 +707,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900}
   .far-nav{flex-direction:column-reverse;margin-top:24px}
   .far-nav-left,.far-nav-right{width:100%}
   .far-btn{width:100%;justify-content:center;padding:14px 20px}
-  .far-show-all-toggle{top:auto;bottom:14px;right:14px;font-size:10px;padding:6px 12px}
+  .far-show-all-toggle{font-size:10px;padding:5px 9px;gap:3px}
+  .far-show-all-toggle .far-toggle-text{display:none}
   #farToast{bottom:80px;font-size:13px;padding:12px 22px}
 }
 
@@ -789,7 +792,11 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900}
 <div class="screen-header no-print">
   <button class="fab-btn" id="fabBtn" onclick="toggleFab()" title="選單 Menu">☰</button>
   <h1>TEN Consultancy &nbsp;—&nbsp; <span>Financial Health Analysis</span></h1>
-  <div class="lang-switcher">
+  <button class="far-show-all-toggle" onclick="toggleShowAll()" title="切換完整檢視" style="margin-left:auto">
+    <span class="far-toggle-icon" id="farShowAllIcon">📄</span>
+    <span class="far-toggle-text" id="farShowAllLabel">展開全部</span>
+  </button>
+  <div class="lang-switcher" style="margin-left:8px">
     <button class="lang-btn active" data-lang="zh" onclick="setLang('zh')">中文</button>
     <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
     <button class="lang-btn" data-lang="bm" onclick="setLang('bm')">BM</button>
@@ -866,7 +873,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900}
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.53 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.54 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -893,7 +900,6 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900}
   </div>
   <div class="far-progress-bar"><div class="far-progress-fill" id="farProgressFill"></div></div>
 </div>
-<button class="far-show-all-toggle no-print" onclick="toggleShowAll()" title="切換完整檢視"><span id="farShowAllLabel">📄 展開全部</span></button>
 
 <!-- ══ FAR WIZARD PAGES ══ -->
 <div id="farWizard">
@@ -3226,7 +3232,9 @@ function finishWizard(){
   farShowAll = true;
   document.body.classList.add('far-show-all');
   const lbl = document.getElementById('farShowAllLabel');
-  if(lbl) lbl.textContent = '🪟 返回 Wizard 模式';
+  const ico = document.getElementById('farShowAllIcon');
+  if(lbl) lbl.textContent = '返回 Wizard';
+  if(ico) ico.textContent = '🪟';
   // Show finish toast
   const toast = document.getElementById('farToast');
   if(toast){
@@ -3242,7 +3250,9 @@ function toggleShowAll(){
   farShowAll = !farShowAll;
   document.body.classList.toggle('far-show-all', farShowAll);
   const lbl = document.getElementById('farShowAllLabel');
-  if(lbl) lbl.textContent = farShowAll ? '🪟 返回 Wizard 模式' : '📄 展開全部';
+  const ico = document.getElementById('farShowAllIcon');
+  if(lbl) lbl.textContent = farShowAll ? '返回 Wizard' : '展開全部';
+  if(ico) ico.textContent = farShowAll ? '🪟' : '📄';
   if(!farShowAll){
     // Restore page view to current page
     goToPage(farCurrentPage, {skipScroll:true});
