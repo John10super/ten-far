@@ -921,9 +921,6 @@ select option:first-child{color:#C4C9D4}
   </div>
   <div class="section-body">
     <div id="recommendations"></div>
-    <div class="sub-title mt-12" data-i18n="stConsultantNote">顧問備注 (Consultant's Note)</div>
-    <textarea class="no-print" rows="4" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6" oninput="recalc()"></textarea>
-    <div id="printNote" class="print-only" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
   </div>
 </div>
 
@@ -1100,6 +1097,18 @@ select option:first-child{color:#C4C9D4}
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ══ CONSULTANT NOTE ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-input" data-i18n="tagSetting">設定</span>
+    <h2 data-i18n="stConsultantNote">顧問備注 (Consultant's Note)</h2>
+  </div>
+  <div class="section-body">
+    <textarea class="no-print" rows="6" id="consultantNote" placeholder="在此輸入額外建議、產品方案、保費報價等..." style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6" oninput="recalc()"></textarea>
+    <div id="printNote" class="print-only" style="font-size:12px;line-height:1.8;padding:8px 0"></div>
   </div>
 </div>
 
