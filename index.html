@@ -378,25 +378,36 @@ select option:first-child{color:#C4C9D4}
 /* ── MOBILE ─── */
 /* ── TABLET (769px – 1024px) ── */
 @media (max-width:1024px) and (min-width:769px){
+  body{font-size:15px}
   .container{padding:18px 14px}
+  .screen-header h1{font-size:15px}
+  .section-header h2{font-size:16px}
+  .section-tag{font-size:11px}
+  .sub-title{font-size:12px}
+  .text-sm{font-size:12px}
+  .field label{font-size:12px;letter-spacing:.3px}
+  .field input,.field select{font-size:15px}
+  .kpi-label{font-size:11px}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
   .grid4{grid-template-columns:1fr 1fr}
   .gap-cards-grid{flex-wrap:wrap}
   .gap-card{flex:1 1 calc(50% - 4px)}
-  .screen-header h1{font-size:14px}
   /* PCC table — tablet */
-  .pcc-table{font-size:12px;min-width:480px}
+  .pcc-table{font-size:13px;min-width:480px}
   .pcc-table thead th{padding:9px 10px}
-  .pcc-th-sub{font-size:9px}
+  .pcc-th-sub{font-size:10px}
   .pcc-table tbody td{padding:8px 10px}
-  .pcc-table .input-prefix input{font-size:12px;padding:5px 7px}
-  .pcc-table .input-prefix span{padding:0 6px;font-size:10px}
-  .pcc-lbl{font-size:11px}
-  .pcc-addcov-chip{font-size:10px;padding:4px 10px}
-  .pcc-adj-cell{font-size:11px}
+  .pcc-table .input-prefix input{font-size:13px;padding:5px 7px}
+  .pcc-table .input-prefix span{padding:0 6px;font-size:11px}
+  .pcc-lbl{font-size:12px}
+  .pcc-addcov-chip{font-size:11px;padding:5px 11px}
+  .pcc-adj-cell{font-size:12px}
+  .pcc-adj-lbl{font-size:11px}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:12px}
 }
 /* ── MOBILE (≤ 768px) ── */
 @media (max-width:768px){
+  body{font-size:15px}
   .grid3{grid-template-columns:1fr 1fr}
   .grid4{grid-template-columns:1fr 1fr}
   .row-3{grid-template-columns:1fr 1fr}
@@ -407,44 +418,52 @@ select option:first-child{color:#C4C9D4}
   .prop-hdr-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 32px 22px !important}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .kpi-sm-grid{grid-template-columns:repeat(3,1fr)}
-  .kpi-value{font-size:22px}
+  .kpi-value{font-size:24px}
+  .kpi-label{font-size:11px}
   .section-body{overflow-x:hidden;padding:14px 16px}
   .policy-wrap{overflow-x:auto !important;-webkit-overflow-scrolling:touch}
   .section-header{padding:13px 16px}
+  .section-header h2{font-size:15px}
+  .section-tag{font-size:11px}
+  .sub-title{font-size:12px}
+  .field label{font-size:12px;letter-spacing:.2px}
+  .field input,.field select{font-size:15px}
+  .text-sm{font-size:12px}
+  .yn-opt{font-size:14px;padding:8px 20px}
   .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scroll:touch}
   .analysis-table{table-layout:auto;min-width:580px}
   .cmp-table{table-layout:auto;min-width:480px}
-  .policy-hint{display:block}
+  .policy-hint{display:block;font-size:11px}
   .container{padding:14px 12px}
   .gap-cards-grid{flex-wrap:wrap}
   .gap-card{flex:1 1 calc(50% - 4px)}
-  .screen-header h1{font-size:13px;letter-spacing:-.1px}
+  .screen-header h1{font-size:14px;letter-spacing:-.1px}
   /* Loan row compact inputs — prevent content from overflowing narrow 1fr cells */
   .row-4 .field,.row-inv .field{min-width:0;overflow:hidden}
-  .row-4 .field input,.row-4 .field select,.row-inv .field input,.row-inv .field select{min-width:0;width:100%;font-size:12px;padding:9px 6px}
+  .row-4 .field input,.row-4 .field select,.row-inv .field input,.row-inv .field select{min-width:0;width:100%;font-size:14px;padding:9px 6px}
   .row-4 .input-prefix,.row-inv .input-prefix{min-width:0}
-  .row-4 .input-prefix input,.row-inv .input-prefix input{font-size:12px;padding:9px 4px}
-  .row-4 .input-prefix span.prefix-rm,.row-inv .input-prefix span.prefix-rm{font-size:10px}
+  .row-4 .input-prefix input,.row-inv .input-prefix input{font-size:14px;padding:9px 4px}
+  .row-4 .input-prefix span.prefix-rm,.row-inv .input-prefix span.prefix-rm{font-size:11px}
   /* PCC table — mobile */
   .pcc-wrap{margin-top:8px}
-  .pcc-table{font-size:12px;min-width:440px}
+  .pcc-table{font-size:13px;min-width:440px}
   .pcc-table thead th{padding:8px 7px}
-  .pcc-th-sub{font-size:9px;letter-spacing:0;margin-top:2px}
+  .pcc-th-sub{font-size:10px;letter-spacing:0;margin-top:2px}
   .pcc-table tbody td{padding:7px 7px}
-  .pcc-table .input-prefix input{font-size:12px;padding:5px 5px}
-  .pcc-table .input-prefix span{padding:0 5px;font-size:10px}
-  .pcc-lbl{font-size:11px;padding-right:3px}
+  .pcc-table .input-prefix input{font-size:13px;padding:5px 5px}
+  .pcc-table .input-prefix span{padding:0 5px;font-size:11px}
+  .pcc-lbl{font-size:12px;padding-right:3px}
   .pcc-addcov-chips{gap:5px}
-  .pcc-addcov-chip{font-size:10px;padding:4px 10px}
+  .pcc-addcov-chip{font-size:11px;padding:5px 11px}
   .pcc-adj-cell{padding:5px 7px !important}
-  .pcc-adj-lbl{font-size:9px}
-  .pcc-adj-ok,.pcc-adj-gap{font-size:10px}
-  .pcc-gap-cell{font-size:11px;line-height:1.7}
+  .pcc-adj-lbl{font-size:10px}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:12px}
+  .pcc-gap-cell{font-size:12px;line-height:1.7}
 }
 /* ── SMALL MOBILE (≤ 480px) ── */
 @media (max-width:480px){
-  body{font-size:14px}
-  .screen-header h1{font-size:11.5px}
+  body{font-size:16px}
+  .screen-header h1{font-size:14px}
   .grid2{grid-template-columns:1fr 1fr}
   .grid3,.grid4{grid-template-columns:1fr 1fr}
   .row-3{grid-template-columns:1fr 1fr}
@@ -452,49 +471,54 @@ select option:first-child{color:#C4C9D4}
   .row-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 20px !important}
   .prop-hdr-4{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 0 !important}
   .prop-hdr-inv{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 28px 20px !important}
-  .field input,.field select{padding:11px 10px;font-size:15px;min-height:46px}
+  /* 16px prevents iOS Safari auto-zoom on input focus */
+  .field label{font-size:13px;letter-spacing:.15px}
+  .field input,.field select{padding:11px 12px;font-size:16px;min-height:46px}
   .input-prefix input{padding-left:28px}
+  .section-header h2{font-size:16px}
+  .section-tag{font-size:12px}
+  .sub-title{font-size:13px}
+  .text-sm{font-size:13px}
+  .kpi-label{font-size:11px}
+  .kpi-value{font-size:22px}
+  .kpi-card{padding:13px 14px}
   .container{padding:10px 10px}
   .section{border-radius:10px;margin-bottom:12px}
+  .section-body{padding:12px 12px}
   .kpi-grid{grid-template-columns:1fr 1fr;gap:8px}
   .kpi-sm-grid{grid-template-columns:repeat(2,1fr)}
-  .kpi-value{font-size:20px}
-  .kpi-card{padding:13px 14px}
-  .section-body{padding:12px 12px}
-  .section-header h2{font-size:13.5px}
-  .policy-tbl th{font-size:9px;padding:5px 4px}
-  .policy-tbl td{padding:3px 3px}
-  .policy-tbl input[type=number],.policy-tbl input[type=text]{width:72px;font-size:12px}
-  .policy-tbl select{width:105px;font-size:12px}
+  .policy-tbl th{font-size:11px;padding:5px 4px}
+  .policy-tbl td{padding:4px 4px;font-size:13px}
+  .policy-tbl input[type=number],.policy-tbl input[type=text]{width:76px;font-size:13px}
+  .policy-tbl select{width:110px;font-size:13px}
   .signature-area{padding:14px 12px}
   .grid3.sig-grid{grid-template-columns:1fr;gap:14px}
   .cmp-table{table-layout:auto;min-width:420px}
   .analysis-table{table-layout:auto;min-width:540px}
-  .btn-final-save{font-size:14px;padding:11px 28px}
+  .btn-final-save{font-size:15px;padding:12px 28px}
   .gap-cards-grid{flex-direction:column}
   .gap-card{flex:1 1 100%}
   /* PCC table — small mobile */
   .pcol-lbl{width:30%}
   .pcol-plan{width:23.33%}
-  .pcc-table{font-size:11px;min-width:340px}
-  .pcc-table thead th{padding:6px 4px;font-size:10px;line-height:1.3}
-  .pcc-th-sub{font-size:8px;margin-top:1px;letter-spacing:0}
+  .pcc-table{font-size:12px;min-width:340px}
+  .pcc-table thead th{padding:6px 4px;font-size:11px;line-height:1.3}
+  .pcc-th-sub{font-size:9px;margin-top:1px;letter-spacing:0}
   .pcc-table tbody td{padding:5px 4px}
   .pcc-table .input-prefix{border-radius:5px}
-  .pcc-table .input-prefix input{font-size:10px !important;padding:4px 3px}
-  .pcc-table .input-prefix span{padding:0 3px;font-size:8px}
-  .pcc-lbl{font-size:10px;word-break:break-word;white-space:normal;overflow:visible;text-overflow:clip}
+  .pcc-table .input-prefix input{font-size:11px !important;padding:5px 4px}
+  .pcc-table .input-prefix span{padding:0 4px;font-size:9px}
+  .pcc-lbl{font-size:11px;word-break:break-word;white-space:normal;overflow:visible;text-overflow:clip}
   .pcc-row-sub .pcc-lbl{padding-left:10px}
   .pcc-addcov-chips{gap:3px}
-  .pcc-addcov-chip{font-size:9px;padding:3px 7px}
-  .pcc-adj-cell{font-size:10px;line-height:1.4;padding:5px 4px !important}
-  .pcc-gap-cell{font-size:10px;line-height:1.6}
-  .pcc-adj-cell{padding:4px 5px !important}
+  .pcc-addcov-chip{font-size:11px;padding:5px 10px}
+  .pcc-adj-cell{line-height:1.4;padding:5px 5px !important}
+  .pcc-gap-cell{font-size:11px;line-height:1.6}
   .pcc-adj-row{padding:2px 0}
-  .pcc-adj-lbl{font-size:9px}
-  .pcc-adj-ok,.pcc-adj-gap{font-size:10px}
+  .pcc-adj-lbl{font-size:10px}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:11px}
   .pcc-row-addcov td{padding:6px 4px}
-  .pcc-input-txt{font-size:10px}
+  .pcc-input-txt{font-size:11px}
 }
 </style>
 </head>
