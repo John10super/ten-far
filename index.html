@@ -526,9 +526,99 @@ select option:first-child{color:#C4C9D4}
   .pcc-row-addcov td{padding:6px 4px}
   .pcc-input-txt{font-size:11px}
 }
+/* ── WELCOME SCREEN ── */
+#welcomeScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(145deg,#081220 0%,#0E1C30 45%,#162236 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:40px 20px;box-sizing:border-box;transition:opacity .5s ease}
+#welcomeScreen.fade-out{opacity:0;pointer-events:none}
+.wl-top-bar{position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#FF2B1E,#FF6B5E,#FF2B1E)}
+.wl-logo-mark{text-align:center;margin-bottom:28px}
+.wl-ten{font-size:72px;font-weight:900;color:#FF2B1E;line-height:1;letter-spacing:-2px;font-family:'Arial Black','Impact',sans-serif;display:inline-block;position:relative}
+.wl-ten-badge{background:#FF2B1E;color:#fff;border-radius:50%;font-size:14px;font-weight:800;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;vertical-align:super;margin-left:2px;position:relative;top:-10px;font-family:Arial,sans-serif}
+.wl-company{font-size:12px;font-weight:800;letter-spacing:9px;color:rgba(255,255,255,.9);margin-top:10px;text-transform:uppercase}
+.wl-tagline{font-size:11.5px;color:rgba(255,255,255,.4);letter-spacing:2.5px;margin-top:8px;font-style:italic}
+.wl-divider{width:48px;height:2px;background:#FF2B1E;margin:20px auto 28px;border-radius:2px}
+.wl-report-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:.5px;text-align:center}
+.wl-report-sub{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:5px;letter-spacing:.5px;text-align:center}
+.wl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:680px;width:100%;margin:28px 0}
+.wl-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px 14px;text-align:center}
+.wl-card-icon{font-size:20px;margin-bottom:10px}
+.wl-card-title{font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:6px}
+.wl-card-desc{font-size:10px;color:rgba(255,255,255,.4);line-height:1.7}
+.wl-partners-label{font-size:9.5px;color:rgba(255,255,255,.25);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:10px}
+.wl-partners{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
+.wl-partner-chip{font-size:10.5px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.07);padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1)}
+.wl-disclaimer{max-width:520px;text-align:center;font-size:9.5px;color:rgba(255,255,255,.25);line-height:1.9;margin-bottom:32px;padding:0 10px}
+.wl-enter-btn{background:#FF2B1E;color:#fff;border:none;border-radius:12px;padding:14px 52px;font-size:15px;font-weight:800;letter-spacing:1.5px;cursor:pointer;box-shadow:0 6px 24px rgba(255,43,30,.35);transition:transform .2s,box-shadow .2s;font-family:inherit}
+.wl-enter-btn:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(255,43,30,.5)}
+.wl-enter-btn:active{transform:translateY(0)}
+.wl-footer{position:absolute;bottom:18px;font-size:9.5px;color:rgba(255,255,255,.18);letter-spacing:1.5px;text-align:center}
+@media(max-width:640px){.wl-cards{grid-template-columns:1fr 1fr}.wl-ten{font-size:56px}.wl-report-title{font-size:18px}}
+@media(max-width:400px){.wl-cards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
+<!-- ══ WELCOME SCREEN ══ -->
+<div id="welcomeScreen" class="no-print">
+  <div class="wl-top-bar"></div>
+
+  <!-- Logo -->
+  <div class="wl-logo-mark">
+    <div><span class="wl-ten">TEN<span class="wl-ten-badge">10</span></span></div>
+    <div class="wl-company">TEN &nbsp; CONSULTANCY</div>
+    <div class="wl-tagline">Empowering Tomorrow's Certainty</div>
+  </div>
+
+  <div class="wl-divider"></div>
+
+  <!-- Report Title -->
+  <div class="wl-report-title">Financial Analysis Report</div>
+  <div class="wl-report-sub">綜合財務保障需求分析報告 &nbsp;|&nbsp; FAR</div>
+
+  <!-- Feature Cards -->
+  <div class="wl-cards">
+    <div class="wl-card">
+      <div class="wl-card-icon">🛡️</div>
+      <div class="wl-card-title">保障缺口分析</div>
+      <div class="wl-card-desc">精確評估現有保障是否充足，識別身故、全殘、危疾及醫療缺口</div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-icon">📊</div>
+      <div class="wl-card-title">財務健康評估</div>
+      <div class="wl-card-desc">分析收支比率、負債情況及現金流，建立完整財務健康圖像</div>
+    </div>
+    <div class="wl-card">
+      <div class="wl-card-icon">💡</div>
+      <div class="wl-card-title">個人化方案建議</div>
+      <div class="wl-card-desc">根據客戶需求提供 Plan A / B / C 三種層次的專屬保障方案</div>
+    </div>
+  </div>
+
+  <!-- Authorised Partners -->
+  <div class="wl-partners-label">Authorised Partners</div>
+  <div class="wl-partners">
+    <span class="wl-partner-chip">AmMetLife Insurance Berhad</span>
+    <span class="wl-partner-chip">Rockwill Corporation Berhad</span>
+    <span class="wl-partner-chip">As-Salihin Trustee Berhad</span>
+    <span class="wl-partner-chip">Allianz General Insurance Malaysia</span>
+    <span class="wl-partner-chip">Generali General Insurance Malaysia</span>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="wl-disclaimer">
+    此報告工具由 TEN Consultancy 持牌顧問專用，所有分析結果僅供參考，不構成具體投資或購買建議。<br>
+    所有方案建議必須在持牌財務顧問陪同下詳細討論後方可執行。<br>
+    This tool is for licensed TEN Consultancy advisors only. All analysis is for reference purposes and does not constitute financial advice.
+  </div>
+
+  <!-- Enter Button -->
+  <button class="wl-enter-btn" onclick="
+    const ws=document.getElementById('welcomeScreen');
+    ws.classList.add('fade-out');
+    setTimeout(()=>ws.style.display='none',500);
+  ">開始分析 &nbsp;→</button>
+
+  <div class="wl-footer">© 2026 TEN Consultancy Sdn Bhd &nbsp;·&nbsp; Sarawak, Malaysia &nbsp;·&nbsp; www.tenconsultant.com</div>
+</div>
 
 <!-- SCREEN HEADER (with menu button at left + language switcher at right) -->
 <div class="screen-header no-print">
