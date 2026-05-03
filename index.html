@@ -873,7 +873,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.57 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.58 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -1412,8 +1412,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
 
   <div class="far-nav no-print">
-    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
-    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+    <div class="far-nav-left"></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-finish" onclick="finishWizard()" title="儲存並覆寫此客戶的完整報告"><span data-i18n="navSaveNow">💾 立即儲存報告</span></button></div>
   </div>
 </div>
 
@@ -1486,7 +1486,7 @@ let currentLang = 'zh';
 const I18N = {
   zh: {
     /* ── Wizard nav ── */
-    navBack:'← 上一頁', navNext:'儲存並繼續 →', navContinue:'繼續 →', navFinish:'完成 → 生成完整報告',
+    navBack:'← 上一頁', navNext:'儲存並繼續 →', navContinue:'繼續 →', navSaveNow:'💾 立即儲存報告', navFinish:'完成 → 生成完整報告',
     toastSaved:'已儲存',
     step_1_zh:'個人資料', step_2_zh:'財務狀況', step_3_zh:'現有保險保障', step_4_zh:'保險需求分析',
     step_5_zh:'財務分析總覽', step_6_zh:'建議方案', step_7_zh:'保障缺口 & 醫療', step_8_zh:'行動計劃 & 備注',
@@ -1611,7 +1611,7 @@ const I18N = {
   },
   en: {
     /* ── Wizard nav ── */
-    navBack:'← Back', navNext:'Save & Continue →', navContinue:'Continue →', navFinish:'Finish → Generate Report',
+    navBack:'← Back', navNext:'Save & Continue →', navContinue:'Continue →', navSaveNow:'💾 Save Report Now', navFinish:'Finish → Generate Report',
     toastSaved:'Saved',
     step_1_zh:'Personal Info', step_2_zh:'Financials', step_3_zh:'Insurance', step_4_zh:'Needs Analysis',
     step_5_zh:'Analysis', step_6_zh:'Recommendations', step_7_zh:'Gap & Medical', step_8_zh:'Action Plan',
@@ -1735,7 +1735,7 @@ const I18N = {
   },
   bm: {
     /* ── Wizard nav ── */
-    navBack:'← Sebelumnya', navNext:'Simpan & Teruskan →', navContinue:'Teruskan →', navFinish:'Selesai → Jana Laporan',
+    navBack:'← Sebelumnya', navNext:'Simpan & Teruskan →', navContinue:'Teruskan →', navSaveNow:'💾 Simpan Laporan', navFinish:'Selesai → Jana Laporan',
     toastSaved:'Disimpan',
     step_1_zh:'Maklumat Peribadi', step_2_zh:'Profil Kewangan', step_3_zh:'Insurans', step_4_zh:'Analisis Keperluan',
     step_5_zh:'Analisis Kewangan', step_6_zh:'Cadangan', step_7_zh:'Jurang & Perubatan', step_8_zh:'Pelan Tindakan',
