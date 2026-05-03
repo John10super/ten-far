@@ -140,6 +140,10 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .analysis-table th{background:var(--dark);color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:600}
 .analysis-table td{padding:8px 12px;border-bottom:1px solid var(--border)}
 .analysis-table tr:nth-child(even) td{background:#FAFAFA}
+.ap-status-sel{border:1.5px solid #CBD5E1;border-radius:16px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer;background:#fff;color:var(--dark);font-family:inherit;min-width:76px}
+.ap-status-sel:focus{outline:2px solid var(--accent);outline-offset:1px}
+.ap-date-input{border:1.5px solid #CBD5E1;border-radius:8px;padding:3px 8px;font-size:12px;font-family:inherit;color:var(--dark);cursor:pointer}
+.ap-date-input:focus{outline:2px solid var(--accent);outline-offset:1px}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:10.5px;font-weight:700;white-space:nowrap;flex-shrink:0;vertical-align:middle}
 .badge.ok{background:#D1FAE5;color:#065F46}.badge.warn{background:#FEF3C7;color:#92400E}.badge.gap{background:#FEE2E2;color:#991B1B}
 .status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
@@ -1181,7 +1185,7 @@ const I18N = {
     recOk2:'可考慮增加投資理財成分，為退休做規劃',
     apriPriority:'優先', apriAction:'行動項目', apriTimeline:'時間', apriStatus:'狀態',
     apriAsap:'盡快（本月內）', apri3mo:'3個月內', apriAnnual:'12個月後',
-    apriReview:'安排下次年度保障審查', apriPending:'待跟進', apriScheduled:'排期',
+    apriReview:'安排下次年度保障審查', apriPending:'待跟進', apriScheduled:'排期', apriDone:'完成', apriOther:'其它',
     apriGap:'補足%s保障%d', apriNote:'與顧問討論最適合的方案',
     noMedCard:'— 無醫療保障 / No Medical Card —',
     gapDeath:'身故保障', gapTPD:'全殘 TPD', gapCI:'危疾 CI',
@@ -1299,7 +1303,7 @@ const I18N = {
     recOk2:'Consider adding investment components for retirement planning',
     apriPriority:'Priority', apriAction:'Action Item', apriTimeline:'Timeline', apriStatus:'Status',
     apriAsap:'ASAP (this month)', apri3mo:'Within 3 months', apriAnnual:'12 months later',
-    apriReview:'Schedule next annual coverage review', apriPending:'Pending', apriScheduled:'Scheduled',
+    apriReview:'Schedule next annual coverage review', apriPending:'Pending', apriScheduled:'Scheduled', apriDone:'Done', apriOther:'Others',
     apriGap:'Increase %s coverage%d', apriNote:'Discuss best options with advisor',
     noMedCard:'— No Medical Card Coverage —',
     gapDeath:'Death Benefit', gapTPD:'Total Perm. Disability', gapCI:'Critical Illness CI',
@@ -1418,7 +1422,7 @@ const I18N = {
     recOk2:'Pertimbangkan menambah komponen pelaburan untuk perancangan persaraan',
     apriPriority:'Keutamaan', apriAction:'Item Tindakan', apriTimeline:'Tempoh Masa', apriStatus:'Status',
     apriAsap:'Segera (bulan ini)', apri3mo:'Dalam 3 bulan', apriAnnual:'12 bulan kemudian',
-    apriReview:'Jadualkan semakan liputan tahunan seterusnya', apriPending:'Tertunda', apriScheduled:'Dijadualkan',
+    apriReview:'Jadualkan semakan liputan tahunan seterusnya', apriPending:'Tertunda', apriScheduled:'Dijadualkan', apriDone:'Selesai', apriOther:'Lain-lain',
     apriGap:'Tingkatkan liputan %s%d', apriNote:'Bincangkan pilihan terbaik dengan penasihat',
     noMedCard:'— Tiada Kad Perubatan —',
     gapDeath:'Faedah Kematian', gapTPD:'Hilang Upaya Kekal', gapCI:'Penyakit Kritikal CI',
@@ -2261,24 +2265,50 @@ function recalc() {
   if(pn) { pn.textContent = noteText; }  // visibility handled by .print-only CSS
 
   // ── Action Plan ──
+  // Persist status values & date across recalcs
+  if (typeof window._apStatus === 'undefined') window._apStatus = {};
+  if (typeof window._apDate   === 'undefined') window._apDate   = '';
+  const _apEl = document.getElementById('actionPlan');
+  if (_apEl) {
+    _apEl.querySelectorAll('select[data-ap-key]').forEach(sel => {
+      window._apStatus[sel.dataset.apKey] = sel.value;
+    });
+    const _di = _apEl.querySelector('input.ap-date-input');
+    if (_di) window._apDate = _di.value;
+  }
+
   const actionItems = [
     ...gaps.map((g, i) => ({
       no:i+1, priority:g.priority,
       action:`${g.cat}${g.shortfall>0?' ('+fmtRaw(g.shortfall)+')':(g.note?' — '+g.note:'')}`,
-      timeline:g.priority==='P1'?L('apriAsap'):L('apri3mo'), status:L('apriPending')
+      timeline:g.priority==='P1'?L('apriAsap'):L('apri3mo'),
     })),
-    {no:gaps.length+1, priority:'P3', action:L('apriReview'), timeline:L('apriAnnual'), status:L('apriScheduled')},
+    {no:gaps.length+1, priority:'P3', action:L('apriReview'), timeline:L('apriAnnual')},
   ];
   setHtml('actionPlan', `
     <table class="analysis-table">
       <thead><tr><th>#</th><th>${L('apriPriority')}</th><th>${L('apriAction')}</th><th>${L('apriTimeline')}</th><th>${L('apriStatus')}</th></tr></thead>
-      <tbody>${actionItems.map(a=>`<tr>
-        <td>${a.no}</td>
-        <td><span class="badge ${a.priority==='P1'?'gap':a.priority==='P2'?'warn':'ok'}">${a.priority}</span></td>
-        <td>${a.action}</td>
-        <td>${a.timeline}</td>
-        <td>${a.status}</td>
-      </tr>`).join('')}</tbody>
+      <tbody>${actionItems.map((a, i) => {
+        const isP3Last = (i === actionItems.length - 1 && a.priority === 'P3');
+        const key = `ap_${i}`;
+        const curVal = window._apStatus[key] || 'apriPending';
+        const statusCell = isP3Last
+          ? `<input type="date" class="ap-date-input no-print" value="${window._apDate}" oninput="window._apDate=this.value;const sp=this.closest('td').querySelector('.ap-date-print');if(sp)sp.textContent=this.value">
+             <span class="print-only ap-date-print">${window._apDate || L('apriScheduled')}</span>`
+          : `<select class="ap-status-sel no-print" data-ap-key="${key}">
+               <option value="apriPending" ${curVal==='apriPending'?'selected':''}>${L('apriPending')}</option>
+               <option value="apriDone"    ${curVal==='apriDone'   ?'selected':''}>${L('apriDone')}</option>
+               <option value="apriOther"   ${curVal==='apriOther'  ?'selected':''}>${L('apriOther')}</option>
+             </select>
+             <span class="print-only">${L(curVal)}</span>`;
+        return `<tr>
+          <td>${a.no}</td>
+          <td><span class="badge ${a.priority==='P1'?'gap':a.priority==='P2'?'warn':'ok'}">${a.priority}</span></td>
+          <td>${a.action}</td>
+          <td>${a.timeline}</td>
+          <td>${statusCell}</td>
+        </tr>`;
+      }).join('')}</tbody>
     </table>`);
 }
 
