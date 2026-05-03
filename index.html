@@ -573,6 +573,142 @@ select option:first-child{color:#C4C9D4}
   .wl-footer{font-size:8.5px}
 }
 
+/* ══════════════════════════════════════════════════════
+   FAR WIZARD MODE — 8-page step-by-step flow
+   ══════════════════════════════════════════════════════ */
+.far-page{display:none;animation:farFadeIn .35s ease}
+.far-page.active{display:block}
+@keyframes farFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* "Show All" mode — overrides page hiding */
+body.far-show-all .far-page{display:block!important;animation:none}
+body.far-show-all .far-progress,body.far-show-all .far-nav{display:none!important}
+body.far-show-all .far-show-all-toggle{background:#FF2B1E;color:#fff}
+body.far-show-all .far-show-all-toggle:hover{background:#E11900}
+
+/* Print: always show all pages */
+@media print{
+  .far-page{display:block!important;animation:none;page-break-inside:avoid}
+  .far-progress,.far-nav,#farToast,.far-show-all-toggle{display:none!important}
+}
+
+/* ── Progress Bar ── */
+.far-progress{
+  position:sticky;top:0;z-index:800;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid #E5E7EB;
+  padding:14px 20px 0;
+  margin:0 -20px 24px;
+}
+.far-progress-inner{
+  max-width:1180px;margin:0 auto;
+  display:flex;gap:6px;align-items:center;
+  overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+  padding-bottom:12px;
+}
+.far-progress-inner::-webkit-scrollbar{display:none}
+.far-step{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 13px;border-radius:20px;
+  font-size:11.5px;font-weight:600;
+  background:#F3F4F6;color:#6B7280;
+  cursor:pointer;transition:all .2s ease;
+  white-space:nowrap;border:1px solid transparent;
+  flex-shrink:0;
+}
+.far-step:hover{background:#E5E7EB;color:#1E2A3A}
+.far-step.active{background:#FF2B1E;color:#fff;box-shadow:0 3px 10px rgba(255,43,30,.28)}
+.far-step.active .far-step-num{background:rgba(255,255,255,.25)}
+.far-step.completed{background:#DCFCE7;color:#065F46;border-color:#86EFAC}
+.far-step.completed .far-step-num{background:#10B981;color:#fff}
+.far-step-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(0,0,0,.08);font-size:10px;font-weight:700;
+  flex-shrink:0;
+}
+.far-step.completed .far-step-num span{display:none}
+.far-step.completed .far-step-num::before{content:'✓';color:#fff;font-size:11px}
+
+/* Phase color hints */
+.far-step[data-phase="input"]:hover{box-shadow:inset 0 -2px 0 #6366F1}
+.far-step[data-phase="output"]:hover{box-shadow:inset 0 -2px 0 #06B6D4}
+.far-step[data-phase="final"]:hover{box-shadow:inset 0 -2px 0 #10B981}
+
+/* Thin progress fill below steps */
+.far-progress-bar{height:3px;background:#F3F4F6;border-radius:2px;margin-top:0;overflow:hidden}
+.far-progress-fill{height:100%;background:linear-gradient(90deg,#FF2B1E 0%,#FF6B5A 100%);width:12.5%;transition:width .4s ease}
+
+/* ── Navigation Buttons ── */
+.far-nav{
+  display:flex;justify-content:space-between;gap:14px;
+  margin:36px 0 24px;
+  padding:24px 0 8px;
+  border-top:1px solid #F0F1F3;
+}
+.far-nav-left,.far-nav-right{display:flex;gap:10px}
+.far-btn{
+  padding:13px 30px;border-radius:10px;
+  font-size:14px;font-weight:700;
+  cursor:pointer;border:none;
+  transition:all .2s ease;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:inherit;
+}
+.far-btn:active{transform:translateY(1px)}
+.far-btn-back{background:#F3F4F6;color:#4B5563;border:1px solid #E5E7EB}
+.far-btn-back:hover{background:#E5E7EB;color:#1E2A3A}
+.far-btn-next{background:#FF2B1E;color:#fff;box-shadow:0 3px 12px rgba(255,43,30,.25)}
+.far-btn-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,43,30,.38)}
+.far-btn-finish{background:linear-gradient(135deg,#10B981 0%,#059669 100%);color:#fff;box-shadow:0 3px 12px rgba(16,185,129,.3);padding:14px 36px}
+.far-btn-finish:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.42)}
+
+/* ── Toast Notification ── */
+#farToast{
+  position:fixed;bottom:36px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,#10B981 0%,#059669 100%);
+  color:#fff;padding:14px 30px;border-radius:14px;
+  font-size:14px;font-weight:700;letter-spacing:.3px;
+  box-shadow:0 12px 40px rgba(16,185,129,.4);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease,transform .3s ease;
+  z-index:9000;
+  display:flex;align-items:center;gap:10px;
+}
+#farToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.far-toast-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(255,255,255,.25);font-size:13px;font-weight:900;
+}
+
+/* ── Show All Toggle ── */
+.far-show-all-toggle{
+  position:fixed;top:14px;right:18px;
+  background:#fff;border:1px solid #E5E7EB;
+  padding:7px 14px;border-radius:18px;
+  font-size:11px;font-weight:600;color:#4B5563;
+  cursor:pointer;z-index:850;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  transition:all .2s ease;font-family:inherit;
+}
+.far-show-all-toggle:hover{background:#F9FAFB;border-color:#D1D5DB}
+
+/* Responsive — Mobile */
+@media(max-width:640px){
+  .far-progress{padding:10px 12px 0;margin:0 -16px 16px}
+  .far-progress-inner{gap:4px;padding-bottom:8px}
+  .far-step{font-size:10px;padding:5px 10px}
+  .far-step-label{display:none}
+  .far-step.active .far-step-label{display:inline}
+  .far-nav{flex-direction:column-reverse;margin-top:24px}
+  .far-nav-left,.far-nav-right{width:100%}
+  .far-btn{width:100%;justify-content:center;padding:14px 20px}
+  .far-show-all-toggle{top:auto;bottom:14px;right:14px;font-size:10px;padding:6px 12px}
+  #farToast{bottom:80px;font-size:13px;padding:12px 22px}
+}
+
 </style>
 </head>
 <body>
@@ -642,7 +778,7 @@ select option:first-child{color:#C4C9D4}
   <button class="wl-enter-btn" onclick="
     const ws=document.getElementById('welcomeScreen');
     ws.classList.add('fade-out');
-    setTimeout(()=>ws.style.display='none',500);
+    setTimeout(()=>{ws.style.display='none'; if(typeof goToPage==='function') goToPage(1);},500);
   ">Secure Your Tomorrow &nbsp;→</button>
   <div class="wl-cta-sub">開啟保障，掌握未來</div>
 
@@ -730,7 +866,7 @@ select option:first-child{color:#C4C9D4}
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.52 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.53 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -742,6 +878,28 @@ select option:first-child{color:#C4C9D4}
 
 <div class="container">
 
+
+<!-- ══ FAR WIZARD PROGRESS BAR ══ -->
+<div class="far-progress no-print">
+  <div class="far-progress-inner">
+    <div class="far-step" data-page="1" onclick="goToPage(1)" data-phase="input"><span class="far-step-num"><span>1</span></span><span class="far-step-label" data-i18n="step_1_zh">個人資料</span></div>
+    <div class="far-step" data-page="2" onclick="goToPage(2)" data-phase="input"><span class="far-step-num"><span>2</span></span><span class="far-step-label" data-i18n="step_2_zh">財務狀況</span></div>
+    <div class="far-step" data-page="3" onclick="goToPage(3)" data-phase="input"><span class="far-step-num"><span>3</span></span><span class="far-step-label" data-i18n="step_3_zh">現有保險保障</span></div>
+    <div class="far-step" data-page="4" onclick="goToPage(4)" data-phase="input"><span class="far-step-num"><span>4</span></span><span class="far-step-label" data-i18n="step_4_zh">保險需求分析</span></div>
+    <div class="far-step" data-page="5" onclick="goToPage(5)" data-phase="output"><span class="far-step-num"><span>5</span></span><span class="far-step-label" data-i18n="step_5_zh">財務分析總覽</span></div>
+    <div class="far-step" data-page="6" onclick="goToPage(6)" data-phase="output"><span class="far-step-num"><span>6</span></span><span class="far-step-label" data-i18n="step_6_zh">建議方案</span></div>
+    <div class="far-step" data-page="7" onclick="goToPage(7)" data-phase="output"><span class="far-step-num"><span>7</span></span><span class="far-step-label" data-i18n="step_7_zh">保障缺口 & 醫療</span></div>
+    <div class="far-step" data-page="8" onclick="goToPage(8)" data-phase="final"><span class="far-step-num"><span>8</span></span><span class="far-step-label" data-i18n="step_8_zh">行動計劃 & 備注</span></div>
+  </div>
+  <div class="far-progress-bar"><div class="far-progress-fill" id="farProgressFill"></div></div>
+</div>
+<button class="far-show-all-toggle no-print" onclick="toggleShowAll()" title="切換完整檢視"><span id="farShowAllLabel">📄 展開全部</span></button>
+
+<!-- ══ FAR WIZARD PAGES ══ -->
+<div id="farWizard">
+
+<!-- ── Page 1: 個人資料 ── -->
+<div class="far-page" data-page="1" data-page-name="personal-info" data-phase="input">
 <!-- ══ SECTION 2 — PERSONAL INFO ══ -->
 <div class="section">
   <div class="section-header">
@@ -787,6 +945,15 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+  </div>
+</div>
+
+<!-- ── Page 2: 財務狀況 ── -->
+<div class="far-page" data-page="2" data-page-name="financial" data-phase="input">
 <!-- ══ SECTION 3 — FINANCIAL PROFILE ══ -->
 <div class="section">
   <div class="section-header">
@@ -888,23 +1055,15 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
-<!-- ══ SECTION 5 — FINANCIAL SUMMARY (moved up before assumptions) ══ -->
-<div class="section break-before">
-  <div class="section-header">
-    <span class="section-tag tag-calc" data-i18n="tagCalc">計算</span>
-    <h2 data-i18n="s5Title">財務摘要</h2>
-  </div>
-  <div class="section-body">
-    <div class="kpi-sm-grid" id="financeSummaryKpi"></div>
-    <div class="table-scroll">
-      <table class="analysis-table">
-        <thead><tr><th data-i18n="thItem">項目</th><th style="text-align:right" data-i18n="thAmount">金額 (RM)</th><th data-i18n="thNote">備注</th></tr></thead>
-        <tbody id="financeSummaryTable"></tbody>
-      </table>
-    </div>
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
   </div>
 </div>
 
+<!-- ── Page 3: 現有保險保障 ── -->
+<div class="far-page" data-page="3" data-page-name="insurance" data-phase="input">
 <!-- ══ SECTION 4 — EXISTING INSURANCE (MULTI-POLICY) ══ -->
 <div class="section">
   <div class="section-header">
@@ -986,23 +1145,15 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
-<!-- ══ SECTION 7 — RATIO ANALYSIS (moved up) ══ -->
-<div class="section break-before">
-  <div class="section-header">
-    <span class="section-tag tag-analysis" data-i18n="tagAnalysis">分析</span>
-    <h2 data-i18n="s7Title">現有規劃對比需要比率分析</h2>
-  </div>
-  <div class="section-body">
-    <p class="text-sm" style="margin-bottom:12px" data-i18n="riskLegend">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
-    <div class="table-scroll">
-      <table class="analysis-table">
-        <thead><tr><th style="width:20%" data-i18n="thIndicator">指標</th><th style="width:13%;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:18%" data-i18n="thBenchmark">標準</th><th style="width:14%;text-align:center" data-i18n="thStatus">狀態</th><th style="width:35%" data-i18n="thDesc">說明</th></tr></thead>
-        <tbody id="riskRatioTable"></tbody>
-      </table>
-    </div>
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
   </div>
 </div>
 
+<!-- ── Page 4: 保險需求分析 ── -->
+<div class="far-page" data-page="4" data-page-name="needs" data-phase="input">
 <!-- ══ SECTION 6 — INSURANCE NEEDS ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -1036,6 +1187,59 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+  </div>
+</div>
+
+<!-- ── Page 5: 財務分析總覽 ── -->
+<div class="far-page" data-page="5" data-page-name="analysis" data-phase="output">
+<!-- ══ SECTION 5 — FINANCIAL SUMMARY (moved up before assumptions) ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-calc" data-i18n="tagCalc">計算</span>
+    <h2 data-i18n="s5Title">財務摘要</h2>
+  </div>
+  <div class="section-body">
+    <div class="kpi-sm-grid" id="financeSummaryKpi"></div>
+    <div class="table-scroll">
+      <table class="analysis-table">
+        <thead><tr><th data-i18n="thItem">項目</th><th style="text-align:right" data-i18n="thAmount">金額 (RM)</th><th data-i18n="thNote">備注</th></tr></thead>
+        <tbody id="financeSummaryTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ SECTION 7 — RATIO ANALYSIS (moved up) ══ -->
+<div class="section break-before">
+  <div class="section-header">
+    <span class="section-tag tag-analysis" data-i18n="tagAnalysis">分析</span>
+    <h2 data-i18n="s7Title">現有規劃對比需要比率分析</h2>
+  </div>
+  <div class="section-body">
+    <p class="text-sm" style="margin-bottom:12px" data-i18n="riskLegend">⭐ = 符合標準 &nbsp;|&nbsp; ⚠ = 邊緣 &nbsp;|&nbsp; ✗ = 保障不足，需要補足</p>
+    <div class="table-scroll">
+      <table class="analysis-table">
+        <thead><tr><th style="width:20%" data-i18n="thIndicator">指標</th><th style="width:13%;text-align:right" data-i18n="thCurrentVal">現有值</th><th style="width:18%" data-i18n="thBenchmark">標準</th><th style="width:14%;text-align:center" data-i18n="thStatus">狀態</th><th style="width:35%" data-i18n="thDesc">說明</th></tr></thead>
+        <tbody id="riskRatioTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+  </div>
+</div>
+
+<!-- ── Page 6: 建議方案 ── -->
+<div class="far-page" data-page="6" data-page-name="recommendations" data-phase="output">
 <!-- ══ SECTION 10 — RECOMMENDATIONS ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -1046,6 +1250,7 @@ select option:first-child{color:#C4C9D4}
     <div id="recommendations"></div>
   </div>
 </div>
+
 
 <!-- ══ PLAN RECOMMENDATIONS ══ -->
 <div class="section break-before">
@@ -1166,6 +1371,15 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+  </div>
+</div>
+
+<!-- ── Page 7: 保障缺口 & 醫療 ── -->
+<div class="far-page" data-page="7" data-page-name="gap-medical" data-phase="output">
 <!-- ══ SECTION 8 — COVERAGE GAP ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -1176,6 +1390,7 @@ select option:first-child{color:#C4C9D4}
     <div class="table-scroll" id="gapComparison"></div>
   </div>
 </div>
+
 
 <!-- ══ SECTION 9 — MEDICAL ANALYSIS ══ -->
 <div class="section">
@@ -1189,6 +1404,15 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-next" onclick="saveAndNext()"><span data-i18n="navNext">儲存並繼續 →</span></button></div>
+  </div>
+</div>
+
+<!-- ── Page 8: 行動計劃 & 備注 ── -->
+<div class="far-page" data-page="8" data-page-name="action" data-phase="final">
 <!-- ══ SECTION 11 — ACTION PLAN ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -1223,6 +1447,7 @@ select option:first-child{color:#C4C9D4}
   </div>
 </div>
 
+
 <!-- ══ CONSULTANT NOTE ══ -->
 <div class="section break-before">
   <div class="section-header">
@@ -1237,12 +1462,28 @@ select option:first-child{color:#C4C9D4}
 
 </div><!-- /container -->
 
+
+  <div class="far-nav no-print">
+    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-right"><button class="far-btn far-btn-finish" onclick="finishWizard()"><span data-i18n="navFinish">完成 → 生成完整報告</span></button></div>
+  </div>
+</div>
+
+</div><!-- /#farWizard -->
+
+<!-- ══ Toast Notification ══ -->
+<div id="farToast" class="no-print"><span class="far-toast-icon">✓</span><span data-i18n="toastSaved">已儲存</span></div>
 <script>
 // ══ I18N — TRILINGUAL SUPPORT ══
 let currentLang = 'zh';
 
 const I18N = {
   zh: {
+    /* ── Wizard nav ── */
+    navBack:'← 上一頁', navNext:'儲存並繼續 →', navFinish:'完成 → 生成完整報告',
+    toastSaved:'已儲存',
+    step_1_zh:'個人資料', step_2_zh:'財務狀況', step_3_zh:'現有保險保障', step_4_zh:'保險需求分析',
+    step_5_zh:'財務分析總覽', step_6_zh:'建議方案', step_7_zh:'保障缺口 & 醫療', step_8_zh:'行動計劃 & 備注',
     tagSetting:'設定', tagInput:'輸入', tagCalc:'計算', tagAnalysis:'分析',
     tagCompare:'比較', tagMedical:'醫療', tagRecommend:'建議', tagAction:'行動',
     s1Title:'顧問資訊 & 假設條件', s2Title:'個人資料', s3Title:'財務狀況',
@@ -1363,6 +1604,11 @@ const I18N = {
     printModalCancel:'取消',
   },
   en: {
+    /* ── Wizard nav ── */
+    navBack:'← Back', navNext:'Save & Continue →', navFinish:'Finish → Generate Report',
+    toastSaved:'Saved',
+    step_1_zh:'Personal Info', step_2_zh:'Financials', step_3_zh:'Insurance', step_4_zh:'Needs Analysis',
+    step_5_zh:'Analysis', step_6_zh:'Recommendations', step_7_zh:'Gap & Medical', step_8_zh:'Action Plan',
     tagSetting:'Settings', tagInput:'Input', tagCalc:'Calculate', tagAnalysis:'Analysis',
     tagCompare:'Compare', tagMedical:'Medical', tagRecommend:'Recommend', tagAction:'Action',
     s1Title:'Advisor Info & Assumptions', s2Title:'Personal Details', s3Title:'Financial Profile',
@@ -1482,6 +1728,11 @@ const I18N = {
     printModalCancel:'Cancel',
   },
   bm: {
+    /* ── Wizard nav ── */
+    navBack:'← Sebelumnya', navNext:'Simpan & Teruskan →', navFinish:'Selesai → Jana Laporan',
+    toastSaved:'Disimpan',
+    step_1_zh:'Maklumat Peribadi', step_2_zh:'Profil Kewangan', step_3_zh:'Insurans', step_4_zh:'Analisis Keperluan',
+    step_5_zh:'Analisis Kewangan', step_6_zh:'Cadangan', step_7_zh:'Jurang & Perubatan', step_8_zh:'Pelan Tindakan',
     tagSetting:'Tetapan', tagInput:'Input', tagCalc:'Kiraan', tagAnalysis:'Analisis',
     tagCompare:'Banding', tagMedical:'Perubatan', tagRecommend:'Cadangan', tagAction:'Tindakan',
     s1Title:'Maklumat Penasihat & Andaian', s2Title:'Maklumat Peribadi', s3Title:'Profil Kewangan',
@@ -2917,6 +3168,138 @@ document.addEventListener('input', function(e){
     d.innerHTML = '—<span class="calc-badge">AUTO</span>';
   }
 })();
+
+/* ══════════════════════════════════════════════════════
+   FAR WIZARD NAVIGATION — 8-page step-by-step flow
+   ══════════════════════════════════════════════════════ */
+const FAR_TOTAL_PAGES = 8;
+let farCurrentPage = 1;
+let farShowAll = false;
+
+function _farProgress(n){
+  const pct = (n / FAR_TOTAL_PAGES) * 100;
+  const fill = document.getElementById('farProgressFill');
+  if(fill) fill.style.width = pct + '%';
+}
+
+function goToPage(n, opts){
+  opts = opts || {};
+  if(farShowAll) return;
+  n = Math.max(1, Math.min(FAR_TOTAL_PAGES, parseInt(n) || 1));
+  document.querySelectorAll('.far-page').forEach(p => {
+    p.classList.toggle('active', parseInt(p.dataset.page) === n);
+  });
+  document.querySelectorAll('.far-step').forEach(s => {
+    const sn = parseInt(s.dataset.page);
+    s.classList.toggle('active',    sn === n);
+    s.classList.toggle('completed', sn <  n);
+  });
+  farCurrentPage = n;
+  _farProgress(n);
+  if(!opts.skipHash) history.replaceState(null, '', '#page-' + n);
+  try{ localStorage.setItem('far_current_page', n); }catch(e){}
+  if(!opts.skipScroll) window.scrollTo({top:0, behavior:'smooth'});
+  // Trigger recalc so output pages refresh
+  if(typeof recalc === 'function') try{ recalc(); }catch(e){}
+}
+
+function nextPage(){ if(farCurrentPage < FAR_TOTAL_PAGES) goToPage(farCurrentPage + 1); }
+function prevPage(){ if(farCurrentPage > 1) goToPage(farCurrentPage - 1); }
+
+function saveAndNext(){
+  // Trigger save (recalc + persist via existing saveProfile if available)
+  if(typeof saveProfile === 'function') try{ saveProfile(); }catch(e){}
+  if(typeof recalc === 'function') try{ recalc(); }catch(e){}
+  // Show toast
+  const toast = document.getElementById('farToast');
+  if(toast){
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 1100);
+  }
+  // Advance after brief delay (let user see confirmation)
+  setTimeout(()=> nextPage(), 550);
+}
+
+function finishWizard(){
+  if(typeof saveProfile === 'function') try{ saveProfile(); }catch(e){}
+  // Open in show-all mode so user sees the full report
+  farShowAll = true;
+  document.body.classList.add('far-show-all');
+  const lbl = document.getElementById('farShowAllLabel');
+  if(lbl) lbl.textContent = '🪟 返回 Wizard 模式';
+  // Show finish toast
+  const toast = document.getElementById('farToast');
+  if(toast){
+    toast.querySelector('span:last-child').textContent = '報告已生成 — 完整檢視';
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2000);
+  }
+  if(typeof recalc === 'function') try{ recalc(); }catch(e){}
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleShowAll(){
+  farShowAll = !farShowAll;
+  document.body.classList.toggle('far-show-all', farShowAll);
+  const lbl = document.getElementById('farShowAllLabel');
+  if(lbl) lbl.textContent = farShowAll ? '🪟 返回 Wizard 模式' : '📄 展開全部';
+  if(!farShowAll){
+    // Restore page view to current page
+    goToPage(farCurrentPage, {skipScroll:true});
+  } else {
+    if(typeof recalc === 'function') try{ recalc(); }catch(e){}
+  }
+}
+
+// ── Init: restore page from URL hash or localStorage ──
+(function initWizard(){
+  const ws = document.getElementById('welcomeScreen');
+  let initialPage = 1;
+  let skipWelcome = false;
+
+  // Priority 1: URL hash (#page-N)
+  const hashMatch = (window.location.hash || '').match(/page-(\d+)/);
+  if(hashMatch){
+    initialPage = parseInt(hashMatch[1]);
+    skipWelcome = true;
+  } else {
+    // Priority 2: localStorage
+    try {
+      const saved = localStorage.getItem('far_current_page');
+      if(saved){
+        const n = parseInt(saved);
+        if(n >= 1 && n <= FAR_TOTAL_PAGES){
+          initialPage = n;
+          // Only skip welcome if user has progressed past page 1
+          if(n > 1) skipWelcome = true;
+        }
+      }
+    } catch(e){}
+  }
+
+  if(skipWelcome && ws){
+    ws.style.display = 'none';
+  }
+
+  // Activate the appropriate page (without triggering scroll/hash on first load)
+  goToPage(initialPage, {skipHash: !hashMatch, skipScroll: true});
+
+  // Listen for hash changes (browser back/forward)
+  window.addEventListener('hashchange', ()=>{
+    const m = (window.location.hash || '').match(/page-(\d+)/);
+    if(m) goToPage(parseInt(m[1]), {skipHash:true});
+  });
+
+  // Keyboard shortcuts: ← → arrows to navigate (when not typing in input)
+  document.addEventListener('keydown', (e)=>{
+    if(farShowAll) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if(tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if(e.key === 'ArrowRight' && farCurrentPage < FAR_TOTAL_PAGES){ e.preventDefault(); nextPage(); }
+    else if(e.key === 'ArrowLeft' && farCurrentPage > 1){ e.preventDefault(); prevPage(); }
+  });
+})();
+
 </script>
 </body>
 </html>
