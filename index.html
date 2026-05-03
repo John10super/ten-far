@@ -641,27 +641,27 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
 /* ── Navigation Buttons ── */
 .far-nav{
-  display:flex;justify-content:space-between;gap:14px;
-  margin:36px 0 24px;
-  padding:24px 0 8px;
+  display:flex;justify-content:space-between;gap:12px;
+  margin:32px 0 20px;
+  padding:20px 0 6px;
   border-top:1px solid #F0F1F3;
 }
-.far-nav-left,.far-nav-right{display:flex;gap:10px}
+.far-nav-left,.far-nav-right{display:flex;gap:8px}
 .far-btn{
-  padding:13px 30px;border-radius:10px;
-  font-size:14px;font-weight:700;
+  padding:8px 18px;border-radius:7px;
+  font-size:12.5px;font-weight:600;letter-spacing:.1px;
   cursor:pointer;border:none;
-  transition:all .2s ease;
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:inherit;
+  transition:all .15s ease;
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;line-height:1.4;
 }
 .far-btn:active{transform:translateY(1px)}
-.far-btn-back{background:#F3F4F6;color:#4B5563;border:1px solid #E5E7EB}
-.far-btn-back:hover{background:#E5E7EB;color:#1E2A3A}
-.far-btn-next{background:#FF2B1E;color:#fff;box-shadow:0 3px 12px rgba(255,43,30,.25)}
-.far-btn-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,43,30,.38)}
-.far-btn-finish{background:linear-gradient(135deg,#10B981 0%,#059669 100%);color:#fff;box-shadow:0 3px 12px rgba(16,185,129,.3);padding:14px 36px}
-.far-btn-finish:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(16,185,129,.42)}
+.far-btn-back{background:#fff;color:#6B7280;border:1px solid #E5E7EB}
+.far-btn-back:hover{background:#F9FAFB;color:#1E2A3A;border-color:#D1D5DB}
+.far-btn-next{background:#FF2B1E;color:#fff;box-shadow:0 1px 3px rgba(255,43,30,.18)}
+.far-btn-next:hover{background:#E11900;box-shadow:0 2px 8px rgba(255,43,30,.28)}
+.far-btn-finish{background:linear-gradient(135deg,#10B981 0%,#059669 100%);color:#fff;box-shadow:0 1px 4px rgba(16,185,129,.25);padding:9px 22px}
+.far-btn-finish:hover{box-shadow:0 3px 12px rgba(16,185,129,.4)}
 
 /* ── Toast Notification ── */
 #farToast{
@@ -873,7 +873,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.54 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.55 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
@@ -1470,7 +1470,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
 
   <div class="far-nav no-print">
-    <div class="far-nav-left"><button class="far-btn far-btn-back" onclick="prevPage()"><span data-i18n="navBack">← 上一頁</span></button></div>
+    <div class="far-nav-left"></div>
     <div class="far-nav-right"><button class="far-btn far-btn-finish" onclick="finishWizard()"><span data-i18n="navFinish">完成 → 生成完整報告</span></button></div>
   </div>
 </div>
