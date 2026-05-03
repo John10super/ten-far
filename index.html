@@ -103,12 +103,14 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .kpi-card.warn{background:#FFFBEB;border-color:var(--warn)}
 .kpi-card.gap{background:#FEF2F2;border-color:var(--gap)}
 .kpi-card.neutral{background:#F0F4FF;border-color:#C7D2FE}
+.kpi-card.teal{background:#F0FDFA;border-color:#0D9488}
 .kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
 .kpi-value{font-size:28px;font-weight:900;word-break:break-all;line-height:1.1}
 .kpi-card.ok .kpi-value{color:#065F46}
 .kpi-card.warn .kpi-value{color:#92400E}
 .kpi-card.gap .kpi-value{color:#991B1B}
 .kpi-card.neutral .kpi-value{color:var(--dark)}
+.kpi-card.teal .kpi-value{color:#0F766E}
 .kpi-sub{font-size:11.5px;color:var(--muted);margin-top:5px;font-weight:500}
 
 /* ── COMPACT KPI (Financial Summary & Medical) ── */
@@ -1998,11 +2000,11 @@ function recalc() {
   // ── Financial Summary KPIs ──
   const ncOk = netCashFlow >= 0;
   setHtml('financeSummaryKpi', `
-    <div class="kpi-card kpi-card-sm ${totalIncome>0?'neutral':'gap'}">
+    <div class="kpi-card kpi-card-sm teal">
       <div class="kpi-label">${L('kpiIncome')}</div>
       <div class="kpi-value">${fmtRaw(totalIncome)}</div>
     </div>
-    <div class="kpi-card kpi-card-sm ${totalMonthlyExp<totalIncome?'ok':'gap'}">
+    <div class="kpi-card kpi-card-sm gap">
       <div class="kpi-label">${L('kpiExpense')}</div>
       <div class="kpi-value">${fmtRaw(totalMonthlyExp)}</div>
     </div>
@@ -2011,7 +2013,7 @@ function recalc() {
       <div class="kpi-value">${netCashFlow>=0?'RM +':'RM -'}${Math.abs(netCashFlow).toLocaleString('en-MY')}</div>
       <div class="kpi-sub">${ncOk?L('cashOk'):L('cashGap')}</div>
     </div>
-    <div class="kpi-card kpi-card-sm neutral">
+    <div class="kpi-card kpi-card-sm gap">
       <div class="kpi-label">${L('kpiDebt')}</div>
       <div class="kpi-value">${fmtRaw(totalDebts)}</div>
     </div>
