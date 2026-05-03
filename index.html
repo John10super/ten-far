@@ -527,32 +527,31 @@ select option:first-child{color:#C4C9D4}
   .pcc-input-txt{font-size:11px}
 }
 /* ── WELCOME SCREEN ── */
-#welcomeScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(145deg,#081220 0%,#0E1C30 45%,#162236 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:40px 20px;box-sizing:border-box;transition:opacity .5s ease}
+#welcomeScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:52px 24px 80px;box-sizing:border-box;transition:opacity .5s ease}
 #welcomeScreen.fade-out{opacity:0;pointer-events:none}
-.wl-top-bar{position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#FF2B1E,#FF6B5E,#FF2B1E)}
-.wl-logo-mark{text-align:center;margin-bottom:28px}
-.wl-ten{font-size:72px;font-weight:900;color:#FF2B1E;line-height:1;letter-spacing:-2px;font-family:'Arial Black','Impact',sans-serif;display:inline-block;position:relative}
-.wl-ten-badge{background:#FF2B1E;color:#fff;border-radius:50%;font-size:14px;font-weight:800;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;vertical-align:super;margin-left:2px;position:relative;top:-10px;font-family:Arial,sans-serif}
-.wl-company{font-size:12px;font-weight:800;letter-spacing:9px;color:rgba(255,255,255,.9);margin-top:10px;text-transform:uppercase}
-.wl-tagline{font-size:11.5px;color:rgba(255,255,255,.4);letter-spacing:2.5px;margin-top:8px;font-style:italic}
-.wl-divider{width:48px;height:2px;background:#FF2B1E;margin:20px auto 28px;border-radius:2px}
-.wl-report-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:.5px;text-align:center}
-.wl-report-sub{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:5px;letter-spacing:.5px;text-align:center}
-.wl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:680px;width:100%;margin:28px 0}
-.wl-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px 14px;text-align:center}
-.wl-card-icon{font-size:20px;margin-bottom:10px}
-.wl-card-title{font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:6px}
-.wl-card-desc{font-size:10px;color:rgba(255,255,255,.4);line-height:1.7}
-.wl-partners-label{font-size:9.5px;color:rgba(255,255,255,.25);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:10px}
-.wl-partners{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
-.wl-partner-chip{font-size:10.5px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.07);padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1)}
-.wl-disclaimer{max-width:520px;text-align:center;font-size:9.5px;color:rgba(255,255,255,.25);line-height:1.9;margin-bottom:32px;padding:0 10px}
-.wl-enter-btn{background:#FF2B1E;color:#fff;border:none;border-radius:12px;padding:14px 52px;font-size:15px;font-weight:800;letter-spacing:1.5px;cursor:pointer;box-shadow:0 6px 24px rgba(255,43,30,.35);transition:transform .2s,box-shadow .2s;font-family:inherit}
-.wl-enter-btn:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(255,43,30,.5)}
+.wl-top-bar{position:absolute;top:0;left:0;width:100%;height:4px;background:#FF2B1E}
+.wl-logo-mark{text-align:center;margin-bottom:22px}
+.wl-ten{font-size:96px;font-weight:900;color:#FF2B1E;line-height:1;letter-spacing:-4px;font-family:'Arial Black','Impact',sans-serif;display:inline-block}
+.wl-ten-badge{background:#FF2B1E;color:#fff;border-radius:50%;font-size:19px;font-weight:800;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;vertical-align:super;margin-left:3px;position:relative;top:-14px;font-family:Arial,sans-serif;letter-spacing:0}
+.wl-company{font-size:13.5px;font-weight:800;letter-spacing:10px;color:#1E2A3A;margin-top:14px;text-transform:uppercase}
+.wl-tagline{font-size:11px;color:#9CA3AF;letter-spacing:1.5px;margin-top:8px;font-style:italic}
+.wl-divider{width:36px;height:2.5px;background:#FF2B1E;margin:24px auto;border-radius:2px}
+.wl-report-title{font-size:20px;font-weight:800;color:#1E2A3A;text-align:center;line-height:1.3}
+.wl-report-sub{font-size:11.5px;color:#9CA3AF;margin-top:5px;text-align:center;letter-spacing:.3px}
+.wl-intro{max-width:500px;text-align:center;font-size:13px;color:#4B5563;line-height:1.9;margin:22px 0 30px;font-weight:400}
+.wl-services{display:grid;grid-template-columns:1fr 1fr;gap:18px 36px;max-width:580px;width:100%;margin-bottom:30px}
+.wl-svc{display:flex;gap:12px;align-items:flex-start}
+.wl-svc-dot{width:3px;min-width:3px;height:20px;background:#FF2B1E;border-radius:2px;margin-top:3px}
+.wl-svc-name{font-size:12px;font-weight:700;color:#1E2A3A;margin-bottom:4px}
+.wl-svc-desc{font-size:10.5px;color:#6B7280;line-height:1.65}
+.wl-disclaimer{max-width:480px;text-align:center;font-size:10px;color:#B0B8C4;line-height:1.9;margin-bottom:28px;padding:0 10px}
+.wl-enter-btn{background:#FF2B1E;color:#fff;border:none;border-radius:12px;padding:15px 54px;font-size:15px;font-weight:800;letter-spacing:.8px;cursor:pointer;box-shadow:0 4px 20px rgba(255,43,30,.22);transition:transform .2s,box-shadow .2s;font-family:inherit}
+.wl-enter-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,43,30,.38)}
 .wl-enter-btn:active{transform:translateY(0)}
-.wl-footer{position:absolute;bottom:18px;font-size:9.5px;color:rgba(255,255,255,.18);letter-spacing:1.5px;text-align:center}
-@media(max-width:640px){.wl-cards{grid-template-columns:1fr 1fr}.wl-ten{font-size:56px}.wl-report-title{font-size:18px}}
-@media(max-width:400px){.wl-cards{grid-template-columns:1fr}}
+.wl-cta-sub{margin-top:11px;font-size:10.5px;color:#B0B8C4;letter-spacing:1.5px}
+.wl-footer{position:absolute;bottom:16px;font-size:9.5px;color:#D1D5DB;letter-spacing:1px;text-align:center}
+@media(max-width:640px){.wl-services{grid-template-columns:1fr}.wl-ten{font-size:72px}.wl-report-title{font-size:17px}.wl-intro{font-size:12px}}
+@media(max-width:400px){.wl-ten{font-size:60px}}
 </style>
 </head>
 <body>
@@ -564,7 +563,7 @@ select option:first-child{color:#C4C9D4}
   <!-- Logo -->
   <div class="wl-logo-mark">
     <div><span class="wl-ten">TEN<span class="wl-ten-badge">10</span></span></div>
-    <div class="wl-company">TEN &nbsp; CONSULTANCY</div>
+    <div class="wl-company">TEN &nbsp;&nbsp; CONSULTANCY</div>
     <div class="wl-tagline">Empowering Tomorrow's Certainty</div>
   </div>
 
@@ -572,53 +571,63 @@ select option:first-child{color:#C4C9D4}
 
   <!-- Report Title -->
   <div class="wl-report-title">Financial Analysis Report</div>
-  <div class="wl-report-sub">綜合財務保障需求分析報告 &nbsp;|&nbsp; FAR</div>
+  <div class="wl-report-sub">綜合財務保障需求分析報告 &nbsp;·&nbsp; FAR</div>
 
-  <!-- Feature Cards -->
-  <div class="wl-cards">
-    <div class="wl-card">
-      <div class="wl-card-icon">🛡️</div>
-      <div class="wl-card-title">保障缺口分析</div>
-      <div class="wl-card-desc">精確評估現有保障是否充足，識別身故、全殘、危疾及醫療缺口</div>
-    </div>
-    <div class="wl-card">
-      <div class="wl-card-icon">📊</div>
-      <div class="wl-card-title">財務健康評估</div>
-      <div class="wl-card-desc">分析收支比率、負債情況及現金流，建立完整財務健康圖像</div>
-    </div>
-    <div class="wl-card">
-      <div class="wl-card-icon">💡</div>
-      <div class="wl-card-title">個人化方案建議</div>
-      <div class="wl-card-desc">根據客戶需求提供 Plan A / B / C 三種層次的專屬保障方案</div>
-    </div>
-  </div>
+  <!-- Company Intro -->
+  <p class="wl-intro">
+    At TEN Consultancy, we believe that true financial security begins with clarity.
+    Based in Kuching, Sarawak, we have been guiding individuals and families across Malaysia
+    in building a complete plan — one that protects their income, preserves their wealth,
+    and honours their legacy for generations to come.
+  </p>
 
-  <!-- Authorised Partners -->
-  <div class="wl-partners-label">Authorised Partners</div>
-  <div class="wl-partners">
-    <span class="wl-partner-chip">AmMetLife Insurance Berhad</span>
-    <span class="wl-partner-chip">Rockwill Corporation Berhad</span>
-    <span class="wl-partner-chip">As-Salihin Trustee Berhad</span>
-    <span class="wl-partner-chip">Allianz General Insurance Malaysia</span>
-    <span class="wl-partner-chip">Generali General Insurance Malaysia</span>
+  <!-- Services -->
+  <div class="wl-services">
+    <div class="wl-svc">
+      <div class="wl-svc-dot"></div>
+      <div>
+        <div class="wl-svc-name">Will Writing &amp; Custody</div>
+        <div class="wl-svc-desc">Documenting your final wishes with legal certainty and ensuring they are faithfully carried out</div>
+      </div>
+    </div>
+    <div class="wl-svc">
+      <div class="wl-svc-dot"></div>
+      <div>
+        <div class="wl-svc-name">Trust Structuring</div>
+        <div class="wl-svc-desc">Living trusts, family trusts, and testamentary trusts — protecting your assets from probate</div>
+      </div>
+    </div>
+    <div class="wl-svc">
+      <div class="wl-svc-dot"></div>
+      <div>
+        <div class="wl-svc-name">Islamic Estate Planning</div>
+        <div class="wl-svc-desc">Wasiat, Hibah, and Faraid planning — Shariah-compliant solutions for Muslim families</div>
+      </div>
+    </div>
+    <div class="wl-svc">
+      <div class="wl-svc-dot"></div>
+      <div>
+        <div class="wl-svc-name">Life Insurance &amp; Risk Management</div>
+        <div class="wl-svc-desc">Identifying the right coverage to protect your family against life's uncertainties</div>
+      </div>
+    </div>
   </div>
 
   <!-- Disclaimer -->
   <div class="wl-disclaimer">
-    此報告工具由 TEN Consultancy 持牌顧問專用，所有分析結果僅供參考，不構成具體投資或購買建議。<br>
-    所有方案建議必須在持牌財務顧問陪同下詳細討論後方可執行。<br>
-    This tool is for licensed TEN Consultancy advisors only. All analysis is for reference purposes and does not constitute financial advice.
+    This Financial Analysis Report is prepared by a licensed TEN Consultancy advisor for discussion purposes only.
+    All recommendations should be reviewed with your advisor before any decision is made.
   </div>
 
-  <!-- Enter Button -->
+  <!-- CTA -->
   <button class="wl-enter-btn" onclick="
     const ws=document.getElementById('welcomeScreen');
     ws.classList.add('fade-out');
     setTimeout(()=>ws.style.display='none',500);
   ">Secure Your Tomorrow &nbsp;→</button>
-  <div style="margin-top:12px;font-size:10.5px;color:rgba(255,255,255,.3);letter-spacing:1.5px">開啟保障，掌握未來</div>
+  <div class="wl-cta-sub">開啟保障，掌握未來</div>
 
-  <div class="wl-footer">© 2026 TEN Consultancy Sdn Bhd &nbsp;·&nbsp; Sarawak, Malaysia &nbsp;·&nbsp; www.tenconsultant.com</div>
+  <div class="wl-footer">© 2026 TEN Consultancy Sdn Bhd &nbsp;·&nbsp; Kuching, Sarawak, Malaysia &nbsp;·&nbsp; www.tenconsultant.com</div>
 </div>
 
 <!-- SCREEN HEADER (with menu button at left + language switcher at right) -->
