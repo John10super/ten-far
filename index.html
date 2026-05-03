@@ -662,6 +662,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 .far-btn-next:hover{background:#E11900;box-shadow:0 2px 8px rgba(255,43,30,.28)}
 .far-btn-finish{background:linear-gradient(135deg,#10B981 0%,#059669 100%);color:#fff;box-shadow:0 1px 4px rgba(16,185,129,.25);padding:9px 22px}
 .far-btn-finish:hover{box-shadow:0 3px 12px rgba(16,185,129,.4)}
+/* Safety: green Finish button allowed ONLY on Page 8 */
+.far-page:not([data-page="8"]) .far-btn-finish{display:none!important}
 
 /* ── Toast Notification ── */
 #farToast{
@@ -869,7 +871,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.61 &nbsp;|&nbsp; Kuching, Sarawak</div>
+    <div style="margin-top:4px;opacity:.7">Version 4.62 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
 </div>
 
