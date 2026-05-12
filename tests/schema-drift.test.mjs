@@ -57,6 +57,19 @@ const NOT_PERSISTED = new Set([
   // independently.
   'parentSupportYes',
   'parentSupportNo',
+  // V2 Auth screen fields — intentionally NOT in client records.
+  // Auth credentials live in `far_user_v1` localStorage key, separate
+  // from `far_records_v2` (client data). This separation is what
+  // allows "reset password without losing client records".
+  'loginEmail',
+  'loginPassword',
+  'regName',
+  'regEmail',
+  'regPassword',
+  'regConfirmPassword',
+  'resetEmail',
+  'resetPassword',
+  'resetConfirmPassword',
 ]);
 
 // ── helpers ──────────────────────────────────────────────────────────
