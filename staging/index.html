@@ -1639,6 +1639,17 @@ const I18N = {
     rdTPDmo:'全殘保障可支撐的月數 (10-20年)',
     rdMHI200:'醫療卡終身限額是否足以支付 RM200k 重大疾病',
     rdMHICI200:'醫療卡 + 危疾合併是否超過 RM200k × 2',
+    /* Risk-ratio row LABELS (zh) — friendly phrasing per consultant feedback */
+    rlCoverRatio:'保額對保費倍數',
+    rlDTF:'家庭可撐月數',
+    rlTotalIFS:'保障充足度',
+    rlAccIFS:'意外保障充足度',
+    rlCIMo:'危疾賠償可撐月數',
+    rlECIMo:'早期危疾可撐月數',
+    rlBasicCIIFS:'危疾保障充足度',
+    rlTPDMo:'全殘賠償可撐月數',
+    rlMHI200:'醫療卡可應付重大疾病次數',
+    rlMHICI200:'醫療+危疾合計可應付次數',
     bmMo:'個月',
     autoCalcTag:'[自動計算]',
     unnamedClient:'未命名客戶',
@@ -1763,6 +1774,17 @@ const I18N = {
     rdTPDmo:'Months covered by TPD benefit (10-20 year target)',
     rdMHI200:'Medical card lifetime limit vs RM200k critical illness cost',
     rdMHICI200:'Medical + CI combined vs RM200k × 2',
+    /* Risk-ratio row LABELS (en) */
+    rlCoverRatio:'Cover Multiple',
+    rlDTF:'Family Support Months',
+    rlTotalIFS:'Total Cover Sufficiency',
+    rlAccIFS:'Accidental Cover Sufficiency',
+    rlCIMo:'CI Support Months',
+    rlECIMo:'Early CI Support Months',
+    rlBasicCIIFS:'CI Cover Sufficiency',
+    rlTPDMo:'TPD Support Months',
+    rlMHI200:'Medical Card Major-Illness Rounds',
+    rlMHICI200:'Medical + CI Rounds',
     bmMo:'months',
     autoCalcTag:'[Auto Calc]',
     unnamedClient:'Unnamed Client',
@@ -1887,6 +1909,17 @@ const I18N = {
     rdTPDmo:'Bulan dilindungi oleh manfaat OKU (sasaran 10-20 tahun)',
     rdMHI200:'Had seumur hidup kad perubatan berbanding kos RM200k penyakit kritikal',
     rdMHICI200:'Perubatan + CI gabungan berbanding RM200k × 2',
+    /* Risk-ratio row LABELS (bm) */
+    rlCoverRatio:'Gandaan Lindungan',
+    rlDTF:'Bulan Sokongan Keluarga',
+    rlTotalIFS:'Kecukupan Lindungan Penuh',
+    rlAccIFS:'Kecukupan Lindungan Kemalangan',
+    rlCIMo:'Bulan Sokongan CI',
+    rlECIMo:'Bulan Sokongan CI Awal',
+    rlBasicCIIFS:'Kecukupan Lindungan CI',
+    rlTPDMo:'Bulan Sokongan TPD',
+    rlMHI200:'Bilangan Penyakit Kritikal (Kad Perubatan)',
+    rlMHICI200:'Bilangan Gabungan Perubatan + CI',
     bmMo:'bulan',
     autoCalcTag:'[Kira Auto]',
     unnamedClient:'Pelanggan Tanpa Nama',
@@ -2531,21 +2564,21 @@ function recalc() {
   const dtfShortfall = pvDTF < 0 ? -pvDTF : 0;
   const dbfShortfall = pvDBF < 0 ? -pvDBF : 0;
   const ratioRows = [
-    {label:'Cover Ratio', val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio')},
-    {label:'DTF (Total)', val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
+    {label:L('rlCoverRatio'), val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio')},
+    {label:L('rlDTF'), val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
     // DBF (Basic) and DUF (Unsettled) rows intentionally hidden — the model's
     // monthly-payment simplification (no amortization, no residual debt
     // accounting) makes them counterintuitive to explain to clients.
     // Underlying calculations preserved above for any future re-display.
-    {label:'Total IFS', val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
+    {label:L('rlTotalIFS'), val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
     // Basic IFS hidden — same DBF scenario as the hidden DBF (Basic) row above.
-    {label:'Acc Total IFS', val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS')},
-    {label:'CI to Monthly', val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdCImo')},
-    {label:'Early CI to Monthly', val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdECImo')},
-    {label:'Basic CI-IFS', val:ciBasicIFS, unit:'%', ok:ciBasicIFS>=1, benchmark:'> 100%', desc:L('rdBasicCIIFS')},
-    {label:'TPD to Monthly', val:tpdToMonths, unit:'mo', ok:tpdToMonths>=120, benchmark:`120 – 240 ${L('bmMo')}`, desc:L('rdTPDmo')},
-    {label:'MHI Funding 200k', val:mhiFunding200k, unit:'x', ok:mhiFunding200k>=2, benchmark:'> 2x', desc:L('rdMHI200')},
-    {label:'MHI+CI Funding 200k', val:mhiCIFunding200k, unit:'x', ok:mhiCIFunding200k>=2, benchmark:'> 2x', desc:L('rdMHICI200')},
+    {label:L('rlAccIFS'), val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS')},
+    {label:L('rlCIMo'), val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdCImo')},
+    {label:L('rlECIMo'), val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdECImo')},
+    {label:L('rlBasicCIIFS'), val:ciBasicIFS, unit:'%', ok:ciBasicIFS>=1, benchmark:'> 100%', desc:L('rdBasicCIIFS')},
+    {label:L('rlTPDMo'), val:tpdToMonths, unit:'mo', ok:tpdToMonths>=120, benchmark:`120 – 240 ${L('bmMo')}`, desc:L('rdTPDmo')},
+    {label:L('rlMHI200'), val:mhiFunding200k, unit:'x', ok:mhiFunding200k>=2, benchmark:'> 2x', desc:L('rdMHI200')},
+    {label:L('rlMHICI200'), val:mhiCIFunding200k, unit:'x', ok:mhiCIFunding200k>=2, benchmark:'> 2x', desc:L('rdMHICI200')},
   ];
   setHtml('riskRatioTable', ratioRows.map(r => {
     let display;
