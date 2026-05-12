@@ -2416,10 +2416,16 @@ function recalc() {
   const DTF = mthlyForDTF > 0 ? NPER(monthlyRate, -mthlyForDTF, pvDTF) : 0;
   const DBF = dbfMthly > 0 ? NPER(monthlyRate, -dbfMthly, pvDBF) : 0;
   const DUF = (unsettledMonthlyExp - annPremium/12) > 0 ? NPER(monthlyRate, -(unsettledMonthlyExp - annPremium/12), pvDUF) : 0;
+  // IFS coverage ratios — death benefit ÷ fund needed under each strategy.
+  // Calibrated consistently with the deathNeed_DTF / deathNeed_DBF
+  // scenarios above. Previously:
+  //   - fundNeedTotal used allMortgages only (missed car + CC), now uses totalDebts
+  //   - fundNeedBasic had the same DBF bug (homeMonthly in pmt, missing
+  //     invest+car), now mirrors dbfMthly + deathNeed_DBF lump-sum.
   const mthlyIFS = monthlyExpBase - annPremium/12;
-  const fundNeedTotal  = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + allMortgages + IDE;
+  const fundNeedTotal  = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + totalDebts + IDE;
   const totalIFS = fundNeedTotal > 0 ? deathBenefit / fundNeedTotal : 0;
-  const fundNeedBasic  = Math.max(0, PV(monthlyRate, requiredMonths, -(basicMonthlyExp - annPremium/12))) + homeOfficeBal + IDE;
+  const fundNeedBasic  = Math.max(0, PV(monthlyRate, requiredMonths, -dbfMthly)) + homeOfficeBal + IDE;
   const basicIFS = fundNeedBasic > 0 ? deathBenefit / fundNeedBasic : 0;
   const accDeathTotal  = deathBenefit + paBenefit;
   const accTotalIFS = fundNeedTotal > 0 ? accDeathTotal / fundNeedTotal : 0;
