@@ -416,7 +416,209 @@ select option:first-child{color:#C4C9D4}
     margin: 10mm 10mm;
     /* Note: ask user to disable Headers & Footers in print dialog */
   }
+
+  /* When report view is active, hide wizard pages and show report */
+  body.report-active #farWizard,
+  body.report-active .far-progress,
+  body.report-active .far-nav,
+  body.report-active .welcome-screen{display:none !important}
+  body.report-active #reportView{display:block !important}
 }
+
+/* ══════════════════════════════════════════════════════════
+   PROFESSIONAL REPORT VIEW  (screen + print)
+   Strict layout discipline:
+   - Page max width 920px (A4 portrait safe)
+   - Consistent header/footer on every page
+   - 24px section spacing, 16px element spacing
+   - Numbers in tabular-nums, currency right-aligned
+   - Colour tokens: --red / --dark / --ok / --gap only
+   ══════════════════════════════════════════════════════════ */
+#reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
+.rep-page{
+  background:#fff;border:1px solid #E5E7EB;border-radius:14px;
+  padding:44px 48px;margin-bottom:24px;
+  page-break-after:always;page-break-inside:avoid;
+  position:relative;
+}
+.rep-page:last-child{page-break-after:auto}
+.rep-page-hdr{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:12px;margin-bottom:24px;
+  border-bottom:2px solid var(--dark);
+}
+.rep-brand{
+  font-size:14px;font-weight:900;color:var(--dark);letter-spacing:1.2px;
+}
+.rep-brand::before{content:'TEN';color:var(--red);margin-right:6px}
+.rep-page-label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+.rep-page-title{
+  font-size:28px;font-weight:900;color:var(--dark);
+  letter-spacing:.3px;margin:0 0 6px;line-height:1.25;
+}
+.rep-page-subtitle{
+  font-size:13.5px;color:var(--muted);font-weight:500;
+  margin-bottom:32px;line-height:1.6;
+}
+.rep-section-title{
+  font-size:14px;font-weight:800;color:var(--dark);
+  text-transform:uppercase;letter-spacing:1.5px;
+  margin:32px 0 14px;
+  padding-bottom:8px;border-bottom:1px solid #E5E7EB;
+}
+.rep-section-title:first-of-type{margin-top:8px}
+
+/* Client profile box ─────────────────────────────── */
+.rep-client-box{
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
+  padding:18px 22px;margin-bottom:8px;
+  display:grid;grid-template-columns:repeat(4, 1fr);gap:18px 24px;
+}
+.rep-client-cell{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rep-client-lbl{
+  font-size:10.5px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.8px;
+}
+.rep-client-val{
+  font-size:14.5px;font-weight:700;color:var(--dark);line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+/* Hero KPI row — 3 big numbers ───────────────────── */
+.rep-hero-kpi{display:grid;grid-template-columns:repeat(3, 1fr);gap:14px}
+.rep-hk{
+  border-radius:12px;padding:20px 22px;
+  border:1px solid transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-hk.ok{background:#ECFDF5;border-color:#A7F3D0}
+.rep-hk.gap{background:#FEF2F2;border-color:#FECACA}
+.rep-hk.neutral{background:#F1F5F9;border-color:#CBD5E1}
+.rep-hk-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:10px}
+.rep-hk-val{font-size:26px;font-weight:900;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.rep-hk.ok  .rep-hk-val{color:#059669}
+.rep-hk.gap .rep-hk-val{color:#DC2626}
+.rep-hk.neutral .rep-hk-val{color:var(--dark)}
+.rep-hk-sub{font-size:11.5px;color:var(--muted);margin-top:6px;font-weight:500}
+
+/* Findings — numbered bullets with priority ───────── */
+.rep-findings{display:flex;flex-direction:column;gap:10px}
+.rep-finding{
+  display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;
+  padding:14px 16px;background:#FAFAFA;border:1px solid #E5E7EB;
+  border-left:4px solid var(--gap);border-radius:8px;
+}
+.rep-finding.p2{border-left-color:#F59E0B;background:#FFFBEB}
+.rep-finding.p3{border-left-color:#6366F1;background:#EEF2FF}
+.rep-finding-num{
+  width:30px;height:30px;border-radius:50%;background:var(--dark);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:13.5px;flex-shrink:0;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-finding-text{font-size:13.5px;line-height:1.55;color:var(--dark);font-weight:500}
+.rep-finding-text b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-finding.p2 .rep-finding-text b{color:#B45309}
+.rep-finding.p3 .rep-finding-text b{color:#4338CA}
+.rep-finding-prio{
+  font-size:10.5px;font-weight:800;letter-spacing:1px;
+  padding:4px 10px;border-radius:99px;flex-shrink:0;
+  background:var(--gap);color:#fff;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-finding.p2 .rep-finding-prio{background:#F59E0B}
+.rep-finding.p3 .rep-finding-prio{background:#6366F1}
+
+/* Bottom callout — single-sentence summary ────────── */
+.rep-bottom-callout{
+  margin-top:28px;padding:16px 20px;
+  background:linear-gradient(135deg,#1E2A3A 0%,#0F1A2B 100%);color:#fff;
+  border-radius:10px;font-size:14px;line-height:1.6;font-weight:500;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-bottom-callout b{color:#FCA5A5;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* Footer on each page ─────────────────────────────── */
+.rep-page-foot{
+  margin-top:auto;padding-top:18px;
+  border-top:1px solid #E5E7EB;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:.3px;
+}
+.rep-page-num{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums}
+
+/* Death-coverage bar visualization ────────────────── */
+.rep-bar-section{margin-bottom:8px}
+.rep-bar-row{margin-bottom:14px}
+.rep-bar-row:last-child{margin-bottom:0}
+.rep-bar-hdr{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:7px;
+}
+.rep-bar-lbl{font-size:12.5px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.6px}
+.rep-bar-val{font-size:18px;font-weight:900;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.rep-bar-val.gap{color:var(--gap)}
+.rep-bar-val.ok{color:var(--ok)}
+.rep-bar-track{
+  width:100%;height:22px;background:#F1F5F9;border-radius:6px;
+  overflow:hidden;position:relative;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--dark) 0%,#1F3A5C 100%);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-bar-fill.current{background:linear-gradient(90deg,#94A3B8 0%,#64748B 100%)}
+.rep-bar-fill.gap{background:linear-gradient(90deg,var(--gap) 0%,#B91C1C 100%)}
+
+/* Calculation breakdown table ─────────────────────── */
+.rep-breakdown{
+  background:#FAFAFA;border:1px solid #E5E7EB;border-radius:10px;
+  padding:18px 22px;
+}
+.rep-breakdown-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 0;border-bottom:1px dashed #E5E7EB;
+  font-size:13.5px;
+}
+.rep-breakdown-row:last-child{border-bottom:none}
+.rep-breakdown-row.total{
+  border-top:2px solid var(--dark);border-bottom:none;margin-top:4px;padding-top:14px;
+}
+.rep-breakdown-lbl{color:var(--dark);font-weight:500;flex:1;padding-right:12px}
+.rep-breakdown-lbl-note{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.5}
+.rep-breakdown-val{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px;font-size:14.5px;white-space:nowrap}
+.rep-breakdown-row.total .rep-breakdown-lbl{font-weight:800;color:var(--dark);font-size:14.5px;text-transform:uppercase;letter-spacing:.5px}
+.rep-breakdown-row.total .rep-breakdown-val{font-size:18px;font-weight:900;color:var(--red)}
+
+/* Interpretation prose ────────────────────────────── */
+.rep-interpretation{font-size:13.5px;line-height:1.85;color:var(--dark)}
+.rep-interpretation p{margin:0 0 12px}
+.rep-interpretation p:last-child{margin-bottom:0}
+.rep-interpretation b{color:var(--dark);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-interpretation .gap-num{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-interpretation .ok-num{color:var(--ok);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-warning{
+  margin-top:16px;padding:12px 16px;
+  background:#FEF2F2;border-left:4px solid var(--gap);border-radius:6px;
+  font-size:13px;color:#7F1D1D;line-height:1.6;font-weight:500;
+}
+.rep-warning b{color:var(--gap);font-weight:800}
+
+/* Mobile/tablet adaptations for screen preview ────── */
+@media (max-width:768px){
+  #reportView{padding:0 12px;margin:16px auto}
+  .rep-page{padding:28px 24px;border-radius:10px}
+  .rep-page-title{font-size:22px}
+  .rep-client-box{grid-template-columns:repeat(2,1fr);gap:14px 18px}
+  .rep-hero-kpi{grid-template-columns:1fr;gap:10px}
+  .rep-hk-val{font-size:22px}
+  .rep-finding{grid-template-columns:30px 1fr;gap:10px}
+  .rep-finding-prio{grid-column:1/-1;justify-self:end}
+}
+
 
 /* ── MOBILE ─── */
 /* ── TABLET (769px – 1024px) ── */
@@ -861,6 +1063,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     <button class="fab-item fab-item-save" onclick="saveRecord();closeFab()">💾 儲存分析</button>
     <div class="fab-divider"></div>
     <button class="fab-item fab-item-print" onclick="closeFab();printPrepare()">🖨 列印 / PDF</button>
+    <button class="fab-item" onclick="toggleReportView();closeFab()">📋 預覽專業報告</button>
   </div>
 </div>
 
@@ -1517,6 +1720,68 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 </div>
 
 </div><!-- /#farWizard -->
+
+<!-- ══════════════════════════════════════════════════════
+     PROFESSIONAL REPORT VIEW  (prototype: 2 sample pages)
+     - Toggled by FAB → 預覽專業報告
+     - Print output uses this when reportView is visible
+     ══════════════════════════════════════════════════════ -->
+<div id="reportView" style="display:none">
+
+  <!-- ── Page 1 of report: Executive Summary ── -->
+  <section class="rep-page" data-rpage="exec">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">TEN Consultancy</div>
+      <div class="rep-page-label">執行摘要 · Executive Summary</div>
+    </header>
+
+    <h1 class="rep-page-title">財務保障分析摘要</h1>
+    <div class="rep-page-subtitle" id="rep_execSub">— · —</div>
+
+    <div class="rep-client-box" id="rep_clientBox"></div>
+
+    <h2 class="rep-section-title">三大核心數字</h2>
+    <div class="rep-hero-kpi" id="rep_heroKpi"></div>
+
+    <h2 class="rep-section-title">關鍵發現 Key Findings</h2>
+    <div class="rep-findings" id="rep_findings"></div>
+
+    <div class="rep-bottom-callout" id="rep_execCallout"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 2</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 4 of report: Death Coverage Analysis ── -->
+  <section class="rep-page" data-rpage="death">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">TEN Consultancy</div>
+      <div class="rep-page-label">死亡保障分析 · Death Coverage Analysis</div>
+    </header>
+
+    <h1 class="rep-page-title">死亡保障缺口分析</h1>
+    <div class="rep-page-subtitle">若主養人不在,家人需要多少資金延續生活?</div>
+
+    <!-- Bar visualization -->
+    <div class="rep-bar-section" id="rep_deathBar"></div>
+
+    <!-- Breakdown table — show client how the need is computed -->
+    <h2 class="rep-section-title">所需保障計算明細</h2>
+    <div class="rep-breakdown" id="rep_deathBreakdown"></div>
+
+    <!-- Plain-language interpretation -->
+    <h2 class="rep-section-title">分析與解讀</h2>
+    <div class="rep-interpretation" id="rep_deathInterp"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 4</span>
+    </footer>
+  </section>
+
+</div><!-- /#reportView -->
 
 <!-- ══ Toast Notification ══ -->
 <div id="farToast" class="no-print"><span class="far-toast-icon">✓</span><span data-i18n="toastSaved">已儲存</span></div>
@@ -3154,6 +3419,238 @@ function printPrepare() {
   </div>`;
   document.body.appendChild(m);
 }
+
+// ══════════════════════════════════════════════════════════
+//   PROFESSIONAL REPORT VIEW  (prototype: 2 pages)
+//   Re-reads same inputs as recalc() and populates the report
+//   sections. Triggered by toggleReportView() — does NOT mutate
+//   any wizard state.
+// ══════════════════════════════════════════════════════════
+function toggleReportView() {
+  const rv = document.getElementById('reportView');
+  if (!rv) return;
+  const isShown = (rv.style.display === 'block' || rv.style.display === '');
+  if (isShown) {
+    rv.style.display = 'none';
+    document.body.classList.remove('report-active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  } else {
+    renderReport();
+    rv.style.display = 'block';
+    document.body.classList.add('report-active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function renderReport() {
+  // Re-derive everything we need from the form (same source-of-truth
+  // as recalc — no double-counting risk).
+  const inflation  = n('inflationRate') / 100;
+  const interest   = n('interestRate') / 100;
+  const IDE        = n('ide');
+  const realRate   = (interest - inflation) / (1 + inflation);
+  const yearsResp  = n('yearsResp') || 5;
+  const age        = n('clientAge') || 35;
+
+  const varExp = n('expFood') + n('expUtil') + n('expChild') + n('expOther');
+  const homeBalance   = n('homeBalance'),   homeMonthly   = n('homeMonthly');
+  const homeMRTA      = !!(document.getElementById('homeMRTA')||{}).checked;
+  const officeBalance = n('officeBalance'), officeMonthly = n('officeMonthly');
+  const officeMRTA    = !!(document.getElementById('officeMRTA')||{}).checked;
+  const homeOfficeBal = (homeMRTA?0:homeBalance) + (officeMRTA?0:officeBalance);
+  let investBal = 0, investMthly = 0;
+  for(let i=1;i<=5;i++){
+    const mrta = !!(document.getElementById(`ip${i}MRTA`)||{}).checked;
+    if(!mrta){ investBal += n(`ip${i}Balance`); investMthly += n(`ip${i}Monthly`); }
+  }
+  const carLoanBal = n('carLoan'), carMthly = n('carMonthly'), ccPersonal = n('ccPersonal');
+  const totalDebts = homeOfficeBal + investBal + carLoanBal + ccPersonal;
+
+  let deathBenefit=0, tpdBenefit=0, paBenefit=0, ciBenefit=0, earlyCI=0, annPremium=0;
+  let lifetimeLimit=0, roomBoard=0;
+  for(let i=1;i<=15;i++){
+    deathBenefit  += n(`p${i}death`);
+    tpdBenefit    += n(`p${i}tpd`);
+    paBenefit     += n(`p${i}pa`);
+    ciBenefit     += n(`p${i}ci`);
+    earlyCI       += n(`p${i}eci`);
+    annPremium    += n(`p${i}prem`);
+    roomBoard      = Math.max(roomBoard, n(`p${i}rb`));
+    lifetimeLimit  = Math.max(lifetimeLimit, n(`p${i}ll`));
+  }
+  const totalCI = ciBenefit + earlyCI;
+  const insExp  = annPremium / 12;
+  const monthlyExpBase = varExp + insExp;
+  const basicMonthlyExp = monthlyExpBase + (homeMonthly + officeMonthly);
+  const unsettledMonthlyExp = basicMonthlyExp + investMthly + carMthly;
+  const totalIncome = n('salaryMain') + n('salarySpouse') + n('rentalIncome') + n('otherIncome');
+  const netCashFlow = totalIncome - unsettledMonthlyExp;
+
+  // Insurance need — DTF formula (matches recalc)
+  const annExpDeath = (monthlyExpBase - annPremium/12) * 12;
+  const pvDeath = Math.max(0, PV(realRate, yearsResp, -annExpDeath));
+  const deathNeed = pvDeath + IDE + totalDebts;
+  const annExpTPD = (monthlyExpBase - 0/12) * 12;
+  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
+  const annExpCI = (unsettledMonthlyExp - 0/12) * 12;
+  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + n('rrf');
+
+  const deathGap = deathBenefit - deathNeed;
+  const tpdGap   = tpdBenefit - tpdNeed;
+  const ciGap    = totalCI - ciNeed;
+  const deathPct = deathNeed > 0 ? (deathBenefit / deathNeed) : 0;
+
+  const clientName = s('clientName') || '—';
+  const reportDate = s('reportDate') || new Date().toLocaleDateString('en-MY');
+  const occupation = s('occupation') || '—';
+  const spouseAge  = n('spouseAge') || 0;
+  const youngDep   = n('youngDepAge') || 0;
+
+  // ── PAGE 1 (exec summary) ─────────────────────────────────────
+  setHtml('rep_execSub', `${clientName} · 報告日期 ${reportDate}`);
+
+  setHtml('rep_clientBox', `
+    <div class="rep-client-cell"><div class="rep-client-lbl">客戶</div><div class="rep-client-val">${clientName}</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">年齡</div><div class="rep-client-val">${Math.round(age)} 歲</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">職業</div><div class="rep-client-val">${occupation}</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">負擔責任年數</div><div class="rep-client-val">${yearsResp} 年</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">配偶年齡</div><div class="rep-client-val">${spouseAge>0?spouseAge+' 歲':'—'}</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">最小受撫養人</div><div class="rep-client-val">${youngDep>0?youngDep+' 歲':'—'}</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">月收入</div><div class="rep-client-val">${fmtRaw(totalIncome)}</div></div>
+    <div class="rep-client-cell"><div class="rep-client-lbl">月支出</div><div class="rep-client-val">${fmtRaw(unsettledMonthlyExp)}</div></div>
+  `);
+
+  // Hero KPIs — biggest single takeaways
+  const deathGapAbs = Math.max(0, deathNeed - deathBenefit);
+  const totalGap = Math.max(0, deathNeed - deathBenefit)
+                 + Math.max(0, tpdNeed   - tpdBenefit)
+                 + Math.max(0, ciNeed    - totalCI);
+  const allGood = (deathGapAbs === 0 && tpdGap >= 0 && ciGap >= 0);
+  setHtml('rep_heroKpi', `
+    <div class="rep-hk gap">
+      <div class="rep-hk-lbl">建議死亡保障</div>
+      <div class="rep-hk-val">${fmtRaw(Math.round(deathNeed))}</div>
+      <div class="rep-hk-sub">目前 ${fmtRaw(Math.round(deathBenefit))} · 覆蓋率 ${(deathPct*100).toFixed(0)}%</div>
+    </div>
+    <div class="rep-hk ${deathGapAbs===0?'ok':'gap'}">
+      <div class="rep-hk-lbl">總保障缺口</div>
+      <div class="rep-hk-val">${deathGapAbs===0?'✓ 達標':'▼ '+fmtRaw(Math.round(totalGap))}</div>
+      <div class="rep-hk-sub">${deathGapAbs===0?'目前保額充足':'死亡 + 全殘 + 危疾合計'}</div>
+    </div>
+    <div class="rep-hk ${netCashFlow>=0?'ok':'gap'}">
+      <div class="rep-hk-lbl">每月淨現金流</div>
+      <div class="rep-hk-val">${netCashFlow>=0?'+':'-'} ${fmtRaw(Math.abs(Math.round(netCashFlow)))}</div>
+      <div class="rep-hk-sub">${netCashFlow>=0?'有儲蓄能力':'入不敷出 ⚠'}</div>
+    </div>
+  `);
+
+  // Findings — top 3-5 gaps ranked
+  const findings = [];
+  if (deathGapAbs > 0) findings.push({
+    prio:'P1', cls:'',
+    text:`<b>死亡保障</b>不足 <b>${fmtRaw(Math.round(deathGapAbs))}</b> — 主養人不在時,家人 ${yearsResp} 年生活費 + 全部債務無法完全覆蓋`,
+  });
+  const tpdShort = Math.max(0, tpdNeed - tpdBenefit);
+  if (tpdShort > 0) findings.push({
+    prio:'P1', cls:'',
+    text:`<b>全殘保障</b>不足 <b>${fmtRaw(Math.round(tpdShort))}</b> — 若主養人傷殘無法工作 10 年,家人生活費將出現缺口`,
+  });
+  const ciShort = Math.max(0, ciNeed - totalCI);
+  if (ciShort > 0) findings.push({
+    prio:'P2', cls:'p2',
+    text:`<b>危疾保障</b>不足 <b>${fmtRaw(Math.round(ciShort))}</b> — 罹患重大疾病時 3 年治療期家庭支出 + RRF 康復儲備金不夠`,
+  });
+  if (lifetimeLimit < 1_000_000) findings.push({
+    prio:'P2', cls:'p2',
+    text:`<b>醫療終身額度</b>僅 <b>${fmtRaw(lifetimeLimit)}</b>,建議升至 <b>RM 1,000,000</b> 以上以應付癌症等多療程重大疾病`,
+  });
+  if (paBenefit < deathBenefit * 0.5) {
+    const paShort = Math.round(deathBenefit*0.5 - paBenefit);
+    if (paShort > 0) findings.push({
+      prio:'P3', cls:'p3',
+      text:`<b>意外保障 PA</b>可加保 <b>${fmtRaw(paShort)}</b>,建議至少達死亡保障的 50%`,
+    });
+  }
+  if (findings.length === 0) findings.push({
+    prio:'OK', cls:'p3',
+    text:'整體保障充足,建議每年定期檢視並依生命階段變化(結婚、生子、買房)調整。',
+  });
+  setHtml('rep_findings', findings.slice(0, 5).map((f, i) => `
+    <div class="rep-finding ${f.cls}">
+      <div class="rep-finding-num">${i + 1}</div>
+      <div class="rep-finding-text">${f.text}</div>
+      <div class="rep-finding-prio">${f.prio}</div>
+    </div>
+  `).join(''));
+
+  // Bottom callout
+  setHtml('rep_execCallout', allGood
+    ? `<b>整體財務保障狀態良好</b> — 您目前的保險組合可支撐家庭 ${yearsResp} 年,並覆蓋所有債務。建議每年定期檢視。`
+    : `建議優先處理上述 <b>P1 缺口 (RM ${Math.round(Math.max(0,deathGapAbs)+Math.max(0,tpdShort)).toLocaleString('en-MY')})</b>,確保家人在最壞情況下仍有完整保障。`
+  );
+
+  // ── PAGE 2 (death analysis) ───────────────────────────────────
+  const maxBar = Math.max(deathNeed, deathBenefit) * 1.05;
+  const needPct = maxBar > 0 ? (deathNeed / maxBar * 100) : 0;
+  const curPct  = maxBar > 0 ? (deathBenefit / maxBar * 100) : 0;
+  setHtml('rep_deathBar', `
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr">
+        <span class="rep-bar-lbl">所需保障</span>
+        <span class="rep-bar-val">RM ${Math.round(deathNeed).toLocaleString('en-MY')}</span>
+      </div>
+      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${needPct.toFixed(1)}%"></div></div>
+    </div>
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr">
+        <span class="rep-bar-lbl">現有保障</span>
+        <span class="rep-bar-val">RM ${Math.round(deathBenefit).toLocaleString('en-MY')}</span>
+      </div>
+      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${curPct.toFixed(1)}%"></div></div>
+    </div>
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr">
+        <span class="rep-bar-lbl">保障缺口</span>
+        <span class="rep-bar-val ${deathGapAbs>0?'gap':'ok'}">${deathGapAbs>0?'▼ -RM '+Math.round(deathGapAbs).toLocaleString('en-MY'):'✓ 充足'}</span>
+      </div>
+      <div class="rep-bar-track">
+        ${deathGapAbs>0 ? `<div class="rep-bar-fill gap" style="width:${(deathGapAbs/maxBar*100).toFixed(1)}%;margin-left:${curPct.toFixed(1)}%"></div>` : ''}
+      </div>
+    </div>
+  `);
+
+  setHtml('rep_deathBreakdown', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">家人 ${yearsResp} 年生活費(現值)<span class="rep-breakdown-lbl-note">按通脹/利率折現,每月基本生活費 RM ${Math.round(monthlyExpBase-annPremium/12).toLocaleString('en-MY')}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(pvDeath).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">即時身故費用 IDE<span class="rep-breakdown-lbl-note">喪葬、法律手續、緊急家庭支出</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(IDE).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">全部債務清還<span class="rep-breakdown-lbl-note">自住房 ${fmtRaw(homeOfficeBal)} + 投資房 ${fmtRaw(investBal)} + 車貸 ${fmtRaw(carLoanBal)} + 卡債 ${fmtRaw(ccPersonal)}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(totalDebts).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row total">
+      <div class="rep-breakdown-lbl">所需死亡保障(合計)</div>
+      <div class="rep-breakdown-val">RM ${Math.round(deathNeed).toLocaleString('en-MY')}</div>
+    </div>
+  `);
+
+  let interpHtml = `
+    <p>若主養人 <b>${clientName}</b>(${Math.round(age)} 歲)不幸身故,家人需要 <b>${fmtRaw(Math.round(deathNeed))}</b> 才能:
+    清還所有債務(${fmtRaw(totalDebts)})、應付即時身故費用(${fmtRaw(IDE)})、並維持 ${yearsResp} 年基本生活費(${fmtRaw(Math.round(pvDeath))})。</p>
+    <p>目前死亡保額為 <b>${fmtRaw(deathBenefit)}</b>,覆蓋率 <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>。</p>
+  `;
+  if (deathGapAbs > 0) {
+    interpHtml += `<div class="rep-warning"><b>⚠ 保障缺口 ${fmtRaw(Math.round(deathGapAbs))}</b> — 目前保額不足以同時清還債務及維持家人 ${yearsResp} 年生活,家人可能被迫變賣資產或縮減生活水準。建議優先補足此缺口。</div>`;
+  } else {
+    interpHtml += `<p>保障已達建議水準,可支撐家庭 ${yearsResp} 年於主養人不在時的所有財務責任。</p>`;
+  }
+  setHtml('rep_deathInterp', interpHtml);
+}
+// ──────────────────────────────────────────────────────────────
 
 // ══ PRINT VIEW — hide empty policy rows ══
 function preparePrintView() {
