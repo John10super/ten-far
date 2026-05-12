@@ -618,16 +618,98 @@ body.report-active #reportView{display:block !important}
 }
 .rep-warning b{color:var(--gap);font-weight:800}
 
+/* Risk grid — 5 selected ratios in 2-col grid ────── */
+.rep-risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.rep-risk-card{
+  border:1px solid #E5E7EB;border-radius:10px;padding:18px 20px;
+  background:#fff;display:flex;flex-direction:column;gap:8px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-risk-card.ok{border-left:4px solid var(--ok);background:#F0FDF4}
+.rep-risk-card.gap{border-left:4px solid var(--gap);background:#FEF2F2}
+.rep-risk-card.warn{border-left:4px solid #F59E0B;background:#FFFBEB}
+.rep-rc-hdr{display:flex;justify-content:space-between;align-items:baseline}
+.rep-rc-lbl{font-size:13px;font-weight:800;color:var(--dark);letter-spacing:.3px}
+.rep-rc-status{font-size:11px;font-weight:800;letter-spacing:.5px;padding:3px 9px;border-radius:99px}
+.rep-rc-status.ok{background:var(--ok);color:#fff}
+.rep-rc-status.gap{background:var(--gap);color:#fff}
+.rep-rc-status.warn{background:#F59E0B;color:#fff}
+.rep-rc-val{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1}
+.rep-risk-card.ok .rep-rc-val{color:#059669}
+.rep-risk-card.gap .rep-rc-val{color:var(--gap)}
+.rep-risk-card.warn .rep-rc-val{color:#B45309}
+.rep-rc-bench{font-size:11px;color:var(--muted);font-weight:600}
+.rep-rc-desc{font-size:11.5px;color:#475569;line-height:1.55;font-weight:500;margin-top:4px}
+
+/* Action plan list ────────────────────────────────── */
+.rep-action-list{display:flex;flex-direction:column;gap:10px}
+.rep-action-item{
+  display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;
+  padding:14px 16px;background:#FAFAFA;border:1px solid #E5E7EB;
+  border-left:4px solid var(--gap);border-radius:8px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-action-item.p2{border-left-color:#F59E0B;background:#FFFBEB}
+.rep-action-item.p3{border-left-color:#6366F1;background:#EEF2FF}
+.rep-action-prio-tag{
+  font-size:14px;font-weight:900;text-align:center;color:#fff;
+  background:var(--gap);border-radius:8px;padding:8px 0;letter-spacing:.5px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-action-item.p2 .rep-action-prio-tag{background:#F59E0B}
+.rep-action-item.p3 .rep-action-prio-tag{background:#6366F1}
+.rep-action-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rep-action-cat{font-size:13.5px;font-weight:800;color:var(--dark)}
+.rep-action-amt{font-size:14.5px;font-weight:900;color:var(--gap);font-variant-numeric:tabular-nums}
+.rep-action-item.p2 .rep-action-amt{color:#B45309}
+.rep-action-item.p3 .rep-action-amt{color:#4338CA}
+.rep-action-time{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+
+/* Signature grid + disclaimer ─────────────────────── */
+.rep-disclaimer{
+  background:#FAFAFA;border:1px solid #E5E7EB;border-radius:10px;
+  padding:18px 22px;margin-bottom:36px;
+  font-size:12px;line-height:1.7;color:#475569;
+}
+.rep-disclaimer p{margin:0 0 10px}
+.rep-disclaimer p:last-child{margin-bottom:0}
+.rep-disclaimer b{color:var(--dark);font-weight:800}
+.rep-sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:24px}
+.rep-sig-cell{display:flex;flex-direction:column;align-items:center;gap:6px}
+.rep-sig-line{width:100%;height:1px;background:var(--dark);margin-bottom:8px}
+.rep-sig-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase}
+.rep-sig-name{font-size:14px;font-weight:700;color:var(--dark)}
+
 /* Mobile/tablet adaptations for screen preview ────── */
 @media (max-width:768px){
   #reportView{padding:0 12px;margin:16px auto}
-  .rep-page{padding:28px 24px;border-radius:10px}
-  .rep-page-title{font-size:22px}
-  .rep-client-box{grid-template-columns:repeat(2,1fr);gap:14px 18px}
+  .rep-page{padding:28px 22px;border-radius:10px}
+  .rep-page-hdr{flex-direction:column;align-items:flex-start;gap:4px;padding-bottom:10px;margin-bottom:18px}
+  .rep-brand{font-size:13px}
+  .rep-page-label{font-size:10px;letter-spacing:1px}
+  .rep-page-title{font-size:22px;line-height:1.2}
+  .rep-page-subtitle{font-size:12.5px;margin-bottom:24px}
+  .rep-section-title{font-size:12.5px;margin:24px 0 12px;letter-spacing:1px}
+  .rep-client-box{grid-template-columns:repeat(2,1fr);gap:14px 18px;padding:14px 16px}
   .rep-hero-kpi{grid-template-columns:1fr;gap:10px}
+  .rep-hk{padding:16px 18px}
   .rep-hk-val{font-size:22px}
-  .rep-finding{grid-template-columns:30px 1fr;gap:10px}
-  .rep-finding-prio{grid-column:1/-1;justify-self:end}
+  .rep-finding{grid-template-columns:30px 1fr;gap:10px;padding:12px 14px}
+  .rep-finding-prio{grid-column:1/-1;justify-self:end;margin-top:2px}
+  .rep-bottom-callout{font-size:13px;padding:14px 16px;margin-top:22px}
+  .rep-bar-val{font-size:16px}
+  .rep-breakdown{padding:14px 16px}
+  .rep-breakdown-row{font-size:12.5px;padding:8px 0}
+  .rep-breakdown-val{font-size:13.5px}
+  .rep-breakdown-row.total .rep-breakdown-val{font-size:16px}
+  .rep-interpretation{font-size:12.5px;line-height:1.75}
+  .rep-risk-grid{grid-template-columns:1fr;gap:10px}
+  .rep-risk-card{padding:14px 16px}
+  .rep-rc-val{font-size:20px}
+  .rep-action-item{grid-template-columns:42px 1fr;gap:10px;padding:12px 14px}
+  .rep-action-time{grid-column:1/-1;padding-top:4px;border-top:1px dashed #E5E7EB}
+  .rep-sig-grid{grid-template-columns:1fr;gap:20px}
+  .rep-disclaimer{padding:14px 16px;font-size:11.5px;margin-bottom:28px}
 }
 
 
@@ -1789,6 +1871,166 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     <footer class="rep-page-foot">
       <span>TEN Consultancy · Financial Health Analysis</span>
       <span class="rep-page-num">Page 4</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 3 of report: Financial Health Snapshot ── -->
+  <section class="rep-page" data-rpage="financial">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">財務健康概況 · Financial Health Snapshot</div>
+    </header>
+
+    <h1 class="rep-page-title">財務健康概況</h1>
+    <div class="rep-page-subtitle">每月收支、債務結構、現金流概況</div>
+
+    <h2 class="rep-section-title">每月現金流</h2>
+    <div class="rep-hero-kpi" id="rep_finCashflow"></div>
+
+    <h2 class="rep-section-title">每月支出明細</h2>
+    <div class="rep-breakdown" id="rep_finExpense"></div>
+
+    <h2 class="rep-section-title">債務結構</h2>
+    <div class="rep-breakdown" id="rep_finDebt"></div>
+
+    <div class="rep-bottom-callout" id="rep_finCallout"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 3</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 5 of report: TPD & CI Coverage Analysis ── -->
+  <section class="rep-page" data-rpage="tpdci">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">全殘 & 危疾保障分析 · TPD & CI Coverage</div>
+    </header>
+
+    <h1 class="rep-page-title">全殘 & 危疾保障分析</h1>
+    <div class="rep-page-subtitle">若受保人傷殘或罹患重大疾病,家庭如何應對 ?</div>
+
+    <h2 class="rep-section-title">全殘保障 TPD</h2>
+    <div class="rep-bar-section" id="rep_tpdBar"></div>
+    <div class="rep-breakdown" id="rep_tpdBreakdown"></div>
+    <div class="rep-interpretation" id="rep_tpdInterp"></div>
+
+    <h2 class="rep-section-title">危疾保障 CI</h2>
+    <div class="rep-bar-section" id="rep_ciBar"></div>
+    <div class="rep-breakdown" id="rep_ciBreakdown"></div>
+    <div class="rep-interpretation" id="rep_ciInterp"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 5</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 6 of report: Medical Coverage Analysis ── -->
+  <section class="rep-page" data-rpage="medical">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">醫療保障分析 · Medical Coverage</div>
+    </header>
+
+    <h1 class="rep-page-title">醫療保障分析</h1>
+    <div class="rep-page-subtitle">醫療卡能否應付癌症等重大疾病的多療程費用 ?</div>
+
+    <h2 class="rep-section-title">三大核心指標</h2>
+    <div class="rep-hero-kpi" id="rep_medKpi"></div>
+
+    <h2 class="rep-section-title">醫療保障明細</h2>
+    <div class="rep-breakdown" id="rep_medBreakdown"></div>
+
+    <h2 class="rep-section-title">分析與建議</h2>
+    <div class="rep-interpretation" id="rep_medInterp"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 6</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 7 of report: Risk Health Indicators (selected) ── -->
+  <section class="rep-page" data-rpage="risk">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">風險健康指標 · Risk Health Indicators</div>
+    </header>
+
+    <h1 class="rep-page-title">風險健康指標</h1>
+    <div class="rep-page-subtitle">五大關鍵比率快速體檢,綠色 ✓ 達標 / 紅色 ✗ 不足</div>
+
+    <div class="rep-risk-grid" id="rep_riskGrid"></div>
+
+    <div class="rep-bottom-callout" id="rep_riskCallout"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 7</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 8 of report: Action Plan ── -->
+  <section class="rep-page" data-rpage="action">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">行動計劃 · Action Plan</div>
+    </header>
+
+    <h1 class="rep-page-title">行動計劃</h1>
+    <div class="rep-page-subtitle">優先級排序,時間表清晰,讓客戶知道下一步怎麼做</div>
+
+    <h2 class="rep-section-title">建議補強清單</h2>
+    <div class="rep-action-list" id="rep_actionList"></div>
+
+    <h2 class="rep-section-title">下次檢視日期</h2>
+    <div class="rep-interpretation" id="rep_actionReview"></div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 8</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 9 of report: Signatures & Disclaimer ── -->
+  <section class="rep-page" data-rpage="signature">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">簽名 · Signatures</div>
+    </header>
+
+    <h1 class="rep-page-title">確認與簽名</h1>
+    <div class="rep-page-subtitle">客戶與顧問共同簽署,作為本次分析之執行依據</div>
+
+    <div class="rep-disclaimer">
+      <p><b>免責聲明 Disclaimer:</b></p>
+      <p>本報告由 TEN Consultancy 出具,僅供參考用途。所有保險需求數字基於客戶提供之資料及通脹/利率假設推算,實際保險產品條款及保費請以保險公司正式報價為準。所有建議應在顧問陪同下詳細討論後方可執行。</p>
+      <p>This report is issued by TEN Consultancy for reference only. All insurance needs are estimates based on client-provided data and the inflation/interest assumptions stated. Actual policy terms and premiums shall be subject to the insurance company's official quotation. All recommendations should be discussed in detail with your consultant before execution.</p>
+    </div>
+
+    <div class="rep-sig-grid">
+      <div class="rep-sig-cell">
+        <div class="rep-sig-line"></div>
+        <div class="rep-sig-label">顧問簽名 Consultant Signature</div>
+        <div class="rep-sig-name" id="rep_sigConsultant">—</div>
+      </div>
+      <div class="rep-sig-cell">
+        <div class="rep-sig-line"></div>
+        <div class="rep-sig-label">客戶簽名 Client Signature</div>
+        <div class="rep-sig-name" id="rep_sigClient">—</div>
+      </div>
+      <div class="rep-sig-cell">
+        <div class="rep-sig-line"></div>
+        <div class="rep-sig-label">日期 Date</div>
+        <div class="rep-sig-name" id="rep_sigDate">—</div>
+      </div>
+    </div>
+
+    <footer class="rep-page-foot">
+      <span>TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 9</span>
     </footer>
   </section>
 
@@ -3660,6 +3902,284 @@ function renderReport() {
     interpHtml += `<p>保障已達建議水準,可支撐家庭 ${yearsResp} 年於受保人不在時的所有財務責任。</p>`;
   }
   setHtml('rep_deathInterp', interpHtml);
+
+  // ── PAGE 3 (financial snapshot) ─────────────────────────────
+  setHtml('rep_finCashflow', `
+    <div class="rep-hk neutral">
+      <div class="rep-hk-lbl">每月收入</div>
+      <div class="rep-hk-val">${fmtRaw(Math.round(totalIncome))}</div>
+      <div class="rep-hk-sub">本人+配偶+租金+其他</div>
+    </div>
+    <div class="rep-hk neutral">
+      <div class="rep-hk-lbl">每月支出</div>
+      <div class="rep-hk-val">${fmtRaw(Math.round(unsettledMonthlyExp))}</div>
+      <div class="rep-hk-sub">含全部貸款月供</div>
+    </div>
+    <div class="rep-hk ${netCashFlow>=0?'ok':'gap'}">
+      <div class="rep-hk-lbl">每月淨現金流</div>
+      <div class="rep-hk-val">${netCashFlow>=0?'+':'-'} ${fmtRaw(Math.abs(Math.round(netCashFlow)))}</div>
+      <div class="rep-hk-sub">${netCashFlow>=0?'有儲蓄能力 ✓':'入不敷出 ⚠'}</div>
+    </div>
+  `);
+
+  setHtml('rep_finExpense', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">生活開銷(食衣住育樂)<span class="rep-breakdown-lbl-note">食物+水電+子女教育+其他</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(varExp).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">保費月攤<span class="rep-breakdown-lbl-note">年繳保費 ${fmtRaw(annPremium)} ÷ 12</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(insExp).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">自住房 + 辦公室月供</div>
+      <div class="rep-breakdown-val">RM ${Math.round(homeMonthly+officeMonthly).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">投資房月供(不含 MRTA 已涵蓋者)</div>
+      <div class="rep-breakdown-val">RM ${Math.round(investMthly).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">車貸月供</div>
+      <div class="rep-breakdown-val">RM ${Math.round(carMthly).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row total">
+      <div class="rep-breakdown-lbl">月支出合計</div>
+      <div class="rep-breakdown-val">RM ${Math.round(unsettledMonthlyExp).toLocaleString('en-MY')}</div>
+    </div>
+  `);
+
+  setHtml('rep_finDebt', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">自住房屋餘額<span class="rep-breakdown-lbl-note">${homeMRTA?'已 MRTA — 不計入':'非 MRTA — 計入需求'}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(homeOfficeBal).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">投資房產餘額(非 MRTA 合計)</div>
+      <div class="rep-breakdown-val">RM ${Math.round(investBal).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">車貸餘額</div>
+      <div class="rep-breakdown-val">RM ${Math.round(carLoanBal).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">信用卡 + 私人貸款</div>
+      <div class="rep-breakdown-val">RM ${Math.round(ccPersonal).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row total">
+      <div class="rep-breakdown-lbl">總債務</div>
+      <div class="rep-breakdown-val">RM ${Math.round(totalDebts).toLocaleString('en-MY')}</div>
+    </div>
+  `);
+
+  const incomeMult = totalIncome > 0 ? (totalDebts / totalIncome / 12).toFixed(1) : 0;
+  setHtml('rep_finCallout', netCashFlow >= 0
+    ? `您每月儲蓄 <b>${fmtRaw(Math.round(netCashFlow))}</b>(${(netCashFlow/totalIncome*100).toFixed(1)}% 收入),屬於收支平衡狀態。總債務為 <b>${fmtRaw(totalDebts)}</b>,約為年收入 <b>${incomeMult}</b> 倍。`
+    : `您每月支出超過收入 <b>${fmtRaw(Math.abs(Math.round(netCashFlow)))}</b>,屬於入不敷出狀態,**建議優先檢視支出結構**,再考慮保險規劃。`);
+
+  // ── PAGE 5 (TPD + CI) ───────────────────────────────────────
+  const tpdMaxBar = Math.max(tpdNeed, tpdBenefit) * 1.05;
+  const tpdShortAmt = Math.max(0, tpdNeed - tpdBenefit);
+  setHtml('rep_tpdBar', `
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr"><span class="rep-bar-lbl">所需保障</span>
+        <span class="rep-bar-val">RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</span></div>
+      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${tpdMaxBar>0?(tpdNeed/tpdMaxBar*100).toFixed(1):0}%"></div></div>
+    </div>
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr"><span class="rep-bar-lbl">現有保障</span>
+        <span class="rep-bar-val">RM ${Math.round(tpdBenefit).toLocaleString('en-MY')}</span></div>
+      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${tpdMaxBar>0?(tpdBenefit/tpdMaxBar*100).toFixed(1):0}%"></div></div>
+    </div>
+    ${tpdShortAmt>0?`<div class="rep-bar-row"><div class="rep-bar-hdr"><span class="rep-bar-lbl">保障缺口</span>
+      <span class="rep-bar-val gap">▼ -RM ${Math.round(tpdShortAmt).toLocaleString('en-MY')}</span></div></div>`:''}
+  `);
+  setHtml('rep_tpdBreakdown', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">家人 10 年基本生活費(現值)<span class="rep-breakdown-lbl-note">受保人傷殘無法工作,以 10 年為支撐橫線</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row total">
+      <div class="rep-breakdown-lbl">所需全殘保障</div>
+      <div class="rep-breakdown-val">RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</div>
+    </div>
+  `);
+  setHtml('rep_tpdInterp', tpdShortAmt > 0
+    ? `<p>若受保人因傷殘無法工作,家人需 <b>${fmtRaw(Math.round(tpdNeed))}</b> 維持 10 年基本生活費。目前 TPD 保額 <b>${fmtRaw(tpdBenefit)}</b>,<b class="gap-num">缺口 ${fmtRaw(Math.round(tpdShortAmt))}</b>,建議補足。</p>`
+    : `<p>TPD 保障已達建議水準,可支撐家庭 10 年生活費。</p>`);
+
+  const ciMaxBar = Math.max(ciNeed, totalCI) * 1.05;
+  const ciShortAmt = Math.max(0, ciNeed - totalCI);
+  setHtml('rep_ciBar', `
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr"><span class="rep-bar-lbl">所需保障</span>
+        <span class="rep-bar-val">RM ${Math.round(ciNeed).toLocaleString('en-MY')}</span></div>
+      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${ciMaxBar>0?(ciNeed/ciMaxBar*100).toFixed(1):0}%"></div></div>
+    </div>
+    <div class="rep-bar-row">
+      <div class="rep-bar-hdr"><span class="rep-bar-lbl">現有保障(含早期)</span>
+        <span class="rep-bar-val">RM ${Math.round(totalCI).toLocaleString('en-MY')}</span></div>
+      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${ciMaxBar>0?(totalCI/ciMaxBar*100).toFixed(1):0}%"></div></div>
+    </div>
+    ${ciShortAmt>0?`<div class="rep-bar-row"><div class="rep-bar-hdr"><span class="rep-bar-lbl">保障缺口</span>
+      <span class="rep-bar-val gap">▼ -RM ${Math.round(ciShortAmt).toLocaleString('en-MY')}</span></div></div>`:''}
+  `);
+  const ciPV = Math.max(0, ciNeed - n('rrf'));
+  setHtml('rep_ciBreakdown', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">3 年家庭總支出(現值)<span class="rep-breakdown-lbl-note">罹病治療期間,家庭支出含全部貸款月供</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(ciPV).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">康復儲備金 RRF<span class="rep-breakdown-lbl-note">復原期所需額外保健、休養、復健支出</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(n('rrf')).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row total">
+      <div class="rep-breakdown-lbl">所需危疾保障</div>
+      <div class="rep-breakdown-val">RM ${Math.round(ciNeed).toLocaleString('en-MY')}</div>
+    </div>
+  `);
+  setHtml('rep_ciInterp', ciShortAmt > 0
+    ? `<p>受保人若罹患重大疾病,治療期 3 年內家庭仍需正常開銷加 RRF 復健儲備。所需保障 <b>${fmtRaw(Math.round(ciNeed))}</b>,現有 <b>${fmtRaw(totalCI)}</b>,<b class="gap-num">缺口 ${fmtRaw(Math.round(ciShortAmt))}</b>。</p>`
+    : `<p>危疾保障充足,治療期 3 年內家庭可維持原有生活,並有 RRF 復健儲備支援康復。</p>`);
+
+  // ── PAGE 6 (medical) ───────────────────────────────────────
+  const mhiFunding = lifetimeLimit > 0 ? lifetimeLimit / 200000 : 0;
+  const medOk1 = roomBoard >= 200;
+  const medOk2 = lifetimeLimit >= 1_000_000;
+  const medOk3 = mhiFunding >= 2;
+  setHtml('rep_medKpi', `
+    <div class="rep-hk ${medOk1?'ok':'gap'}">
+      <div class="rep-hk-lbl">每日病房費</div>
+      <div class="rep-hk-val">${fmtRaw(roomBoard)}</div>
+      <div class="rep-hk-sub">${medOk1?'✓ 達 RM 200/日標準':'✗ 建議 ≥ RM 200/日'}</div>
+    </div>
+    <div class="rep-hk ${medOk2?'ok':'gap'}">
+      <div class="rep-hk-lbl">終身限額</div>
+      <div class="rep-hk-val">${fmtRaw(lifetimeLimit)}</div>
+      <div class="rep-hk-sub">${medOk2?'✓ 達 RM 1M 標準':'✗ 建議 ≥ RM 1M'}</div>
+    </div>
+    <div class="rep-hk ${medOk3?'ok':'gap'}">
+      <div class="rep-hk-lbl">抗大病次數(每次 RM 200k)</div>
+      <div class="rep-hk-val">${mhiFunding.toFixed(1)}x</div>
+      <div class="rep-hk-sub">${medOk3?'✓ 達 2x 標準':'✗ 建議 ≥ 2x'}</div>
+    </div>
+  `);
+  setHtml('rep_medBreakdown', `
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">每日病房費上限</div>
+      <div class="rep-breakdown-val">RM ${roomBoard.toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">終身保額限額</div>
+      <div class="rep-breakdown-val">RM ${lifetimeLimit.toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">RM 200k 大病應付能力</div>
+      <div class="rep-breakdown-val">${mhiFunding.toFixed(1)}x</div>
+    </div>
+  `);
+  const medRecs = [];
+  if (!medOk1) medRecs.push('升級病房等級至 RM 200/日或以上 — 確保入住政府醫院 1 級或私立醫院普通房 ');
+  if (!medOk2) medRecs.push('終身限額升至 RM 1,000,000 或以上 — 應對癌症等多療程重大疾病');
+  if (!medOk3) medRecs.push('考慮加保 Medical Booster 或第二份醫療卡 — 提高抗大病次數');
+  if (medRecs.length === 0) medRecs.push('醫療保障目前達標。建議定期檢視通脹率對醫療費用影響(平均每 5-7 年醫療費翻倍)。');
+  setHtml('rep_medInterp', `
+    <p>醫療保障的核心指標是「<b>能應付幾次 RM 200k 重大疾病</b>」。RM 200k 是癌症等重大疾病典型治療成本(化療、手術、住院合計),覆蓋率 <b>${(mhiFunding>=2?'ok-num':'gap-num')?(`<span class="${mhiFunding>=2?'ok-num':'gap-num'}">${mhiFunding.toFixed(1)}x</span>`):mhiFunding.toFixed(1)+'x'}</b>。</p>
+    <ul style="margin:8px 0;padding-left:22px;line-height:1.85">${medRecs.map(r=>`<li>${r}</li>`).join('')}</ul>
+  `);
+
+  // ── PAGE 7 (risk indicators — selected 5) ───────────────────
+  const coverRatio = annPremium > 0 ? deathBenefit/annPremium : 0;
+  const [crLow, crHigh] = getCoverRatio(age);
+  const monthlyRate = realRate / 12;
+  const requiredMonths = yearsResp * 12;
+  const mthlyIFS = monthlyExpBase - annPremium/12;
+  const fundNeedTotal = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + totalDebts + IDE;
+  const totalIFS = fundNeedTotal > 0 ? deathBenefit/fundNeedTotal : 0;
+  const pvDTF = deathBenefit - totalDebts - IDE;
+  const mthlyForDTF = monthlyExpBase - annPremium/12;
+  const DTF = mthlyForDTF > 0 ? NPER(monthlyRate, -mthlyForDTF, pvDTF) : 0;
+  const dtfShort = pvDTF < 0 ? -pvDTF : 0;
+
+  const riskRows = [
+    {label:L('rlCoverRatio'), val:coverRatio, unit:'x', ok:coverRatio>=crLow,
+      bench:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x`,
+      desc:'死亡賠償相對年保費的倍數,反映保險「性價比」。'},
+    {label:L('rlDTF'), val:DTF, unit:'mo', ok:DTF>=requiredMonths, shortfall:dtfShort,
+      bench:`> ${requiredMonths} 個月`,
+      desc:'清光所有債務後,死亡保額可支撐家庭基本生活費的月數。'},
+    {label:L('rlTotalIFS'), val:totalIFS, unit:'%', ok:totalIFS>=1,
+      bench:'≥ 100%',
+      desc:'死亡保額對家庭整體資金需求(生活費+全部債務+IDE)的覆蓋率。'},
+    {label:L('rlMHI200'), val:mhiFunding, unit:'x', ok:mhiFunding>=2,
+      bench:'≥ 2x',
+      desc:'醫療終身限額能應付幾次 RM 200k 等級的重大疾病。'},
+    {label:L('rlMHICI200'), val:(lifetimeLimit+totalCI)/200000, unit:'x', ok:((lifetimeLimit+totalCI)/200000)>=2,
+      bench:'≥ 2x',
+      desc:'醫療卡終身限額 + 危疾賠償合計能應付幾次 RM 200k 等級的重大疾病。'},
+  ];
+  setHtml('rep_riskGrid', riskRows.map(r => {
+    let display;
+    const cls = r.ok ? 'ok' : (r.unit==='%' && r.val>=0.7 ? 'warn' : 'gap');
+    if (r.unit === 'mo') {
+      display = isFinite(r.val) && r.val > 0 ? r.val.toFixed(1)+' 個月'
+              : (r.shortfall && r.shortfall>0 ? '0 個月' : '—');
+    } else if (r.unit === '%') {
+      display = isFinite(r.val) && r.val>0 ? (r.val*100).toFixed(0)+'%' : '—';
+    } else {
+      display = isFinite(r.val) && r.val>0 ? r.val.toFixed(1)+'x' : '—';
+    }
+    return `
+      <div class="rep-risk-card ${cls}">
+        <div class="rep-rc-hdr">
+          <span class="rep-rc-lbl">${r.label}</span>
+          <span class="rep-rc-status ${cls}">${cls==='ok'?'✓ 達標':cls==='warn'?'⚠ 邊緣':'✗ 不足'}</span>
+        </div>
+        <div class="rep-rc-val">${display}</div>
+        <div class="rep-rc-bench">標準 ${r.bench}</div>
+        <div class="rep-rc-desc">${r.desc}</div>
+      </div>
+    `;
+  }).join(''));
+
+  const passCount = riskRows.filter(r => r.ok).length;
+  setHtml('rep_riskCallout',
+    passCount === riskRows.length
+      ? `<b>五項風險指標全部達標 ✓</b> — 整體保險規劃健康狀態良好,建議每年定期檢視即可。`
+      : `五項指標中 <b>${passCount} 項達標</b>、<b>${riskRows.length-passCount} 項待補強</b>。優先處理紅色 ✗ 不足項目,逐步把五項都拉到綠色。`);
+
+  // ── PAGE 8 (action plan) ────────────────────────────────────
+  const actions = [];
+  if (deathGapAbs > 0) actions.push({p:'P1', cat:'身故保障補足', amt:Math.round(deathGapAbs), time:'盡快(本月內)'});
+  const tpdShort_a = Math.max(0, tpdNeed - tpdBenefit);
+  if (tpdShort_a > 0) actions.push({p:'P1', cat:'全殘保障補足', amt:Math.round(tpdShort_a), time:'盡快(本月內)'});
+  const ciShort_a = Math.max(0, ciNeed - totalCI);
+  if (ciShort_a > 0) actions.push({p:'P2', cat:'危疾保障補足', amt:Math.round(ciShort_a), time:'3 個月內'});
+  if (!medOk2) actions.push({p:'P2', cat:'醫療卡升級(終身限額 ≥ RM 1M)', amt:0, time:'3 個月內'});
+  const paShort_a = Math.round(Math.max(0, deathBenefit*0.5 - paBenefit));
+  if (paShort_a > 0) actions.push({p:'P3', cat:'意外保障 PA 加保', amt:paShort_a, time:'3 個月內'});
+  actions.push({p:'P3', cat:'下次年度保障審查', amt:0, time:'12 個月後'});
+  setHtml('rep_actionList', actions.map(a => `
+    <div class="rep-action-item ${a.p.toLowerCase()}">
+      <div class="rep-action-prio-tag">${a.p}</div>
+      <div class="rep-action-body">
+        <div class="rep-action-cat">${a.cat}</div>
+        ${a.amt>0?`<div class="rep-action-amt">▼ -RM ${a.amt.toLocaleString('en-MY')}</div>`:''}
+      </div>
+      <div class="rep-action-time">${a.time}</div>
+    </div>
+  `).join(''));
+  const reviewDate = new Date();
+  reviewDate.setFullYear(reviewDate.getFullYear()+1);
+  const reviewStr = reviewDate.toISOString().split('T')[0];
+  setHtml('rep_actionReview',
+    `<p>建議下次審查日期:<b>${reviewStr}</b>(自報告日起 12 個月後)。每年定期檢視 + 重大生命事件時(結婚、生子、買房、升職)立即更新。</p>`);
+
+  // ── PAGE 9 (signature) ──────────────────────────────────────
+  setHtml('rep_sigConsultant', s('plannerName') || '—');
+  setHtml('rep_sigClient', clientName);
+  setHtml('rep_sigDate', reportDate);
 }
 // ──────────────────────────────────────────────────────────────
 
