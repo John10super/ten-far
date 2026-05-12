@@ -2490,10 +2490,15 @@ function recalc() {
   }).join(''));
 
   // ── Risk Ratio Table ──
+  // For DTF/DBF: when the death benefit can't even cover (debts+IDE)/(home+IDE),
+  // NPER's internal log-formula clamps to 0 so the cell would otherwise show '—'.
+  // To convey the actual shortage to the client we surface the dollar gap.
+  const dtfShortfall = pvDTF < 0 ? -pvDTF : 0;
+  const dbfShortfall = pvDBF < 0 ? -pvDBF : 0;
   const ratioRows = [
     {label:'Cover Ratio', val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio')},
-    {label:'DTF (Total)', val:DTF, unit:'mo', ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
-    {label:'DBF (Basic)', val:DBF, unit:'mo', ok:DBF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDBF')},
+    {label:'DTF (Total)', val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
+    {label:'DBF (Basic)', val:DBF, unit:'mo', shortfall:dbfShortfall, ok:DBF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDBF')},
     {label:'DUF (Unsettled)', val:DUF, unit:'mo', ok:DUF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDUF')},
     {label:'Total IFS', val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
     {label:'Basic IFS', val:basicIFS, unit:'%', ok:basicIFS>=1, benchmark:'> 100%', desc:L('rdBasicIFS')},
@@ -2507,7 +2512,11 @@ function recalc() {
   ];
   setHtml('riskRatioTable', ratioRows.map(r => {
     let display;
-    if(r.unit==='mo') display = isFinite(r.val)&&r.val>0 ? fmtNum(r.val,1,L('moUnit')) : '—';
+    if(r.unit==='mo'){
+      if(isFinite(r.val) && r.val > 0)            display = fmtNum(r.val, 1, L('moUnit'));
+      else if(r.shortfall && r.shortfall > 0)     display = '▼ -'+fmtRaw(r.shortfall);
+      else                                         display = '—';
+    }
     else if(r.unit==='%') display = isFinite(r.val)&&r.val>0 ? (r.val*100).toFixed(1)+'%' : '—';
     else display = isFinite(r.val)&&r.val>0 ? r.val.toFixed(1)+'x' : '—';
     const badge = statusBadge(r.ok, r.ok?L('statusOk'):L('statusGap'));
