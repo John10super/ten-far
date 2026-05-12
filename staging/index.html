@@ -1038,6 +1038,8 @@ body:not(.unauth) #authScreen{display:none !important}
 .wl-divider{width:36px;height:2.5px;background:#FF2B1E;margin:20px auto;border-radius:2px}
 .wl-report-title{font-size:26px;font-weight:800;color:#1E2A3A;text-align:center;line-height:1.3}
 .wl-report-sub{font-size:16px;color:#9CA3AF;margin-top:6px;text-align:center;letter-spacing:.3px}
+.wl-greeting{display:inline-block;margin:18px auto 0;padding:7px 22px;background:rgba(255,43,30,.08);color:var(--red);font-weight:700;font-size:14px;letter-spacing:.4px;border-radius:30px}
+.wl-greeting strong{font-weight:800}
 .wl-intro{max-width:660px;text-align:center;font-size:18px;color:#4B5563;line-height:1.9;margin:22px 0 32px;font-weight:400}
 .wl-services{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;width:100%;margin-bottom:30px}
 .wl-svc{display:flex;gap:14px;align-items:flex-start;background:#FAFAFA;border:1px solid #F0F1F3;border-radius:10px;padding:18px 20px;transition:all .22s ease;position:relative}
@@ -1410,6 +1412,11 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <!-- Report Title -->
   <div class="wl-report-title">財富與人生規劃</div>
   <div class="wl-report-sub">Wealth &amp; Life Planning &nbsp;·&nbsp; TEN Consultancy</div>
+
+  <!-- Welcome greeting (populated by showLanding() with the user's name) -->
+  <div class="wl-greeting" id="wl-greeting" style="display:none">
+    歡迎 / Welcome, <strong id="wl-userName"></strong>
+  </div>
 
   <!-- Company Intro -->
   <p class="wl-intro">
@@ -5277,8 +5284,14 @@ function showLanding() {
   document.body.classList.add('landing');
   const user = getStoredUser();
   if (user) {
-    const el = document.getElementById('sl_userName');
-    if (el) el.textContent = user.name;
+    // Legacy serviceLanding greeting (deprecated but still populated for safety)
+    const sl_el = document.getElementById('sl_userName');
+    if (sl_el) sl_el.textContent = user.name;
+    // welcomeScreen greeting (the new landing)
+    const wl_el = document.getElementById('wl-userName');
+    if (wl_el) wl_el.textContent = user.name;
+    const wl_greet = document.getElementById('wl-greeting');
+    if (wl_greet) wl_greet.style.display = 'inline-block';
   }
   applyAuthLang();
 }
