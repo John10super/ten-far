@@ -2384,13 +2384,21 @@ function recalc() {
   //         debt payments out of remaining death benefit
   // Targeting MAX ensures the recommended cover holds up under ALL
   // three pressure tests, not just the optimistic one (DTF).
+  // deathNeed = DTF formula: clear ALL debts + 180 months of bare living + IDE.
+  // The DBF/DUF variants below are computed but no longer drive deathNeed —
+  // they were intended to make the recommended cover survive those alternative
+  // family strategies, but the underlying model doesn't account for debt
+  // amortization or residual balances, which makes them misleading. The two
+  // corresponding rows in the risk-ratio table (DBF, DUF, Basic IFS) are also
+  // hidden from display for the same reason. Keep the calculations for any
+  // future model upgrade that adds amortization.
   const annExpDTF = (monthlyExpBase - annPremium/12) * 12;
   const annExpDBF = (monthlyExpBase - annPremium/12 + investMthly + carMthly) * 12;
   const annExpDUF = (unsettledMonthlyExp - annPremium/12) * 12;
   const deathNeed_DTF = Math.max(0, PV(realRate, yearsResp, -annExpDTF)) + IDE + totalDebts;
   const deathNeed_DBF = Math.max(0, PV(realRate, yearsResp, -annExpDBF)) + IDE + homeOfficeBal;
   const deathNeed_DUF = Math.max(0, PV(realRate, yearsResp, -annExpDUF)) + IDE;
-  const deathNeed     = Math.max(deathNeed_DTF, deathNeed_DBF, deathNeed_DUF);
+  const deathNeed     = deathNeed_DTF;
   const annExpTPD = (monthlyExpBase - tpdWaiverPremium/12) * 12;
   const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
   const annExpCI = (totalMonthlyExp - ciWaiverPremium/12) * 12;
@@ -2530,7 +2538,7 @@ function recalc() {
     // accounting) makes them counterintuitive to explain to clients.
     // Underlying calculations preserved above for any future re-display.
     {label:'Total IFS', val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
-    {label:'Basic IFS', val:basicIFS, unit:'%', ok:basicIFS>=1, benchmark:'> 100%', desc:L('rdBasicIFS')},
+    // Basic IFS hidden — same DBF scenario as the hidden DBF (Basic) row above.
     {label:'Acc Total IFS', val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS')},
     {label:'CI to Monthly', val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdCImo')},
     {label:'Early CI to Monthly', val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdECImo')},
