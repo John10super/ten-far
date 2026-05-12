@@ -2374,8 +2374,23 @@ function recalc() {
   const netCashFlow = totalIncome - totalMonthlyExp;
 
   // ── Insurance Needs ──
-  const annExpDeath = (monthlyExpBase - annPremium/12) * 12;
-  const deathNeed = Math.max(0, PV(realRate, yearsResp, -annExpDeath)) + IDE + totalDebts;
+  // deathNeed is the MAX of three family-strategy scenarios. Each
+  // assumes a different way the death benefit is deployed:
+  //   DTF — pay off ALL non-MRTA debts immediately → family lives on
+  //         bare living (varExp) for yearsResp months
+  //   DBF — pay off self-occupied home only → family still pays
+  //         invest-property + car monthlies (NOT home, since cleared)
+  //   DUF — pay off NOTHING (just IDE) → family makes all monthly
+  //         debt payments out of remaining death benefit
+  // Targeting MAX ensures the recommended cover holds up under ALL
+  // three pressure tests, not just the optimistic one (DTF).
+  const annExpDTF = (monthlyExpBase - annPremium/12) * 12;
+  const annExpDBF = (monthlyExpBase - annPremium/12 + investMthly + carMthly) * 12;
+  const annExpDUF = (unsettledMonthlyExp - annPremium/12) * 12;
+  const deathNeed_DTF = Math.max(0, PV(realRate, yearsResp, -annExpDTF)) + IDE + totalDebts;
+  const deathNeed_DBF = Math.max(0, PV(realRate, yearsResp, -annExpDBF)) + IDE + homeOfficeBal;
+  const deathNeed_DUF = Math.max(0, PV(realRate, yearsResp, -annExpDUF)) + IDE;
+  const deathNeed     = Math.max(deathNeed_DTF, deathNeed_DBF, deathNeed_DUF);
   const annExpTPD = (monthlyExpBase - tpdWaiverPremium/12) * 12;
   const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
   const annExpCI = (totalMonthlyExp - ciWaiverPremium/12) * 12;
@@ -2388,12 +2403,18 @@ function recalc() {
   const coverRatio = annPremium > 0 ? deathBenefit / annPremium : 0;
   const [crLow, crHigh] = getCoverRatio(age);
   const mthlyForDTF = monthlyExpBase - annPremium/12;
+  // DBF pmt: only invest+car monthlies are active (home loan cleared).
+  // Bug-fix: previously used basicMonthlyExp which (a) wrongly INCLUDED
+  // home-monthly even though the home loan is paid off, and (b) wrongly
+  // EXCLUDED invest+car which the family still has to pay. See the
+  // deathNeed_DBF annExpDBF expression above — same monthly burden.
+  const dbfMthly = monthlyExpBase - annPremium/12 + investMthly + carMthly;
   const pvDTF = deathBenefit - totalDebts - IDE;
   const pvDBF = deathBenefit - homeOfficeBal - IDE;
   const pvDUF = deathBenefit - IDE;
   const requiredMonths = yearsResp * 12;
   const DTF = mthlyForDTF > 0 ? NPER(monthlyRate, -mthlyForDTF, pvDTF) : 0;
-  const DBF = (basicMonthlyExp - annPremium/12) > 0 ? NPER(monthlyRate, -(basicMonthlyExp - annPremium/12), pvDBF) : 0;
+  const DBF = dbfMthly > 0 ? NPER(monthlyRate, -dbfMthly, pvDBF) : 0;
   const DUF = (unsettledMonthlyExp - annPremium/12) > 0 ? NPER(monthlyRate, -(unsettledMonthlyExp - annPremium/12), pvDUF) : 0;
   const mthlyIFS = monthlyExpBase - annPremium/12;
   const fundNeedTotal  = Math.max(0, PV(monthlyRate, requiredMonths, -mthlyIFS)) + allMortgages + IDE;
