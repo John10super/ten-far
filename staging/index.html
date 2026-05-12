@@ -718,6 +718,7 @@ body.report-active #reportView{display:block !important}
 
 /* Visibility gates by body state */
 body.unauth #farWizard,
+body.unauth #welcomeScreen,
 body.unauth .screen-header,
 body.unauth #fabContainer,
 body.unauth #reportView,
@@ -726,29 +727,34 @@ body.unauth .records-drawer,
 body.unauth .profile-overlay,
 body.unauth .profile-drawer,
 body.landing #farWizard,
+body.landing #welcomeScreen,
 body.landing .screen-header,
 body.landing #fabContainer,
 body.landing #reportView{display:none !important}
 body:not(.unauth) #authScreen{display:none !important}
 body:not(.landing) #serviceLanding{display:none !important}
 
-/* Auth screen */
+/* Auth screen (elegant white + red brand, matches welcomeScreen / landing) */
 #authScreen{
   position:fixed;inset:0;
-  background:linear-gradient(135deg,#0D2B5E 0%,#1a1a2e 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:24px 16px;z-index:9999;overflow-y:auto;
+  background:linear-gradient(180deg,#FFFFFF 0%,#FAFAFA 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:64px 16px 32px;z-index:9999;overflow-y:auto;
   font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif;
 }
-.auth-brand{text-align:center;margin-bottom:28px;color:#fff}
+/* Red top accent bar (matches welcomeScreen .wl-top-bar) */
+#authScreen::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red);z-index:1;
+}
+.auth-brand{text-align:center;margin-bottom:28px;color:var(--dark)}
 .auth-brand-logo{font-size:46px;font-weight:900;letter-spacing:4px;line-height:1}
 .auth-brand-logo .ten{color:var(--red)}
 .auth-brand-divider{width:60px;height:3px;background:var(--red);margin:14px auto}
-.auth-brand-sub{font-size:14px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.auth-brand-sub{font-size:14px;color:#6B7280;font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
 .auth-card{
-  background:#fff;border-radius:16px;padding:32px 28px;
+  background:#fff;border:1px solid #F0F1F3;border-radius:16px;padding:32px 28px;
   width:100%;max-width:420px;
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  box-shadow:0 10px 32px rgba(0,0,0,.06);
 }
 .auth-tabs{display:flex;gap:6px;margin-bottom:22px;background:#F1F5F9;padding:5px;border-radius:10px}
 .auth-tab{
@@ -789,10 +795,11 @@ body:not(.landing) #serviceLanding{display:none !important}
 .auth-msg.success{background:#ECFDF5;color:#047857;border:1px solid #A7F3D0}
 .auth-langtoggle{margin-top:24px;display:flex;gap:8px}
 .auth-langtoggle button{
-  padding:6px 14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
-  border:1px solid rgba(255,255,255,.22);border-radius:6px;cursor:pointer;
-  font-weight:700;font-size:13px;font-family:inherit;
+  padding:6px 14px;background:transparent;color:#6B7280;
+  border:1px solid #E5E7EB;border-radius:6px;cursor:pointer;
+  font-weight:700;font-size:13px;font-family:inherit;transition:.15s;
 }
+.auth-langtoggle button:hover{border-color:var(--red);color:var(--red)}
 .auth-langtoggle button.active{background:var(--red);color:#fff;border-color:var(--red)}
 
 /* Service Landing */
@@ -1395,8 +1402,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="wl-divider"></div>
 
   <!-- Report Title -->
-  <div class="wl-report-title">Financial Analysis Report</div>
-  <div class="wl-report-sub">綜合財務保障需求分析報告 &nbsp;·&nbsp; FAR</div>
+  <div class="wl-report-title">財富與人生規劃</div>
+  <div class="wl-report-sub">Wealth &amp; Life Planning &nbsp;·&nbsp; TEN Consultancy</div>
 
   <!-- Company Intro -->
   <p class="wl-intro">
