@@ -727,12 +727,12 @@ body.unauth .records-drawer,
 body.unauth .profile-overlay,
 body.unauth .profile-drawer,
 body.landing #farWizard,
-body.landing #welcomeScreen,
 body.landing .screen-header,
 body.landing #fabContainer,
 body.landing #reportView{display:none !important}
 body:not(.unauth) #authScreen{display:none !important}
-body:not(.landing) #serviceLanding{display:none !important}
+/* serviceLanding deprecated — welcomeScreen now serves as the landing after login */
+#serviceLanding{display:none !important}
 
 /* Auth screen (elegant white + red brand, matches welcomeScreen / landing) */
 #authScreen{
@@ -1040,8 +1040,14 @@ body:not(.landing) #serviceLanding{display:none !important}
 .wl-report-sub{font-size:16px;color:#9CA3AF;margin-top:6px;text-align:center;letter-spacing:.3px}
 .wl-intro{max-width:660px;text-align:center;font-size:18px;color:#4B5563;line-height:1.9;margin:22px 0 32px;font-weight:400}
 .wl-services{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;width:100%;margin-bottom:30px}
-.wl-svc{display:flex;gap:14px;align-items:flex-start;background:#FAFAFA;border:1px solid #F0F1F3;border-radius:10px;padding:18px 20px;transition:border-color .2s}
+.wl-svc{display:flex;gap:14px;align-items:flex-start;background:#FAFAFA;border:1px solid #F0F1F3;border-radius:10px;padding:18px 20px;transition:all .22s ease;position:relative}
 .wl-svc:hover{border-color:#FF2B1E22}
+/* Active (clickable) tile — Life Insurance & Risk Management */
+.wl-svc.wl-svc-active{cursor:pointer;border-color:#FF2B1E;background:linear-gradient(180deg,#FFFFFF 0%,#FFF8F7 100%)}
+.wl-svc.wl-svc-active:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(255,43,30,.13);border-color:#FF2B1E}
+.wl-svc.wl-svc-active:active{transform:translateY(0)}
+.wl-svc.wl-svc-active:focus-visible{outline:3px solid rgba(255,43,30,.35);outline-offset:2px}
+.wl-svc-cta-inline{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;color:#FF2B1E;letter-spacing:.3px}
 .wl-svc-dot{width:3px;min-width:3px;height:22px;background:#FF2B1E;border-radius:2px;margin-top:3px;flex-shrink:0}
 .wl-svc-name{font-size:17px;font-weight:700;color:#1E2A3A;margin-bottom:5px}
 .wl-svc-desc{font-size:15.5px;color:#6B7280;line-height:1.7}
@@ -1436,11 +1442,14 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
         <div class="wl-svc-desc">Wasiat, Hibah, and Faraid planning — Shariah-compliant solutions for Muslim families</div>
       </div>
     </div>
-    <div class="wl-svc">
+    <div class="wl-svc wl-svc-active" role="button" tabindex="0"
+         onclick="enterFAR()"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterFAR()}">
       <div class="wl-svc-dot"></div>
       <div>
         <div class="wl-svc-name">Life Insurance &amp; Risk Management</div>
         <div class="wl-svc-desc">Identifying the right coverage to protect your family against life's uncertainties</div>
+        <span class="wl-svc-cta-inline">Enter FAR →</span>
       </div>
     </div>
   </div>
@@ -1451,13 +1460,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     All recommendations should be reviewed with your advisor before any decision is made.
   </div>
 
-  <!-- CTA -->
-  <button class="wl-enter-btn" onclick="
-    const ws=document.getElementById('welcomeScreen');
-    ws.classList.add('fade-out');
-    setTimeout(()=>{ws.style.display='none'; if(typeof goToPage==='function') goToPage(1);},500);
-  ">Secure Your Tomorrow &nbsp;→</button>
-  <div class="wl-cta-sub">開啟保障，掌握未來</div>
+  <!-- CTA removed — Tile #4 (Life Insurance) is now the entry point into FAR -->
 
   <div class="wl-footer">© 2026 TEN Consultancy Sdn Bhd &nbsp;·&nbsp; Kuching, Sarawak, Malaysia &nbsp;·&nbsp; www.tenconsultant.com</div>
 </div>
@@ -5282,6 +5285,17 @@ function showLanding() {
 
 function enterFAR() {
   document.body.classList.remove('landing');
+  // Fade out welcomeScreen (the new landing) and enter the FAR wizard
+  const ws = document.getElementById('welcomeScreen');
+  if (ws) {
+    ws.classList.add('fade-out');
+    setTimeout(() => {
+      ws.style.display = 'none';
+      if (typeof goToPage === 'function') goToPage(1);
+    }, 380);
+  } else if (typeof goToPage === 'function') {
+    goToPage(1);
+  }
   // Sync wizard language with authLang
   if (typeof setLang === 'function') {
     try { setLang(authLang); } catch(e) {}
