@@ -712,6 +712,169 @@ body.report-active #reportView{display:block !important}
   .rep-disclaimer{padding:14px 16px;font-size:11.5px;margin-bottom:28px}
 }
 
+/* ══════════════════════════════════════════════════════════
+   AUTH SCREEN + SERVICE LANDING  (V2 — gate before wizard)
+   ══════════════════════════════════════════════════════════ */
+
+/* Visibility gates by body state */
+body.unauth #farWizard,
+body.unauth .screen-header,
+body.unauth #fabContainer,
+body.unauth #reportView,
+body.unauth .records-overlay,
+body.unauth .records-drawer,
+body.unauth .profile-overlay,
+body.unauth .profile-drawer,
+body.landing #farWizard,
+body.landing .screen-header,
+body.landing #fabContainer,
+body.landing #reportView{display:none !important}
+body:not(.unauth) #authScreen{display:none !important}
+body:not(.landing) #serviceLanding{display:none !important}
+
+/* Auth screen */
+#authScreen{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#0D2B5E 0%,#1a1a2e 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 16px;z-index:9999;overflow-y:auto;
+  font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif;
+}
+.auth-brand{text-align:center;margin-bottom:28px;color:#fff}
+.auth-brand-logo{font-size:46px;font-weight:900;letter-spacing:4px;line-height:1}
+.auth-brand-logo .ten{color:var(--red)}
+.auth-brand-divider{width:60px;height:3px;background:var(--red);margin:14px auto}
+.auth-brand-sub{font-size:14px;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.auth-card{
+  background:#fff;border-radius:16px;padding:32px 28px;
+  width:100%;max-width:420px;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.auth-tabs{display:flex;gap:6px;margin-bottom:22px;background:#F1F5F9;padding:5px;border-radius:10px}
+.auth-tab{
+  flex:1;padding:10px 12px;border:none;background:transparent;color:#475569;
+  font-weight:700;border-radius:7px;cursor:pointer;font-size:15px;transition:.15s;
+  font-family:inherit;
+}
+.auth-tab.active{background:var(--red);color:#fff;box-shadow:0 2px 6px rgba(255,43,30,.3)}
+.auth-form{display:none;flex-direction:column;gap:14px}
+.auth-form.active{display:flex}
+.auth-form-title{font-size:20px;font-weight:800;color:var(--dark);margin:0 0 4px;text-align:center}
+.auth-form-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:10px;font-weight:500}
+.auth-field{display:flex;flex-direction:column;gap:5px}
+.auth-field label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.auth-field input{
+  padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:16px;color:var(--text);outline:none;transition:.15s;
+  font-family:inherit;background:#fff;
+}
+.auth-field input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,43,30,.15)}
+.auth-hint{font-size:11.5px;color:var(--muted);margin-top:3px}
+.auth-submit{
+  margin-top:8px;padding:13px;background:var(--red);color:#fff;border:none;
+  border-radius:9px;font-weight:800;font-size:15px;cursor:pointer;
+  letter-spacing:.4px;transition:.15s;font-family:inherit;
+}
+.auth-submit:hover{background:#E11900;box-shadow:0 6px 14px rgba(255,43,30,.32)}
+.auth-link{
+  background:none;border:none;color:var(--red);cursor:pointer;
+  font-size:13px;font-weight:600;text-decoration:underline;text-align:center;
+  padding:6px;margin-top:4px;font-family:inherit;
+}
+.auth-msg{
+  margin-top:8px;min-height:22px;font-size:13px;font-weight:600;text-align:center;
+  padding:8px;border-radius:6px;
+}
+.auth-msg.error{background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA}
+.auth-msg.success{background:#ECFDF5;color:#047857;border:1px solid #A7F3D0}
+.auth-langtoggle{margin-top:24px;display:flex;gap:8px}
+.auth-langtoggle button{
+  padding:6px 14px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.22);border-radius:6px;cursor:pointer;
+  font-weight:700;font-size:13px;font-family:inherit;
+}
+.auth-langtoggle button.active{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* Service Landing */
+#serviceLanding{
+  min-height:100vh;background:#F8FAFC;padding:0;
+  font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif;
+}
+.sl-topbar{
+  background:var(--dark);color:#fff;padding:12px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 3px 14px rgba(0,0,0,.3);
+}
+.sl-topbar-brand{font-size:15px;font-weight:900;letter-spacing:1.2px}
+.sl-topbar-brand .ten{color:var(--red)}
+.sl-topbar-right{display:flex;gap:8px;align-items:center}
+.sl-langbtn{
+  padding:5px 11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.22);border-radius:5px;cursor:pointer;
+  font-weight:700;font-size:12px;font-family:inherit;
+}
+.sl-langbtn.active{background:var(--red);color:#fff;border-color:var(--red)}
+.sl-logoutbtn{
+  padding:5px 14px;background:rgba(255,43,30,.12);color:#fff;
+  border:1px solid rgba(255,43,30,.35);border-radius:5px;cursor:pointer;
+  font-weight:700;font-size:12px;font-family:inherit;margin-left:6px;
+}
+.sl-logoutbtn:hover{background:rgba(255,43,30,.25)}
+.sl-cover{
+  text-align:center;padding:60px 20px 40px;
+  background:linear-gradient(180deg,#fff 0%,#F8FAFC 100%);
+  border-bottom:1px solid #E5E7EB;
+}
+.sl-logo{font-size:56px;font-weight:900;letter-spacing:6px;line-height:1;color:var(--dark)}
+.sl-logo .ten{color:var(--red)}
+.sl-divider{width:80px;height:4px;background:var(--red);margin:18px auto}
+.sl-tagline{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:30px}
+.sl-headline{font-size:30px;font-weight:900;color:var(--dark);margin:0 0 14px;letter-spacing:-.3px}
+.sl-subline{font-size:15px;color:#475569;line-height:1.7;max-width:580px;margin:0 auto 20px;font-weight:500}
+.sl-greeting{display:inline-block;padding:6px 18px;background:#EFF6FF;color:#1D4ED8;border-radius:99px;font-weight:700;font-size:13.5px}
+.sl-services-wrap{padding:48px 20px 60px;max-width:1100px;margin:0 auto}
+.sl-services-title{
+  text-align:center;font-size:13px;font-weight:800;color:var(--muted);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;
+}
+.sl-services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sl-service{
+  background:#fff;border-radius:14px;padding:32px 24px;
+  border:1px solid #E5E7EB;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  display:flex;flex-direction:column;gap:8px;
+}
+.sl-service.active{border-left:5px solid var(--red)}
+.sl-service.active:hover{
+  transform:translateY(-5px);
+  box-shadow:0 14px 30px rgba(13,43,94,.15);
+  border-color:var(--red);
+}
+.sl-service.disabled{opacity:.55;cursor:not-allowed;background:#FAFAFA}
+.sl-svc-icon{font-size:38px;line-height:1;margin-bottom:6px}
+.sl-svc-title{font-size:18px;font-weight:900;color:var(--dark);letter-spacing:-.2px}
+.sl-svc-titleen{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.3px}
+.sl-svc-desc{font-size:13.5px;color:#475569;line-height:1.6;margin:4px 0 14px;font-weight:500;flex:1}
+.sl-svc-cta{
+  display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;
+  padding:9px 14px;border-radius:8px;letter-spacing:.3px;
+}
+.sl-service.active .sl-svc-cta{background:var(--red);color:#fff}
+.sl-service.disabled .sl-svc-cta{background:#E5E7EB;color:#94A3B8}
+.sl-foot{padding:24px 20px 40px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:500}
+
+/* Responsive */
+@media (max-width:900px){
+  .sl-services{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .sl-headline{font-size:24px}
+  .sl-subline{font-size:14px}
+  .sl-services{grid-template-columns:1fr}
+  .sl-logo{font-size:42px}
+  .auth-card{padding:24px 20px}
+}
+
 
 /* ── MOBILE ─── */
 /* ── TABLET (769px – 1024px) ── */
@@ -1054,7 +1217,171 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
 </style>
 </head>
-<body>
+<body class="unauth">
+
+<!-- ══════════════════════════════════════════════════════
+     AUTH SCREEN — login / register / reset
+     Initial body class is "unauth" so this shows first.
+     authInit() flips to .landing or removes class as needed.
+     ══════════════════════════════════════════════════════ -->
+<div id="authScreen" class="no-print">
+  <div class="auth-brand">
+    <div class="auth-brand-logo"><span class="ten">TEN</span> Consultancy</div>
+    <div class="auth-brand-divider"></div>
+    <div class="auth-brand-sub" data-tr-zh="財富與人生規劃" data-tr-en="Wealth & Life Planning">財富與人生規劃</div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-tabs" id="authTabs">
+      <button class="auth-tab active" data-mode="login"
+        data-tr-zh="登入" data-tr-en="Login" onclick="switchAuthMode('login')">登入</button>
+      <button class="auth-tab" data-mode="register"
+        data-tr-zh="註冊" data-tr-en="Register" onclick="switchAuthMode('register')">註冊</button>
+      <button class="auth-tab" data-mode="reset"
+        data-tr-zh="忘記密碼" data-tr-en="Reset" onclick="switchAuthMode('reset')">忘記密碼</button>
+    </div>
+
+    <!-- Login form -->
+    <form id="loginForm" class="auth-form active" onsubmit="return handleLogin(event)">
+      <div class="auth-form-title" data-tr-zh="登入您的帳號" data-tr-en="Login to your account">登入您的帳號</div>
+      <div class="auth-form-sub" data-tr-zh="使用註冊時的 Email 與密碼" data-tr-en="Use your registered email and password">使用註冊時的 Email 與密碼</div>
+      <div class="auth-field">
+        <label data-tr-zh="Email" data-tr-en="Email">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="密碼" data-tr-en="Password">密碼</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="auth-submit" data-tr-zh="登入" data-tr-en="Login">登入</button>
+    </form>
+
+    <!-- Register form -->
+    <form id="registerForm" class="auth-form" onsubmit="return handleRegister(event)">
+      <div class="auth-form-title" data-tr-zh="建立新帳號" data-tr-en="Create new account">建立新帳號</div>
+      <div class="auth-form-sub" data-tr-zh="此裝置只能註冊一個帳號" data-tr-en="One account per device">此裝置只能註冊一個帳號</div>
+      <div class="auth-field">
+        <label data-tr-zh="顧問姓名" data-tr-en="Consultant Name">顧問姓名</label>
+        <input type="text" id="regName" required autocomplete="name">
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="Email" data-tr-en="Email">Email</label>
+        <input type="email" id="regEmail" required autocomplete="email">
+        <div class="auth-hint" data-tr-zh="忘記密碼時用 Email 驗證身份,請務必記住" data-tr-en="Email is used to verify identity when resetting password — please remember it">忘記密碼時用 Email 驗證身份,請務必記住</div>
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="密碼" data-tr-en="Password">密碼</label>
+        <input type="password" id="regPassword" required autocomplete="new-password">
+        <div class="auth-hint" data-tr-zh="至少 8 字元,包含字母與數字" data-tr-en="At least 8 characters, including letters and numbers">至少 8 字元,包含字母與數字</div>
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="確認密碼" data-tr-en="Confirm Password">確認密碼</label>
+        <input type="password" id="regConfirmPassword" required autocomplete="new-password">
+      </div>
+      <button type="submit" class="auth-submit" data-tr-zh="註冊並登入" data-tr-en="Register & Login">註冊並登入</button>
+    </form>
+
+    <!-- Reset form -->
+    <form id="resetForm" class="auth-form" onsubmit="return handleReset(event)">
+      <div class="auth-form-title" data-tr-zh="重設密碼" data-tr-en="Reset Password">重設密碼</div>
+      <div class="auth-form-sub" data-tr-zh="輸入註冊時的 Email 驗證身份。您的客戶記錄不會遺失。" data-tr-en="Enter your registered email to verify. Your client records are preserved.">輸入註冊時的 Email 驗證身份。您的客戶記錄不會遺失。</div>
+      <div class="auth-field">
+        <label data-tr-zh="註冊時的 Email" data-tr-en="Registered Email">註冊時的 Email</label>
+        <input type="email" id="resetEmail" required autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="新密碼" data-tr-en="New Password">新密碼</label>
+        <input type="password" id="resetPassword" required autocomplete="new-password">
+        <div class="auth-hint" data-tr-zh="至少 8 字元,包含字母與數字" data-tr-en="At least 8 characters, including letters and numbers">至少 8 字元,包含字母與數字</div>
+      </div>
+      <div class="auth-field">
+        <label data-tr-zh="確認新密碼" data-tr-en="Confirm New Password">確認新密碼</label>
+        <input type="password" id="resetConfirmPassword" required autocomplete="new-password">
+      </div>
+      <button type="submit" class="auth-submit" data-tr-zh="重設並登入" data-tr-en="Reset & Login">重設並登入</button>
+    </form>
+
+    <div id="authMsg" class="auth-msg" style="display:none"></div>
+  </div>
+
+  <div class="auth-langtoggle">
+    <button id="authLangZh" class="active" onclick="setAuthLang('zh')">中文</button>
+    <button id="authLangEn" onclick="setAuthLang('en')">English</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SERVICE LANDING — TEN cover + service tiles
+     Shown after login; click tile to enter the service.
+     ══════════════════════════════════════════════════════ -->
+<div id="serviceLanding" class="no-print">
+  <div class="sl-topbar">
+    <div class="sl-topbar-brand"><span class="ten">TEN</span> Consultancy</div>
+    <div class="sl-topbar-right">
+      <button id="slLangZh" class="sl-langbtn active" onclick="setLandingLang('zh')">中文</button>
+      <button id="slLangEn" class="sl-langbtn" onclick="setLandingLang('en')">EN</button>
+      <button class="sl-logoutbtn" onclick="doLogout()"
+        data-tr-zh="登出" data-tr-en="Logout">登出</button>
+    </div>
+  </div>
+
+  <div class="sl-cover">
+    <div class="sl-logo"><span class="ten">TEN</span></div>
+    <div class="sl-divider"></div>
+    <div class="sl-tagline" data-tr-zh="Wealth Management · Insurance · Trust · Will" data-tr-en="Wealth Management · Insurance · Trust · Will">Wealth Management · Insurance · Trust · Will</div>
+    <h1 class="sl-headline" data-tr-zh="財富與人生規劃,從這裡開始" data-tr-en="Wealth & Life Planning Starts Here">財富與人生規劃,從這裡開始</h1>
+    <p class="sl-subline"
+      data-tr-zh="TEN Consultancy 提供完整的個人財務、保障與資產傳承顧問服務。請選擇您要使用的工具開始今日的諮詢。"
+      data-tr-en="TEN Consultancy provides comprehensive personal finance, protection, and legacy planning advisory. Pick a tool below to start today's session.">TEN Consultancy 提供完整的個人財務、保障與資產傳承顧問服務。請選擇您要使用的工具開始今日的諮詢。</p>
+    <div class="sl-greeting">
+      <span data-tr-zh="歡迎," data-tr-en="Welcome,">歡迎,</span> <span id="sl_userName">—</span>
+    </div>
+  </div>
+
+  <div class="sl-services-wrap">
+    <div class="sl-services-title" data-tr-zh="我們的服務 OUR SERVICES" data-tr-en="OUR SERVICES">我們的服務 OUR SERVICES</div>
+    <div class="sl-services">
+      <!-- Active: Insurance & Risk Management → FAR -->
+      <div class="sl-service active" onclick="enterFAR()">
+        <div class="sl-svc-icon">💼</div>
+        <div class="sl-svc-title" data-tr-zh="保險與風險管理" data-tr-en="Insurance & Risk Management">保險與風險管理</div>
+        <div class="sl-svc-titleen" data-tr-zh="Insurance & Risk Management" data-tr-en="Financial Health Analysis · FAR">Insurance & Risk Management</div>
+        <div class="sl-svc-desc"
+          data-tr-zh="分析客戶身故、全殘、危疾、醫療保障的需求與缺口,生成 9 頁專業財務體檢報告。"
+          data-tr-en="Analyze death, TPD, CI, and medical coverage needs and gaps; generate a 9-page professional health report.">分析客戶身故、全殘、危疾、醫療保障的需求與缺口,生成 9 頁專業財務體檢報告。</div>
+        <div class="sl-svc-cta">
+          <span data-tr-zh="點擊進入" data-tr-en="Click to enter">點擊進入</span> →
+        </div>
+      </div>
+
+      <!-- Coming soon: Trust -->
+      <div class="sl-service disabled">
+        <div class="sl-svc-icon">📜</div>
+        <div class="sl-svc-title" data-tr-zh="信託與資產傳承" data-tr-en="Trust & Wealth Transfer">信託與資產傳承</div>
+        <div class="sl-svc-titleen" data-tr-zh="Insurance Trust Fund Allocation" data-tr-en="Insurance Trust Fund Allocation">Insurance Trust Fund Allocation</div>
+        <div class="sl-svc-desc"
+          data-tr-zh="家族財富傳承規劃,保險信託基金配置,稅務與法律保障設計。"
+          data-tr-en="Family wealth transfer planning, insurance trust fund allocation, tax and legal structure design.">家族財富傳承規劃,保險信託基金配置,稅務與法律保障設計。</div>
+        <div class="sl-svc-cta" data-tr-zh="即將推出 Coming Soon" data-tr-en="Coming Soon">即將推出 Coming Soon</div>
+      </div>
+
+      <!-- Coming soon: Will -->
+      <div class="sl-service disabled">
+        <div class="sl-svc-icon">📋</div>
+        <div class="sl-svc-title" data-tr-zh="遺囑設立" data-tr-en="Will Setup">遺囑設立</div>
+        <div class="sl-svc-titleen" data-tr-zh="Will Setup" data-tr-en="Estate & Will Planning">Will Setup</div>
+        <div class="sl-svc-desc"
+          data-tr-zh="遺產分配規劃、法律文件草擬、執行人指定,確保家族意願圓滿達成。"
+          data-tr-en="Estate distribution planning, legal document drafting, executor designation — ensure family wishes are honored.">遺產分配規劃、法律文件草擬、執行人指定,確保家族意願圓滿達成。</div>
+        <div class="sl-svc-cta" data-tr-zh="即將推出 Coming Soon" data-tr-en="Coming Soon">即將推出 Coming Soon</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sl-foot">
+    <span data-tr-zh="© TEN Consultancy · Sarawak, Malaysia" data-tr-en="© TEN Consultancy · Sarawak, Malaysia">© TEN Consultancy · Sarawak, Malaysia</span>
+  </div>
+</div>
 
 <!-- ══ WELCOME SCREEN ══ -->
 <div id="welcomeScreen" class="no-print">
@@ -1157,6 +1484,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     <div class="fab-divider"></div>
     <button class="fab-item fab-item-print" onclick="closeFab();printPrepare()">🖨 列印 / PDF</button>
     <button class="fab-item" onclick="toggleReportView();closeFab()">📋 預覽專業報告</button>
+    <div class="fab-divider"></div>
+    <button class="fab-item" onclick="showLanding();closeFab()">↩ 返回服務選單 Back to Services</button>
+    <button class="fab-item" onclick="doLogout();closeFab()">→ 登出 Logout</button>
   </div>
 </div>
 
@@ -4748,6 +5078,220 @@ function toggleShowAll(){
     if(e.key === 'ArrowRight' && farCurrentPage < FAR_TOTAL_PAGES){ e.preventDefault(); nextPage(); }
     else if(e.key === 'ArrowLeft' && farCurrentPage > 1){ e.preventDefault(); prevPage(); }
   });
+})();
+
+// ══════════════════════════════════════════════════════════
+//   USER AUTHENTICATION  (single device, email-verified)
+//   - First-time: register with name + email + password
+//   - Subsequent: login with email + password
+//   - Reset: email confirms identity, set new password,
+//            client records (far_records_v2) PRESERVED.
+//   - Logout: clears session, keeps user account.
+// ══════════════════════════════════════════════════════════
+const FAR_USER_KEY    = 'far_user_v1';
+const FAR_SESSION_KEY = 'far_session_v1';
+
+let authLang = (function(){
+  try { return localStorage.getItem('far_auth_lang') || 'zh'; } catch(e) { return 'zh'; }
+})();
+
+function tAuth(zh, en) { return authLang === 'en' ? en : zh; }
+
+function applyAuthLang() {
+  document.querySelectorAll('#authScreen [data-tr-zh], #serviceLanding [data-tr-zh]').forEach(el => {
+    const text = el.getAttribute(`data-tr-${authLang}`) || el.getAttribute('data-tr-zh');
+    if (text) el.textContent = text;
+  });
+  document.getElementById('authLangZh').classList.toggle('active', authLang === 'zh');
+  document.getElementById('authLangEn').classList.toggle('active', authLang === 'en');
+  const slZh = document.getElementById('slLangZh');
+  const slEn = document.getElementById('slLangEn');
+  if (slZh) slZh.classList.toggle('active', authLang === 'zh');
+  if (slEn) slEn.classList.toggle('active', authLang === 'en');
+}
+
+function setAuthLang(lang) {
+  authLang = (lang === 'en') ? 'en' : 'zh';
+  try { localStorage.setItem('far_auth_lang', authLang); } catch(e) {}
+  applyAuthLang();
+}
+
+function setLandingLang(lang) {
+  setAuthLang(lang);
+  // Also sync the wizard's currentLang so when user clicks into FAR
+  // it's in the same language they were viewing on the landing.
+  if (typeof setLang === 'function') {
+    try { setLang(authLang); } catch(e) {}
+  }
+}
+
+// SHA-256 password hashing via Web Crypto
+async function hashPwd(password) {
+  const buf = new TextEncoder().encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function validateEmailStr(email) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return tAuth('Email 格式錯誤', 'Invalid email format');
+  return null;
+}
+function validatePwdStr(pwd) {
+  if (!pwd || pwd.length < 8)  return tAuth('密碼至少 8 字元', 'Password must be at least 8 characters');
+  if (!/[a-zA-Z]/.test(pwd))   return tAuth('密碼需包含字母', 'Password must contain a letter');
+  if (!/\d/.test(pwd))         return tAuth('密碼需包含數字', 'Password must contain a number');
+  return null;
+}
+
+function getStoredUser() {
+  try { return JSON.parse(localStorage.getItem(FAR_USER_KEY) || 'null'); }
+  catch(e) { return null; }
+}
+function setStoredUser(u) {
+  try { localStorage.setItem(FAR_USER_KEY, JSON.stringify(u)); } catch(e) {}
+}
+function setSession() {
+  try { localStorage.setItem(FAR_SESSION_KEY, JSON.stringify({ts:Date.now()})); } catch(e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(FAR_SESSION_KEY); } catch(e) {}
+}
+function isLoggedIn() {
+  try {
+    const sess = JSON.parse(localStorage.getItem(FAR_SESSION_KEY) || 'null');
+    return !!(sess && sess.ts);
+  } catch(e) { return false; }
+}
+
+function authMsg(text, type) {
+  const el = document.getElementById('authMsg');
+  if (!el) return;
+  if (!text) { el.style.display = 'none'; el.textContent = ''; el.className = 'auth-msg'; return; }
+  el.style.display = 'block';
+  el.textContent = text;
+  el.className = 'auth-msg ' + (type || 'error');
+}
+
+function switchAuthMode(mode) {
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  const form = document.getElementById(mode + 'Form');
+  if (form) form.classList.add('active');
+  const tab = document.querySelector(`.auth-tab[data-mode="${mode}"]`);
+  if (tab) tab.classList.add('active');
+  authMsg('');
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const name     = document.getElementById('regName').value.trim();
+  const email    = document.getElementById('regEmail').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const confirm  = document.getElementById('regConfirmPassword').value;
+  if (!name)                  return authMsg(tAuth('請輸入顧問姓名','Please enter consultant name'));
+  const eErr = validateEmailStr(email); if (eErr) return authMsg(eErr);
+  const pErr = validatePwdStr(password); if (pErr) return authMsg(pErr);
+  if (password !== confirm)   return authMsg(tAuth('兩次密碼不一致','Passwords do not match'));
+  if (getStoredUser())        return authMsg(tAuth('此裝置已有註冊用戶。請登入或重設密碼。','This device already has a registered user. Please login or reset password.'));
+  setStoredUser({
+    name, email: email.toLowerCase(),
+    pwdHash: await hashPwd(password),
+    deviceId: (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)),
+    createdAt: new Date().toISOString(),
+  });
+  setSession();
+  // Auto-fill plannerName on first registration if not already set
+  try {
+    const profileRaw = localStorage.getItem('far_advisor_profile');
+    const profile = profileRaw ? JSON.parse(profileRaw) : {};
+    if (!profile.plannerName) {
+      profile.plannerName = name;
+      localStorage.setItem('far_advisor_profile', JSON.stringify(profile));
+    }
+  } catch(e) {}
+  showLanding();
+  return false;
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const email    = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const password = document.getElementById('loginPassword').value;
+  const user = getStoredUser();
+  if (!user)                          return authMsg(tAuth('此裝置尚未註冊。請先註冊。','No registered user on this device. Please register first.'));
+  if (user.email.toLowerCase() !== email)
+                                      return authMsg(tAuth('Email 不正確','Incorrect email'));
+  const hash = await hashPwd(password);
+  if (hash !== user.pwdHash)          return authMsg(tAuth('密碼錯誤','Incorrect password'));
+  setSession();
+  showLanding();
+  return false;
+}
+
+async function handleReset(e) {
+  e.preventDefault();
+  const email    = document.getElementById('resetEmail').value.trim().toLowerCase();
+  const password = document.getElementById('resetPassword').value;
+  const confirm  = document.getElementById('resetConfirmPassword').value;
+  const user = getStoredUser();
+  if (!user)                          return authMsg(tAuth('此裝置尚未註冊','No registered user on this device'));
+  if (user.email.toLowerCase() !== email)
+                                      return authMsg(tAuth('Email 與註冊時不符','Email does not match the registered one'));
+  const pErr = validatePwdStr(password); if (pErr) return authMsg(pErr);
+  if (password !== confirm)           return authMsg(tAuth('兩次密碼不一致','Passwords do not match'));
+  user.pwdHash = await hashPwd(password);
+  user.resetAt = new Date().toISOString();
+  setStoredUser(user);
+  // CRITICAL: do NOT touch far_records_v2 or far_advisor_profile — all records preserved.
+  setSession();
+  authMsg(tAuth('密碼已重設,自動登入...','Password reset successfully. Logging in...'), 'success');
+  setTimeout(() => showLanding(), 700);
+  return false;
+}
+
+function doLogout() {
+  clearSession();
+  document.body.classList.remove('landing');
+  document.body.classList.add('unauth');
+  // Reset form fields
+  ['loginEmail','loginPassword','regName','regEmail','regPassword','regConfirmPassword','resetEmail','resetPassword','resetConfirmPassword'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  switchAuthMode(getStoredUser() ? 'login' : 'register');
+  authMsg('');
+}
+
+function showLanding() {
+  document.body.classList.remove('unauth');
+  document.body.classList.add('landing');
+  const user = getStoredUser();
+  if (user) {
+    const el = document.getElementById('sl_userName');
+    if (el) el.textContent = user.name;
+  }
+  applyAuthLang();
+}
+
+function enterFAR() {
+  document.body.classList.remove('landing');
+  // Sync wizard language with authLang
+  if (typeof setLang === 'function') {
+    try { setLang(authLang); } catch(e) {}
+  }
+  window.scrollTo({top:0});
+}
+
+// Init: on page load, decide which screen to show
+(function authInit(){
+  applyAuthLang();
+  if (isLoggedIn() && getStoredUser()) {
+    showLanding();
+  } else {
+    document.body.classList.add('unauth');
+    // If a user exists, default to login mode; else register mode
+    switchAuthMode(getStoredUser() ? 'login' : 'register');
+  }
 })();
 
 </script>
