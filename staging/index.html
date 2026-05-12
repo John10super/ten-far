@@ -434,6 +434,17 @@ select option:first-child{color:#C4C9D4}
    - Numbers in tabular-nums, currency right-aligned
    - Colour tokens: --red / --dark / --ok / --gap only
    ══════════════════════════════════════════════════════════ */
+
+/* When report view is toggled ON, hide everything wizard-related
+   on screen so the user sees ONLY the report. The matching @media
+   print rules above handle the printed output. */
+body.report-active #farWizard,
+body.report-active .far-progress,
+body.report-active .far-nav,
+body.report-active .welcome-screen,
+body.report-active #farToast{display:none !important}
+body.report-active #reportView{display:block !important}
+
 #reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
 .rep-page{
   background:#fff;border:1px solid #E5E7EB;border-radius:14px;
@@ -1731,7 +1742,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <!-- ── Page 1 of report: Executive Summary ── -->
   <section class="rep-page" data-rpage="exec">
     <header class="rep-page-hdr">
-      <div class="rep-brand">TEN Consultancy</div>
+      <div class="rep-brand">Consultancy</div>
       <div class="rep-page-label">執行摘要 · Executive Summary</div>
     </header>
 
@@ -1757,12 +1768,12 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <!-- ── Page 4 of report: Death Coverage Analysis ── -->
   <section class="rep-page" data-rpage="death">
     <header class="rep-page-hdr">
-      <div class="rep-brand">TEN Consultancy</div>
-      <div class="rep-page-label">死亡保障分析 · Death Coverage Analysis</div>
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label">身故保障分析 · Death Coverage Analysis</div>
     </header>
 
-    <h1 class="rep-page-title">死亡保障缺口分析</h1>
-    <div class="rep-page-subtitle">若主養人不在,家人需要多少資金延續生活?</div>
+    <h1 class="rep-page-title">身故保障缺口分析</h1>
+    <div class="rep-page-subtitle">若受保人不在,家人需要多少資金延續生活?</div>
 
     <!-- Bar visualization -->
     <div class="rep-bar-section" id="rep_deathBar"></div>
@@ -1844,7 +1855,7 @@ const I18N = {
     fsHomeBal:'自住房貸餘額', fsInvBal:'投資房產貸款餘額 (不含 MRTA)', fsCarBal:'車貸餘額', fsCCP:'信用卡 + 私人貸款', fsTotalDebt:'總債務',
     nDeath:'身故保障 Death', nTPD:'全殘保障 TPD', nCI:'危疾保障 CI (含早期)', nPA:'意外身故 PA', nMed:'醫療卡 Medical Card',
     nDeathNote:'保障家人 %y 年生活費 + 債務 + IDE', nTPDNote:'保障 10 年生活費', nCINote:'保障 3 年生活費 + 康復儲備金 RRF',
-    nPANote:'建議至少 50% 死亡保障', nMedNote:'建議終身限額 ≥ RM 1,000,000',
+    nPANote:'建議至少 50% 身故保障', nMedNote:'建議終身限額 ≥ RM 1,000,000',
     statusOk:'保障充足', statusGap:'保障不足',
     recMed1:'升級病房等級至 RM200/天或以上，確保入住政府醫院也有足夠補貼',
     recMed2:'終身限額建議達到 RM1,000,000 或以上，應對癌症等重大疾病多療程費用',
@@ -1890,7 +1901,7 @@ const I18N = {
     toastNew:'✚ 新 Prospect 已準備好，請填寫客戶資料',
     toastDemo:'📋 示範資料已載入：Ahmad bin Abdullah',
     moUnit:' 個月',
-    rdCoverRatio:'死亡賠償 ÷ 年繳保費',
+    rdCoverRatio:'身故賠償 ÷ 年繳保費',
     rdDTF:'身故後可支撐家庭生活的時間（清還所有貸款後）',
     rdDBF:'身故後可支撐時間（只清自住房貸）',
     rdDUF:'身故後可支撐時間（不清任何貸款）',
@@ -1905,7 +1916,7 @@ const I18N = {
     rdMHI200:'醫療卡終身限額是否足以支付 RM200k 重大疾病',
     rdMHICI200:'醫療卡 + 危疾合併是否超過 RM200k × 2',
     /* Risk-ratio row LABELS (zh) — professional industry phrasing */
-    rlCoverRatio:'死亡賠償倍數',
+    rlCoverRatio:'身故賠償倍數',
     rlDTF:'家庭收入替代期',
     rlTotalIFS:'整體資金覆蓋率',
     rlAccIFS:'意外身故覆蓋率',
@@ -3528,14 +3539,14 @@ function renderReport() {
   const allGood = (deathGapAbs === 0 && tpdGap >= 0 && ciGap >= 0);
   setHtml('rep_heroKpi', `
     <div class="rep-hk gap">
-      <div class="rep-hk-lbl">建議死亡保障</div>
+      <div class="rep-hk-lbl">建議身故保障</div>
       <div class="rep-hk-val">${fmtRaw(Math.round(deathNeed))}</div>
       <div class="rep-hk-sub">目前 ${fmtRaw(Math.round(deathBenefit))} · 覆蓋率 ${(deathPct*100).toFixed(0)}%</div>
     </div>
     <div class="rep-hk ${deathGapAbs===0?'ok':'gap'}">
       <div class="rep-hk-lbl">總保障缺口</div>
       <div class="rep-hk-val">${deathGapAbs===0?'✓ 達標':'▼ '+fmtRaw(Math.round(totalGap))}</div>
-      <div class="rep-hk-sub">${deathGapAbs===0?'目前保額充足':'死亡 + 全殘 + 危疾合計'}</div>
+      <div class="rep-hk-sub">${deathGapAbs===0?'目前保額充足':'身故 + 全殘 + 危疾合計'}</div>
     </div>
     <div class="rep-hk ${netCashFlow>=0?'ok':'gap'}">
       <div class="rep-hk-lbl">每月淨現金流</div>
@@ -3548,12 +3559,12 @@ function renderReport() {
   const findings = [];
   if (deathGapAbs > 0) findings.push({
     prio:'P1', cls:'',
-    text:`<b>死亡保障</b>不足 <b>${fmtRaw(Math.round(deathGapAbs))}</b> — 主養人不在時,家人 ${yearsResp} 年生活費 + 全部債務無法完全覆蓋`,
+    text:`<b>身故保障</b>不足 <b>${fmtRaw(Math.round(deathGapAbs))}</b> — 受保人不在時,家人 ${yearsResp} 年生活費 + 全部債務無法完全覆蓋`,
   });
   const tpdShort = Math.max(0, tpdNeed - tpdBenefit);
   if (tpdShort > 0) findings.push({
     prio:'P1', cls:'',
-    text:`<b>全殘保障</b>不足 <b>${fmtRaw(Math.round(tpdShort))}</b> — 若主養人傷殘無法工作 10 年,家人生活費將出現缺口`,
+    text:`<b>全殘保障</b>不足 <b>${fmtRaw(Math.round(tpdShort))}</b> — 若受保人傷殘無法工作 10 年,家人生活費將出現缺口`,
   });
   const ciShort = Math.max(0, ciNeed - totalCI);
   if (ciShort > 0) findings.push({
@@ -3568,7 +3579,7 @@ function renderReport() {
     const paShort = Math.round(deathBenefit*0.5 - paBenefit);
     if (paShort > 0) findings.push({
       prio:'P3', cls:'p3',
-      text:`<b>意外保障 PA</b>可加保 <b>${fmtRaw(paShort)}</b>,建議至少達死亡保障的 50%`,
+      text:`<b>意外保障 PA</b>可加保 <b>${fmtRaw(paShort)}</b>,建議至少達身故保障的 50%`,
     });
   }
   if (findings.length === 0) findings.push({
@@ -3633,20 +3644,20 @@ function renderReport() {
       <div class="rep-breakdown-val">RM ${Math.round(totalDebts).toLocaleString('en-MY')}</div>
     </div>
     <div class="rep-breakdown-row total">
-      <div class="rep-breakdown-lbl">所需死亡保障(合計)</div>
+      <div class="rep-breakdown-lbl">所需身故保障(合計)</div>
       <div class="rep-breakdown-val">RM ${Math.round(deathNeed).toLocaleString('en-MY')}</div>
     </div>
   `);
 
   let interpHtml = `
-    <p>若主養人 <b>${clientName}</b>(${Math.round(age)} 歲)不幸身故,家人需要 <b>${fmtRaw(Math.round(deathNeed))}</b> 才能:
+    <p>若受保人 <b>${clientName}</b>(${Math.round(age)} 歲)不幸身故,家人需要 <b>${fmtRaw(Math.round(deathNeed))}</b> 才能:
     清還所有債務(${fmtRaw(totalDebts)})、應付即時身故費用(${fmtRaw(IDE)})、並維持 ${yearsResp} 年基本生活費(${fmtRaw(Math.round(pvDeath))})。</p>
-    <p>目前死亡保額為 <b>${fmtRaw(deathBenefit)}</b>,覆蓋率 <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>。</p>
+    <p>目前身故保額為 <b>${fmtRaw(deathBenefit)}</b>,覆蓋率 <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>。</p>
   `;
   if (deathGapAbs > 0) {
     interpHtml += `<div class="rep-warning"><b>⚠ 保障缺口 ${fmtRaw(Math.round(deathGapAbs))}</b> — 目前保額不足以同時清還債務及維持家人 ${yearsResp} 年生活,家人可能被迫變賣資產或縮減生活水準。建議優先補足此缺口。</div>`;
   } else {
-    interpHtml += `<p>保障已達建議水準,可支撐家庭 ${yearsResp} 年於主養人不在時的所有財務責任。</p>`;
+    interpHtml += `<p>保障已達建議水準,可支撐家庭 ${yearsResp} 年於受保人不在時的所有財務責任。</p>`;
   }
   setHtml('rep_deathInterp', interpHtml);
 }
