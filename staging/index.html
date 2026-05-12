@@ -315,7 +315,7 @@ select option:first-child{color:#C4C9D4}
 @media print {
   .screen-header,.hdr-btns,.no-print{display:none !important}
   .print-only{display:block !important}
-  body{background:#fff;font-size:10pt;color:#1F2937}
+  body{background:#fff;font-size:12pt;color:#1F2937}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
@@ -328,30 +328,67 @@ select option:first-child{color:#C4C9D4}
   }
   .cover-logo{font-size:72pt;font-weight:900;color:var(--red);letter-spacing:6px;margin-bottom:0;line-height:1}
   .cover-divider{width:80px;height:4px;background:var(--red);margin:14px auto}
-  .cover-sub{font-size:12pt;color:#6B7280;margin-bottom:50px;letter-spacing:.5px}
-  .cover-title{font-size:26pt;font-weight:800;color:#1a1a2e;margin-bottom:10px}
-  .cover-client{font-size:18pt;color:var(--red);font-weight:700;margin-bottom:40px}
-  .cover-meta{font-size:10pt;color:#6B7280;line-height:2;border-top:1px solid #E5E7EB;padding-top:20px;width:300px}
+  .cover-sub{font-size:14pt;color:#6B7280;margin-bottom:50px;letter-spacing:.5px}
+  .cover-title{font-size:28pt;font-weight:800;color:#1a1a2e;margin-bottom:10px}
+  .cover-client{font-size:20pt;color:var(--red);font-weight:700;margin-bottom:40px}
+  .cover-meta{font-size:12pt;color:#6B7280;line-height:2;border-top:1px solid #E5E7EB;padding-top:20px;width:300px}
 
   /* Page break */
   .break-before{page-break-before:always}
 
   /* Fix RM prefix overlap in print */
   .input-prefix{display:flex !important;align-items:center !important;gap:3px !important;position:static !important}
-  .input-prefix > span.prefix-rm{position:static !important;transform:none !important;font-size:9pt !important;color:#666 !important}
+  .input-prefix > span.prefix-rm{position:static !important;transform:none !important;font-size:11pt !important;color:#666 !important}
   .input-prefix input{padding:0 !important;flex:1 !important;min-width:0 !important}
-  .field input,.field select{border:none !important;padding:2px 0 !important;background:transparent !important;font-size:10pt !important;box-shadow:none !important}
-  .calc-display{border:none;background:transparent;padding:0;font-size:10pt}
+  .field input,.field select{border:none !important;padding:2px 0 !important;background:transparent !important;font-size:12pt !important;box-shadow:none !important}
+  .field label{font-size:9.5pt !important;letter-spacing:.3px !important}
+  .calc-display{border:none;background:transparent;padding:0;font-size:12pt}
   .calc-badge{display:none}
+  .section-header h2{font-size:13pt !important}
+  .section-tag{font-size:9pt !important}
+  .sub-title{font-size:10.5pt !important}
+  .text-sm{font-size:10pt !important}
 
-  /* Policy tables print */
+  /* KPI cards larger in print */
+  .kpi-card-sm .kpi-label{font-size:9pt !important}
+  .kpi-card-sm .kpi-value{font-size:14pt !important}
+  .kpi-card-sm .kpi-sub{font-size:8.5pt !important}
+
+  /* Analysis / comparison tables */
+  .analysis-table{font-size:10.5pt !important}
+  .analysis-table th{font-size:9.5pt !important;padding:7px 10px !important}
+  .analysis-table td{padding:6px 10px !important}
+  .cmp-table{font-size:10.5pt !important}
+  .cmp-table th{font-size:9pt !important;padding:8px 10px !important}
+  .badge{font-size:9pt !important;padding:3px 8px !important}
+
+  /* Policy tables print — slightly larger font + tighter padding + allow header wrap */
   .policy-hint{display:none !important}
   .policy-wrap{border:1px solid #e5e7eb;overflow:visible}
-  .policy-tbl{min-width:0 !important;font-size:8pt !important}
-  .policy-tbl th{font-size:7.5pt !important;padding:5px 5px !important;background:var(--dark) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .policy-tbl td{padding:3px 4px !important;font-size:8pt !important}
-  .policy-tbl input[type=number],.policy-tbl input[type=text],.policy-tbl select{border:none !important;padding:0 !important;background:transparent !important;font-size:8pt !important;width:auto !important;text-align:left !important}
-  .policy-total-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .policy-tbl{min-width:0 !important;font-size:9pt !important;table-layout:auto}
+  .policy-tbl th{font-size:8.5pt !important;padding:5px 4px !important;background:var(--dark) !important;white-space:normal !important;line-height:1.2 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .policy-tbl td{padding:4px 4px !important;font-size:9pt !important;word-break:keep-all}
+  .policy-tbl input[type=number],.policy-tbl input[type=text],.policy-tbl select{border:none !important;padding:0 !important;background:transparent !important;font-size:9pt !important;width:auto !important;text-align:left !important}
+  .policy-total-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:9pt !important}
+
+  /* Gap cards: 3-per-row grid in print (was stacking vertically) */
+  .gap-cards-grid{flex-wrap:wrap !important;gap:8px !important}
+  .gap-card{flex:1 1 calc(33.333% - 8px) !important;min-width:0 !important;padding:10px 12px !important}
+  .gap-card .gc-cat{font-size:10.5pt !important}
+  .gap-card .gc-amt{font-size:13pt !important}
+  .gap-card .gc-prio{font-size:8.5pt !important}
+  .gap-card .gc-note{font-size:9pt !important}
+
+  /* PCC adjust rows — larger */
+  .pcc-adj-lbl{font-size:9.5pt !important}
+  .pcc-adj-ok,.pcc-adj-gap{font-size:10pt !important}
+
+  /* Recommendation box */
+  .rec-title{font-size:11pt !important}
+  .rec-items li{font-size:10pt !important}
+
+  /* Action plan status pill */
+  .ap-status-sel,.ap-date-input{font-size:10pt !important}
 
   /* Table colors */
   .analysis-table th,.cmp-table .thead-dark th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -361,10 +398,10 @@ select option:first-child{color:#C4C9D4}
   .ten-print-footer{
     display:block !important;
     position:fixed;bottom:10mm;right:14mm;
-    text-align:right;font-size:8pt;color:#999;
+    text-align:right;font-size:9pt;color:#999;
     -webkit-print-color-adjust:exact;print-color-adjust:exact
   }
-  .ten-print-footer .tf-logo{color:var(--red);font-weight:900;font-size:11pt;letter-spacing:1px}
+  .ten-print-footer .tf-logo{color:var(--red);font-weight:900;font-size:12pt;letter-spacing:1px}
 
   .btn-add-row,.policy-row-del{display:none !important}
   /* Custom checkbox: show border box + tick in print */
@@ -374,9 +411,9 @@ select option:first-child{color:#C4C9D4}
   /* Restore spacing between disclaimer and signature lines in print */
   .signature-area [data-i18n="sigNote"]{margin-bottom:32px !important}
 
-  /* Suppress browser print header/footer margin area */
+  /* Suppress browser print header/footer margin area + tighten page margin so policy table fits */
   @page {
-    margin: 12mm 14mm;
+    margin: 10mm 10mm;
     /* Note: ask user to disable Headers & Footers in print dialog */
   }
 }
@@ -2504,8 +2541,8 @@ function recalc() {
   setHtml('gapComparison', `
     <table class="cmp-table" style="min-width:520px">
       <colgroup>
-        <col style="width:22%"><col style="width:11%">
-        <col style="width:16.75%"><col style="width:16.75%"><col style="width:16.75%"><col style="width:16.75%">
+        <col style="width:20%"><col style="width:14%">
+        <col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%">
       </colgroup>
       <thead>
         <tr class="thead-dark">
@@ -2606,15 +2643,15 @@ function recalc() {
   const tpdShortfall   = Math.max(0, tpdNeed - tpdBenefit);
   const ciShortfall    = Math.max(0, ciNeed - totalCI);
   const gapParts = [];
-  if(deathShortfall>0) gapParts.push(L('gapDeath')+': <b>RM '+deathShortfall.toLocaleString('en-MY')+'</b>');
-  if(tpdShortfall>0)   gapParts.push(L('gapTPD')+': <b>RM '+tpdShortfall.toLocaleString('en-MY')+'</b>');
-  if(ciShortfall>0)    gapParts.push(L('gapCI')+': <b>RM '+ciShortfall.toLocaleString('en-MY')+'</b>');
+  if(deathShortfall>0) gapParts.push(L('gapDeath')+': <b>RM '+Math.round(deathShortfall).toLocaleString('en-MY')+'</b>');
+  if(tpdShortfall>0)   gapParts.push(L('gapTPD')+': <b>RM '+Math.round(tpdShortfall).toLocaleString('en-MY')+'</b>');
+  if(ciShortfall>0)    gapParts.push(L('gapCI')+': <b>RM '+Math.round(ciShortfall).toLocaleString('en-MY')+'</b>');
   const pccGapEl = document.getElementById('pccGapDisplay');
   if(pccGapEl) pccGapEl.innerHTML = gapParts.length
     ? gapParts.join('&nbsp;&nbsp;|&nbsp;&nbsp;')
     : '<span style="color:#059669;font-weight:700">✓ '+L('recOkTitle')+'</span>';
   const _fmtAdj = (v) => {
-    const abs = Math.abs(v).toLocaleString('en-MY');
+    const abs = Math.round(Math.abs(v)).toLocaleString('en-MY');
     return v >= 0
       ? '<span class="pcc-adj-ok">＋RM '+abs+'</span>'
       : '<span class="pcc-adj-gap">－RM '+abs+'</span>';
