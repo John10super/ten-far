@@ -2525,8 +2525,10 @@ function recalc() {
   const ratioRows = [
     {label:'Cover Ratio', val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio')},
     {label:'DTF (Total)', val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
-    {label:'DBF (Basic)', val:DBF, unit:'mo', shortfall:dbfShortfall, ok:DBF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDBF')},
-    {label:'DUF (Unsettled)', val:DUF, unit:'mo', ok:DUF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDUF')},
+    // DBF (Basic) and DUF (Unsettled) rows intentionally hidden — the model's
+    // monthly-payment simplification (no amortization, no residual debt
+    // accounting) makes them counterintuitive to explain to clients.
+    // Underlying calculations preserved above for any future re-display.
     {label:'Total IFS', val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
     {label:'Basic IFS', val:basicIFS, unit:'%', ok:basicIFS>=1, benchmark:'> 100%', desc:L('rdBasicIFS')},
     {label:'Acc Total IFS', val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS')},
