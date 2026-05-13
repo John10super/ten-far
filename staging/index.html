@@ -641,6 +641,109 @@ body.report-active #reportView{display:block !important}
 .rep-prem-card.warn .rep-prem-val{color:#B45309}
 .rep-prem-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
 
+/* Report Roadmap — 5-step journey overview (Page 3) ──────── */
+.rep-roadmap{display:flex;flex-direction:column;gap:5px;align-items:center;margin-bottom:6px}
+.rep-step{
+  display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;
+  width:100%;max-width:560px;
+  padding:11px 16px 11px 12px;background:#FAFBFC;
+  border:1px solid #E5E7EB;border-left:4px solid var(--red);
+  border-radius:10px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-step-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:16px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-step-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+.rep-step-title{font-size:13.5px;font-weight:800;color:var(--dark);line-height:1.3}
+.rep-step-desc{font-size:11.5px;color:#6B7280;line-height:1.5;font-weight:500}
+.rep-step-page{
+  font-size:10.5px;font-weight:700;color:var(--red);
+  letter-spacing:.4px;margin-top:2px;
+  font-variant-numeric:tabular-nums;
+}
+.rep-step-arrow{
+  font-size:14px;color:#9CA3AF;line-height:1;font-weight:700;
+  margin:-2px 0;
+}
+
+/* Blind Spots — personalized risk cards (Page 4) ──────────── */
+.rep-blindspot-list{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.rep-blindspot{
+  display:grid;grid-template-columns:42px 1fr;gap:14px;
+  padding:14px 16px;background:#FFFAF5;border:1px solid #FDE68A;
+  border-left:4px solid #F59E0B;border-radius:10px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-blindspot.high{background:#FEF2F2;border-color:#FECACA;border-left-color:var(--gap)}
+.rep-blindspot.low{background:#EEF2FF;border-color:#C7D2FE;border-left-color:#6366F1}
+.rep-blindspot-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:#fff;border:1.5px solid #FDE68A;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-blindspot.high .rep-blindspot-icon{border-color:#FECACA}
+.rep-blindspot.low .rep-blindspot-icon{border-color:#C7D2FE}
+.rep-blindspot-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rep-blindspot-title{font-size:13.5px;font-weight:800;color:var(--dark);line-height:1.35}
+.rep-blindspot-fact{font-size:12px;color:#6B7280;font-weight:500;line-height:1.5}
+.rep-blindspot-pain{font-size:12.5px;color:var(--dark);line-height:1.55;font-weight:500;margin-top:2px}
+.rep-blindspot-pain b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-blindspot.high .rep-blindspot-pain b{color:var(--gap)}
+.rep-blindspot.low .rep-blindspot-pain b{color:#4338CA}
+
+/* Follow-up plan — commitment cards (Page 11) ──────────── */
+.rep-commit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:6px}
+.rep-commit-card{
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
+  padding:14px 16px;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-commit-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:#FFF;border:1px solid #E2E8F0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-commit-title{font-size:13px;font-weight:800;color:var(--dark);margin-bottom:3px;line-height:1.3}
+.rep-commit-desc{font-size:11.5px;color:#6B7280;line-height:1.55;font-weight:500}
+
+.rep-trigger-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;
+}
+.rep-trigger-item{
+  padding:9px 12px;background:#F4F5F7;border:1px solid #E5E7EB;
+  border-radius:7px;font-size:12px;font-weight:600;color:var(--dark);
+  text-align:left;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+
+.rep-next-review{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;background:#ECFDF5;border:1px solid #A7F3D0;
+  border-radius:10px;font-size:14.5px;font-weight:800;color:#059669;
+  margin-bottom:6px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-next-review::before{content:'📅';font-size:18px}
+
+.rep-contact-card{
+  background:linear-gradient(135deg,#1E2A3A 0%,#0F1A2B 100%);
+  color:#fff;border-radius:12px;padding:16px 20px;
+  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-contact-name{font-size:15px;font-weight:800;letter-spacing:.3px;margin-bottom:3px}
+.rep-contact-role{font-size:11px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.rep-contact-info{font-size:12.5px;color:rgba(255,255,255,.92);font-weight:500;line-height:1.7;text-align:right}
+.rep-contact-info a{color:#fff;text-decoration:none;font-weight:700}
+
 /* Plain-language key highlights bullets ─────────────────── */
 .rep-rec-bullets{margin:6px 0 0;padding-left:18px;list-style:disc}
 .rep-rec-bullets li{
@@ -2300,7 +2403,152 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     </footer>
   </section>
 
-  <!-- ── Page 3 of report: Financial Health Snapshot ── -->
+  <!-- ── Page 3 of report: Report Roadmap ── -->
+  <section class="rep-page" data-rpage="roadmap">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label"
+        data-tr-zh="報告導讀 · ROADMAP"
+        data-tr-en="ROADMAP"
+        data-tr-bm="PETA LALUAN">報告導讀 · ROADMAP</div>
+    </header>
+    <h1 class="rep-page-title"
+      data-tr-zh="本報告將帶您走過 5 個關鍵步驟"
+      data-tr-en="This Report Will Guide You Through 5 Key Steps"
+      data-tr-bm="Laporan Ini Akan Membimbing Anda Melalui 5 Langkah Utama">本報告將帶您走過 5 個關鍵步驟</h1>
+    <div class="rep-page-subtitle"
+      data-tr-zh="從發現盲點 → 看清缺口 → 建議方案 → 立即執行 → 長期陪伴"
+      data-tr-en="From discovering blind spots → seeing the gaps → recommending solutions → taking action → long-term partnership"
+      data-tr-bm="Dari menemui titik buta → melihat jurang → mencadangkan penyelesaian → bertindak → perkongsian jangka panjang">從發現盲點 → 看清缺口 → 建議方案 → 立即執行 → 長期陪伴</div>
+
+    <div class="rep-roadmap">
+      <div class="rep-step">
+        <div class="rep-step-num">1</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您看不見的盲點"
+            data-tr-en="Your Blind Spots"
+            data-tr-bm="Titik Buta Anda">您看不見的盲點</div>
+          <div class="rep-step-desc"
+            data-tr-zh="日常容易忽略、但會直接影響家庭安全的真實情境"
+            data-tr-en="Daily oversights that directly impact your family's safety"
+            data-tr-bm="Kelalaian harian yang menjejaskan keselamatan keluarga">日常容易忽略、但會直接影響家庭安全的真實情境</div>
+          <div class="rep-step-page">→ Page 4</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">2</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您正在面對的缺口"
+            data-tr-en="The Gaps You're Facing"
+            data-tr-bm="Jurang yang Anda Hadapi">您正在面對的缺口</div>
+          <div class="rep-step-desc"
+            data-tr-zh="財務體檢、身故/全殘/危疾/醫療保障缺口的具體分析"
+            data-tr-en="Financial health + concrete analysis of death / TPD / CI / medical coverage gaps"
+            data-tr-bm="Kesihatan kewangan + analisis konkrit jurang kematian / TPD / CI / perubatan">財務體檢、身故/全殘/危疾/醫療保障缺口的具體分析</div>
+          <div class="rep-step-page">→ Page 5-9</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">3</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="我們建議的方案"
+            data-tr-en="Our Recommended Plan"
+            data-tr-bm="Pelan Yang Kami Cadangkan">我們建議的方案</div>
+          <div class="rep-step-desc"
+            data-tr-zh="保障升級對照表、保費預算分析、優先級排序"
+            data-tr-en="Coverage upgrade matrix, premium budget, priority ranking"
+            data-tr-bm="Matriks naik taraf, bajet premium, susunan keutamaan">保障升級對照表、保費預算分析、優先級排序</div>
+          <div class="rep-step-page">→ Page 10</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">4</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您要做的執行"
+            data-tr-en="Your Action Steps"
+            data-tr-bm="Langkah Tindakan Anda">您要做的執行</div>
+          <div class="rep-step-desc"
+            data-tr-zh="優先級排序、時間表(7天/3個月/12個月)、立即行動清單"
+            data-tr-en="Priority order, clear timeline (7-day / 3-month / 12-month), immediate action items"
+            data-tr-bm="Susunan keutamaan, garis masa, item tindakan segera">優先級排序、時間表(7天/3個月/12個月)、立即行動清單</div>
+          <div class="rep-step-page">→ Page 11</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">5</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="我們長期陪伴"
+            data-tr-en="Our Long-term Partnership"
+            data-tr-bm="Perkongsian Jangka Panjang Kami">我們長期陪伴</div>
+          <div class="rep-step-desc"
+            data-tr-zh="季度檢視、年度體檢、生命大事追蹤、理賠協助"
+            data-tr-en="Quarterly check-in, annual review, life-event triggers, claims support"
+            data-tr-bm="Semakan suku tahun, semakan tahunan, peristiwa hidup, sokongan tuntutan">季度檢視、年度體檢、生命大事追蹤、理賠協助</div>
+          <div class="rep-step-page">→ Page 12</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rep-bottom-callout"
+      data-tr-zh="這不只是一份分析報告 — 而是您與 TEN Consultancy 長期同行的起點。"
+      data-tr-en="This is not just an analysis — it's the beginning of your long-term journey with TEN Consultancy."
+      data-tr-bm="Ini bukan sekadar analisis — ini permulaan perjalanan jangka panjang anda bersama TEN Consultancy.">這不只是一份分析報告 — 而是您與 TEN Consultancy 長期同行的起點。</div>
+
+    <footer class="rep-page-foot">
+      <span data-tr-zh="TEN Consultancy · 財務保障分析"
+            data-tr-en="TEN Consultancy · Financial Health Analysis"
+            data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 3</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 4 of report: Your Blind Spots ── -->
+  <section class="rep-page" data-rpage="blindspots">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label"
+        data-tr-zh="您的盲點 · BLIND SPOTS"
+        data-tr-en="BLIND SPOTS"
+        data-tr-bm="TITIK BUTA">您的盲點 · BLIND SPOTS</div>
+    </header>
+    <h1 class="rep-page-title"
+      data-tr-zh="您可能沒注意到的盲點"
+      data-tr-en="The Risks You Don't See"
+      data-tr-bm="Risiko Yang Anda Tidak Nampak">您可能沒注意到的盲點</h1>
+    <div class="rep-page-subtitle"
+      data-tr-zh="數字背後,這些是日常容易忽略、但會直接影響家庭安全的真實情境"
+      data-tr-en="Behind the numbers — daily oversights that directly impact your family's safety"
+      data-tr-bm="Di sebalik angka — kelalaian harian yang menjejaskan keselamatan keluarga anda">數字背後,這些是日常容易忽略、但會直接影響家庭安全的真實情境</div>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="您需要正視的事實"
+      data-tr-en="Facts You Need to Face"
+      data-tr-bm="Fakta Yang Perlu Anda Hadapi">您需要正視的事實</h2>
+    <div class="rep-blindspot-list" id="rep_blindspotList"></div>
+
+    <div class="rep-bottom-callout"
+      data-tr-zh="底線:您看不見的,就無法應對。接下來幾頁,我們把每個保障缺口具體拆解給您看。"
+      data-tr-en="Bottom line: you can't act on what you can't see. The next pages break down every coverage gap, in detail."
+      data-tr-bm="Intinya: anda tidak boleh bertindak terhadap apa yang anda tidak nampak. Halaman seterusnya menerangkan setiap jurang perlindungan secara terperinci.">底線:您看不見的,就無法應對。接下來幾頁,我們把每個保障缺口具體拆解給您看。</div>
+
+    <footer class="rep-page-foot">
+      <span data-tr-zh="TEN Consultancy · 財務保障分析"
+            data-tr-en="TEN Consultancy · Financial Health Analysis"
+            data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 4</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 4 of report: Financial Health Snapshot ── -->
   <section class="rep-page" data-rpage="financial">
     <header class="rep-page-hdr">
       <div class="rep-brand">Consultancy</div>
@@ -2337,7 +2585,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 3</span>
+      <span class="rep-page-num">Page 5</span>
     </footer>
   </section>
 
@@ -2373,7 +2621,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 4</span>
+      <span class="rep-page-num">Page 6</span>
     </footer>
   </section>
 
@@ -2412,7 +2660,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 5</span>
+      <span class="rep-page-num">Page 7</span>
     </footer>
   </section>
 
@@ -2452,7 +2700,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 6</span>
+      <span class="rep-page-num">Page 8</span>
     </footer>
   </section>
 
@@ -2479,7 +2727,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 7</span>
+      <span class="rep-page-num">Page 9</span>
     </footer>
   </section>
 
@@ -2535,7 +2783,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 8</span>
+      <span class="rep-page-num">Page 10</span>
     </footer>
   </section>
 
@@ -2570,11 +2818,131 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 9</span>
+      <span class="rep-page-num">Page 11</span>
     </footer>
   </section>
 
-  <!-- ── Page 10 of report: Signatures & Disclaimer ── -->
+  <!-- ── Page 11 of report: Follow-up Plan ── -->
+  <section class="rep-page" data-rpage="followup">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label"
+        data-tr-zh="後續追蹤 · FOLLOW-UP PLAN"
+        data-tr-en="FOLLOW-UP PLAN"
+        data-tr-bm="PELAN SUSULAN">後續追蹤 · FOLLOW-UP PLAN</div>
+    </header>
+    <h1 class="rep-page-title"
+      data-tr-zh="我們會一直陪著您"
+      data-tr-en="We Stay With You"
+      data-tr-bm="Kami Sentiasa Bersama Anda">我們會一直陪著您</h1>
+    <div class="rep-page-subtitle"
+      data-tr-zh="TEN Consultancy 不是一次性銷售。每一份保單背後,我們承諾長期陪伴。"
+      data-tr-en="TEN Consultancy is not a one-time sale. Behind every policy, we commit to a long-term partnership."
+      data-tr-bm="TEN Consultancy bukan jualan sekali sahaja. Di sebalik setiap polisi, kami komited kepada perkongsian jangka panjang.">TEN Consultancy 不是一次性銷售。每一份保單背後,我們承諾長期陪伴。</div>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="我們的承諾"
+      data-tr-en="Our Commitment to You"
+      data-tr-bm="Komitmen Kami">我們的承諾</h2>
+    <div class="rep-commit-grid">
+      <div class="rep-commit-card">
+        <div class="rep-commit-icon">📅</div>
+        <div class="rep-commit-title"
+          data-tr-zh="每季度檢視"
+          data-tr-en="Quarterly Check-in"
+          data-tr-bm="Semakan Setiap Suku">每季度檢視</div>
+        <div class="rep-commit-desc"
+          data-tr-zh="主動聯繫,確認您的財務狀況有無變動"
+          data-tr-en="We reach out to confirm your financial situation"
+          data-tr-bm="Kami menghubungi anda untuk mengesahkan keadaan kewangan">主動聯繫,確認您的財務狀況有無變動</div>
+      </div>
+      <div class="rep-commit-card">
+        <div class="rep-commit-icon">📊</div>
+        <div class="rep-commit-title"
+          data-tr-zh="年度體檢"
+          data-tr-en="Annual Review"
+          data-tr-bm="Semakan Tahunan">年度體檢</div>
+        <div class="rep-commit-desc"
+          data-tr-zh="每年完整 FAR 重新評估,動態調整保障策略"
+          data-tr-en="Full FAR re-assessment yearly, adjust coverage dynamically"
+          data-tr-bm="Penilaian FAR penuh setiap tahun, melaraskan perlindungan">每年完整 FAR 重新評估,動態調整保障策略</div>
+      </div>
+      <div class="rep-commit-card">
+        <div class="rep-commit-icon">💬</div>
+        <div class="rep-commit-title"
+          data-tr-zh="顧問隨時聯絡"
+          data-tr-en="Advisor On-Call"
+          data-tr-bm="Penasihat Sentiasa Ada">顧問隨時聯絡</div>
+        <div class="rep-commit-desc"
+          data-tr-zh="WhatsApp、Telegram、電話 — 您的顧問就在身邊"
+          data-tr-en="WhatsApp, Telegram, phone — your advisor is one tap away"
+          data-tr-bm="WhatsApp, Telegram, telefon — penasihat anda hanya satu klik">WhatsApp、Telegram、電話 — 您的顧問就在身邊</div>
+      </div>
+      <div class="rep-commit-card">
+        <div class="rep-commit-icon">🤝</div>
+        <div class="rep-commit-title"
+          data-tr-zh="理賠全程協助"
+          data-tr-en="Claims Support"
+          data-tr-bm="Bantuan Tuntutan">理賠全程協助</div>
+        <div class="rep-commit-desc"
+          data-tr-zh="需要理賠時,顧問陪同處理 — 文件、流程、跟進"
+          data-tr-en="When claims arise, your advisor handles documents, process, and follow-up alongside you"
+          data-tr-bm="Apabila terdapat tuntutan, penasihat anda menguruskan dokumen dan susulan bersama anda">需要理賠時,顧問陪同處理 — 文件、流程、跟進</div>
+      </div>
+    </div>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="人生大事觸發點 — 請主動告知"
+      data-tr-en="Life Event Triggers — Please Tell Us"
+      data-tr-bm="Pencetus Peristiwa Hidup — Sila Maklumkan">人生大事觸發點 — 請主動告知</h2>
+    <div class="rep-trigger-grid">
+      <div class="rep-trigger-item"
+        data-tr-zh="💍 結婚 / 離婚"
+        data-tr-en="💍 Marriage / Divorce"
+        data-tr-bm="💍 Perkahwinan / Perceraian">💍 結婚 / 離婚</div>
+      <div class="rep-trigger-item"
+        data-tr-zh="👶 生育 / 領養"
+        data-tr-en="👶 Birth / Adoption"
+        data-tr-bm="👶 Kelahiran / Pengambilan Anak Angkat">👶 生育 / 領養</div>
+      <div class="rep-trigger-item"
+        data-tr-zh="🏠 購房 / 賣房"
+        data-tr-en="🏠 Buy / Sell Property"
+        data-tr-bm="🏠 Beli / Jual Hartanah">🏠 購房 / 賣房</div>
+      <div class="rep-trigger-item"
+        data-tr-zh="💼 升職 / 換工作"
+        data-tr-en="💼 Promotion / Job Change"
+        data-tr-bm="💼 Kenaikan Pangkat / Tukar Kerja">💼 升職 / 換工作</div>
+      <div class="rep-trigger-item"
+        data-tr-zh="🩺 重大健康變化"
+        data-tr-en="🩺 Major Health Change"
+        data-tr-bm="🩺 Perubahan Kesihatan Utama">🩺 重大健康變化</div>
+      <div class="rep-trigger-item"
+        data-tr-zh="🌎 移居海外"
+        data-tr-en="🌎 Move Abroad"
+        data-tr-bm="🌎 Pindah ke Luar Negara">🌎 移居海外</div>
+    </div>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="下次定期檢視日期"
+      data-tr-en="Next Scheduled Review"
+      data-tr-bm="Tarikh Semakan Berjadual">下次定期檢視日期</h2>
+    <div class="rep-next-review" id="rep_nextReviewBadge"></div>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="您的專屬顧問"
+      data-tr-en="Your Dedicated Advisor"
+      data-tr-bm="Penasihat Khusus Anda">您的專屬顧問</h2>
+    <div class="rep-contact-card" id="rep_advisorContact"></div>
+
+    <footer class="rep-page-foot">
+      <span data-tr-zh="TEN Consultancy · 財務保障分析"
+            data-tr-en="TEN Consultancy · Financial Health Analysis"
+            data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 12</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 12 of report: Signatures & Disclaimer ── -->
   <section class="rep-page" data-rpage="signature">
     <header class="rep-page-hdr">
       <div class="rep-brand">Consultancy</div>
@@ -2625,7 +2993,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 10</span>
+      <span class="rep-page-num">Page 13</span>
     </footer>
   </section>
 
@@ -5071,6 +5439,161 @@ function renderReport() {
     `Jumlah premium <b>RM ${fmtRaw(estTotalPrem)}/tahun</b> (bulanan RM ${fmtRaw(Math.round(estTotalPrem/12))}), <b>${premRatio.toFixed(1)}%</b> dari pendapatan — ${premOk?'dalam julat sihat':'sedikit melebihi; pertimbangkan pelaksanaan berperingkat'}`
   ));
   setHtml('rep_recBullets', recBullets.map(b => `<li>${b}</li>`).join(''));
+
+  // ── PAGE 3 (Blind Spots) — TRILINGUAL ─────────────
+  // Dynamically generate 4-6 personalized blind spots based on the client's data
+  const blindspots = [];
+  const _spouseInc      = n('salarySpouse');
+  const _myInc          = n('salaryMain');
+  const _youngDepAge    = n('youngDepAge');
+  const _premPctIncome  = (totalIncome > 0) ? (annPremium / 12 / totalIncome * 100) : 0;
+  const _totalDebt      = (typeof totalDebts !== 'undefined' && totalDebts > 0) ? totalDebts : (homeOfficeBal + n('investPropBal') + n('carLoan') + n('otherDebt'));
+
+  // 1. Medical lifetime limit too low (HIGH severity)
+  if (lifetimeLimit < 1000000) {
+    blindspots.push({
+      sev: 'high',
+      icon: '🏥',
+      title: tr('醫療保額不足以對抗重大疾病','Medical coverage too low for critical illness','Perlindungan perubatan tidak mencukupi'),
+      fact: tr(`您的醫療終身限額 RM ${(lifetimeLimit/1000).toFixed(0)}K`,
+               `Your medical lifetime limit is RM ${(lifetimeLimit/1000).toFixed(0)}K`,
+               `Had perubatan seumur hidup anda RM ${(lifetimeLimit/1000).toFixed(0)}K`),
+      pain: tr(`一場癌症在馬來西亞平均花費 <b>RM 200K-500K</b>,3 年治療期可能用光您的限額,家人需自付剩餘費用`,
+               `Cancer treatment in Malaysia averages <b>RM 200K-500K</b>; over 3 years it can deplete your limit, leaving family to pay the rest`,
+               `Rawatan kanser di Malaysia purata <b>RM 200K-500K</b>; dalam 3 tahun ia boleh menghabiskan had anda, keluarga terpaksa bayar baki`)
+    });
+  }
+
+  // 2. Premium % of income too low (HIGH severity if very low)
+  if (_premPctIncome < 5 && totalIncome > 0) {
+    blindspots.push({
+      sev: 'high',
+      icon: '⚠️',
+      title: tr('保費投入過低,保得不夠','Premium spend too low','Premium terlalu rendah'),
+      fact: tr(`您每月繳保費 RM ${Math.round(annPremium/12).toLocaleString('en-MY')} (僅佔收入 ${_premPctIncome.toFixed(1)}%)`,
+               `You spend RM ${Math.round(annPremium/12).toLocaleString('en-MY')}/mo on premium (only ${_premPctIncome.toFixed(1)}% of income)`,
+               `Anda bayar RM ${Math.round(annPremium/12).toLocaleString('en-MY')}/bulan untuk premium (hanya ${_premPctIncome.toFixed(1)}% pendapatan)`),
+      pain: tr(`行業健康標準為收入 <b>10-15%</b>。您目前保障與收入不成比例,家庭面對風險時很脆弱`,
+               `Industry healthy range is <b>10-15%</b> of income. You're likely under-insured; family is vulnerable in a crisis`,
+               `Julat sihat industri ialah <b>10-15%</b>. Anda mungkin kurang dilindungi; keluarga terdedah dalam krisis`)
+    });
+  }
+
+  // 3. Spouse income dependency
+  if (_spouseInc > 0 && _myInc > 0) {
+    const myShare = _myInc / totalIncome * 100;
+    if (myShare > 60) {
+      blindspots.push({
+        sev: 'medium',
+        icon: '👫',
+        title: tr('家庭收入過度依賴您','Family income too dependent on you','Pendapatan keluarga terlalu bergantung pada anda'),
+        fact: tr(`您的薪資佔家庭月入 ${myShare.toFixed(0)}%`,
+                 `Your salary is ${myShare.toFixed(0)}% of household income`,
+                 `Gaji anda ialah ${myShare.toFixed(0)}% pendapatan isi rumah`),
+        pain: tr(`若您不在,家庭月入會立刻從 <b>RM ${totalIncome.toLocaleString('en-MY')}</b> 跌到 <b>RM ${_spouseInc.toLocaleString('en-MY')}</b>(降幅 ${myShare.toFixed(0)}%) — 配偶獨自難以維持原有生活水準`,
+                 `If you pass, household income drops from <b>RM ${totalIncome.toLocaleString('en-MY')}</b> to <b>RM ${_spouseInc.toLocaleString('en-MY')}</b> (down ${myShare.toFixed(0)}%) — spouse alone struggles to maintain lifestyle`,
+                 `Jika anda meninggal, pendapatan isi rumah jatuh dari <b>RM ${totalIncome.toLocaleString('en-MY')}</b> ke <b>RM ${_spouseInc.toLocaleString('en-MY')}</b> (turun ${myShare.toFixed(0)}%) — pasangan bersendirian sukar mengekalkan gaya hidup`)
+      });
+    }
+  } else if (_myInc > 0 && _spouseInc === 0) {
+    blindspots.push({
+      sev: 'high',
+      icon: '👤',
+      title: tr('家庭收入單一來源,全押在您身上','Single-income household — all risk on you','Pendapatan tunggal — semua risiko pada anda'),
+      fact: tr(`家庭月入 100% 來自您 RM ${_myInc.toLocaleString('en-MY')}`,
+               `100% of household income (RM ${_myInc.toLocaleString('en-MY')}/mo) comes from you`,
+               `100% pendapatan isi rumah (RM ${_myInc.toLocaleString('en-MY')}/bulan) datang dari anda`),
+      pain: tr(`若您身故、傷殘、或罹患重疾無法工作,家庭收入<b>立刻歸零</b>。沒有 backup 計劃,家人會在 1-2 個月內陷入財務危機`,
+               `If you die, become disabled, or fall critically ill, household income drops to <b>zero immediately</b>. Without backup, family hits crisis in 1-2 months`,
+               `Jika anda mati, hilang upaya, atau penyakit kritikal, pendapatan isi rumah jatuh ke <b>sifar segera</b>. Tanpa sandaran, krisis dalam 1-2 bulan`)
+    });
+  }
+
+  // 4. Debt burden vs income
+  if (_totalDebt > 0 && totalIncome > 0) {
+    const debtRatio = _totalDebt / (totalIncome * 12);
+    if (debtRatio > 3) {
+      blindspots.push({
+        sev: 'high',
+        icon: '🏠',
+        title: tr('債務壓力大,身故後家人難承擔','Heavy debt burden — hard for family to cover','Beban hutang berat — keluarga sukar tanggung'),
+        fact: tr(`您總債務 <b>RM ${(_totalDebt/1000).toFixed(0)}K</b>,約年收入 <b>${debtRatio.toFixed(1)} 倍</b>`,
+                 `Total debt <b>RM ${(_totalDebt/1000).toFixed(0)}K</b>, about <b>${debtRatio.toFixed(1)}×</b> annual income`,
+                 `Jumlah hutang <b>RM ${(_totalDebt/1000).toFixed(0)}K</b>, kira-kira <b>${debtRatio.toFixed(1)}×</b> pendapatan tahunan`),
+        pain: tr(`若您今天不在,家人可能被迫<b>變賣房子、車子來還債</b> — 不是繼承資產,而是承擔負擔`,
+                 `If you pass today, family may be forced to <b>sell house and car to clear debt</b> — inheriting burden, not assets`,
+                 `Jika anda meninggal hari ini, keluarga mungkin terpaksa <b>jual rumah dan kereta untuk lunaskan hutang</b> — mewarisi beban, bukan aset`)
+      });
+    }
+  }
+
+  // 5. Young dependent (education runway)
+  if (_youngDepAge > 0 && _youngDepAge < 18) {
+    const yearsToCollege = 18 - _youngDepAge;
+    const eduEst = Math.round(150000 * yearsToCollege / 18);  // Rough RM 150K for full education
+    blindspots.push({
+      sev: 'medium',
+      icon: '🎓',
+      title: tr('孩子未成年,教育費未鎖定','Child still young — education fund not locked','Anak masih muda — dana pendidikan belum terjamin'),
+      fact: tr(`最小的孩子 ${_youngDepAge} 歲,距離成年(18 歲)還有 <b>${yearsToCollege} 年</b>`,
+               `Youngest child is ${_youngDepAge}; <b>${yearsToCollege} years</b> until adulthood`,
+               `Anak bongsu ${_youngDepAge} tahun; <b>${yearsToCollege} tahun</b> hingga dewasa`),
+      pain: tr(`若您不在,他/她剩下的高中 + 大學費用(估 <b>RM ${eduEst.toLocaleString('en-MY')}</b>)從哪來? 教育中斷,孩子的未來受影響`,
+               `If you pass, where will their remaining high school + college (est. <b>RM ${eduEst.toLocaleString('en-MY')}</b>) come from? Education disrupted, future impacted`,
+               `Jika anda meninggal, dari mana datangnya sekolah menengah + kolej baki (anggaran <b>RM ${eduEst.toLocaleString('en-MY')}</b>)? Pendidikan terganggu, masa depan terjejas`)
+    });
+  }
+
+  // 6. No PA (Personal Accident)
+  if (paBenefit < 50000) {
+    blindspots.push({
+      sev: 'low',
+      icon: '🚗',
+      title: tr('缺少意外保障 PA','Missing Personal Accident (PA) cover','Tiada lindungan kemalangan diri (PA)'),
+      fact: tr(`您目前 PA 保額 ${paBenefit > 0 ? 'RM ' + (paBenefit/1000).toFixed(0) + 'K' : '<b>零</b>'}`,
+               `Your current PA cover: ${paBenefit > 0 ? 'RM ' + (paBenefit/1000).toFixed(0) + 'K' : '<b>zero</b>'}`,
+               `Lindungan PA semasa anda: ${paBenefit > 0 ? 'RM ' + (paBenefit/1000).toFixed(0) + 'K' : '<b>sifar</b>'}`),
+      pain: tr(`馬來西亞平均每天 <b>18 人因車禍身亡</b>。一份 RM 100K PA 年費僅 <b>RM 250-400</b>,投入產出比極高`,
+               `Malaysia averages <b>18 road deaths per day</b>. A RM 100K PA policy costs just <b>RM 250-400/year</b> — extremely high ROI`,
+               `Malaysia purata <b>18 kematian jalan raya sehari</b>. Polisi PA RM 100K kos hanya <b>RM 250-400/tahun</b> — ROI sangat tinggi`)
+    });
+  }
+
+  setHtml('rep_blindspotList', blindspots.slice(0,6).map(b => `
+    <div class="rep-blindspot ${b.sev}">
+      <div class="rep-blindspot-icon">${b.icon}</div>
+      <div class="rep-blindspot-body">
+        <div class="rep-blindspot-title">${b.title}</div>
+        <div class="rep-blindspot-fact">${b.fact}</div>
+        <div class="rep-blindspot-pain">${b.pain}</div>
+      </div>
+    </div>
+  `).join(''));
+
+  // ── PAGE 11 (Follow-up Plan) — TRILINGUAL ─────────────
+  // Next review badge + advisor contact card
+  const nextReview = new Date();
+  nextReview.setFullYear(nextReview.getFullYear() + 1);
+  const nextReviewStr = nextReview.toISOString().split('T')[0];
+  setHtml('rep_nextReviewBadge', tr(
+    `${nextReviewStr}(報告日起 12 個月後)`,
+    `${nextReviewStr} (12 months from report date)`,
+    `${nextReviewStr} (12 bulan dari tarikh laporan)`
+  ));
+
+  const advisorName  = s('plannerName')  || '—';
+  const advisorPhone = s('plannerPhone') || '';
+  const advisorEmail = s('plannerEmail') || '';
+  setHtml('rep_advisorContact', `
+    <div>
+      <div class="rep-contact-name">${advisorName}</div>
+      <div class="rep-contact-role">${tr('TEN Consultancy · 財富顧問','TEN Consultancy · Wealth Advisor','TEN Consultancy · Penasihat Kekayaan')}</div>
+    </div>
+    <div class="rep-contact-info">
+      ${advisorPhone ? `📞 <a href="tel:${advisorPhone}">${advisorPhone}</a><br>` : ''}
+      ${advisorEmail ? `📧 <a href="mailto:${advisorEmail}">${advisorEmail}</a>` : ''}
+    </div>
+  `);
 }
 // ──────────────────────────────────────────────────────────────
 
