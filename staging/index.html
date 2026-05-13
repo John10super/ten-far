@@ -641,7 +641,37 @@ body.report-active #reportView{display:block !important}
 .rep-prem-card.warn .rep-prem-val{color:#B45309}
 .rep-prem-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
 
-/* Blind Spots — personalized risk cards (Page 3) ──────────── */
+/* Report Roadmap — 5-step journey overview (Page 3) ──────── */
+.rep-roadmap{display:flex;flex-direction:column;gap:5px;align-items:center;margin-bottom:6px}
+.rep-step{
+  display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;
+  width:100%;max-width:560px;
+  padding:11px 16px 11px 12px;background:#FAFBFC;
+  border:1px solid #E5E7EB;border-left:4px solid var(--red);
+  border-radius:10px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-step-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:16px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-step-body{display:flex;flex-direction:column;gap:1px;min-width:0}
+.rep-step-title{font-size:13.5px;font-weight:800;color:var(--dark);line-height:1.3}
+.rep-step-desc{font-size:11.5px;color:#6B7280;line-height:1.5;font-weight:500}
+.rep-step-page{
+  font-size:10.5px;font-weight:700;color:var(--red);
+  letter-spacing:.4px;margin-top:2px;
+  font-variant-numeric:tabular-nums;
+}
+.rep-step-arrow{
+  font-size:14px;color:#9CA3AF;line-height:1;font-weight:700;
+  margin:-2px 0;
+}
+
+/* Blind Spots — personalized risk cards (Page 4) ──────────── */
 .rep-blindspot-list{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
 .rep-blindspot{
   display:grid;grid-template-columns:42px 1fr;gap:14px;
@@ -2373,7 +2403,115 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     </footer>
   </section>
 
-  <!-- ── Page 3 of report: Your Blind Spots ── -->
+  <!-- ── Page 3 of report: Report Roadmap ── -->
+  <section class="rep-page" data-rpage="roadmap">
+    <header class="rep-page-hdr">
+      <div class="rep-brand">Consultancy</div>
+      <div class="rep-page-label"
+        data-tr-zh="報告導讀 · ROADMAP"
+        data-tr-en="ROADMAP"
+        data-tr-bm="PETA LALUAN">報告導讀 · ROADMAP</div>
+    </header>
+    <h1 class="rep-page-title"
+      data-tr-zh="本報告將帶您走過 5 個關鍵步驟"
+      data-tr-en="This Report Will Guide You Through 5 Key Steps"
+      data-tr-bm="Laporan Ini Akan Membimbing Anda Melalui 5 Langkah Utama">本報告將帶您走過 5 個關鍵步驟</h1>
+    <div class="rep-page-subtitle"
+      data-tr-zh="從發現盲點 → 看清缺口 → 建議方案 → 立即執行 → 長期陪伴"
+      data-tr-en="From discovering blind spots → seeing the gaps → recommending solutions → taking action → long-term partnership"
+      data-tr-bm="Dari menemui titik buta → melihat jurang → mencadangkan penyelesaian → bertindak → perkongsian jangka panjang">從發現盲點 → 看清缺口 → 建議方案 → 立即執行 → 長期陪伴</div>
+
+    <div class="rep-roadmap">
+      <div class="rep-step">
+        <div class="rep-step-num">1</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您看不見的盲點"
+            data-tr-en="Your Blind Spots"
+            data-tr-bm="Titik Buta Anda">您看不見的盲點</div>
+          <div class="rep-step-desc"
+            data-tr-zh="日常容易忽略、但會直接影響家庭安全的真實情境"
+            data-tr-en="Daily oversights that directly impact your family's safety"
+            data-tr-bm="Kelalaian harian yang menjejaskan keselamatan keluarga">日常容易忽略、但會直接影響家庭安全的真實情境</div>
+          <div class="rep-step-page">→ Page 4</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">2</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您正在面對的缺口"
+            data-tr-en="The Gaps You're Facing"
+            data-tr-bm="Jurang yang Anda Hadapi">您正在面對的缺口</div>
+          <div class="rep-step-desc"
+            data-tr-zh="財務體檢、身故/全殘/危疾/醫療保障缺口的具體分析"
+            data-tr-en="Financial health + concrete analysis of death / TPD / CI / medical coverage gaps"
+            data-tr-bm="Kesihatan kewangan + analisis konkrit jurang kematian / TPD / CI / perubatan">財務體檢、身故/全殘/危疾/醫療保障缺口的具體分析</div>
+          <div class="rep-step-page">→ Page 5-9</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">3</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="我們建議的方案"
+            data-tr-en="Our Recommended Plan"
+            data-tr-bm="Pelan Yang Kami Cadangkan">我們建議的方案</div>
+          <div class="rep-step-desc"
+            data-tr-zh="保障升級對照表、保費預算分析、優先級排序"
+            data-tr-en="Coverage upgrade matrix, premium budget, priority ranking"
+            data-tr-bm="Matriks naik taraf, bajet premium, susunan keutamaan">保障升級對照表、保費預算分析、優先級排序</div>
+          <div class="rep-step-page">→ Page 10</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">4</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="您要做的執行"
+            data-tr-en="Your Action Steps"
+            data-tr-bm="Langkah Tindakan Anda">您要做的執行</div>
+          <div class="rep-step-desc"
+            data-tr-zh="優先級排序、時間表(7天/3個月/12個月)、立即行動清單"
+            data-tr-en="Priority order, clear timeline (7-day / 3-month / 12-month), immediate action items"
+            data-tr-bm="Susunan keutamaan, garis masa, item tindakan segera">優先級排序、時間表(7天/3個月/12個月)、立即行動清單</div>
+          <div class="rep-step-page">→ Page 11</div>
+        </div>
+      </div>
+      <div class="rep-step-arrow">↓</div>
+      <div class="rep-step">
+        <div class="rep-step-num">5</div>
+        <div class="rep-step-body">
+          <div class="rep-step-title"
+            data-tr-zh="我們長期陪伴"
+            data-tr-en="Our Long-term Partnership"
+            data-tr-bm="Perkongsian Jangka Panjang Kami">我們長期陪伴</div>
+          <div class="rep-step-desc"
+            data-tr-zh="季度檢視、年度體檢、生命大事追蹤、理賠協助"
+            data-tr-en="Quarterly check-in, annual review, life-event triggers, claims support"
+            data-tr-bm="Semakan suku tahun, semakan tahunan, peristiwa hidup, sokongan tuntutan">季度檢視、年度體檢、生命大事追蹤、理賠協助</div>
+          <div class="rep-step-page">→ Page 12</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rep-bottom-callout"
+      data-tr-zh="這不只是一份分析報告 — 而是您與 TEN Consultancy 長期同行的起點。"
+      data-tr-en="This is not just an analysis — it's the beginning of your long-term journey with TEN Consultancy."
+      data-tr-bm="Ini bukan sekadar analisis — ini permulaan perjalanan jangka panjang anda bersama TEN Consultancy.">這不只是一份分析報告 — 而是您與 TEN Consultancy 長期同行的起點。</div>
+
+    <footer class="rep-page-foot">
+      <span data-tr-zh="TEN Consultancy · 財務保障分析"
+            data-tr-en="TEN Consultancy · Financial Health Analysis"
+            data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
+      <span class="rep-page-num">Page 3</span>
+    </footer>
+  </section>
+
+  <!-- ── Page 4 of report: Your Blind Spots ── -->
   <section class="rep-page" data-rpage="blindspots">
     <header class="rep-page-hdr">
       <div class="rep-brand">Consultancy</div>
@@ -2406,7 +2544,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 3</span>
+      <span class="rep-page-num">Page 4</span>
     </footer>
   </section>
 
@@ -2447,7 +2585,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 4</span>
+      <span class="rep-page-num">Page 5</span>
     </footer>
   </section>
 
@@ -2483,7 +2621,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 5</span>
+      <span class="rep-page-num">Page 6</span>
     </footer>
   </section>
 
@@ -2522,7 +2660,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 6</span>
+      <span class="rep-page-num">Page 7</span>
     </footer>
   </section>
 
@@ -2562,7 +2700,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 7</span>
+      <span class="rep-page-num">Page 8</span>
     </footer>
   </section>
 
@@ -2589,7 +2727,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 8</span>
+      <span class="rep-page-num">Page 9</span>
     </footer>
   </section>
 
@@ -2645,7 +2783,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 9</span>
+      <span class="rep-page-num">Page 10</span>
     </footer>
   </section>
 
@@ -2680,7 +2818,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 10</span>
+      <span class="rep-page-num">Page 11</span>
     </footer>
   </section>
 
@@ -2800,7 +2938,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 11</span>
+      <span class="rep-page-num">Page 12</span>
     </footer>
   </section>
 
@@ -2855,7 +2993,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span data-tr-zh="TEN Consultancy · 財務保障分析"
             data-tr-en="TEN Consultancy · Financial Health Analysis"
             data-tr-bm="TEN Consultancy · Analisis Kesihatan Kewangan">TEN Consultancy · Financial Health Analysis</span>
-      <span class="rep-page-num">Page 12</span>
+      <span class="rep-page-num">Page 13</span>
     </footer>
   </section>
 
