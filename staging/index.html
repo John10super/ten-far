@@ -326,12 +326,12 @@ select option:first-child{color:#C4C9D4}
     page-break-after:always;background:#fff;color:#1F2937;
     text-align:center;padding:40px;border:none;box-shadow:none
   }
-  .cover-logo{font-size:72pt;font-weight:900;color:var(--red);letter-spacing:6px;margin-bottom:0;line-height:1}
-  .cover-divider{width:80px;height:4px;background:var(--red);margin:14px auto}
-  .cover-sub{font-size:14pt;color:#6B7280;margin-bottom:50px;letter-spacing:.5px}
-  .cover-title{font-size:28pt;font-weight:800;color:#1a1a2e;margin-bottom:10px}
-  .cover-client{font-size:20pt;color:var(--red);font-weight:700;margin-bottom:40px}
-  .cover-meta{font-size:12pt;color:#6B7280;line-height:2;border-top:1px solid #E5E7EB;padding-top:20px;width:300px}
+  .cover-logo{font-size:54pt;font-weight:900;color:var(--red);letter-spacing:5px;margin-bottom:0;line-height:1}
+  .cover-divider{width:60px;height:3px;background:var(--red);margin:11px auto}
+  .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
+  .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:7px}
+  .cover-client{font-size:15pt;color:var(--red);font-weight:700;margin-bottom:28px}
+  .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
 
   /* Page break */
   .break-before{page-break-before:always}
@@ -530,7 +530,8 @@ body.report-active #reportView{display:block !important}
   border:1px solid transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;
   min-width:0;
 }
-.rep-hk.ok{background:#ECFDF5;border-color:#A7F3D0}
+/* .ok → BLUE per user spec (達標相關藍色) */
+.rep-hk.ok{background:#EFF6FF;border-color:#BFDBFE}
 .rep-hk.gap{background:#FEF2F2;border-color:#FECACA}
 .rep-hk.neutral{background:#F1F5F9;border-color:#CBD5E1}
 .rep-hk-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:5px}
@@ -539,7 +540,7 @@ body.report-active #reportView{display:block !important}
   font-variant-numeric:tabular-nums;letter-spacing:-.4px;
   white-space:nowrap;overflow:hidden;text-overflow:clip;
 }
-.rep-hk.ok  .rep-hk-val{color:#059669}
+.rep-hk.ok  .rep-hk-val{color:#2563EB}
 .rep-hk.gap .rep-hk-val{color:#DC2626}
 .rep-hk.neutral .rep-hk-val{color:var(--dark)}
 .rep-hk-sub{font-size:10px;color:var(--muted);margin-top:3px;font-weight:500;line-height:1.4}
@@ -612,7 +613,7 @@ body.report-active #reportView{display:block !important}
 }
 .rep-pct-bar i{display:block;height:100%;background:var(--gap);border-radius:3px}
 .rep-pct-bar.mid i{background:#F59E0B}
-.rep-pct-bar.ok i{background:var(--ok)}
+.rep-pct-bar.ok i{background:#2563EB}
 .rep-pct-text{font-weight:700;font-size:10px;color:var(--dark);vertical-align:middle}
 .rep-prio-tag{
   display:inline-block;padding:2px 7px;border-radius:99px;
@@ -631,7 +632,7 @@ body.report-active #reportView{display:block !important}
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-prem-card.highlight{background:#FFF8F7;border-color:#FECACA}
-.rep-prem-card.ok{background:#ECFDF5;border-color:#A7F3D0}
+.rep-prem-card.ok{background:#EFF6FF;border-color:#BFDBFE}
 .rep-prem-card.warn{background:#FFFBEB;border-color:#FCD34D}
 .rep-prem-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;line-height:1.3}
 .rep-prem-val{
@@ -639,7 +640,7 @@ body.report-active #reportView{display:block !important}
   font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1.2;
 }
 .rep-prem-card.highlight .rep-prem-val{color:var(--red)}
-.rep-prem-card.ok .rep-prem-val{color:#059669}
+.rep-prem-card.ok .rep-prem-val{color:#2563EB}
 .rep-prem-card.warn .rep-prem-val{color:#B45309}
 .rep-prem-sub{font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 
@@ -728,8 +729,8 @@ body.report-active #reportView{display:block !important}
 
 .rep-next-review{
   display:inline-flex;align-items:center;gap:7px;
-  padding:7px 14px;background:#ECFDF5;border:1px solid #A7F3D0;
-  border-radius:7px;font-size:12px;font-weight:800;color:#059669;
+  padding:7px 14px;background:#EFF6FF;border:1px solid #BFDBFE;
+  border-radius:7px;font-size:12px;font-weight:800;color:#2563EB;
   margin-bottom:4px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
@@ -763,7 +764,7 @@ body.report-active #reportView{display:block !important}
 }
 .rep-page-num{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums}
 
-/* Death-coverage bar visualization ────────────────── */
+/* Death-coverage bar — legacy 3-row layout (unchanged for back-compat) */
 .rep-bar-section{margin-bottom:6px}
 .rep-bar-row{margin-bottom:10px}
 .rep-bar-row:last-child{margin-bottom:0}
@@ -774,7 +775,7 @@ body.report-active #reportView{display:block !important}
 .rep-bar-lbl{font-size:10.5px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.5px}
 .rep-bar-val{font-size:14.5px;font-weight:900;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
 .rep-bar-val.gap{color:var(--gap)}
-.rep-bar-val.ok{color:var(--ok)}
+.rep-bar-val.ok{color:#2563EB}
 .rep-bar-track{
   width:100%;height:16px;background:#F1F5F9;border-radius:5px;
   overflow:hidden;position:relative;
@@ -786,6 +787,55 @@ body.report-active #reportView{display:block !important}
 }
 .rep-bar-fill.current{background:linear-gradient(90deg,#94A3B8 0%,#64748B 100%)}
 .rep-bar-fill.gap{background:linear-gradient(90deg,var(--gap) 0%,#B91C1C 100%)}
+
+/* NEW Coverage Gauge — single stacked bar (replaces 3-row bars) ───── */
+.rep-gauge{margin-bottom:8px}
+.rep-gauge-hdr{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:6px;
+}
+.rep-gauge-need{
+  font-size:11px;font-weight:800;color:var(--dark);
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.rep-gauge-need b{font-size:13.5px;font-weight:900;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px;margin-left:5px}
+.rep-gauge-pct{
+  font-size:13px;font-weight:900;font-variant-numeric:tabular-nums;
+  padding:2px 9px;border-radius:99px;letter-spacing:.3px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-gauge-pct.gap{background:#FEF2F2;color:var(--gap);border:1px solid #FECACA}
+.rep-gauge-pct.ok{background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE}
+.rep-gauge-track{
+  width:100%;height:22px;background:#F1F5F9;border:1px solid #E5E7EB;
+  border-radius:5px;overflow:hidden;position:relative;display:flex;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-gauge-fill{
+  height:100%;display:flex;align-items:center;justify-content:flex-end;
+  padding:0 7px;color:#fff;font-size:9.5px;font-weight:800;
+  font-variant-numeric:tabular-nums;letter-spacing:.2px;
+  white-space:nowrap;overflow:hidden;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-gauge-fill.current{background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%)}
+.rep-gauge-fill.gap{background:linear-gradient(90deg,#DC2626 0%,#B91C1C 100%);justify-content:flex-start}
+.rep-gauge-fill.ok{background:linear-gradient(90deg,#1D4ED8 0%,#2563EB 100%)}
+.rep-gauge-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:6px;font-size:11px;
+}
+.rep-gauge-tag{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--dark)}
+.rep-gauge-tag::before{
+  content:'';display:inline-block;width:9px;height:9px;border-radius:2px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-gauge-tag.current::before{background:#2563EB}
+.rep-gauge-tag.gap::before{background:var(--gap)}
+.rep-gauge-tag.ok::before{background:#2563EB}
+.rep-gauge-tag b{font-weight:800;font-variant-numeric:tabular-nums;margin-left:3px}
+.rep-gauge-tag.gap b{color:var(--gap)}
+.rep-gauge-tag.current b{color:#1D4ED8}
 
 /* Calculation breakdown table ─────────────────────── */
 .rep-breakdown{
@@ -813,7 +863,7 @@ body.report-active #reportView{display:block !important}
 .rep-interpretation p:last-child{margin-bottom:0}
 .rep-interpretation b{color:var(--dark);font-weight:800;font-variant-numeric:tabular-nums}
 .rep-interpretation .gap-num{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
-.rep-interpretation .ok-num{color:var(--ok);font-weight:800;font-variant-numeric:tabular-nums}
+.rep-interpretation .ok-num{color:#2563EB;font-weight:800;font-variant-numeric:tabular-nums}
 .rep-warning{
   margin-top:16px;padding:12px 16px;
   background:#FEF2F2;border-left:4px solid var(--gap);border-radius:6px;
@@ -822,27 +872,28 @@ body.report-active #reportView{display:block !important}
 .rep-warning b{color:var(--gap);font-weight:800}
 
 /* Risk grid — 5 selected ratios in 2-col grid ────── */
-.rep-risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.rep-risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
 .rep-risk-card{
-  border:1px solid #E5E7EB;border-radius:10px;padding:18px 20px;
-  background:#fff;display:flex;flex-direction:column;gap:8px;
+  border:1px solid #E5E7EB;border-radius:7px;padding:10px 14px;
+  background:#fff;display:flex;flex-direction:column;gap:4px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-risk-card.ok{border-left:4px solid var(--ok);background:#F0FDF4}
-.rep-risk-card.gap{border-left:4px solid var(--gap);background:#FEF2F2}
-.rep-risk-card.warn{border-left:4px solid #F59E0B;background:#FFFBEB}
+/* .ok → BLUE (per user spec: 達標相關顯示藍色) */
+.rep-risk-card.ok{border-left:3px solid #2563EB;background:#EFF6FF}
+.rep-risk-card.gap{border-left:3px solid var(--gap);background:#FEF2F2}
+.rep-risk-card.warn{border-left:3px solid #F59E0B;background:#FFFBEB}
 .rep-rc-hdr{display:flex;justify-content:space-between;align-items:baseline}
-.rep-rc-lbl{font-size:13px;font-weight:800;color:var(--dark);letter-spacing:.3px}
-.rep-rc-status{font-size:11px;font-weight:800;letter-spacing:.5px;padding:3px 9px;border-radius:99px}
-.rep-rc-status.ok{background:var(--ok);color:#fff}
+.rep-rc-lbl{font-size:11px;font-weight:800;color:var(--dark);letter-spacing:.3px}
+.rep-rc-status{font-size:9.5px;font-weight:800;letter-spacing:.5px;padding:2px 8px;border-radius:99px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rep-rc-status.ok{background:#2563EB;color:#fff}
 .rep-rc-status.gap{background:var(--gap);color:#fff}
 .rep-rc-status.warn{background:#F59E0B;color:#fff}
-.rep-rc-val{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1}
-.rep-risk-card.ok .rep-rc-val{color:#059669}
+.rep-rc-val{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1.1}
+.rep-risk-card.ok .rep-rc-val{color:#2563EB}
 .rep-risk-card.gap .rep-rc-val{color:var(--gap)}
 .rep-risk-card.warn .rep-rc-val{color:#B45309}
-.rep-rc-bench{font-size:11px;color:var(--muted);font-weight:600}
-.rep-rc-desc{font-size:11.5px;color:#475569;line-height:1.55;font-weight:500;margin-top:4px}
+.rep-rc-bench{font-size:9.5px;color:var(--muted);font-weight:600}
+.rep-rc-desc{font-size:10px;color:#475569;line-height:1.5;font-weight:500;margin-top:2px}
 
 /* Action plan list ────────────────────────────────── */
 .rep-action-list{display:flex;flex-direction:column;gap:6px}
@@ -877,11 +928,11 @@ body.report-active #reportView{display:block !important}
 .rep-disclaimer p{margin:0 0 10px}
 .rep-disclaimer p:last-child{margin-bottom:0}
 .rep-disclaimer b{color:var(--dark);font-weight:800}
-.rep-sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:24px}
-.rep-sig-cell{display:flex;flex-direction:column;align-items:center;gap:6px}
-.rep-sig-line{width:100%;height:1px;background:var(--dark);margin-bottom:8px}
-.rep-sig-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase}
-.rep-sig-name{font-size:14px;font-weight:700;color:var(--dark)}
+.rep-sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px}
+.rep-sig-cell{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.rep-sig-line{width:100%;height:1px;background:var(--dark);margin-bottom:5px}
+.rep-sig-label{font-size:9.5px;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.rep-sig-name{font-size:12px;font-weight:700;color:var(--dark);line-height:1.3}
 
 /* Mobile/tablet adaptations for screen preview ────── */
 @media (max-width:768px){
@@ -4914,22 +4965,25 @@ function renderReport() {
   const lblCur  = tr('現有保障','Current Cover','Lindungan Semasa');
   const lblGap  = tr('保障缺口','Coverage Gap','Jurang Lindungan');
   const lblOk   = tr('✓ 充足','✓ Sufficient','✓ Mencukupi');
+  // NEW: single stacked gauge (current blue + gap red within total need)
+  const _deathCovPct = deathNeed > 0 ? Math.min(100, deathBenefit / deathNeed * 100) : 0;
+  const _deathGapPct = Math.max(0, 100 - _deathCovPct);
+  const _deathOk = deathGapAbs <= 0;
   setHtml('rep_deathBar', `
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblNeed}</span>
-        <span class="rep-bar-val">RM ${Math.round(deathNeed).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${needPct.toFixed(1)}%"></div></div>
-    </div>
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblCur}</span>
-        <span class="rep-bar-val">RM ${Math.round(deathBenefit).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${curPct.toFixed(1)}%"></div></div>
-    </div>
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblGap}</span>
-        <span class="rep-bar-val ${deathGapAbs>0?'gap':'ok'}">${deathGapAbs>0?'▼ -RM '+Math.round(deathGapAbs).toLocaleString('en-MY'):lblOk}</span></div>
-      <div class="rep-bar-track">
-        ${deathGapAbs>0 ? `<div class="rep-bar-fill gap" style="width:${(deathGapAbs/maxBar*100).toFixed(1)}%;margin-left:${curPct.toFixed(1)}%"></div>` : ''}
+    <div class="rep-gauge">
+      <div class="rep-gauge-hdr">
+        <span class="rep-gauge-need">${lblNeed} <b>RM ${Math.round(deathNeed).toLocaleString('en-MY')}</b></span>
+        <span class="rep-gauge-pct ${_deathOk?'ok':'gap'}">${_deathCovPct.toFixed(0)}% ${tr('覆蓋率','Coverage','Liputan')}</span>
+      </div>
+      <div class="rep-gauge-track">
+        ${_deathCovPct>0 ? `<div class="rep-gauge-fill ${_deathOk?'ok':'current'}" style="width:${_deathCovPct.toFixed(1)}%">${_deathCovPct>=18?`RM ${Math.round(deathBenefit).toLocaleString('en-MY')}`:''}</div>` : ''}
+        ${_deathGapPct>0 ? `<div class="rep-gauge-fill gap" style="width:${_deathGapPct.toFixed(1)}%">${_deathGapPct>=18?`-RM ${Math.round(deathGapAbs).toLocaleString('en-MY')}`:''}</div>` : ''}
+      </div>
+      <div class="rep-gauge-foot">
+        <span class="rep-gauge-tag ${_deathOk?'ok':'current'}">${lblCur} <b>RM ${Math.round(deathBenefit).toLocaleString('en-MY')}</b></span>
+        ${_deathOk
+          ? `<span class="rep-gauge-tag ok">${lblOk}</span>`
+          : `<span class="rep-gauge-tag gap">${lblGap} <b>-RM ${Math.round(deathGapAbs).toLocaleString('en-MY')}</b></span>`}
       </div>
     </div>
   `);
@@ -5078,19 +5132,27 @@ function renderReport() {
   // ── PAGE 5 (TPD + CI) — TRILINGUAL ──────────────────────────
   const tpdMaxBar = Math.max(tpdNeed, tpdBenefit) * 1.05;
   const tpdShortAmt = Math.max(0, tpdNeed - tpdBenefit);
+  // NEW: stacked gauge for TPD
+  const _tpdCovPct = tpdNeed > 0 ? Math.min(100, tpdBenefit / tpdNeed * 100) : 0;
+  const _tpdGapPct = Math.max(0, 100 - _tpdCovPct);
+  const _tpdOk = tpdShortAmt <= 0;
   setHtml('rep_tpdBar', `
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblNeed}</span>
-        <span class="rep-bar-val">RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${tpdMaxBar>0?(tpdNeed/tpdMaxBar*100).toFixed(1):0}%"></div></div>
+    <div class="rep-gauge">
+      <div class="rep-gauge-hdr">
+        <span class="rep-gauge-need">${lblNeed} <b>RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</b></span>
+        <span class="rep-gauge-pct ${_tpdOk?'ok':'gap'}">${_tpdCovPct.toFixed(0)}% ${tr('覆蓋率','Coverage','Liputan')}</span>
+      </div>
+      <div class="rep-gauge-track">
+        ${_tpdCovPct>0 ? `<div class="rep-gauge-fill ${_tpdOk?'ok':'current'}" style="width:${_tpdCovPct.toFixed(1)}%">${_tpdCovPct>=18?`RM ${Math.round(tpdBenefit).toLocaleString('en-MY')}`:''}</div>` : ''}
+        ${_tpdGapPct>0 ? `<div class="rep-gauge-fill gap" style="width:${_tpdGapPct.toFixed(1)}%">${_tpdGapPct>=18?`-RM ${Math.round(tpdShortAmt).toLocaleString('en-MY')}`:''}</div>` : ''}
+      </div>
+      <div class="rep-gauge-foot">
+        <span class="rep-gauge-tag ${_tpdOk?'ok':'current'}">${lblCur} <b>RM ${Math.round(tpdBenefit).toLocaleString('en-MY')}</b></span>
+        ${_tpdOk
+          ? `<span class="rep-gauge-tag ok">${lblOk}</span>`
+          : `<span class="rep-gauge-tag gap">${lblGap} <b>-RM ${Math.round(tpdShortAmt).toLocaleString('en-MY')}</b></span>`}
+      </div>
     </div>
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblCur}</span>
-        <span class="rep-bar-val">RM ${Math.round(tpdBenefit).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${tpdMaxBar>0?(tpdBenefit/tpdMaxBar*100).toFixed(1):0}%"></div></div>
-    </div>
-    ${tpdShortAmt>0?`<div class="rep-bar-row"><div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblGap}</span>
-      <span class="rep-bar-val gap">▼ -RM ${Math.round(tpdShortAmt).toLocaleString('en-MY')}</span></div></div>`:''}
   `);
   setHtml('rep_tpdBreakdown', `
     <div class="rep-breakdown-row">
@@ -5116,19 +5178,28 @@ function renderReport() {
 
   const ciMaxBar = Math.max(ciNeed, totalCI) * 1.05;
   const ciShortAmt = Math.max(0, ciNeed - totalCI);
+  // NEW: stacked gauge for CI
+  const _ciCovPct = ciNeed > 0 ? Math.min(100, totalCI / ciNeed * 100) : 0;
+  const _ciGapPct = Math.max(0, 100 - _ciCovPct);
+  const _ciOk = ciShortAmt <= 0;
+  const lblCurCI = tr('現有保障(含早期)','Current Cover (incl. Early)','Lindungan Semasa (termasuk Awal)');
   setHtml('rep_ciBar', `
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblNeed}</span>
-        <span class="rep-bar-val">RM ${Math.round(ciNeed).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill" style="width:${ciMaxBar>0?(ciNeed/ciMaxBar*100).toFixed(1):0}%"></div></div>
+    <div class="rep-gauge">
+      <div class="rep-gauge-hdr">
+        <span class="rep-gauge-need">${lblNeed} <b>RM ${Math.round(ciNeed).toLocaleString('en-MY')}</b></span>
+        <span class="rep-gauge-pct ${_ciOk?'ok':'gap'}">${_ciCovPct.toFixed(0)}% ${tr('覆蓋率','Coverage','Liputan')}</span>
+      </div>
+      <div class="rep-gauge-track">
+        ${_ciCovPct>0 ? `<div class="rep-gauge-fill ${_ciOk?'ok':'current'}" style="width:${_ciCovPct.toFixed(1)}%">${_ciCovPct>=18?`RM ${Math.round(totalCI).toLocaleString('en-MY')}`:''}</div>` : ''}
+        ${_ciGapPct>0 ? `<div class="rep-gauge-fill gap" style="width:${_ciGapPct.toFixed(1)}%">${_ciGapPct>=18?`-RM ${Math.round(ciShortAmt).toLocaleString('en-MY')}`:''}</div>` : ''}
+      </div>
+      <div class="rep-gauge-foot">
+        <span class="rep-gauge-tag ${_ciOk?'ok':'current'}">${lblCurCI} <b>RM ${Math.round(totalCI).toLocaleString('en-MY')}</b></span>
+        ${_ciOk
+          ? `<span class="rep-gauge-tag ok">${lblOk}</span>`
+          : `<span class="rep-gauge-tag gap">${lblGap} <b>-RM ${Math.round(ciShortAmt).toLocaleString('en-MY')}</b></span>`}
+      </div>
     </div>
-    <div class="rep-bar-row">
-      <div class="rep-bar-hdr"><span class="rep-bar-lbl">${tr('現有保障(含早期)','Current Cover (incl. Early)','Lindungan Semasa (termasuk Awal)')}</span>
-        <span class="rep-bar-val">RM ${Math.round(totalCI).toLocaleString('en-MY')}</span></div>
-      <div class="rep-bar-track"><div class="rep-bar-fill current" style="width:${ciMaxBar>0?(totalCI/ciMaxBar*100).toFixed(1):0}%"></div></div>
-    </div>
-    ${ciShortAmt>0?`<div class="rep-bar-row"><div class="rep-bar-hdr"><span class="rep-bar-lbl">${lblGap}</span>
-      <span class="rep-bar-val gap">▼ -RM ${Math.round(ciShortAmt).toLocaleString('en-MY')}</span></div></div>`:''}
   `);
   const ciPV = Math.max(0, ciNeed - n('rrf'));
   setHtml('rep_ciBreakdown', `
