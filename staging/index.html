@@ -2615,14 +2615,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       data-tr-en="Financial Health Snapshot"
       data-tr-bm="Snapshot Kesihatan Kewangan">財務健康概況</h1>
     <div class="rep-page-subtitle"
-      data-tr-zh="每月收支、債務結構、現金流概況"
-      data-tr-en="Monthly cash flow, debt structure, and financial overview"
-      data-tr-bm="Aliran tunai bulanan, struktur hutang, dan gambaran kewangan">每月收支、債務結構、現金流概況</div>
-    <h2 class="rep-section-title"
-      data-tr-zh="每月現金流"
-      data-tr-en="Monthly Cash Flow"
-      data-tr-bm="Aliran Tunai Bulanan">每月現金流</h2>
-    <div class="rep-hero-kpi" id="rep_finCashflow"></div>
+      data-tr-zh="每月支出明細與債務結構(現金流概況已於執行摘要顯示)"
+      data-tr-en="Monthly expenses & debt structure (cash flow shown in Executive Summary)"
+      data-tr-bm="Perbelanjaan bulanan & struktur hutang (aliran tunai dalam Ringkasan Eksekutif)">每月支出明細與債務結構(現金流概況已於執行摘要顯示)</div>
     <h2 class="rep-section-title"
       data-tr-zh="每月支出明細"
       data-tr-en="Monthly Expense Breakdown"
@@ -5397,12 +5392,13 @@ function renderReport() {
   const paShort_a = Math.round(Math.max(0, deathBenefit*0.5 - paBenefit));
   if (paShort_a > 0) actions.push({p:'P3', cat:tr('意外保障 PA 加保','Top up accidental (PA) cover','Tambah lindungan kemalangan (PA)'), amt:paShort_a, time:t3MO});
   actions.push({p:'P3', cat:tr('下次年度保障審查','Next annual cover review','Semakan tahunan seterusnya'), amt:0, time:t12MO});
+  // Note: amount removed — already shown in Recommendations table (Page 10)
+  // Action Plan now focuses on priority + category + timeline only
   setHtml('rep_actionList', actions.map(a => `
     <div class="rep-action-item ${a.p.toLowerCase()}">
       <div class="rep-action-prio-tag">${a.p}</div>
       <div class="rep-action-body">
         <div class="rep-action-cat">${a.cat}</div>
-        ${a.amt>0?`<div class="rep-action-amt">▼ -RM ${a.amt.toLocaleString('en-MY')}</div>`:''}
       </div>
       <div class="rep-action-time">${a.time}</div>
     </div>
