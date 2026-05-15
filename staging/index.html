@@ -327,10 +327,12 @@ select option:first-child{color:#C4C9D4}
     text-align:center;padding:25mm 20mm 0;border:none;box-shadow:none;
     box-sizing:border-box;height:auto;
   }
-  .cover-logo{font-size:54pt;font-weight:900;color:var(--red);letter-spacing:5px;margin-bottom:0;line-height:1}
-  .cover-divider{width:60px;height:3px;background:var(--red);margin:11px auto}
+  .cover-logo{margin-bottom:0;line-height:1}
+  .cover-logo img{display:block;width:auto;max-width:340px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cover-divider{width:60px;height:3px;background:var(--red);margin:18px auto 11px}
   .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
-  .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:7px}
+  .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}
+  .cover-title-sub{font-size:11pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
   .cover-client{font-size:15pt;color:var(--red);font-weight:700;margin-bottom:28px}
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
 
@@ -1817,10 +1819,11 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 
 <!-- PRINT COVER PAGE -->
 <div class="cover-page">
-  <div class="cover-logo">TEN</div>
+  <div class="cover-logo"><img id="cover-logo-img" alt="TEN Consultancy"></div>
   <div class="cover-divider"></div>
   <div class="cover-sub">TEN Consultancy &nbsp;|&nbsp; Wealth Management &amp; Insurance Planning</div>
-  <div class="cover-title">Financial Analysis Report</div>
+  <div class="cover-title">財務體檢報告</div>
+  <div class="cover-title-sub">Financial Health Check Report</div>
   <div class="cover-client" id="cover-client-name">Client Name</div>
   <div class="cover-meta">
     <div id="cover-date"></div>
@@ -4042,6 +4045,10 @@ function recalc() {
   document.getElementById('cover-client-name').textContent = s('clientName') || 'Client Name';
   document.getElementById('cover-date').textContent = 'Date: ' + (s('reportDate') || new Date().toLocaleDateString('en-MY'));
   document.getElementById('cover-planner').textContent = s('plannerName');
+  // Copy the welcomeScreen TEN logo PNG (already inlined as base64) into the print cover
+  const _wlImg = document.querySelector('#welcomeScreen .wl-logo-mark img, #welcomeScreen img');
+  const _coverImg = document.getElementById('cover-logo-img');
+  if (_wlImg && _coverImg && _wlImg.src) _coverImg.src = _wlImg.src;
   document.getElementById('printPlannerName').textContent = s('plannerName');
   document.getElementById('printClientName').textContent = s('clientName');
   document.getElementById('printDate').textContent = s('reportDate') || new Date().toLocaleDateString('en-MY');
