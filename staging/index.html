@@ -319,13 +319,17 @@ select option:first-child{color:#C4C9D4}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
-  /* Cover page — white TEN branding (slightly below top, breathing room) */
+  /* Cover page — white TEN branding. min-height required for the
+     Version-corner element (position:absolute bottom) to anchor to
+     the bottom of the physical page. */
   .cover-page{
     display:flex !important;flex-direction:column;
     justify-content:flex-start;align-items:center;
     page-break-after:always;background:#fff;color:#1F2937;
     text-align:center;padding:55mm 20mm 0;border:none;box-shadow:none;
-    box-sizing:border-box;height:auto;
+    box-sizing:border-box;
+    min-height:100vh;       /* restored — anchors version-corner */
+    position:relative;
   }
   .cover-logo{margin-bottom:0;line-height:1}
   .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -335,13 +339,12 @@ select option:first-child{color:#C4C9D4}
   .cover-title-sub{font-size:10pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
   .cover-client{font-size:13pt;color:var(--red);font-weight:700;margin-bottom:28px}    /* user: -2pt (was 15) */
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
-  /* Version line moved to bottom-left of cover only */
+  /* Version line at bottom-left of cover only (anchored to .cover-page) */
   .cover-version-corner{
     position:absolute;bottom:18mm;left:18mm;
     font-size:8.5pt;color:#9CA3AF;letter-spacing:.3px;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
-  .cover-page{position:relative}
 
   /* Page break */
   .break-before{page-break-before:always}
@@ -436,7 +439,7 @@ select option:first-child{color:#C4C9D4}
     @bottom-left { content: ""; }
     @bottom-center { content: ""; }
     @bottom-right {
-      content: "Page " counter(pgnum) " / 12";
+      content: "Page " counter(page) " of " counter(pages);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
       font-size: 9pt;
       color: #6B7280;
@@ -446,14 +449,11 @@ select option:first-child{color:#C4C9D4}
       print-color-adjust: exact;
     }
   }
-  /* Cover (first page) has no page number */
+  /* Cover (first page) has no page number — numbering starts from Page 2 */
   @page :first {
     @bottom-right { content: ""; }
     @bottom-left { content: ""; }
   }
-  /* Custom page counter: cover doesn't increment; only rep-page does */
-  body.report-active #reportView { counter-reset: pgnum 0; }
-  body.report-active .rep-page { counter-increment: pgnum 1; }
 
   /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
   body.report-active #reportView{padding:0 !important;margin:0 !important}
@@ -1856,9 +1856,10 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
+    <div>Kuching, Sarawak</div>
   </div>
-  <!-- Version line moved to bottom-left corner of cover -->
-  <div class="cover-version-corner">Version 4.62 &nbsp;·&nbsp; Kuching, Sarawak</div>
+  <!-- Version line in bottom-left corner of cover (only on cover page) -->
+  <div class="cover-version-corner">Version 4.62</div>
 </div>
 
 <!-- TEN PRINT FOOTER (bottom right every page) -->
