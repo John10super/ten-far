@@ -319,16 +319,16 @@ select option:first-child{color:#C4C9D4}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
-  /* Cover page — white TEN branding (top-aligned, page-break ends cover) */
+  /* Cover page — white TEN branding (slightly below top, breathing room) */
   .cover-page{
     display:flex !important;flex-direction:column;
     justify-content:flex-start;align-items:center;
     page-break-after:always;background:#fff;color:#1F2937;
-    text-align:center;padding:25mm 20mm 0;border:none;box-shadow:none;
+    text-align:center;padding:55mm 20mm 0;border:none;box-shadow:none;
     box-sizing:border-box;height:auto;
   }
   .cover-logo{margin-bottom:0;line-height:1}
-  .cover-logo img{display:block;width:auto;max-width:340px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .cover-divider{width:60px;height:3px;background:var(--red);margin:18px auto 11px}
   .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
   .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}
@@ -414,12 +414,23 @@ select option:first-child{color:#C4C9D4}
   /* Restore spacing between disclaimer and signature lines in print */
   .signature-area [data-i18n="sigNote"]{margin-bottom:32px !important}
 
-  /* @page margin: 0 → suppress browser headers/footers (date, URL, page#)
-     since they get pushed off the printable area. Internal padding lives
-     on .rep-page itself so content stays comfortably inside. */
+  /* @page margin: top/sides 0 → suppress browser headers (date, URL, title).
+     Bottom margin = 13mm reserved for our own page counter via CSS Paged
+     Media (@bottom-right). Page counter says "Page X of Y" — replaces the
+     browser's native footer text. */
   @page {
     size: A4 portrait;
-    margin: 0;
+    margin: 0 0 13mm 0;
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+      font-size: 9pt;
+      color: #6B7280;
+      padding-right: 14mm;
+      padding-bottom: 4mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   }
 
   /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
@@ -1821,7 +1832,6 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 <div class="cover-page">
   <div class="cover-logo"><img id="cover-logo-img" alt="TEN Consultancy"></div>
   <div class="cover-divider"></div>
-  <div class="cover-sub">TEN Consultancy &nbsp;|&nbsp; Wealth Management &amp; Insurance Planning</div>
   <div class="cover-title">財務體檢報告</div>
   <div class="cover-title-sub">Financial Health Check Report</div>
   <div class="cover-client" id="cover-client-name">Client Name</div>
