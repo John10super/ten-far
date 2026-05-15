@@ -319,12 +319,13 @@ select option:first-child{color:#C4C9D4}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
-  /* Cover page — white TEN branding */
+  /* Cover page — white TEN branding (top-aligned, page-break ends cover) */
   .cover-page{
-    display:flex !important;min-height:100vh;flex-direction:column;
-    justify-content:center;align-items:center;
+    display:flex !important;flex-direction:column;
+    justify-content:flex-start;align-items:center;
     page-break-after:always;background:#fff;color:#1F2937;
-    text-align:center;padding:40px;border:none;box-shadow:none
+    text-align:center;padding:25mm 20mm 0;border:none;box-shadow:none;
+    box-sizing:border-box;height:auto;
   }
   .cover-logo{font-size:54pt;font-weight:900;color:var(--red);letter-spacing:5px;margin-bottom:0;line-height:1}
   .cover-divider{width:60px;height:3px;background:var(--red);margin:11px auto}
@@ -411,23 +412,24 @@ select option:first-child{color:#C4C9D4}
   /* Restore spacing between disclaimer and signature lines in print */
   .signature-area [data-i18n="sigNote"]{margin-bottom:32px !important}
 
-  /* Tight A4 margin so each rep-page fits as a single physical page */
+  /* @page margin: 0 → suppress browser headers/footers (date, URL, page#)
+     since they get pushed off the printable area. Internal padding lives
+     on .rep-page itself so content stays comfortably inside. */
   @page {
     size: A4 portrait;
-    margin: 12mm 10mm;
+    margin: 0;
   }
 
-  /* Print-only sizing: make rep-page render compactly and avoid mid-section breaks */
+  /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
   body.report-active #reportView{padding:0 !important;margin:0 !important}
   body.report-active .rep-page{
-    padding:18mm 14mm !important;
+    padding:18mm 16mm !important;
     margin:0 !important;
     border:none !important;border-radius:0 !important;
     box-shadow:none !important;
-    page-break-inside:auto;     /* allow break if absolutely needed */
+    page-break-inside:auto;
     page-break-after:always;
   }
-  body.report-active .rep-page > *{page-break-inside:avoid}
   body.report-active .rep-page-hdr,
   body.report-active .rep-section-title,
   body.report-active .rep-findings,
@@ -435,9 +437,20 @@ select option:first-child{color:#C4C9D4}
   body.report-active .rep-client-box,
   body.report-active .rep-hero-kpi,
   body.report-active .rep-callout,
-  body.report-active .rep-page-foot{page-break-inside:avoid !important}
+  body.report-active .rep-page-foot,
+  body.report-active .rep-blindspot,
+  body.report-active .rep-action-item,
+  body.report-active .rep-step,
+  body.report-active .rep-commit-card,
+  body.report-active .rep-prem-card,
+  body.report-active .rep-risk-card,
+  body.report-active .rep-gauge,
+  body.report-active .rep-breakdown{page-break-inside:avoid !important}
   body.report-active .rep-section-title{page-break-after:avoid !important}
   body.report-active .rep-page-title{page-break-after:avoid !important}
+  /* Hide internal page-num labels — browser will not show its own headers/footers
+     either (because @page margin:0). User can rely on physical PDF page count. */
+  body.report-active .rep-page-num{display:none !important}
 
   /* When report view is active, hide wizard pages and show report */
   body.report-active #farWizard,
@@ -762,7 +775,8 @@ body.report-active #reportView{display:block !important}
   display:flex;justify-content:space-between;align-items:center;
   font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:.3px;
 }
-.rep-page-num{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums}
+/* Internal page numbers hidden — page count visible via PDF reader / printed footer */
+.rep-page-num{display:none}
 
 /* Death-coverage bar — legacy 3-row layout (unchanged for back-compat) */
 .rep-bar-section{margin-bottom:6px}
