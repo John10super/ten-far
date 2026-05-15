@@ -331,10 +331,17 @@ select option:first-child{color:#C4C9D4}
   .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .cover-divider{width:60px;height:3px;background:var(--red);margin:18px auto 11px}
   .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
-  .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}
-  .cover-title-sub{font-size:11pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
-  .cover-client{font-size:15pt;color:var(--red);font-weight:700;margin-bottom:28px}
+  .cover-title{font-size:15pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}        /* user: -5pt (was 20) */
+  .cover-title-sub{font-size:10pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
+  .cover-client{font-size:13pt;color:var(--red);font-weight:700;margin-bottom:28px}    /* user: -2pt (was 15) */
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
+  /* Version line moved to bottom-left of cover only */
+  .cover-version-corner{
+    position:absolute;bottom:18mm;left:18mm;
+    font-size:8.5pt;color:#9CA3AF;letter-spacing:.3px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .cover-page{position:relative}
 
   /* Page break */
   .break-before{page-break-before:always}
@@ -414,15 +421,22 @@ select option:first-child{color:#C4C9D4}
   /* Restore spacing between disclaimer and signature lines in print */
   .signature-area [data-i18n="sigNote"]{margin-bottom:32px !important}
 
-  /* @page margin: top/sides 0 → suppress browser headers (date, URL, title).
-     Bottom margin = 13mm reserved for our own page counter via CSS Paged
-     Media (@bottom-right). Page counter says "Page X of Y" — replaces the
-     browser's native footer text. */
+  /* @page: A4 portrait. Top/sides margin = 0 (no browser title/date/URL).
+     Bottom margin = 13mm for OUR page counter ONLY (via @bottom-right).
+     All other margin boxes (@top-*, @bottom-left, @bottom-center) cleared
+     to suppress browser-injected URL footer.
+     Page counter uses CUSTOM counter `pgnum` that increments only on
+     .rep-page elements — so cover doesn't count, Exec Summary = Page 1.  */
   @page {
     size: A4 portrait;
     margin: 0 0 13mm 0;
+    @top-left { content: ""; }
+    @top-center { content: ""; }
+    @top-right { content: ""; }
+    @bottom-left { content: ""; }
+    @bottom-center { content: ""; }
     @bottom-right {
-      content: "Page " counter(page) " of " counter(pages);
+      content: "Page " counter(pgnum) " / 12";
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
       font-size: 9pt;
       color: #6B7280;
@@ -432,6 +446,14 @@ select option:first-child{color:#C4C9D4}
       print-color-adjust: exact;
     }
   }
+  /* Cover (first page) has no page number */
+  @page :first {
+    @bottom-right { content: ""; }
+    @bottom-left { content: ""; }
+  }
+  /* Custom page counter: cover doesn't increment; only rep-page does */
+  body.report-active #reportView { counter-reset: pgnum 0; }
+  body.report-active .rep-page { counter-increment: pgnum 1; }
 
   /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
   body.report-active #reportView{padding:0 !important;margin:0 !important}
@@ -781,14 +803,10 @@ body.report-active #reportView{display:block !important}
 }
 .rep-rec-bullets li b{color:var(--red);font-weight:800;font-variant-numeric:tabular-nums}
 
-/* Footer on each page ─────────────────────────────── */
-.rep-page-foot{
-  margin-top:auto;padding-top:18px;
-  border-top:1px solid #E5E7EB;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:.3px;
-}
-/* Internal page numbers hidden — page count visible via PDF reader / printed footer */
+/* Footer on each page — fully hidden per user request:
+   "TEN Consultancy · 財務保障分析" repeated on every page is redundant
+   (page number now provided by @page @bottom-right counter). */
+.rep-page-foot{display:none}
 .rep-page-num{display:none}
 
 /* Death-coverage bar — legacy 3-row layout (unchanged for back-compat) */
@@ -1838,8 +1856,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.62 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
+  <!-- Version line moved to bottom-left corner of cover -->
+  <div class="cover-version-corner">Version 4.62 &nbsp;·&nbsp; Kuching, Sarawak</div>
 </div>
 
 <!-- TEN PRINT FOOTER (bottom right every page) -->
@@ -4714,25 +4733,45 @@ function printPrepare() {
   const m = document.createElement('div');
   m.id = 'printTipModal';
   m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px';
-  m.innerHTML = `<div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:440px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25)">
-    <div style="text-align:center;font-size:40px;margin-bottom:10px">⚠️</div>
-    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;text-align:center;color:#DC2626">必須關閉「頁眉和頁腳」<br>Disable Headers & Footers</h3>
-    <p style="font-size:14px;color:#374151;margin-bottom:14px;line-height:1.7;text-align:center;font-weight:500">否則報告會出現:URL、列印日期、頁碼…等不專業的瀏覽器資訊</p>
-    <div style="background:#FEF2F2;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:15px;color:#991B1B;line-height:1.85;border:2px solid #FECACA">
-      <div style="font-weight:800;margin-bottom:8px;font-size:14px">🍎 <b>Safari</b>:</div>
-      <div style="margin-bottom:8px;padding-left:8px">下方「顯示更多」→ 取消勾「列印頁眉和頁腳」</div>
-      <div style="font-weight:800;margin-bottom:8px;font-size:14px">🌐 <b>Chrome</b>:</div>
-      <div style="padding-left:8px">「更多設定」展開 → 取消勾「頁眉和頁腳」</div>
+  m.innerHTML = `<div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:480px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto">
+    <div style="text-align:center;font-size:44px;margin-bottom:10px">⚠️</div>
+    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;text-align:center;color:#DC2626">列印前必做 1 件事<br>One Step Before Print</h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:14px;line-height:1.7;text-align:center;font-weight:500">列印對話框跳出後,<b style="color:#DC2626">取消「頁眉和頁腳」勾選</b>,否則 PDF 會有 URL、日期等瀏覽器資訊。</p>
+    <div style="background:#FEF2F2;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:14px;color:#991B1B;line-height:1.85;border:2px solid #FECACA">
+      <div style="font-weight:800;margin-bottom:6px">🍎 <b>Safari</b>:</div>
+      <div style="margin-bottom:10px;padding-left:8px;font-size:13px">列印視窗左下「顯示詳情」→ 滑到底 → 取消「列印頁眉和頁腳」</div>
+      <div style="font-weight:800;margin-bottom:6px">🌐 <b>Chrome</b>:</div>
+      <div style="padding-left:8px;font-size:13px">右側「更多設定」展開 → 取消「頁眉和頁腳」勾選</div>
     </div>
-    <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:13px;color:#1D4ED8;line-height:1.65;text-align:center">
+    <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;padding:12px 14px;background:#F0FDF4;border:2px solid #86EFAC;border-radius:8px;cursor:pointer">
+      <input type="checkbox" id="printConfirmChk" style="margin-top:3px;width:18px;height:18px;cursor:pointer;accent-color:#DC2626">
+      <span style="font-size:13.5px;color:#065F46;font-weight:600;line-height:1.5">我已知道要在列印對話框取消「頁眉和頁腳」<br><span style="color:#6B7280;font-weight:500;font-size:12px">I'll uncheck "Headers and Footers" in print dialog</span></span>
+    </label>
+    <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:12.5px;color:#1D4ED8;line-height:1.55;text-align:center">
       💡 設定一次後,瀏覽器會記住,下次列印不用再設
     </div>
     <div style="display:flex;gap:10px">
-      <button onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:13px;background:#FF2B1E;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer">${L('printModalConfirm')}</button>
+      <button id="printGoBtn" disabled onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:13px;background:#9CA3AF;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:not-allowed;transition:.15s">${L('printModalConfirm')}</button>
       <button onclick="document.getElementById('printTipModal').remove()" style="flex:1;padding:13px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer">${L('printModalCancel')}</button>
     </div>
   </div>`;
   document.body.appendChild(m);
+  // Enable Print button only when user checks the confirmation
+  const chk = document.getElementById('printConfirmChk');
+  const btn = document.getElementById('printGoBtn');
+  if (chk && btn) {
+    chk.addEventListener('change', () => {
+      if (chk.checked) {
+        btn.disabled = false;
+        btn.style.background = '#FF2B1E';
+        btn.style.cursor = 'pointer';
+      } else {
+        btn.disabled = true;
+        btn.style.background = '#9CA3AF';
+        btn.style.cursor = 'not-allowed';
+      }
+    });
+  }
 }
 
 // ══════════════════════════════════════════════════════════
