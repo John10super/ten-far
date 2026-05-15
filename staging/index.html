@@ -470,15 +470,15 @@ body.report-active #reportView{display:block !important}
 #reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
 .rep-page{
   background:#fff;border:1px solid #E5E7EB;border-radius:14px;
-  padding:32px 38px;margin-bottom:18px;
+  padding:24px 30px;margin-bottom:14px;
   page-break-after:always;page-break-inside:avoid;
   position:relative;
 }
 .rep-page:last-child{page-break-after:auto}
 .rep-page-hdr{
   display:flex;justify-content:space-between;align-items:baseline;
-  padding-bottom:9px;margin-bottom:18px;
-  border-bottom:2px solid var(--dark);
+  padding-bottom:7px;margin-bottom:14px;
+  border-bottom:1.5px solid var(--dark);
 }
 .rep-brand{
   font-size:14px;font-weight:900;color:var(--red);letter-spacing:1.2px;
@@ -489,81 +489,83 @@ body.report-active #reportView{display:block !important}
   text-transform:uppercase;letter-spacing:1.5px;
 }
 .rep-page-title{
-  font-size:23px;font-weight:900;color:var(--dark);
-  letter-spacing:.2px;margin:0 0 6px;line-height:1.2;
+  font-size:18px;font-weight:900;color:var(--dark);
+  letter-spacing:.1px;margin:0 0 4px;line-height:1.25;
 }
 .rep-page-subtitle{
-  font-size:13.5px;color:var(--muted);font-weight:500;
-  margin-bottom:22px;line-height:1.55;
+  font-size:11.5px;color:var(--muted);font-weight:500;
+  margin-bottom:14px;line-height:1.5;
 }
+/* Section title badge — like CTBC/BCG report's "圖 1-2" pill */
 .rep-section-title{
-  font-size:13.5px;font-weight:800;color:var(--dark);
-  text-transform:uppercase;letter-spacing:1.4px;
-  margin:22px 0 11px;
-  padding-bottom:7px;border-bottom:1px solid #E5E7EB;
+  display:inline-block;
+  font-size:10.5px;font-weight:800;color:#fff;background:var(--red);
+  text-transform:uppercase;letter-spacing:1.2px;
+  margin:14px 0 8px;
+  padding:4px 12px;border-radius:4px;border:none;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-section-title:first-of-type{margin-top:4px}
+.rep-section-title:first-of-type{margin-top:0}
 
 /* Client profile box ─────────────────────────────── */
 .rep-client-box{
-  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
-  padding:14px 18px;margin-bottom:6px;
-  display:grid;grid-template-columns:repeat(4, 1fr);gap:12px 20px;
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;
+  padding:11px 14px;margin-bottom:4px;
+  display:grid;grid-template-columns:repeat(4, 1fr);gap:10px 18px;
 }
-.rep-client-cell{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rep-client-cell{display:flex;flex-direction:column;gap:2px;min-width:0}
 .rep-client-lbl{
-  font-size:10.5px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.8px;
+  font-size:9.5px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.7px;
 }
 .rep-client-val{
-  font-size:14.5px;font-weight:700;color:var(--dark);line-height:1.3;
-  /* Allow wrap so names like "Ahmad bin Abdullah" / "Senior Manager" don't get cut off */
+  font-size:12.5px;font-weight:700;color:var(--dark);line-height:1.3;
   word-break:break-word;overflow-wrap:break-word;
 }
 
 /* Hero KPI row — 3 big numbers ───────────────────── */
-.rep-hero-kpi{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px}
+.rep-hero-kpi{display:grid;grid-template-columns:repeat(3, 1fr);gap:10px}
 .rep-hk{
-  border-radius:12px;padding:14px 16px;
+  border-radius:8px;padding:10px 12px;
   border:1px solid transparent;-webkit-print-color-adjust:exact;print-color-adjust:exact;
   min-width:0;
 }
 .rep-hk.ok{background:#ECFDF5;border-color:#A7F3D0}
 .rep-hk.gap{background:#FEF2F2;border-color:#FECACA}
 .rep-hk.neutral{background:#F1F5F9;border-color:#CBD5E1}
-.rep-hk-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:7px}
+.rep-hk-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:5px}
 .rep-hk-val{
-  font-size:21px;font-weight:900;line-height:1.15;
-  font-variant-numeric:tabular-nums;letter-spacing:-.5px;
+  font-size:17px;font-weight:900;line-height:1.15;
+  font-variant-numeric:tabular-nums;letter-spacing:-.4px;
   white-space:nowrap;overflow:hidden;text-overflow:clip;
 }
 .rep-hk.ok  .rep-hk-val{color:#059669}
 .rep-hk.gap .rep-hk-val{color:#DC2626}
 .rep-hk.neutral .rep-hk-val{color:var(--dark)}
-.rep-hk-sub{font-size:11px;color:var(--muted);margin-top:5px;font-weight:500;line-height:1.4}
+.rep-hk-sub{font-size:10px;color:var(--muted);margin-top:3px;font-weight:500;line-height:1.4}
 
 /* Findings — numbered bullets with priority ───────── */
-.rep-findings{display:flex;flex-direction:column;gap:7px}
+.rep-findings{display:flex;flex-direction:column;gap:5px}
 .rep-finding{
-  display:grid;grid-template-columns:30px 1fr auto;gap:11px;align-items:center;
-  padding:10px 13px;background:#FAFAFA;border:1px solid #E5E7EB;
-  border-left:4px solid var(--gap);border-radius:8px;
+  display:grid;grid-template-columns:24px 1fr auto;gap:9px;align-items:center;
+  padding:7px 11px;background:#FAFAFA;border:1px solid #E5E7EB;
+  border-left:3px solid var(--gap);border-radius:6px;
 }
 .rep-finding.p2{border-left-color:#F59E0B;background:#FFFBEB}
 .rep-finding.p3{border-left-color:#6366F1;background:#EEF2FF}
 .rep-finding-num{
-  width:26px;height:26px;border-radius:50%;background:var(--dark);color:#fff;
+  width:22px;height:22px;border-radius:50%;background:var(--dark);color:#fff;
   display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:12px;flex-shrink:0;
+  font-weight:900;font-size:11px;flex-shrink:0;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-finding-text{font-size:12.5px;line-height:1.5;color:var(--dark);font-weight:500}
+.rep-finding-text{font-size:11.5px;line-height:1.5;color:var(--dark);font-weight:500}
 .rep-finding-text b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
 .rep-finding.p2 .rep-finding-text b{color:#B45309}
 .rep-finding.p3 .rep-finding-text b{color:#4338CA}
 .rep-finding-prio{
-  font-size:10.5px;font-weight:800;letter-spacing:1px;
-  padding:4px 10px;border-radius:99px;flex-shrink:0;
+  font-size:9.5px;font-weight:800;letter-spacing:.8px;
+  padding:3px 8px;border-radius:99px;flex-shrink:0;
   background:var(--gap);color:#fff;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
@@ -572,49 +574,49 @@ body.report-active #reportView{display:block !important}
 
 /* Bottom callout — single-sentence summary ────────── */
 .rep-bottom-callout{
-  margin-top:28px;padding:16px 20px;
+  margin-top:18px;padding:11px 16px;
   background:linear-gradient(135deg,#1E2A3A 0%,#0F1A2B 100%);color:#fff;
-  border-radius:10px;font-size:14px;line-height:1.6;font-weight:500;
+  border-radius:8px;font-size:11.5px;line-height:1.55;font-weight:500;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-bottom-callout b{color:#FCA5A5;font-weight:800;font-variant-numeric:tabular-nums}
 
 /* Recommendations page — Coverage upgrade matrix table ──────── */
 .rep-rec-table{
-  width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:4px;
+  width:100%;border-collapse:collapse;font-size:11px;margin-bottom:4px;
   font-variant-numeric:tabular-nums;
 }
 .rep-rec-table thead th{
   background:#F4F5F7;color:var(--dark);font-weight:700;
-  padding:8px 10px;text-align:left;text-transform:uppercase;
-  letter-spacing:.6px;font-size:10.5px;border-bottom:2px solid var(--dark);
+  padding:6px 8px;text-align:left;text-transform:uppercase;
+  letter-spacing:.5px;font-size:9.5px;border-bottom:1.5px solid var(--dark);
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-rec-table thead th:nth-child(n+2):nth-child(-n+4){text-align:right}
 .rep-rec-table thead th:last-child,
 .rep-rec-table thead th:nth-last-child(2){text-align:center}
 .rep-rec-table tbody td{
-  padding:9px 10px;border-bottom:1px solid #EEF1F4;
+  padding:6px 8px;border-bottom:1px solid #EEF1F4;
   vertical-align:middle;
 }
 .rep-rec-table tbody td.cat{font-weight:700;color:var(--dark)}
 .rep-rec-table tbody td.num{text-align:right;color:var(--dark)}
 .rep-rec-table tbody td.num.need{font-weight:700}
 .rep-rec-table tbody td.num.gap{color:var(--gap);font-weight:700}
-.rep-rec-table tbody td.pct{text-align:center;width:130px;white-space:nowrap}
-.rep-rec-table tbody td.prio{text-align:center;width:54px}
+.rep-rec-table tbody td.pct{text-align:center;width:115px;white-space:nowrap}
+.rep-rec-table tbody td.prio{text-align:center;width:48px}
 .rep-pct-bar{
-  display:inline-block;width:64px;height:6px;background:#E5E7EB;
-  border-radius:3px;vertical-align:middle;margin-right:6px;position:relative;overflow:hidden;
+  display:inline-block;width:54px;height:5px;background:#E5E7EB;
+  border-radius:3px;vertical-align:middle;margin-right:5px;position:relative;overflow:hidden;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-pct-bar i{display:block;height:100%;background:var(--gap);border-radius:3px}
 .rep-pct-bar.mid i{background:#F59E0B}
 .rep-pct-bar.ok i{background:var(--ok)}
-.rep-pct-text{font-weight:700;font-size:11.5px;color:var(--dark);vertical-align:middle}
+.rep-pct-text{font-weight:700;font-size:10px;color:var(--dark);vertical-align:middle}
 .rep-prio-tag{
-  display:inline-block;padding:3px 8px;border-radius:99px;
-  font-weight:800;font-size:10px;letter-spacing:.8px;color:#fff;
+  display:inline-block;padding:2px 7px;border-radius:99px;
+  font-weight:800;font-size:9px;letter-spacing:.7px;color:#fff;
   background:var(--gap);
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
@@ -622,133 +624,133 @@ body.report-active #reportView{display:block !important}
 .rep-prio-tag.p3{background:#6366F1}
 
 /* Premium budget cards row ──────────────────────────────── */
-.rep-prem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.rep-prem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .rep-prem-card{
-  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
-  padding:13px 15px;
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;
+  padding:9px 12px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-prem-card.highlight{background:#FFF8F7;border-color:#FECACA}
 .rep-prem-card.ok{background:#ECFDF5;border-color:#A7F3D0}
 .rep-prem-card.warn{background:#FFFBEB;border-color:#FCD34D}
-.rep-prem-lbl{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;line-height:1.3}
+.rep-prem-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;line-height:1.3}
 .rep-prem-val{
-  font-size:18px;font-weight:900;color:var(--dark);
+  font-size:14.5px;font-weight:900;color:var(--dark);
   font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1.2;
 }
 .rep-prem-card.highlight .rep-prem-val{color:var(--red)}
 .rep-prem-card.ok .rep-prem-val{color:#059669}
 .rep-prem-card.warn .rep-prem-val{color:#B45309}
-.rep-prem-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.rep-prem-sub{font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 
 /* Report Roadmap — 5-step journey overview (Page 3) ──────── */
-.rep-roadmap{display:flex;flex-direction:column;gap:5px;align-items:center;margin-bottom:6px}
+.rep-roadmap{display:flex;flex-direction:column;gap:3px;align-items:center;margin-bottom:4px}
 .rep-step{
-  display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:center;
-  width:100%;max-width:560px;
-  padding:11px 16px 11px 12px;background:#FAFBFC;
-  border:1px solid #E5E7EB;border-left:4px solid var(--red);
-  border-radius:10px;
+  display:grid;grid-template-columns:34px 1fr;gap:11px;align-items:center;
+  width:100%;max-width:520px;
+  padding:8px 13px 8px 10px;background:#FAFBFC;
+  border:1px solid #E5E7EB;border-left:3px solid var(--red);
+  border-radius:7px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-step-num{
-  width:36px;height:36px;border-radius:50%;
+  width:28px;height:28px;border-radius:50%;
   background:var(--red);color:#fff;
   display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:16px;
+  font-weight:900;font-size:13px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-step-body{display:flex;flex-direction:column;gap:1px;min-width:0}
-.rep-step-title{font-size:13.5px;font-weight:800;color:var(--dark);line-height:1.3}
-.rep-step-desc{font-size:11.5px;color:#6B7280;line-height:1.5;font-weight:500}
+.rep-step-title{font-size:11.5px;font-weight:800;color:var(--dark);line-height:1.3}
+.rep-step-desc{font-size:10px;color:#6B7280;line-height:1.45;font-weight:500}
 .rep-step-page{
-  font-size:10.5px;font-weight:700;color:var(--red);
-  letter-spacing:.4px;margin-top:2px;
+  font-size:9.5px;font-weight:700;color:var(--red);
+  letter-spacing:.3px;margin-top:1px;
   font-variant-numeric:tabular-nums;
 }
 .rep-step-arrow{
-  font-size:14px;color:#9CA3AF;line-height:1;font-weight:700;
-  margin:-2px 0;
+  font-size:11px;color:#9CA3AF;line-height:1;font-weight:700;
+  margin:-1px 0;
 }
 
 /* Blind Spots — personalized risk cards (Page 4) ──────────── */
-.rep-blindspot-list{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.rep-blindspot-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
 .rep-blindspot{
-  display:grid;grid-template-columns:42px 1fr;gap:14px;
-  padding:14px 16px;background:#FFFAF5;border:1px solid #FDE68A;
-  border-left:4px solid #F59E0B;border-radius:10px;
+  display:grid;grid-template-columns:32px 1fr;gap:10px;
+  padding:9px 13px;background:#FFFAF5;border:1px solid #FDE68A;
+  border-left:3px solid #F59E0B;border-radius:7px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-blindspot.high{background:#FEF2F2;border-color:#FECACA;border-left-color:var(--gap)}
 .rep-blindspot.low{background:#EEF2FF;border-color:#C7D2FE;border-left-color:#6366F1}
 .rep-blindspot-icon{
-  width:38px;height:38px;border-radius:50%;
-  background:#fff;border:1.5px solid #FDE68A;
+  width:28px;height:28px;border-radius:50%;
+  background:#fff;border:1px solid #FDE68A;
   display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;
+  font-size:14px;flex-shrink:0;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-blindspot.high .rep-blindspot-icon{border-color:#FECACA}
 .rep-blindspot.low .rep-blindspot-icon{border-color:#C7D2FE}
-.rep-blindspot-body{display:flex;flex-direction:column;gap:3px;min-width:0}
-.rep-blindspot-title{font-size:13.5px;font-weight:800;color:var(--dark);line-height:1.35}
-.rep-blindspot-fact{font-size:12px;color:#6B7280;font-weight:500;line-height:1.5}
-.rep-blindspot-pain{font-size:12.5px;color:var(--dark);line-height:1.55;font-weight:500;margin-top:2px}
+.rep-blindspot-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rep-blindspot-title{font-size:11.5px;font-weight:800;color:var(--dark);line-height:1.3}
+.rep-blindspot-fact{font-size:10px;color:#6B7280;font-weight:500;line-height:1.45}
+.rep-blindspot-pain{font-size:11px;color:var(--dark);line-height:1.5;font-weight:500;margin-top:1px}
 .rep-blindspot-pain b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
 .rep-blindspot.high .rep-blindspot-pain b{color:var(--gap)}
 .rep-blindspot.low .rep-blindspot-pain b{color:#4338CA}
 
-/* Follow-up plan — commitment cards (Page 11) ──────────── */
-.rep-commit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:6px}
+/* Follow-up plan — commitment cards (Page 12) ──────────── */
+.rep-commit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:4px}
 .rep-commit-card{
-  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;
-  padding:14px 16px;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;
+  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;
+  padding:9px 12px;display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:start;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-commit-icon{
-  width:32px;height:32px;border-radius:8px;
+  width:26px;height:26px;border-radius:6px;
   background:#FFF;border:1px solid #E2E8F0;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
+  display:flex;align-items:center;justify-content:center;font-size:14px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-commit-title{font-size:13px;font-weight:800;color:var(--dark);margin-bottom:3px;line-height:1.3}
-.rep-commit-desc{font-size:11.5px;color:#6B7280;line-height:1.55;font-weight:500}
+.rep-commit-title{font-size:11px;font-weight:800;color:var(--dark);margin-bottom:2px;line-height:1.25}
+.rep-commit-desc{font-size:10px;color:#6B7280;line-height:1.45;font-weight:500}
 
 .rep-trigger-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;
 }
 .rep-trigger-item{
-  padding:9px 12px;background:#F4F5F7;border:1px solid #E5E7EB;
-  border-radius:7px;font-size:12px;font-weight:600;color:var(--dark);
+  padding:6px 10px;background:#F4F5F7;border:1px solid #E5E7EB;
+  border-radius:5px;font-size:10.5px;font-weight:600;color:var(--dark);
   text-align:left;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 
 .rep-next-review{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 18px;background:#ECFDF5;border:1px solid #A7F3D0;
-  border-radius:10px;font-size:14.5px;font-weight:800;color:#059669;
-  margin-bottom:6px;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 14px;background:#ECFDF5;border:1px solid #A7F3D0;
+  border-radius:7px;font-size:12px;font-weight:800;color:#059669;
+  margin-bottom:4px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-next-review::before{content:'📅';font-size:18px}
+.rep-next-review::before{content:'📅';font-size:14px}
 
 .rep-contact-card{
   background:linear-gradient(135deg,#1E2A3A 0%,#0F1A2B 100%);
-  color:#fff;border-radius:12px;padding:16px 20px;
-  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+  color:#fff;border-radius:8px;padding:11px 16px;
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-contact-name{font-size:15px;font-weight:800;letter-spacing:.3px;margin-bottom:3px}
-.rep-contact-role{font-size:11px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-.rep-contact-info{font-size:12.5px;color:rgba(255,255,255,.92);font-weight:500;line-height:1.7;text-align:right}
+.rep-contact-name{font-size:12.5px;font-weight:800;letter-spacing:.3px;margin-bottom:2px}
+.rep-contact-role{font-size:9.5px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+.rep-contact-info{font-size:10.5px;color:rgba(255,255,255,.92);font-weight:500;line-height:1.6;text-align:right}
 .rep-contact-info a{color:#fff;text-decoration:none;font-weight:700}
 
 /* Plain-language key highlights bullets ─────────────────── */
-.rep-rec-bullets{margin:6px 0 0;padding-left:18px;list-style:disc}
+.rep-rec-bullets{margin:4px 0 0;padding-left:16px;list-style:disc}
 .rep-rec-bullets li{
-  font-size:12.5px;line-height:1.6;color:var(--dark);
-  margin-bottom:6px;font-weight:500;
+  font-size:11px;line-height:1.55;color:var(--dark);
+  margin-bottom:4px;font-weight:500;
 }
 .rep-rec-bullets li b{color:var(--red);font-weight:800;font-variant-numeric:tabular-nums}
 
@@ -762,19 +764,19 @@ body.report-active #reportView{display:block !important}
 .rep-page-num{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums}
 
 /* Death-coverage bar visualization ────────────────── */
-.rep-bar-section{margin-bottom:8px}
-.rep-bar-row{margin-bottom:14px}
+.rep-bar-section{margin-bottom:6px}
+.rep-bar-row{margin-bottom:10px}
 .rep-bar-row:last-child{margin-bottom:0}
 .rep-bar-hdr{
   display:flex;justify-content:space-between;align-items:baseline;
   margin-bottom:7px;
 }
-.rep-bar-lbl{font-size:12.5px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.6px}
-.rep-bar-val{font-size:18px;font-weight:900;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.rep-bar-lbl{font-size:10.5px;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.5px}
+.rep-bar-val{font-size:14.5px;font-weight:900;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
 .rep-bar-val.gap{color:var(--gap)}
 .rep-bar-val.ok{color:var(--ok)}
 .rep-bar-track{
-  width:100%;height:22px;background:#F1F5F9;border-radius:6px;
+  width:100%;height:16px;background:#F1F5F9;border-radius:5px;
   overflow:hidden;position:relative;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
@@ -787,23 +789,23 @@ body.report-active #reportView{display:block !important}
 
 /* Calculation breakdown table ─────────────────────── */
 .rep-breakdown{
-  background:#FAFAFA;border:1px solid #E5E7EB;border-radius:10px;
-  padding:18px 22px;
+  background:#FAFAFA;border:1px solid #E5E7EB;border-radius:8px;
+  padding:11px 16px;
 }
 .rep-breakdown-row{
   display:flex;justify-content:space-between;align-items:baseline;
-  padding:10px 0;border-bottom:1px dashed #E5E7EB;
-  font-size:13.5px;
+  padding:6px 0;border-bottom:1px dashed #E5E7EB;
+  font-size:11.5px;
 }
 .rep-breakdown-row:last-child{border-bottom:none}
 .rep-breakdown-row.total{
-  border-top:2px solid var(--dark);border-bottom:none;margin-top:4px;padding-top:14px;
+  border-top:1.5px solid var(--dark);border-bottom:none;margin-top:3px;padding-top:9px;
 }
-.rep-breakdown-lbl{color:var(--dark);font-weight:500;flex:1;padding-right:12px}
-.rep-breakdown-lbl-note{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.5}
-.rep-breakdown-val{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px;font-size:14.5px;white-space:nowrap}
-.rep-breakdown-row.total .rep-breakdown-lbl{font-weight:800;color:var(--dark);font-size:14.5px;text-transform:uppercase;letter-spacing:.5px}
-.rep-breakdown-row.total .rep-breakdown-val{font-size:18px;font-weight:900;color:var(--red)}
+.rep-breakdown-lbl{color:var(--dark);font-weight:500;flex:1;padding-right:10px}
+.rep-breakdown-lbl-note{display:block;font-size:9.5px;color:var(--muted);font-weight:400;margin-top:1px;line-height:1.45}
+.rep-breakdown-val{font-weight:700;color:var(--dark);font-variant-numeric:tabular-nums;letter-spacing:-.2px;font-size:12.5px;white-space:nowrap}
+.rep-breakdown-row.total .rep-breakdown-lbl{font-weight:800;color:var(--dark);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.rep-breakdown-row.total .rep-breakdown-val{font-size:14.5px;font-weight:900;color:var(--red)}
 
 /* Interpretation prose ────────────────────────────── */
 .rep-interpretation{font-size:13.5px;line-height:1.85;color:var(--dark)}
@@ -843,28 +845,28 @@ body.report-active #reportView{display:block !important}
 .rep-rc-desc{font-size:11.5px;color:#475569;line-height:1.55;font-weight:500;margin-top:4px}
 
 /* Action plan list ────────────────────────────────── */
-.rep-action-list{display:flex;flex-direction:column;gap:10px}
+.rep-action-list{display:flex;flex-direction:column;gap:6px}
 .rep-action-item{
-  display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;
-  padding:14px 16px;background:#FAFAFA;border:1px solid #E5E7EB;
-  border-left:4px solid var(--gap);border-radius:8px;
+  display:grid;grid-template-columns:38px 1fr auto;gap:11px;align-items:center;
+  padding:9px 13px;background:#FAFAFA;border:1px solid #E5E7EB;
+  border-left:3px solid var(--gap);border-radius:6px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-action-item.p2{border-left-color:#F59E0B;background:#FFFBEB}
 .rep-action-item.p3{border-left-color:#6366F1;background:#EEF2FF}
 .rep-action-prio-tag{
-  font-size:14px;font-weight:900;text-align:center;color:#fff;
-  background:var(--gap);border-radius:8px;padding:8px 0;letter-spacing:.5px;
+  font-size:11px;font-weight:900;text-align:center;color:#fff;
+  background:var(--gap);border-radius:6px;padding:5px 0;letter-spacing:.4px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-action-item.p2 .rep-action-prio-tag{background:#F59E0B}
 .rep-action-item.p3 .rep-action-prio-tag{background:#6366F1}
-.rep-action-body{display:flex;flex-direction:column;gap:3px;min-width:0}
-.rep-action-cat{font-size:13.5px;font-weight:800;color:var(--dark)}
-.rep-action-amt{font-size:14.5px;font-weight:900;color:var(--gap);font-variant-numeric:tabular-nums}
+.rep-action-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rep-action-cat{font-size:11.5px;font-weight:800;color:var(--dark)}
+.rep-action-amt{font-size:12px;font-weight:900;color:var(--gap);font-variant-numeric:tabular-nums}
 .rep-action-item.p2 .rep-action-amt{color:#B45309}
 .rep-action-item.p3 .rep-action-amt{color:#4338CA}
-.rep-action-time{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.rep-action-time{font-size:9.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
 
 /* Signature grid + disclaimer ─────────────────────── */
 .rep-disclaimer{
@@ -4635,16 +4637,22 @@ function printPrepare() {
   const m = document.createElement('div');
   m.id = 'printTipModal';
   m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px';
-  m.innerHTML = `<div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:380px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25)">
-    <div style="text-align:center;font-size:40px;margin-bottom:10px">🖨</div>
-    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;text-align:center;color:#0D2B5E">${L('printModalTitle')}</h3>
-    <p style="font-size:17px;color:#6B7280;margin-bottom:14px;line-height:1.7;text-align:center">${L('printModalDesc')}</p>
-    <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:16px;color:#1D4ED8;line-height:1.9">
-      ${L('printModalSteps')}
+  m.innerHTML = `<div style="background:#fff;border-radius:16px;padding:28px 26px;max-width:440px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.25)">
+    <div style="text-align:center;font-size:40px;margin-bottom:10px">⚠️</div>
+    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;text-align:center;color:#DC2626">必須關閉「頁眉和頁腳」<br>Disable Headers & Footers</h3>
+    <p style="font-size:14px;color:#374151;margin-bottom:14px;line-height:1.7;text-align:center;font-weight:500">否則報告會出現:URL、列印日期、頁碼…等不專業的瀏覽器資訊</p>
+    <div style="background:#FEF2F2;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:15px;color:#991B1B;line-height:1.85;border:2px solid #FECACA">
+      <div style="font-weight:800;margin-bottom:8px;font-size:14px">🍎 <b>Safari</b>:</div>
+      <div style="margin-bottom:8px;padding-left:8px">下方「顯示更多」→ 取消勾「列印頁眉和頁腳」</div>
+      <div style="font-weight:800;margin-bottom:8px;font-size:14px">🌐 <b>Chrome</b>:</div>
+      <div style="padding-left:8px">「更多設定」展開 → 取消勾「頁眉和頁腳」</div>
+    </div>
+    <div style="background:#EFF6FF;border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:13px;color:#1D4ED8;line-height:1.65;text-align:center">
+      💡 設定一次後,瀏覽器會記住,下次列印不用再設
     </div>
     <div style="display:flex;gap:10px">
-      <button onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:12px;background:#FF2B1E;color:#fff;border:none;border-radius:8px;font-size:17px;font-weight:700;cursor:pointer">${L('printModalConfirm')}</button>
-      <button onclick="document.getElementById('printTipModal').remove()" style="flex:1;padding:12px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-size:17px;font-weight:600;cursor:pointer">${L('printModalCancel')}</button>
+      <button onclick="document.getElementById('printTipModal').remove();window.print()" style="flex:1;padding:13px;background:#FF2B1E;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer">${L('printModalConfirm')}</button>
+      <button onclick="document.getElementById('printTipModal').remove()" style="flex:1;padding:13px;background:#F3F4F6;color:#374151;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer">${L('printModalCancel')}</button>
     </div>
   </div>`;
   document.body.appendChild(m);
