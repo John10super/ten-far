@@ -331,10 +331,17 @@ select option:first-child{color:#C4C9D4}
   .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .cover-divider{width:60px;height:3px;background:var(--red);margin:18px auto 11px}
   .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
-  .cover-title{font-size:20pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}
-  .cover-title-sub{font-size:11pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
-  .cover-client{font-size:15pt;color:var(--red);font-weight:700;margin-bottom:28px}
+  .cover-title{font-size:15pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}        /* user: -5pt (was 20) */
+  .cover-title-sub{font-size:10pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
+  .cover-client{font-size:13pt;color:var(--red);font-weight:700;margin-bottom:28px}    /* user: -2pt (was 15) */
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
+  /* Version line moved to bottom-left of cover only */
+  .cover-version-corner{
+    position:absolute;bottom:18mm;left:18mm;
+    font-size:8.5pt;color:#9CA3AF;letter-spacing:.3px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .cover-page{position:relative}
 
   /* Page break */
   .break-before{page-break-before:always}
@@ -796,14 +803,10 @@ body.report-active #reportView{display:block !important}
 }
 .rep-rec-bullets li b{color:var(--red);font-weight:800;font-variant-numeric:tabular-nums}
 
-/* Footer on each page ─────────────────────────────── */
-.rep-page-foot{
-  margin-top:auto;padding-top:18px;
-  border-top:1px solid #E5E7EB;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:.3px;
-}
-/* Internal page numbers hidden — page count visible via PDF reader / printed footer */
+/* Footer on each page — fully hidden per user request:
+   "TEN Consultancy · 財務保障分析" repeated on every page is redundant
+   (page number now provided by @page @bottom-right counter). */
+.rep-page-foot{display:none}
 .rep-page-num{display:none}
 
 /* Death-coverage bar — legacy 3-row layout (unchanged for back-compat) */
@@ -1853,8 +1856,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="cover-meta">
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
-    <div style="margin-top:4px;opacity:.7">Version 4.62 &nbsp;|&nbsp; Kuching, Sarawak</div>
   </div>
+  <!-- Version line moved to bottom-left corner of cover -->
+  <div class="cover-version-corner">Version 4.62 &nbsp;·&nbsp; Kuching, Sarawak</div>
 </div>
 
 <!-- TEN PRINT FOOTER (bottom right every page) -->
