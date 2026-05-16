@@ -61,11 +61,7 @@ def text_with_tokens(template: str, tokens: list[tuple[int, dict]]):
 
 
 def speak(text_value, lang: str = ZH):
-    """Speak Text action. text_value may be a plain str or a token dict."""
-    if isinstance(text_value, str):
-        text_param = text_value
-    else:
-        text_param = text_value
+    """Speak Text action (Siri voice). text_value may be a plain str or a token dict."""
     return {
         "WFWorkflowActionIdentifier": "is.workflow.actions.speaktext",
         "WFWorkflowActionParameters": {
@@ -73,7 +69,23 @@ def speak(text_value, lang: str = ZH):
             "WFSpeakTextRate": RATE,
             "WFSpeakTextPitch": PITCH,
             "WFSpeakTextWaitUntilFinished": True,
-            "WFText": text_param,
+            "WFText": text_value,
+        },
+    }
+
+
+def gemini_speak(text_value):
+    """Run Shortcut: 'Gemini Speak (Zephyr)' with the given text as input.
+
+    Requires the companion sub-shortcut produced by build_gemini_speak.py
+    to already be imported on the device under the same name.
+    """
+    return {
+        "WFWorkflowActionIdentifier": "is.workflow.actions.runworkflow",
+        "WFWorkflowActionParameters": {
+            "WFWorkflowName": "Gemini Speak (Zephyr)",
+            "WFInput": text_value,
+            "WFShowResult": False,
         },
     }
 
@@ -379,12 +391,17 @@ def get_dictionary_value(key: str, source_uuid: str, source_name: str, output_uu
 
 # ----------------------- Build the workflow -----------------------
 
-def build():
+def build(speaker=speak, name: str = "早安田總 Morning Briefing"):
+    """Build the morning-briefing workflow.
+
+    speaker: callable(text_value) returning an action dict. Pass `speak`
+             for Siri voice or `gemini_speak` for Gemini Zephyr voice.
+    """
     actions = []
 
     # --- Greeting ---
     actions.append(comment("=== 早安問候 ==="))
-    actions.append(speak("早安田總"))
+    actions.append(speaker("早安田總"))
 
     # --- Weather ---
     actions.append(comment("=== 取得目前天氣 ==="))
@@ -416,60 +433,60 @@ def build():
             (pos_temp, magic(temp_uuid, "Temperature")),
         ],
     )
-    actions.append(speak(weather_text))
+    actions.append(speaker(weather_text))
 
     # --- Reminders due today ---
     actions.append(comment("=== 今日提醒事項 ==="))
-    actions.append(speak("今天的提醒事項："))
+    actions.append(speaker("今天的提醒事項："))
     r_today_uuid = new_uuid()
     actions.append(find_reminders_today(r_today_uuid))
     grp1 = new_uuid()
     actions.append(repeat_each_start(r_today_uuid, grp1))
     name_uuid_a = new_uuid()
     actions.append(get_item_property("Name", name_uuid_a))
-    actions.append(speak(
+    actions.append(speaker(
         text_with_tokens("￼", [(0, magic(name_uuid_a, "Name"))])
     ))
     actions.append(repeat_each_end(grp1))
 
     # --- Reminders incomplete (overdue + future) ---
     actions.append(comment("=== 所有未完成提醒 ==="))
-    actions.append(speak("以下是所有未完成的提醒："))
+    actions.append(speaker("以下是所有未完成的提醒："))
     r_inc_uuid = new_uuid()
     actions.append(find_reminders_incomplete(r_inc_uuid))
     grp2 = new_uuid()
     actions.append(repeat_each_start(r_inc_uuid, grp2))
     name_uuid_b = new_uuid()
     actions.append(get_item_property("Name", name_uuid_b))
-    actions.append(speak(
+    actions.append(speaker(
         text_with_tokens("￼", [(0, magic(name_uuid_b, "Name"))])
     ))
     actions.append(repeat_each_end(grp2))
 
     # --- Calendar events today ---
     actions.append(comment("=== 今日行事曆 ==="))
-    actions.append(speak("今天的行程："))
+    actions.append(speaker("今天的行程："))
     e_today_uuid = new_uuid()
     actions.append(find_events_today(e_today_uuid))
     grp3 = new_uuid()
     actions.append(repeat_each_start(e_today_uuid, grp3))
     title_uuid = new_uuid()
     actions.append(get_item_property("Title", title_uuid))
-    actions.append(speak(
+    actions.append(speaker(
         text_with_tokens("￼", [(0, magic(title_uuid, "Title"))])
     ))
     actions.append(repeat_each_end(grp3))
 
     # --- Calendar events next 24h ---
     actions.append(comment("=== 未來 24 小時行程 ==="))
-    actions.append(speak("接下來 24 小時的行程："))
+    actions.append(speaker("接下來 24 小時的行程："))
     e_24_uuid = new_uuid()
     actions.append(find_events_next_24h(e_24_uuid))
     grp4 = new_uuid()
     actions.append(repeat_each_start(e_24_uuid, grp4))
     title_uuid2 = new_uuid()
     actions.append(get_item_property("Title", title_uuid2))
-    actions.append(speak(
+    actions.append(speaker(
         text_with_tokens("￼", [(0, magic(title_uuid2, "Title"))])
     ))
     actions.append(repeat_each_end(grp4))
@@ -489,7 +506,7 @@ def build():
     items_uuid = new_uuid()
     actions.append(get_dictionary_value("items", api_uuid, "Contents of URL", items_uuid))
 
-    actions.append(speak("以下是 Google Tasks 待辦事項："))
+    actions.append(speaker("以下是 Google Tasks 待辦事項："))
     grp5 = new_uuid()
     actions.append(repeat_each_start(items_uuid, grp5))
     g_title_uuid = new_uuid()
@@ -500,18 +517,18 @@ def build():
         "Value": {"Type": "Variable", "VariableName": "Repeat Item"},
         "WFSerializationType": "WFTextTokenAttachment",
     }
-    actions.append(speak(
+    actions.append(speaker(
         text_with_tokens("￼", [(0, magic(g_title_uuid, "Dictionary Value"))])
     ))
     actions.append(repeat_each_end(grp5))
 
     # --- Closing ---
-    actions.append(speak("以上是今日簡報，祝您有美好的一天。"))
+    actions.append(speaker("以上是今日簡報，祝您有美好的一天。"))
 
     workflow = {
         "WFWorkflowActions": actions,
-        "WFWorkflowClientVersion": "2607.0.4",
-        "WFWorkflowClientRelease": "7.0",
+        "WFWorkflowClientVersion": "2900.0.1",
+        "WFWorkflowClientRelease": "26.5",
         "WFWorkflowMinimumClientVersion": 900,
         "WFWorkflowMinimumClientVersionNoUpgradeWarning": 900,
         "WFWorkflowIcon": {
@@ -543,25 +560,30 @@ def build():
         "WFQuickActionSurfaces": [],
         "WFWorkflowHasOutputFallback": False,
         "WFWorkflowHasShortcutInputVariables": False,
-        "WFWorkflowName": "早安田總 Morning Briefing",
+        "WFWorkflowName": name,
     }
     return workflow
 
 
-def main():
-    out_dir = Path(__file__).parent
-    workflow = build()
-
-    xml_path = out_dir / "morning-briefing.plist"
-    bin_path = out_dir / "morning-briefing.shortcut"
-
+def _dump(workflow, out_dir, stem):
+    xml_path = out_dir / f"{stem}.plist"
+    bin_path = out_dir / f"{stem}.shortcut"
     with xml_path.open("wb") as f:
         plistlib.dump(workflow, f, fmt=plistlib.FMT_XML)
     with bin_path.open("wb") as f:
         plistlib.dump(workflow, f, fmt=plistlib.FMT_BINARY)
-
     print(f"Wrote {xml_path}")
-    print(f"Wrote {bin_path}")
+    print(f"Wrote {bin_path}  ({len(workflow['WFWorkflowActions'])} actions)")
+
+
+def main():
+    out_dir = Path(__file__).parent
+    # Siri voice — works out of the box, no API key
+    _dump(build(speaker=speak, name="早安田總 Morning Briefing"),
+          out_dir, "morning-briefing")
+    # Gemini Zephyr voice — calls the sub-shortcut for each utterance
+    _dump(build(speaker=gemini_speak, name="早安田總 Morning Briefing (Gemini)"),
+          out_dir, "morning-briefing-gemini")
 
 
 if __name__ == "__main__":

@@ -17,19 +17,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>早安田總</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -47,7 +43,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>5AF73243-343A-4A37-90BC-3616C506DEE4</string>
+				<string>CD51A032-0CE6-4965-91A4-6804413FD3F6</string>
 				<key>WFWeatherCurrentConditionsLocation</key>
 				<dict>
 					<key>Value</key>
@@ -66,7 +62,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>19A34722-0294-453A-8B45-2F18609C2B00</string>
+				<string>51761C5B-744A-4286-8FD2-E91EC0264607</string>
 				<key>WFContentItemPropertyName</key>
 				<string>City</string>
 				<key>WFInput</key>
@@ -76,7 +72,7 @@
 						<key>OutputName</key>
 						<string>Current Weather</string>
 						<key>OutputUUID</key>
-						<string>5AF73243-343A-4A37-90BC-3616C506DEE4</string>
+						<string>CD51A032-0CE6-4965-91A4-6804413FD3F6</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -91,7 +87,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>8D12E0A7-54E7-4143-A776-0AE7F0506568</string>
+				<string>7E832E3D-6B7D-42E8-86EA-BCC6EDFCE5A9</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Conditions</string>
 				<key>WFInput</key>
@@ -101,7 +97,7 @@
 						<key>OutputName</key>
 						<string>Current Weather</string>
 						<key>OutputUUID</key>
-						<string>5AF73243-343A-4A37-90BC-3616C506DEE4</string>
+						<string>CD51A032-0CE6-4965-91A4-6804413FD3F6</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -116,7 +112,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>DC82AD43-DAC1-4A04-8617-A0289C1FE08F</string>
+				<string>155E451C-1690-4276-BDBB-046A4857E042</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Temperature</string>
 				<key>WFInput</key>
@@ -126,7 +122,7 @@
 						<key>OutputName</key>
 						<string>Current Weather</string>
 						<key>OutputUUID</key>
-						<string>5AF73243-343A-4A37-90BC-3616C506DEE4</string>
+						<string>CD51A032-0CE6-4965-91A4-6804413FD3F6</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -137,18 +133,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -161,7 +149,7 @@
 									<key>OutputName</key>
 									<string>Temperature</string>
 									<key>OutputUUID</key>
-									<string>DC82AD43-DAC1-4A04-8617-A0289C1FE08F</string>
+									<string>155E451C-1690-4276-BDBB-046A4857E042</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -175,7 +163,7 @@
 									<key>OutputName</key>
 									<string>City</string>
 									<key>OutputUUID</key>
-									<string>19A34722-0294-453A-8B45-2F18609C2B00</string>
+									<string>51761C5B-744A-4286-8FD2-E91EC0264607</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -189,7 +177,7 @@
 									<key>OutputName</key>
 									<string>Conditions</string>
 									<key>OutputUUID</key>
-									<string>8D12E0A7-54E7-4143-A776-0AE7F0506568</string>
+									<string>7E832E3D-6B7D-42E8-86EA-BCC6EDFCE5A9</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -203,6 +191,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -216,19 +208,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>今天的提醒事項：</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -237,7 +225,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>EAB093C2-CC5C-4564-B439-019A53AD75FF</string>
+				<string>6025D67E-B3C3-4F4B-8A2E-419AA8081E26</string>
 				<key>WFContentItemFilter</key>
 				<dict>
 					<key>Value</key>
@@ -285,7 +273,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>2747DB73-CD49-4DB7-B0FF-5F76C0FCA6B6</string>
+				<string>872CF470-369B-4C1E-9D59-EF5D3E8182C6</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFInput</key>
@@ -295,7 +283,7 @@
 						<key>OutputName</key>
 						<string>Filtered List</string>
 						<key>OutputUUID</key>
-						<string>EAB093C2-CC5C-4564-B439-019A53AD75FF</string>
+						<string>6025D67E-B3C3-4F4B-8A2E-419AA8081E26</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -310,7 +298,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>DEC8A673-0646-4D75-AF17-9BBA4AA1B1AA</string>
+				<string>1CA2CB21-17B1-4DFD-BDEA-D4345E9411B6</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Name</string>
 				<key>WFInput</key>
@@ -329,18 +317,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -353,7 +333,7 @@
 									<key>OutputName</key>
 									<string>Name</string>
 									<key>OutputUUID</key>
-									<string>DEC8A673-0646-4D75-AF17-9BBA4AA1B1AA</string>
+									<string>1CA2CB21-17B1-4DFD-BDEA-D4345E9411B6</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -367,6 +347,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -375,7 +359,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>2747DB73-CD49-4DB7-B0FF-5F76C0FCA6B6</string>
+				<string>872CF470-369B-4C1E-9D59-EF5D3E8182C6</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
@@ -391,19 +375,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>以下是所有未完成的提醒：</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -412,7 +392,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>9729AE37-9E50-43C9-820E-B3AD421534C7</string>
+				<string>1CC42739-8348-458A-97D1-F7A72C71EB3B</string>
 				<key>WFContentItemFilter</key>
 				<dict>
 					<key>Value</key>
@@ -447,7 +427,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>13E0B669-3E90-4BBC-8E45-98DEE6BCDA14</string>
+				<string>0464E8AA-8AF2-4183-91EA-AF828ECCBB53</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFInput</key>
@@ -457,7 +437,7 @@
 						<key>OutputName</key>
 						<string>Filtered List</string>
 						<key>OutputUUID</key>
-						<string>9729AE37-9E50-43C9-820E-B3AD421534C7</string>
+						<string>1CC42739-8348-458A-97D1-F7A72C71EB3B</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -472,7 +452,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>FAFEB284-927C-422D-B6E0-4B8D486B9439</string>
+				<string>3B443640-ECD2-4C4F-B284-3B6ABA2A9544</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Name</string>
 				<key>WFInput</key>
@@ -491,18 +471,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -515,7 +487,7 @@
 									<key>OutputName</key>
 									<string>Name</string>
 									<key>OutputUUID</key>
-									<string>FAFEB284-927C-422D-B6E0-4B8D486B9439</string>
+									<string>3B443640-ECD2-4C4F-B284-3B6ABA2A9544</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -529,6 +501,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -537,7 +513,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>13E0B669-3E90-4BBC-8E45-98DEE6BCDA14</string>
+				<string>0464E8AA-8AF2-4183-91EA-AF828ECCBB53</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
@@ -553,19 +529,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>今天的行程：</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -574,7 +546,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>2DD15CA7-46CD-4082-83ED-C93D8A55DBC7</string>
+				<string>2B9D22AB-65CE-4ACE-8CDD-CEB2ED6F3C11</string>
 				<key>WFContentItemFilter</key>
 				<dict>
 					<key>Value</key>
@@ -609,7 +581,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>9CAD4C65-4931-4CC9-AAA1-C2494213224B</string>
+				<string>67D998DF-75BB-4CD2-8731-A7E5F9F1D259</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFInput</key>
@@ -619,7 +591,7 @@
 						<key>OutputName</key>
 						<string>Filtered List</string>
 						<key>OutputUUID</key>
-						<string>2DD15CA7-46CD-4082-83ED-C93D8A55DBC7</string>
+						<string>2B9D22AB-65CE-4ACE-8CDD-CEB2ED6F3C11</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -634,7 +606,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>E506CEF8-F1C7-4479-858C-140D522B372D</string>
+				<string>257A5D0B-1917-4A30-9738-2BDC434C322D</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Title</string>
 				<key>WFInput</key>
@@ -653,18 +625,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -677,7 +641,7 @@
 									<key>OutputName</key>
 									<string>Title</string>
 									<key>OutputUUID</key>
-									<string>E506CEF8-F1C7-4479-858C-140D522B372D</string>
+									<string>257A5D0B-1917-4A30-9738-2BDC434C322D</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -691,6 +655,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -699,7 +667,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>9CAD4C65-4931-4CC9-AAA1-C2494213224B</string>
+				<string>67D998DF-75BB-4CD2-8731-A7E5F9F1D259</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
@@ -715,19 +683,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>接下來 24 小時的行程：</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -736,7 +700,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>BA7D5E78-F74A-42C5-BDFB-6599CBA8FD14</string>
+				<string>73ECD2D0-3772-4269-B2BF-3E7D3BD109F0</string>
 				<key>WFContentItemFilter</key>
 				<dict>
 					<key>Value</key>
@@ -773,7 +737,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>622AC3A9-F7D0-43B3-AC1B-EE7C6A8655A9</string>
+				<string>B0CDF349-3C35-4CC2-A8A7-E53D83D95FCE</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFInput</key>
@@ -783,7 +747,7 @@
 						<key>OutputName</key>
 						<string>Filtered List</string>
 						<key>OutputUUID</key>
-						<string>BA7D5E78-F74A-42C5-BDFB-6599CBA8FD14</string>
+						<string>73ECD2D0-3772-4269-B2BF-3E7D3BD109F0</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -798,7 +762,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>A3F99450-EFAC-4A1C-AC4E-0D923FFC24B5</string>
+				<string>DC36B245-2CAF-4FB0-9163-88D3007482E6</string>
 				<key>WFContentItemPropertyName</key>
 				<string>Title</string>
 				<key>WFInput</key>
@@ -817,18 +781,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -841,7 +797,7 @@
 									<key>OutputName</key>
 									<string>Title</string>
 									<key>OutputUUID</key>
-									<string>A3F99450-EFAC-4A1C-AC4E-0D923FFC24B5</string>
+									<string>DC36B245-2CAF-4FB0-9163-88D3007482E6</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -855,6 +811,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -863,7 +823,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>622AC3A9-F7D0-43B3-AC1B-EE7C6A8655A9</string>
+				<string>B0CDF349-3C35-4CC2-A8A7-E53D83D95FCE</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
@@ -885,7 +845,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>906F5F10-7BCC-4EFA-B031-5F83AC21DC73</string>
+				<string>2A59CE49-20FB-4FF6-A1F2-2ABFC958C2BB</string>
 				<key>WFTextActionText</key>
 				<string>PASTE_YOUR_GOOGLE_OAUTH_BEARER_TOKEN_HERE</string>
 			</dict>
@@ -896,7 +856,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>74F94B70-B0F4-453D-A223-455455F767E9</string>
+				<string>EE98539E-EB52-445D-8ABE-CCF7BA8C62F5</string>
 				<key>WFHTTPHeaders</key>
 				<dict>
 					<key>Value</key>
@@ -929,7 +889,7 @@
 													<key>OutputName</key>
 													<string>Text</string>
 													<key>OutputUUID</key>
-													<string>906F5F10-7BCC-4EFA-B031-5F83AC21DC73</string>
+													<string>2A59CE49-20FB-4FF6-A1F2-2ABFC958C2BB</string>
 													<key>Type</key>
 													<string>ActionOutput</string>
 												</dict>
@@ -985,7 +945,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>295C9855-6706-4D55-866B-F4976CC2DC98</string>
+				<string>9673A592-992D-4C22-8BB0-B4B8E5000EA7</string>
 				<key>WFDictionaryKey</key>
 				<string>items</string>
 				<key>WFInput</key>
@@ -995,7 +955,7 @@
 						<key>OutputName</key>
 						<string>Contents of URL</string>
 						<key>OutputUUID</key>
-						<string>74F94B70-B0F4-453D-A223-455455F767E9</string>
+						<string>EE98539E-EB52-445D-8ABE-CCF7BA8C62F5</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -1006,19 +966,15 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>以下是 Google Tasks 待辦事項：</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1027,7 +983,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>D50CF181-B2D1-477A-9E83-BF28FFB47387</string>
+				<string>3B280CD5-5E56-4695-85BF-477711F76B0E</string>
 				<key>WFControlFlowMode</key>
 				<integer>0</integer>
 				<key>WFInput</key>
@@ -1037,7 +993,7 @@
 						<key>OutputName</key>
 						<string>Filtered List</string>
 						<key>OutputUUID</key>
-						<string>295C9855-6706-4D55-866B-F4976CC2DC98</string>
+						<string>9673A592-992D-4C22-8BB0-B4B8E5000EA7</string>
 						<key>Type</key>
 						<string>ActionOutput</string>
 					</dict>
@@ -1052,7 +1008,7 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>UUID</key>
-				<string>503C029A-FDAA-483F-9EDB-66207BF83941</string>
+				<string>9A9721A7-7E1D-4706-A768-9252A9B09B6D</string>
 				<key>WFDictionaryKey</key>
 				<string>title</string>
 				<key>WFInput</key>
@@ -1071,18 +1027,10 @@
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<dict>
 					<key>Value</key>
 					<dict>
@@ -1095,7 +1043,7 @@
 									<key>OutputName</key>
 									<string>Dictionary Value</string>
 									<key>OutputUUID</key>
-									<string>503C029A-FDAA-483F-9EDB-66207BF83941</string>
+									<string>9A9721A7-7E1D-4706-A768-9252A9B09B6D</string>
 									<key>Type</key>
 									<string>ActionOutput</string>
 								</dict>
@@ -1109,6 +1057,10 @@
 					<key>WFSerializationType</key>
 					<string>WFTextTokenString</string>
 				</dict>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 		<dict>
@@ -1117,26 +1069,22 @@
 			<key>WFWorkflowActionParameters</key>
 			<dict>
 				<key>GroupingIdentifier</key>
-				<string>D50CF181-B2D1-477A-9E83-BF28FFB47387</string>
+				<string>3B280CD5-5E56-4695-85BF-477711F76B0E</string>
 				<key>WFControlFlowMode</key>
 				<integer>2</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>WFWorkflowActionIdentifier</key>
-			<string>is.workflow.actions.speaktext</string>
+			<string>is.workflow.actions.runworkflow</string>
 			<key>WFWorkflowActionParameters</key>
 			<dict>
-				<key>WFSpeakTextLanguage</key>
-				<string>zh-TW</string>
-				<key>WFSpeakTextPitch</key>
-				<real>1.0</real>
-				<key>WFSpeakTextRate</key>
-				<real>0.5</real>
-				<key>WFSpeakTextWaitUntilFinished</key>
-				<true/>
-				<key>WFText</key>
+				<key>WFInput</key>
 				<string>以上是今日簡報，祝您有美好的一天。</string>
+				<key>WFShowResult</key>
+				<false/>
+				<key>WFWorkflowName</key>
+				<string>Gemini Speak (Zephyr)</string>
 			</dict>
 		</dict>
 	</array>
@@ -1183,7 +1131,7 @@
 	<key>WFWorkflowMinimumClientVersionNoUpgradeWarning</key>
 	<integer>900</integer>
 	<key>WFWorkflowName</key>
-	<string>早安田總 Morning Briefing</string>
+	<string>早安田總 Morning Briefing (Gemini)</string>
 	<key>WFWorkflowTypes</key>
 	<array/>
 </dict>
