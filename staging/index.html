@@ -2412,6 +2412,15 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   </div>
   <div class="section-body">
     <div class="table-scroll" id="actionPlan"></div>
+
+    <!-- Next Review Date (consultant can set with client) -->
+    <div class="no-print" style="margin-top:18px;padding:14px 18px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <span style="font-size:14.5px;font-weight:700;color:var(--dark)">📅 下次定期檢視日期 / Next Scheduled Review</span>
+      <input type="date" id="nextReviewDate" style="font-family:inherit;font-size:15px;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;background:#fff;color:var(--text)">
+      <button class="no-print" type="button" onclick="resetNextReviewDate()" style="font-size:12px;padding:5px 11px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;border-radius:6px;cursor:pointer;font-weight:600">↻ 預設(報告日+12月)</button>
+      <span style="font-size:12px;color:var(--muted);width:100%;line-height:1.5">空白時自動使用「報告日 +12 個月」。可改成跟客戶約定的具體日期。</span>
+    </div>
+
     <div class="btn-final-save-wrap no-print mt-12"><button class="btn-final-save" id="btnFinalSave" onclick="saveRecord()" data-i18n="btnSaveReport">💾 儲存此分析報告</button></div>
     <div class="signature-area mt-12" style="margin-top:20px;padding:16px 20px">
       <div style="font-size:15.5px;color:var(--muted);margin-bottom:0;line-height:1.9;max-width:560px;margin-left:auto;margin-right:auto;text-align:center" data-i18n="sigNote">
@@ -5474,13 +5483,22 @@ function renderReport() {
       <div class="rep-action-time">${a.time}</div>
     </div>
   `).join(''));
-  const reviewDate = new Date();
-  reviewDate.setFullYear(reviewDate.getFullYear()+1);
-  const reviewStr = reviewDate.toISOString().split('T')[0];
+  // Use consultant-set next review date (from #nextReviewDate input) if available;
+  // otherwise default to report date + 12 months.
+  const _reviewIn = (document.getElementById('nextReviewDate') || {}).value || '';
+  let reviewStr;
+  if (_reviewIn) {
+    reviewStr = _reviewIn;
+  } else {
+    const _r = new Date(s('reportDate') || new Date());
+    if (isNaN(_r.getTime())) _r.setTime(Date.now());
+    _r.setFullYear(_r.getFullYear() + 1);
+    reviewStr = _r.toISOString().split('T')[0];
+  }
   setHtml('rep_actionReview', tr(
-    `<p>建議下次審查日期:<b>${reviewStr}</b>(自報告日起 12 個月後)。每年定期檢視 + 重大生命事件時(結婚、生子、買房、升職)立即更新。</p>`,
-    `<p>Suggested next review: <b>${reviewStr}</b> (12 months from report date). Review annually + immediately upon major life events (marriage, children, property, promotion).</p>`,
-    `<p>Tarikh semakan seterusnya disyorkan: <b>${reviewStr}</b> (12 bulan dari tarikh laporan). Semak setiap tahun + segera apabila peristiwa hidup utama (perkahwinan, anak, hartanah, kenaikan pangkat).</p>`
+    `<p>建議下次審查日期:<b>${reviewStr}</b>。每年定期檢視 + 重大生命事件時(結婚、生子、買房、升職)立即更新。</p>`,
+    `<p>Suggested next review: <b>${reviewStr}</b>. Review annually + immediately upon major life events (marriage, children, property, promotion).</p>`,
+    `<p>Tarikh semakan seterusnya disyorkan: <b>${reviewStr}</b>. Semak setiap tahun + segera apabila peristiwa hidup utama (perkahwinan, anak, hartanah, kenaikan pangkat).</p>`
   ));
 
   // ── PAGE 9 (signature + disclaimer) — TRILINGUAL ──────────
@@ -5718,14 +5736,21 @@ function renderReport() {
 
   // ── PAGE 11 (Follow-up Plan) — TRILINGUAL ─────────────
   // Next review badge + advisor contact card
-  const nextReview = new Date();
-  nextReview.setFullYear(nextReview.getFullYear() + 1);
-  const nextReviewStr = nextReview.toISOString().split('T')[0];
-  setHtml('rep_nextReviewBadge', tr(
-    `${nextReviewStr}(報告日起 12 個月後)`,
-    `${nextReviewStr} (12 months from report date)`,
-    `${nextReviewStr} (12 bulan dari tarikh laporan)`
-  ));
+  // Next review date — consultant-editable via #nextReviewDate input on Action Plan page.
+  // If empty (consultant hasn't filled), default = report date + 12 months.
+  const _userReviewDate = (document.getElementById('nextReviewDate') || {}).value || '';
+  let nextReviewStr, nextReviewNote;
+  if (_userReviewDate) {
+    nextReviewStr = _userReviewDate;
+    nextReviewNote = tr('(與客戶約定日期)', '(date agreed with client)', '(tarikh yang dipersetujui dengan pelanggan)');
+  } else {
+    const _nextReview = new Date(s('reportDate') || new Date());
+    if (isNaN(_nextReview.getTime())) _nextReview.setTime(Date.now());
+    _nextReview.setFullYear(_nextReview.getFullYear() + 1);
+    nextReviewStr = _nextReview.toISOString().split('T')[0];
+    nextReviewNote = tr('(報告日起 12 個月後)', '(12 months from report date)', '(12 bulan dari tarikh laporan)');
+  }
+  setHtml('rep_nextReviewBadge', `${nextReviewStr} ${nextReviewNote}`);
 
   const advisorName  = s('plannerName')  || '—';
   const advisorPhone = s('plannerPhone') || '';
@@ -6236,6 +6261,17 @@ function showLanding() {
     if (wl_greet) wl_greet.style.display = 'inline-block';
   }
   applyAuthLang();
+}
+
+// Reset next review date to default (report date + 12 months)
+function resetNextReviewDate() {
+  const el = document.getElementById('nextReviewDate');
+  if (!el) return;
+  const reportDateStr = (document.getElementById('reportDate') || {}).value || '';
+  const d = reportDateStr ? new Date(reportDateStr) : new Date();
+  if (isNaN(d.getTime())) d.setTime(Date.now());
+  d.setFullYear(d.getFullYear() + 1);
+  el.value = d.toISOString().split('T')[0];
 }
 
 function enterFAR() {
