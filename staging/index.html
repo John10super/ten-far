@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TEN Consultancy — Financial Analysis Report</title>
+<!-- html2pdf.js — generates PDF directly without browser print dialog (no URL/date artifacts) -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <style>
 :root{
   --red:#FF2B1E;--dark:#0D2B5E;--mid:#0D2B5E;
@@ -4871,32 +4873,77 @@ function toggleReportView() {
 }
 
 // Generate PDF Report — switches to the professional report view and
-// triggers the browser print dialog so the user can "Save as PDF".
-// Triggered by the FAB "📄 輸出 PDF 報告" button.
+// Generates the PDF directly using html2pdf.js — bypasses browser
+// print dialog entirely, so there's NO URL, NO date, NO headers/footers
+// injected by the browser. Just a clean PDF that downloads.
+// Triggered by the FAB "🖨 列印 / PDF" button.
 function generateReportPDF() {
   const rv = document.getElementById('reportView');
-  if (!rv) {
-    if (typeof window.print === 'function') window.print();
-    return;
+  if (!rv) return;
+
+  // Render data from wizard inputs into report view
+  if (typeof renderReport === 'function') {
+    try { renderReport(); } catch(e){}
   }
-  // Render data from the wizard inputs
-  renderReport();
-  // Switch to the report view (so print captures the formatted report,
-  // not the wizard input fields)
+
+  // Switch to report view (need DOM visible for html2pdf to capture)
   rv.style.display = 'block';
   document.body.classList.add('report-active');
   window.scrollTo({top:0, behavior:'instant'});
-  // Brief delay so the DOM has time to render before print is invoked
+
+  // Wait for DOM render, then generate PDF via html2pdf
   setTimeout(() => {
-    // Use printPrepare() so the user sees the same header/footer tip
-    // that the regular print button shows. Falls back to direct print
-    // if printPrepare isn't available for some reason.
-    if (typeof printPrepare === 'function') {
-      printPrepare();
-    } else {
-      window.print();
+    if (typeof html2pdf === 'undefined') {
+      // Fallback: library not loaded → use browser print with modal
+      if (typeof printPrepare === 'function') printPrepare();
+      else if (typeof window.print === 'function') window.print();
+      return;
     }
-  }, 180);
+    _generateCleanPDF();
+  }, 280);
+}
+
+// Show a "generating..." toast while html2pdf renders
+function _showGeneratingToast(text) {
+  const old = document.getElementById('_pdfGenToast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.id = '_pdfGenToast';
+  t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:rgba(0,0,0,.85);color:#fff;padding:24px 36px;border-radius:14px;font-size:16px;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.4);display:flex;align-items:center;gap:14px';
+  t.innerHTML = '<div style="width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite"></div><span>' + text + '</span><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+  document.body.appendChild(t);
+}
+function _hideGeneratingToast() {
+  const t = document.getElementById('_pdfGenToast');
+  if (t) t.remove();
+}
+
+function _generateCleanPDF() {
+  _showGeneratingToast('PDF 生成中... · Generating PDF...');
+  const rv = document.getElementById('reportView');
+  const clientName = (s('clientName') || 'Client').replace(/[^\w一-鿿\s-]/g, '').trim() || 'Client';
+  const dateStr = new Date().toISOString().split('T')[0];
+  const filename = `${clientName}-FAR-${dateStr}.pdf`;
+
+  const opt = {
+    margin:       [0, 0, 0, 0],   // @page CSS handles internal padding via rep-page
+    filename:     filename,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+    pagebreak:    { mode: ['css', 'legacy'], before: '.rep-page', avoid: '.rep-page-foot, .rep-finding, .rep-blindspot, .rep-action-item, .rep-step, .rep-commit-card, .rep-prem-card, .rep-risk-card, .rep-gauge' }
+  };
+
+  // html2pdf chain: from(element).set(opt).save()
+  html2pdf().from(rv).set(opt).save()
+    .then(() => { _hideGeneratingToast(); })
+    .catch((err) => {
+      _hideGeneratingToast();
+      console.error('PDF generation failed:', err);
+      alert('PDF 生成失敗 / PDF generation failed. 請改用列印對話框 / Please use the browser print dialog instead.\\n\\n' + (err && err.message ? err.message : ''));
+      // Last-resort fallback to browser print
+      if (typeof printPrepare === 'function') printPrepare();
+    });
 }
 
 function renderReport() {
