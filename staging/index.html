@@ -4920,30 +4920,102 @@ function _hideGeneratingToast() {
 
 function _generateCleanPDF() {
   _showGeneratingToast('PDF 生成中... · Generating PDF...');
-  const rv = document.getElementById('reportView');
   const clientName = (s('clientName') || 'Client').replace(/[^\w一-鿿\s-]/g, '').trim() || 'Client';
   const dateStr = new Date().toISOString().split('T')[0];
   const filename = `${clientName}-FAR-${dateStr}.pdf`;
 
+  // Build a wrapper element containing the COVER page + the reportView, so the
+  // entire document (cover + report) is captured in one PDF. html2pdf captures
+  // the SCREEN render, so @media print rules don't apply — we inject the
+  // required print styles via html2canvas.onclone instead.
+  const rv = document.getElementById('reportView');
+  const cover = document.querySelector('.cover-page');
+  if (!rv) { _hideGeneratingToast(); return; }
+
+  // Create temporary capture container with cover + report
+  const captureWrap = document.createElement('div');
+  captureWrap.id = '_pdfCaptureWrap';
+  captureWrap.style.cssText = 'position:fixed;left:-99999px;top:0;width:210mm;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif';
+  // Clone cover so original isn't affected
+  if (cover) {
+    const coverClone = cover.cloneNode(true);
+    coverClone.classList.add('_pdf-cover');
+    captureWrap.appendChild(coverClone);
+  }
+  // Clone reportView
+  const rvClone = rv.cloneNode(true);
+  rvClone.style.cssText = 'display:block;max-width:none;margin:0;padding:0';
+  rvClone.id = '_pdfReportClone';
+  captureWrap.appendChild(rvClone);
+  document.body.appendChild(captureWrap);
+
   const opt = {
-    margin:       [0, 0, 0, 0],   // @page CSS handles internal padding via rep-page
+    margin:       [0, 0, 0, 0],
     filename:     filename,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+    image:        { type: 'jpeg', quality: 0.96 },
+    html2canvas:  {
+      scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff',
+      windowWidth: 794,  // A4 width at 96dpi
+      onclone: (clonedDoc) => {
+        // Hide all .no-print elements in the clone (FAB, drawers, etc.)
+        clonedDoc.querySelectorAll('.no-print').forEach(el => { el.style.display = 'none'; });
+        // Force cover visible + apply print-mode sizing
+        const cv = clonedDoc.querySelector('._pdf-cover');
+        if (cv) {
+          cv.style.cssText = 'display:flex !important;flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;padding:55mm 20mm 40mm;background:#fff;color:#1F2937;page-break-after:always;box-sizing:border-box;width:100%;font-family:inherit';
+          const img = cv.querySelector('img');
+          if (img) img.style.cssText = 'display:block;width:auto;max-width:238px;height:auto;margin:0 auto';
+          const div = cv.querySelector('.cover-divider');
+          if (div) div.style.cssText = 'width:60px;height:3px;background:#FF2B1E;margin:18px auto 11px';
+          const t = cv.querySelector('.cover-title');
+          if (t) t.style.cssText = 'font-size:24px;font-weight:800;color:#1a1a2e;margin-bottom:4px';
+          const ts = cv.querySelector('.cover-title-sub');
+          if (ts) ts.style.cssText = 'font-size:13px;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:22px';
+          const cc = cv.querySelector('.cover-client');
+          if (cc) cc.style.cssText = 'font-size:20px;color:#FF2B1E;font-weight:700;margin-bottom:30px';
+          const cm = cv.querySelector('.cover-meta');
+          if (cm) cm.style.cssText = 'font-size:13px;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px';
+          const vl = cv.querySelector('.cover-version-line');
+          if (vl) vl.style.cssText = 'margin-top:18px;font-size:11px;color:#9CA3AF;letter-spacing:.3px';
+        }
+        // Style report pages for full-bleed (no card border, edge padding)
+        clonedDoc.querySelectorAll('._pdf-cover ~ #_pdfReportClone .rep-page, #_pdfReportClone .rep-page').forEach(el => {
+          el.style.cssText = (el.style.cssText || '') + ';padding:16mm 14mm !important;margin:0 !important;border:none !important;border-radius:0 !important;box-shadow:none !important;background:#fff !important;page-break-after:always;page-break-inside:avoid';
+        });
+        // Hide rep-page-foot completely
+        clonedDoc.querySelectorAll('.rep-page-foot').forEach(el => el.style.display = 'none');
+      }
+    },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-    pagebreak:    { mode: ['css', 'legacy'], before: '.rep-page', avoid: '.rep-page-foot, .rep-finding, .rep-blindspot, .rep-action-item, .rep-step, .rep-commit-card, .rep-prem-card, .rep-risk-card, .rep-gauge' }
+    pagebreak:    { mode: ['css', 'legacy'], before: ['.rep-page', '._pdf-cover + #_pdfReportClone > .rep-page'] }
   };
 
-  // html2pdf chain: from(element).set(opt).save()
-  html2pdf().from(rv).set(opt).save()
-    .then(() => { _hideGeneratingToast(); })
-    .catch((err) => {
-      _hideGeneratingToast();
-      console.error('PDF generation failed:', err);
-      alert('PDF 生成失敗 / PDF generation failed. 請改用列印對話框 / Please use the browser print dialog instead.\\n\\n' + (err && err.message ? err.message : ''));
-      // Last-resort fallback to browser print
-      if (typeof printPrepare === 'function') printPrepare();
-    });
+  html2pdf().from(captureWrap).set(opt).toPdf().get('pdf').then((pdf) => {
+    // Add "Page X of Y" footer to every page EXCEPT the cover (page 1)
+    const total = pdf.internal.getNumberOfPages();
+    const contentTotal = Math.max(1, total - 1);
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    pdf.setFontSize(8.5);
+    pdf.setTextColor(107, 114, 128);
+    for (let i = 2; i <= total; i++) {
+      pdf.setPage(i);
+      pdf.text('Page ' + (i - 1) + ' of ' + contentTotal, pageW - 14, pageH - 7, { align: 'right' });
+    }
+    return pdf;
+  }).then((pdf) => {
+    pdf.save(filename);
+    return pdf;
+  }).then(() => {
+    document.body.removeChild(captureWrap);
+    _hideGeneratingToast();
+  }).catch((err) => {
+    try { document.body.removeChild(captureWrap); } catch(e){}
+    _hideGeneratingToast();
+    console.error('PDF generation failed:', err);
+    alert('PDF 生成失敗 / PDF generation failed. 改用列印對話框 / Falling back to print dialog.\n\n' + (err && err.message ? err.message : ''));
+    if (typeof printPrepare === 'function') printPrepare();
+  });
 }
 
 function renderReport() {
