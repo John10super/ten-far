@@ -516,6 +516,19 @@ body.report-active #farToast{display:none !important}
 body.report-active #reportView{display:block !important}
 
 #reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
+
+/* Floating "Back to Edit" button — only visible when report view is active on screen */
+.rep-back-to-edit{
+  display:none;
+  position:fixed;top:18px;left:18px;z-index:999;
+  padding:11px 20px;background:var(--dark);color:#fff;
+  border:none;border-radius:9px;
+  font-size:14px;font-weight:700;font-family:inherit;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:.18s;
+}
+.rep-back-to-edit:hover{background:#0F1A2B;transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,0,0,.32)}
+body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:5px}
 .rep-page{
   background:#fff;border:1px solid #E5E7EB;border-radius:14px;
   padding:24px 30px;margin-bottom:14px;
@@ -794,6 +807,33 @@ body.report-active #reportView{display:block !important}
 .rep-contact-role{font-size:9.5px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 .rep-contact-info{font-size:10.5px;color:rgba(255,255,255,.92);font-weight:500;line-height:1.6;text-align:right}
 .rep-contact-info a{color:#fff;text-decoration:none;font-weight:700}
+
+/* Plan A/B/C comparison table (Recommendations page) ──────── */
+.rep-pc-table{
+  width:100%;border-collapse:collapse;font-size:11px;margin-bottom:6px;
+  font-variant-numeric:tabular-nums;
+}
+.rep-pc-table th,.rep-pc-table td{padding:7px 9px;text-align:right;vertical-align:middle;border-bottom:1px solid #EEF1F4}
+.rep-pc-table th:first-child,.rep-pc-table td:first-child{text-align:left;font-weight:600;color:var(--dark);background:#F8FAFC}
+.rep-pc-table thead th{
+  background:#F4F5F7;color:var(--dark);font-weight:800;
+  text-transform:uppercase;letter-spacing:.5px;font-size:10px;
+  border-bottom:2px solid var(--dark);padding:8px 9px;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-pc-table thead .pc-plan-a{background:#475569;color:#fff}
+.rep-pc-table thead .pc-plan-b{background:var(--red);color:#fff}
+.rep-pc-table thead .pc-plan-c{background:var(--dark);color:#fff}
+.rep-pc-table thead .pc-plan-sub{display:block;font-size:9px;font-weight:500;opacity:.85;letter-spacing:.3px;text-transform:none;margin-top:2px}
+.rep-pc-table .pc-row-gap td:not(:first-child){background:#FEF2F2;color:var(--gap);font-weight:700}
+.rep-pc-table .pc-row-add td:not(:first-child){color:#1D4ED8;font-weight:600}
+.rep-pc-table .pc-row-net td:not(:first-child){font-weight:700}
+.rep-pc-table .pc-net-gap{color:var(--gap)}
+.rep-pc-table .pc-net-ok{color:#2563EB}
+.rep-pc-table .pc-row-prem td{background:#ECFDF5;font-weight:800;font-size:12px;color:#065F46;border-top:1.5px solid #A7F3D0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rep-pc-table .pc-row-prem td:first-child{background:#D1FAE5;color:#065F46}
+.rep-pc-table td.pc-col-b{background:rgba(255,43,30,.03)}
+.rep-pc-empty{font-size:11.5px;color:#9CA3AF;text-align:center;padding:18px 12px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:8px;line-height:1.6}
 
 /* Plain-language key highlights bullets ─────────────────── */
 .rep-rec-bullets{margin:4px 0 0;padding-left:16px;list-style:disc}
@@ -2412,7 +2452,16 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   </div>
   <div class="section-body">
     <div class="table-scroll" id="actionPlan"></div>
-    <div class="btn-final-save-wrap no-print mt-12"><button class="btn-final-save" id="btnFinalSave" onclick="saveRecord()" data-i18n="btnSaveReport">💾 儲存此分析報告</button></div>
+
+    <!-- Next Review Date (consultant can set with client) -->
+    <div class="no-print" style="margin-top:18px;padding:14px 18px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <span style="font-size:14.5px;font-weight:700;color:var(--dark)">📅 下次定期檢視日期 / Next Scheduled Review</span>
+      <input type="date" id="nextReviewDate" style="font-family:inherit;font-size:15px;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;background:#fff;color:var(--text)">
+      <button class="no-print" type="button" onclick="resetNextReviewDate()" style="font-size:12px;padding:5px 11px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;border-radius:6px;cursor:pointer;font-weight:600">↻ 預設(報告日+12月)</button>
+      <span style="font-size:12px;color:var(--muted);width:100%;line-height:1.5">空白時自動使用「報告日 +12 個月」。可改成跟客戶約定的具體日期。</span>
+    </div>
+
+    <div class="btn-final-save-wrap no-print mt-12"><button class="btn-final-save" id="btnFinalSave" onclick="saveAndPreview()" data-i18n="btnSavePreview">💾 儲存並預覽 · Save and Preview</button></div>
     <div class="signature-area mt-12" style="margin-top:20px;padding:16px 20px">
       <div style="font-size:15.5px;color:var(--muted);margin-bottom:0;line-height:1.9;max-width:560px;margin-left:auto;margin-right:auto;text-align:center" data-i18n="sigNote">
         此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。
@@ -2467,6 +2516,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
      - Toggled by FAB → 預覽專業報告
      - Print output uses this when reportView is visible
      ══════════════════════════════════════════════════════ -->
+<!-- Floating "Back to Edit" button — visible only when report view is active (screen, not print) -->
+<button class="rep-back-to-edit no-print" onclick="exitReportView()" data-i18n="btnBackToEdit">↩ 返回編輯</button>
+
 <div id="reportView" style="display:none">
 
   <!-- ── Page 2 of report: Executive Summary ── -->
@@ -2868,6 +2920,13 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       data-tr-bm="Analisis Bajet Premium">保費預算分析</h2>
     <div class="rep-prem-grid" id="rep_premGrid"></div>
 
+    <!-- Plan A / B / C comparison (only renders if consultant filled in any plan) -->
+    <h2 class="rep-section-title" id="rep_planCompareTitle"
+      data-tr-zh="Plan A / B / C 方案比較"
+      data-tr-en="Plan A / B / C Comparison"
+      data-tr-bm="Perbandingan Pelan A / B / C">Plan A / B / C 方案比較</h2>
+    <div id="rep_planCompare"></div>
+
     <h2 class="rep-section-title"
       data-tr-zh="方案重點"
       data-tr-en="Key Highlights"
@@ -3146,7 +3205,7 @@ const I18N = {
     riskLegend:'⭐ = 符合標準 | ⚠ = 邊緣 | ✗ = 保障不足，需要補足',
     sigNote:'此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。',
     sigConsultant:'顧問簽名', sigClient:'客戶簽名', sigDate:'日期 Date',
-    btnSaveReport:'💾 儲存此分析報告',
+    btnSaveReport:'💾 儲存此分析報告', btnSavePreview:'💾 儲存並預覽 · Save and Preview', btnBackToEdit:'↩ 返回編輯',
     // Dynamic strings
     kpiIncome:'總月收入', kpiExpense:'總月支出', kpiCashflow:'每月淨現金流', kpiDebt:'總債務', kpiPremium:'年繳保費',
     kpiRoomBoard:'每日病房費', kpiLifetime:'終身限額', kpiMHI:'MHI 200K 覆蓋率', kpiAnnual:'年度限額', kpiDailyHosp:'每日住院津貼',
@@ -3281,7 +3340,7 @@ const I18N = {
     riskLegend:'⭐ = Meets Standard | ⚠ = Borderline | ✗ = Insufficient',
     sigNote:'This report is prepared by <strong style="color:var(--dark)">TEN Consultancy</strong> for reference purposes only.<br>All recommendations should be discussed in detail with your advisor before implementation.',
     sigConsultant:"Consultant's Signature", sigClient:"Client's Signature", sigDate:'Date',
-    btnSaveReport:'💾 Save This Analysis Report',
+    btnSaveReport:'💾 Save This Analysis Report', btnSavePreview:'💾 Save and Preview', btnBackToEdit:'↩ Back to Edit',
     kpiIncome:'Total Monthly Income', kpiExpense:'Total Monthly Expense', kpiCashflow:'Net Monthly Cashflow', kpiDebt:'Total Debt', kpiPremium:'Annual Premium',
     kpiRoomBoard:'Room & Board', kpiLifetime:'Lifetime Limit', kpiMHI:'MHI 200K Coverage', kpiAnnual:'Annual Limit', kpiDailyHosp:'Daily Hosp. Allowance',
     cashOk:'✓ Positive Cashflow', cashGap:'✗ Deficit',
@@ -3416,7 +3475,7 @@ const I18N = {
     riskLegend:'⭐ = Memenuhi Piawaian | ⚠ = Sempadan | ✗ = Tidak Mencukupi',
     sigNote:'Laporan ini disediakan oleh <strong style="color:var(--dark)">TEN Consultancy</strong> untuk rujukan sahaja.<br>Semua cadangan hendaklah dibincangkan bersama penasihat anda sebelum dilaksanakan.',
     sigConsultant:'Tandatangan Penasihat', sigClient:'Tandatangan Pelanggan', sigDate:'Tarikh',
-    btnSaveReport:'💾 Simpan Laporan Analisis Ini',
+    btnSaveReport:'💾 Simpan Laporan Analisis Ini', btnSavePreview:'💾 Simpan & Pratonton', btnBackToEdit:'↩ Kembali Ke Edit',
     kpiIncome:'Jumlah Pendapatan Bulanan', kpiExpense:'Jumlah Perbelanjaan Bulanan', kpiCashflow:'Aliran Tunai Bersih', kpiDebt:'Jumlah Hutang', kpiPremium:'Premium Tahunan',
     kpiRoomBoard:'Caj Bilik & Makan', kpiLifetime:'Had Seumur Hidup', kpiMHI:'Liputan MHI 200K', kpiAnnual:'Had Tahunan', kpiDailyHosp:'Elaun Hospital Harian',
     cashOk:'✓ Aliran Tunai Positif', cashGap:'✗ Defisit',
@@ -5474,13 +5533,22 @@ function renderReport() {
       <div class="rep-action-time">${a.time}</div>
     </div>
   `).join(''));
-  const reviewDate = new Date();
-  reviewDate.setFullYear(reviewDate.getFullYear()+1);
-  const reviewStr = reviewDate.toISOString().split('T')[0];
+  // Use consultant-set next review date (from #nextReviewDate input) if available;
+  // otherwise default to report date + 12 months.
+  const _reviewIn = (document.getElementById('nextReviewDate') || {}).value || '';
+  let reviewStr;
+  if (_reviewIn) {
+    reviewStr = _reviewIn;
+  } else {
+    const _r = new Date(s('reportDate') || new Date());
+    if (isNaN(_r.getTime())) _r.setTime(Date.now());
+    _r.setFullYear(_r.getFullYear() + 1);
+    reviewStr = _r.toISOString().split('T')[0];
+  }
   setHtml('rep_actionReview', tr(
-    `<p>建議下次審查日期:<b>${reviewStr}</b>(自報告日起 12 個月後)。每年定期檢視 + 重大生命事件時(結婚、生子、買房、升職)立即更新。</p>`,
-    `<p>Suggested next review: <b>${reviewStr}</b> (12 months from report date). Review annually + immediately upon major life events (marriage, children, property, promotion).</p>`,
-    `<p>Tarikh semakan seterusnya disyorkan: <b>${reviewStr}</b> (12 bulan dari tarikh laporan). Semak setiap tahun + segera apabila peristiwa hidup utama (perkahwinan, anak, hartanah, kenaikan pangkat).</p>`
+    `<p>建議下次審查日期:<b>${reviewStr}</b>。每年定期檢視 + 重大生命事件時(結婚、生子、買房、升職)立即更新。</p>`,
+    `<p>Suggested next review: <b>${reviewStr}</b>. Review annually + immediately upon major life events (marriage, children, property, promotion).</p>`,
+    `<p>Tarikh semakan seterusnya disyorkan: <b>${reviewStr}</b>. Semak setiap tahun + segera apabila peristiwa hidup utama (perkahwinan, anak, hartanah, kenaikan pangkat).</p>`
   ));
 
   // ── PAGE 9 (signature + disclaimer) — TRILINGUAL ──────────
@@ -5585,6 +5653,106 @@ function renderReport() {
     `Jumlah premium <b>RM ${fmtRaw(estTotalPrem)}/tahun</b> (bulanan RM ${fmtRaw(Math.round(estTotalPrem/12))}), <b>${premRatio.toFixed(1)}%</b> dari pendapatan — ${premOk?'dalam julat sihat':'sedikit melebihi; pertimbangkan pelaksanaan berperingkat'}`
   ));
   setHtml('rep_recBullets', recBullets.map(b => `<li>${b}</li>`).join(''));
+
+  // ── Plan A / B / C comparison table (Recommendations page) ──
+  // Renders only if at least one plan has any input. Otherwise shows
+  // a placeholder telling the consultant to fill in plans first.
+  const _plans = ['A','B','C'];
+  const _planVals = _plans.map(P => ({
+    death: n('plan'+P+'_death'),
+    tpd:   n('plan'+P+'_tpd'),
+    ci:    n('plan'+P+'_ci') + n('plan'+P+'_eci'),
+    med:   n('plan'+P+'_mc_ll'),
+    prem:  n('plan'+P+'_premium'),
+  }));
+  const _anyPlanFilled = _planVals.some(p => (p.death + p.tpd + p.ci + p.med + p.prem) > 0);
+  const _pcTitle = document.getElementById('rep_planCompareTitle');
+
+  if (!_anyPlanFilled) {
+    // Hide section title + show subtle placeholder
+    if (_pcTitle) _pcTitle.style.display = 'none';
+    setHtml('rep_planCompare', '');
+  } else {
+    if (_pcTitle) _pcTitle.style.display = '';
+    // Calculate net gap per plan per category (positive = still short)
+    const _netGap = (P, idx) => {
+      const p = _planVals[idx];
+      return {
+        death: Math.max(0, deathNeed     - deathBenefit  - p.death),
+        tpd:   Math.max(0, tpdNeed       - tpdBenefit    - p.tpd),
+        ci:    Math.max(0, ciNeed        - totalCI       - p.ci),
+        med:   Math.max(0, 1000000       - lifetimeLimit - p.med),
+      };
+    };
+    const _gA = _netGap('A',0), _gB = _netGap('B',1), _gC = _netGap('C',2);
+    const _cellNet = g => g > 0
+      ? `<span class="pc-net-gap">-RM ${fmtRaw(Math.round(g))}</span>`
+      : `<span class="pc-net-ok">✓ ${tr('達標','Met','Capai')}</span>`;
+    const _cellAdd = v => v > 0 ? `+RM ${fmtRaw(Math.round(v))}` : '—';
+    const _cellPrem = v => v > 0 ? `RM ${fmtRaw(Math.round(v))}` : '—';
+    const _lblBase = tr('基本保障','Basic','Asas');
+    const _lblRec  = tr('建議方案','Recommended','Disyorkan');
+    const _lblFull = tr('全面保障','Comprehensive','Komprehensif');
+
+    setHtml('rep_planCompare', `
+      <table class="rep-pc-table">
+        <thead>
+          <tr>
+            <th>${tr('保障項目','Item','Item')}</th>
+            <th class="pc-plan-a">Plan A<span class="pc-plan-sub">${_lblBase}</span></th>
+            <th class="pc-plan-b">Plan B ★<span class="pc-plan-sub">${_lblRec}</span></th>
+            <th class="pc-plan-c">Plan C<span class="pc-plan-sub">${_lblFull}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pc-row-gap">
+            <td>${tr('現有保障缺口','Current Shortfall','Jurang Semasa')}</td>
+            <td colspan="3" style="text-align:center;font-size:11px">
+              ${tr('身故','Death','Kematian')} <b>RM ${fmtRaw(Math.round(Math.max(0,deathNeed-deathBenefit)))}</b>
+              &nbsp;|&nbsp; TPD <b>RM ${fmtRaw(Math.round(Math.max(0,tpdNeed-tpdBenefit)))}</b>
+              &nbsp;|&nbsp; CI <b>RM ${fmtRaw(Math.round(Math.max(0,ciNeed-totalCI)))}</b>
+            </td>
+          </tr>
+          <tr class="pc-row-add">
+            <td>${tr('+ 新增身故','+ Add Death','+ Tambah Kematian')}</td>
+            <td>${_cellAdd(_planVals[0].death)}</td>
+            <td class="pc-col-b">${_cellAdd(_planVals[1].death)}</td>
+            <td>${_cellAdd(_planVals[2].death)}</td>
+          </tr>
+          <tr class="pc-row-add">
+            <td>${tr('+ 新增全殘 TPD','+ Add TPD','+ Tambah TPD')}</td>
+            <td>${_cellAdd(_planVals[0].tpd)}</td>
+            <td class="pc-col-b">${_cellAdd(_planVals[1].tpd)}</td>
+            <td>${_cellAdd(_planVals[2].tpd)}</td>
+          </tr>
+          <tr class="pc-row-add">
+            <td>${tr('+ 新增危疾 CI','+ Add CI','+ Tambah CI')}</td>
+            <td>${_cellAdd(_planVals[0].ci)}</td>
+            <td class="pc-col-b">${_cellAdd(_planVals[1].ci)}</td>
+            <td>${_cellAdd(_planVals[2].ci)}</td>
+          </tr>
+          <tr class="pc-row-add">
+            <td>${tr('+ 新增醫療(終身)','+ Add Medical (Lifetime)','+ Tambah Perubatan')}</td>
+            <td>${_cellAdd(_planVals[0].med)}</td>
+            <td class="pc-col-b">${_cellAdd(_planVals[1].med)}</td>
+            <td>${_cellAdd(_planVals[2].med)}</td>
+          </tr>
+          <tr class="pc-row-net">
+            <td>${tr('調整後剩餘缺口','Remaining Gap','Jurang Baki')}</td>
+            <td>${_cellNet(_gA.death + _gA.tpd + _gA.ci)}</td>
+            <td class="pc-col-b">${_cellNet(_gB.death + _gB.tpd + _gB.ci)}</td>
+            <td>${_cellNet(_gC.death + _gC.tpd + _gC.ci)}</td>
+          </tr>
+          <tr class="pc-row-prem">
+            <td>${tr('每月保費','Monthly Premium','Premium Bulanan')}</td>
+            <td>${_cellPrem(_planVals[0].prem)}</td>
+            <td>${_cellPrem(_planVals[1].prem)}</td>
+            <td>${_cellPrem(_planVals[2].prem)}</td>
+          </tr>
+        </tbody>
+      </table>
+    `);
+  }
 
   // ── PAGE 3 (Blind Spots) — TRILINGUAL ─────────────
   // Dynamically generate 4-6 personalized blind spots based on the client's data
@@ -5718,14 +5886,21 @@ function renderReport() {
 
   // ── PAGE 11 (Follow-up Plan) — TRILINGUAL ─────────────
   // Next review badge + advisor contact card
-  const nextReview = new Date();
-  nextReview.setFullYear(nextReview.getFullYear() + 1);
-  const nextReviewStr = nextReview.toISOString().split('T')[0];
-  setHtml('rep_nextReviewBadge', tr(
-    `${nextReviewStr}(報告日起 12 個月後)`,
-    `${nextReviewStr} (12 months from report date)`,
-    `${nextReviewStr} (12 bulan dari tarikh laporan)`
-  ));
+  // Next review date — consultant-editable via #nextReviewDate input on Action Plan page.
+  // If empty (consultant hasn't filled), default = report date + 12 months.
+  const _userReviewDate = (document.getElementById('nextReviewDate') || {}).value || '';
+  let nextReviewStr, nextReviewNote;
+  if (_userReviewDate) {
+    nextReviewStr = _userReviewDate;
+    nextReviewNote = tr('(與客戶約定日期)', '(date agreed with client)', '(tarikh yang dipersetujui dengan pelanggan)');
+  } else {
+    const _nextReview = new Date(s('reportDate') || new Date());
+    if (isNaN(_nextReview.getTime())) _nextReview.setTime(Date.now());
+    _nextReview.setFullYear(_nextReview.getFullYear() + 1);
+    nextReviewStr = _nextReview.toISOString().split('T')[0];
+    nextReviewNote = tr('(報告日起 12 個月後)', '(12 months from report date)', '(12 bulan dari tarikh laporan)');
+  }
+  setHtml('rep_nextReviewBadge', `${nextReviewStr} ${nextReviewNote}`);
 
   const advisorName  = s('plannerName')  || '—';
   const advisorPhone = s('plannerPhone') || '';
@@ -6236,6 +6411,39 @@ function showLanding() {
     if (wl_greet) wl_greet.style.display = 'inline-block';
   }
   applyAuthLang();
+}
+
+// Save the record AND open the report preview (no auto-print).
+// User clicks Print/PDF from inside the preview when ready.
+function saveAndPreview() {
+  try { if (typeof saveRecord === 'function') saveRecord(); } catch(e){}
+  const rv = document.getElementById('reportView');
+  if (!rv) return;
+  if (typeof renderReport === 'function') {
+    try { renderReport(); } catch(e){}
+  }
+  rv.style.display = 'block';
+  document.body.classList.add('report-active');
+  window.scrollTo({top: 0, behavior: 'instant'});
+}
+
+// Exit the report view — go back to the wizard (input page)
+function exitReportView() {
+  document.body.classList.remove('report-active');
+  const rv = document.getElementById('reportView');
+  if (rv) rv.style.display = 'none';
+  window.scrollTo({top: 0, behavior: 'instant'});
+}
+
+// Reset next review date to default (report date + 12 months)
+function resetNextReviewDate() {
+  const el = document.getElementById('nextReviewDate');
+  if (!el) return;
+  const reportDateStr = (document.getElementById('reportDate') || {}).value || '';
+  const d = reportDateStr ? new Date(reportDateStr) : new Date();
+  if (isNaN(d.getTime())) d.setTime(Date.now());
+  d.setFullYear(d.getFullYear() + 1);
+  el.value = d.toISOString().split('T')[0];
 }
 
 function enterFAR() {
