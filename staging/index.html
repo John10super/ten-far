@@ -319,17 +319,14 @@ select option:first-child{color:#C4C9D4}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
-  /* Cover page — white TEN branding. min-height required for the
-     Version-corner element (position:absolute bottom) to anchor to
-     the bottom of the physical page. */
+  /* Cover page — no min-height (was causing blank Page 2 from overflow).
+     Content flows naturally; page-break-after pushes Exec Summary to next page. */
   .cover-page{
     display:flex !important;flex-direction:column;
     justify-content:flex-start;align-items:center;
     page-break-after:always;background:#fff;color:#1F2937;
-    text-align:center;padding:55mm 20mm 0;border:none;box-shadow:none;
+    text-align:center;padding:55mm 20mm 40mm;border:none;box-shadow:none;
     box-sizing:border-box;
-    min-height:100vh;       /* restored — anchors version-corner */
-    position:relative;
   }
   .cover-logo{margin-bottom:0;line-height:1}
   .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -339,10 +336,9 @@ select option:first-child{color:#C4C9D4}
   .cover-title-sub{font-size:10pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
   .cover-client{font-size:13pt;color:var(--red);font-weight:700;margin-bottom:28px}    /* user: -2pt (was 15) */
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
-  /* Version line at bottom-left of cover only (anchored to .cover-page) */
-  .cover-version-corner{
-    position:absolute;bottom:18mm;left:18mm;
-    font-size:8.5pt;color:#9CA3AF;letter-spacing:.3px;
+  /* Version line — inline at bottom of cover-meta (no longer floating) */
+  .cover-version-line{
+    margin-top:18px;font-size:8.5pt;color:#9CA3AF;letter-spacing:.3px;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
 
@@ -1902,9 +1898,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     <div id="cover-date"></div>
     <div>Prepared by: <span id="cover-planner"></span></div>
     <div>Kuching, Sarawak</div>
+    <div class="cover-version-line">Version 4.62</div>
   </div>
-  <!-- Version line in bottom-left corner of cover (only on cover page) -->
-  <div class="cover-version-corner">Version 4.62</div>
 </div>
 
 <!-- TEN PRINT FOOTER (bottom right every page) -->
