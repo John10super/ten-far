@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TEN Consultancy — Financial Analysis Report</title>
-<!-- html2pdf.js — generates PDF directly without browser print dialog (no URL/date artifacts) -->
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <style>
 :root{
   --red:#FF2B1E;--dark:#0D2B5E;--mid:#0D2B5E;
@@ -4873,52 +4871,34 @@ function toggleReportView() {
 }
 
 // Generate PDF Report — switches to the professional report view and
-// Generates the PDF directly using html2pdf.js — bypasses browser
-// print dialog entirely, so there's NO URL, NO date, NO headers/footers
-// injected by the browser. Just a clean PDF that downloads.
-// Triggered by the FAB "🖨 列印 / PDF" button.
+// Reverted to browser window.print() — html2pdf approach was producing
+// blank/broken PDFs due to off-screen clone capture issues. The print
+// modal (printPrepare) forces user to acknowledge they will disable
+// "Headers and Footers" in browser print dialog. If they actually do
+// disable it, the @page CSS rules suppress URL/date completely.
 function generateReportPDF() {
   const rv = document.getElementById('reportView');
-  if (!rv) return;
-
-  // Render data from wizard inputs into report view
+  if (!rv) {
+    if (typeof window.print === 'function') window.print();
+    return;
+  }
   if (typeof renderReport === 'function') {
     try { renderReport(); } catch(e){}
   }
-
-  // Switch to report view (need DOM visible for html2pdf to capture)
   rv.style.display = 'block';
   document.body.classList.add('report-active');
   window.scrollTo({top:0, behavior:'instant'});
-
-  // Wait for DOM render, then generate PDF via html2pdf
   setTimeout(() => {
-    if (typeof html2pdf === 'undefined') {
-      // Fallback: library not loaded → use browser print with modal
-      if (typeof printPrepare === 'function') printPrepare();
-      else if (typeof window.print === 'function') window.print();
-      return;
+    if (typeof printPrepare === 'function') {
+      printPrepare();
+    } else {
+      window.print();
     }
-    _generateCleanPDF();
-  }, 280);
+  }, 200);
 }
 
-// Show a "generating..." toast while html2pdf renders
-function _showGeneratingToast(text) {
-  const old = document.getElementById('_pdfGenToast');
-  if (old) old.remove();
-  const t = document.createElement('div');
-  t.id = '_pdfGenToast';
-  t.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:rgba(0,0,0,.85);color:#fff;padding:24px 36px;border-radius:14px;font-size:16px;font-weight:700;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.4);display:flex;align-items:center;gap:14px';
-  t.innerHTML = '<div style="width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite"></div><span>' + text + '</span><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
-  document.body.appendChild(t);
-}
-function _hideGeneratingToast() {
-  const t = document.getElementById('_pdfGenToast');
-  if (t) t.remove();
-}
-
-function _generateCleanPDF() {
+// (html2pdf helpers removed — reverted to window.print path)
+function _generateCleanPDF_DEPRECATED() {
   _showGeneratingToast('PDF 生成中... · Generating PDF...');
   const clientName = (s('clientName') || 'Client').replace(/[^\w一-鿿\s-]/g, '').trim() || 'Client';
   const dateStr = new Date().toISOString().split('T')[0];
