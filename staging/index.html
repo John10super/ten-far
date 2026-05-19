@@ -516,6 +516,19 @@ body.report-active #farToast{display:none !important}
 body.report-active #reportView{display:block !important}
 
 #reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
+
+/* Floating "Back to Edit" button — only visible when report view is active on screen */
+.rep-back-to-edit{
+  display:none;
+  position:fixed;top:18px;left:18px;z-index:999;
+  padding:11px 20px;background:var(--dark);color:#fff;
+  border:none;border-radius:9px;
+  font-size:14px;font-weight:700;font-family:inherit;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transition:.18s;
+}
+.rep-back-to-edit:hover{background:#0F1A2B;transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,0,0,.32)}
+body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:5px}
 .rep-page{
   background:#fff;border:1px solid #E5E7EB;border-radius:14px;
   padding:24px 30px;margin-bottom:14px;
@@ -2448,7 +2461,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       <span style="font-size:12px;color:var(--muted);width:100%;line-height:1.5">空白時自動使用「報告日 +12 個月」。可改成跟客戶約定的具體日期。</span>
     </div>
 
-    <div class="btn-final-save-wrap no-print mt-12"><button class="btn-final-save" id="btnFinalSave" onclick="saveRecord()" data-i18n="btnSaveReport">💾 儲存此分析報告</button></div>
+    <div class="btn-final-save-wrap no-print mt-12"><button class="btn-final-save" id="btnFinalSave" onclick="saveAndPreview()" data-i18n="btnSavePreview">💾 儲存並預覽 · Save and Preview</button></div>
     <div class="signature-area mt-12" style="margin-top:20px;padding:16px 20px">
       <div style="font-size:15.5px;color:var(--muted);margin-bottom:0;line-height:1.9;max-width:560px;margin-left:auto;margin-right:auto;text-align:center" data-i18n="sigNote">
         此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。
@@ -2503,6 +2516,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
      - Toggled by FAB → 預覽專業報告
      - Print output uses this when reportView is visible
      ══════════════════════════════════════════════════════ -->
+<!-- Floating "Back to Edit" button — visible only when report view is active (screen, not print) -->
+<button class="rep-back-to-edit no-print" onclick="exitReportView()" data-i18n="btnBackToEdit">↩ 返回編輯</button>
+
 <div id="reportView" style="display:none">
 
   <!-- ── Page 2 of report: Executive Summary ── -->
@@ -3189,7 +3205,7 @@ const I18N = {
     riskLegend:'⭐ = 符合標準 | ⚠ = 邊緣 | ✗ = 保障不足，需要補足',
     sigNote:'此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。',
     sigConsultant:'顧問簽名', sigClient:'客戶簽名', sigDate:'日期 Date',
-    btnSaveReport:'💾 儲存此分析報告',
+    btnSaveReport:'💾 儲存此分析報告', btnSavePreview:'💾 儲存並預覽 · Save and Preview', btnBackToEdit:'↩ 返回編輯',
     // Dynamic strings
     kpiIncome:'總月收入', kpiExpense:'總月支出', kpiCashflow:'每月淨現金流', kpiDebt:'總債務', kpiPremium:'年繳保費',
     kpiRoomBoard:'每日病房費', kpiLifetime:'終身限額', kpiMHI:'MHI 200K 覆蓋率', kpiAnnual:'年度限額', kpiDailyHosp:'每日住院津貼',
@@ -3324,7 +3340,7 @@ const I18N = {
     riskLegend:'⭐ = Meets Standard | ⚠ = Borderline | ✗ = Insufficient',
     sigNote:'This report is prepared by <strong style="color:var(--dark)">TEN Consultancy</strong> for reference purposes only.<br>All recommendations should be discussed in detail with your advisor before implementation.',
     sigConsultant:"Consultant's Signature", sigClient:"Client's Signature", sigDate:'Date',
-    btnSaveReport:'💾 Save This Analysis Report',
+    btnSaveReport:'💾 Save This Analysis Report', btnSavePreview:'💾 Save and Preview', btnBackToEdit:'↩ Back to Edit',
     kpiIncome:'Total Monthly Income', kpiExpense:'Total Monthly Expense', kpiCashflow:'Net Monthly Cashflow', kpiDebt:'Total Debt', kpiPremium:'Annual Premium',
     kpiRoomBoard:'Room & Board', kpiLifetime:'Lifetime Limit', kpiMHI:'MHI 200K Coverage', kpiAnnual:'Annual Limit', kpiDailyHosp:'Daily Hosp. Allowance',
     cashOk:'✓ Positive Cashflow', cashGap:'✗ Deficit',
@@ -3459,7 +3475,7 @@ const I18N = {
     riskLegend:'⭐ = Memenuhi Piawaian | ⚠ = Sempadan | ✗ = Tidak Mencukupi',
     sigNote:'Laporan ini disediakan oleh <strong style="color:var(--dark)">TEN Consultancy</strong> untuk rujukan sahaja.<br>Semua cadangan hendaklah dibincangkan bersama penasihat anda sebelum dilaksanakan.',
     sigConsultant:'Tandatangan Penasihat', sigClient:'Tandatangan Pelanggan', sigDate:'Tarikh',
-    btnSaveReport:'💾 Simpan Laporan Analisis Ini',
+    btnSaveReport:'💾 Simpan Laporan Analisis Ini', btnSavePreview:'💾 Simpan & Pratonton', btnBackToEdit:'↩ Kembali Ke Edit',
     kpiIncome:'Jumlah Pendapatan Bulanan', kpiExpense:'Jumlah Perbelanjaan Bulanan', kpiCashflow:'Aliran Tunai Bersih', kpiDebt:'Jumlah Hutang', kpiPremium:'Premium Tahunan',
     kpiRoomBoard:'Caj Bilik & Makan', kpiLifetime:'Had Seumur Hidup', kpiMHI:'Liputan MHI 200K', kpiAnnual:'Had Tahunan', kpiDailyHosp:'Elaun Hospital Harian',
     cashOk:'✓ Aliran Tunai Positif', cashGap:'✗ Defisit',
@@ -6395,6 +6411,28 @@ function showLanding() {
     if (wl_greet) wl_greet.style.display = 'inline-block';
   }
   applyAuthLang();
+}
+
+// Save the record AND open the report preview (no auto-print).
+// User clicks Print/PDF from inside the preview when ready.
+function saveAndPreview() {
+  try { if (typeof saveRecord === 'function') saveRecord(); } catch(e){}
+  const rv = document.getElementById('reportView');
+  if (!rv) return;
+  if (typeof renderReport === 'function') {
+    try { renderReport(); } catch(e){}
+  }
+  rv.style.display = 'block';
+  document.body.classList.add('report-active');
+  window.scrollTo({top: 0, behavior: 'instant'});
+}
+
+// Exit the report view — go back to the wizard (input page)
+function exitReportView() {
+  document.body.classList.remove('report-active');
+  const rv = document.getElementById('reportView');
+  if (rv) rv.style.display = 'none';
+  window.scrollTo({top: 0, behavior: 'instant'});
 }
 
 // Reset next review date to default (report date + 12 months)
