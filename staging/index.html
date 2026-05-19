@@ -517,18 +517,18 @@ body.report-active #reportView{display:block !important}
 
 #reportView{max-width:920px;margin:24px auto;padding:0 20px;font-family:'Segoe UI',system-ui,'PingFang TC','Noto Sans TC',Arial,sans-serif}
 
-/* Floating "Back to Edit" button — only visible when report view is active on screen */
+/* Floating "Back to Edit" button — bottom-right, only visible on screen when report view is active */
 .rep-back-to-edit{
   display:none;
-  position:fixed;top:18px;left:18px;z-index:999;
-  padding:11px 20px;background:var(--dark);color:#fff;
-  border:none;border-radius:9px;
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  padding:12px 22px;background:var(--dark);color:#fff;
+  border:none;border-radius:99px;
   font-size:14px;font-weight:700;font-family:inherit;
-  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);
+  cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);
   transition:.18s;
 }
-.rep-back-to-edit:hover{background:#0F1A2B;transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,0,0,.32)}
-body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:5px}
+.rep-back-to-edit:hover{background:#0F1A2B;transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.42)}
+body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:6px}
 .rep-page{
   background:#fff;border:1px solid #E5E7EB;border-radius:14px;
   padding:24px 30px;margin-bottom:14px;
@@ -834,6 +834,11 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 .rep-pc-table .pc-row-prem td:first-child{background:#D1FAE5;color:#065F46}
 .rep-pc-table td.pc-col-b{background:rgba(255,43,30,.03)}
 .rep-pc-empty{font-size:11.5px;color:#9CA3AF;text-align:center;padding:18px 12px;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:8px;line-height:1.6}
+.rep-pc-hint{
+  font-size:11px;color:#6B7280;background:#FFFBEB;border:1px solid #FDE68A;
+  border-radius:7px;padding:8px 12px;margin-bottom:8px;line-height:1.55;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
 
 /* Plain-language key highlights bullets ─────────────────── */
 .rep-rec-bullets{margin:4px 0 0;padding-left:16px;list-style:disc}
@@ -5668,12 +5673,11 @@ function renderReport() {
   const _anyPlanFilled = _planVals.some(p => (p.death + p.tpd + p.ci + p.med + p.prem) > 0);
   const _pcTitle = document.getElementById('rep_planCompareTitle');
 
-  if (!_anyPlanFilled) {
-    // Hide section title + show subtle placeholder
-    if (_pcTitle) _pcTitle.style.display = 'none';
-    setHtml('rep_planCompare', '');
-  } else {
-    if (_pcTitle) _pcTitle.style.display = '';
+  // Always show the Plan A/B/C section — even if consultant hasn't filled
+  // in any plan yet. Empty cells show "—". Adds a small hint above the
+  // table if none are filled so consultant knows what to do.
+  if (_pcTitle) _pcTitle.style.display = '';
+  {
     // Calculate net gap per plan per category (positive = still short)
     const _netGap = (P, idx) => {
       const p = _planVals[idx];
@@ -5694,7 +5698,17 @@ function renderReport() {
     const _lblRec  = tr('建議方案','Recommended','Disyorkan');
     const _lblFull = tr('全面保障','Comprehensive','Komprehensif');
 
-    setHtml('rep_planCompare', `
+    // Hint shown above table when nothing is filled in yet
+    const _hint = _anyPlanFilled ? '' : `
+      <div class="rep-pc-hint">
+        ${tr(
+          '💡 提示:於 Wizard「保障需求建議方案」區塊填入 Plan A/B/C 的新增保障與月繳保費,此表將自動更新',
+          '💡 Tip: Fill in Plan A/B/C amounts and monthly premiums in the wizard 「保障需求建議方案」 section — this table will auto-populate',
+          '💡 Petua: Isi jumlah Plan A/B/C dan premium bulanan dalam bahagian "保障需求建議方案" wizard — jadual ini akan auto-update'
+        )}
+      </div>`;
+
+    setHtml('rep_planCompare', _hint + `
       <table class="rep-pc-table">
         <thead>
           <tr>
