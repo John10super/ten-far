@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>TEN Consultancy — Financial Analysis Report</title>
+<!-- Aria upgrade: Editorial Serif typography for cover + chapter titles -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
   --red:#FF2B1E;--dark:#0D2B5E;--mid:#0D2B5E;
@@ -319,22 +323,37 @@ select option:first-child{color:#C4C9D4}
   .container{max-width:100%;padding:0}
   .section{box-shadow:none;border:1px solid #e5e7eb;margin-bottom:10pt;page-break-inside:avoid}
 
-  /* Cover page — no min-height (was causing blank Page 2 from overflow).
-     Content flows naturally; page-break-after pushes Exec Summary to next page. */
+  /* Cover page — Aria editorial layout. position:relative for top band */
   .cover-page{
     display:flex !important;flex-direction:column;
     justify-content:flex-start;align-items:center;
     page-break-after:always;background:#fff;color:#1F2937;
-    text-align:center;padding:55mm 20mm 40mm;border:none;box-shadow:none;
-    box-sizing:border-box;
+    text-align:center;padding:48mm 20mm 40mm;border:none;box-shadow:none;
+    box-sizing:border-box;position:relative;
+  }
+  /* Aria upgrade: top brand band with report number + confidential mark */
+  .cover-top-band{
+    position:absolute;top:14mm;left:18mm;right:18mm;
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:8px;border-bottom:.5px solid #E5E7EB;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .cover-doc-id{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:9pt;font-weight:600;color:#6B7280;letter-spacing:1.5px;
+  }
+  .cover-confidential{
+    font-size:8.5pt;font-weight:800;color:var(--red);letter-spacing:2px;
+    padding:3px 9px;border:1px solid var(--red);border-radius:2px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .cover-logo{margin-bottom:0;line-height:1}
   .cover-logo img{display:block;width:auto;max-width:238px;height:auto;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .cover-divider{width:60px;height:3px;background:var(--red);margin:18px auto 11px}
   .cover-sub{font-size:11pt;color:#6B7280;margin-bottom:32px;letter-spacing:.5px}
-  .cover-title{font-size:15pt;font-weight:800;color:#1a1a2e;margin-bottom:3px}        /* user: -5pt (was 20) */
-  .cover-title-sub{font-size:10pt;color:#6B7280;font-weight:500;letter-spacing:.5px;margin-bottom:18px}
-  .cover-client{font-size:13pt;color:var(--red);font-weight:700;margin-bottom:28px}    /* user: -2pt (was 15) */
+  .cover-title{font-family:'Noto Serif TC','Cormorant Garamond',serif !important;font-size:21pt;font-weight:900;color:#0F1A2B;margin-bottom:6px;letter-spacing:.5px}   /* Aria upgrade: Serif gravitas */
+  .cover-title-sub{font-family:'Cormorant Garamond',Georgia,serif !important;font-style:italic;font-size:11.5pt;color:#6B7280;font-weight:500;letter-spacing:.8px;margin-bottom:22px}
+  .cover-client{font-family:'Cormorant Garamond',Georgia,serif !important;font-style:italic;font-size:16pt;color:var(--red);font-weight:700;margin-bottom:30px;letter-spacing:.3px}
   .cover-meta{font-size:10pt;color:#6B7280;line-height:1.85;border-top:1px solid #E5E7EB;padding-top:14px;width:260px}
   /* Version line — inline at bottom of cover-meta (no longer floating) */
   .cover-version-line{
@@ -454,12 +473,25 @@ select option:first-child{color:#C4C9D4}
   /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
   body.report-active #reportView{padding:0 !important;margin:0 !important}
   body.report-active .rep-page{
-    padding:18mm 16mm !important;
+    padding:13mm 14mm 12mm !important;        /* Aria compaction: less top/bottom */
     margin:0 !important;
     border:none !important;border-radius:0 !important;
     box-shadow:none !important;
     page-break-inside:auto;
     page-break-after:always;
+    position:relative !important;
+  }
+  /* Aria upgrade: 3mm red brand line at top of every rep-page in print */
+  body.report-active .rep-page::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3mm;
+    background:var(--red);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  /* Cover gets the same brand line at top */
+  .cover-page::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3mm;
+    background:var(--red);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   body.report-active .rep-page-hdr,
   body.report-active .rep-section-title,
@@ -534,7 +566,7 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 .rep-page:last-child{page-break-after:auto}
 .rep-page-hdr{
   display:flex;justify-content:space-between;align-items:baseline;
-  padding-bottom:7px;margin-bottom:14px;
+  padding-bottom:5px;margin-bottom:8px;
   border-bottom:1.5px solid var(--dark);
 }
 .rep-brand{
@@ -542,27 +574,48 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 }
 .rep-brand::before{content:'TEN';color:var(--red);margin-right:6px}
 .rep-page-label{
-  font-size:11px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:1.5px;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:2.8px;
 }
 .rep-page-title{
-  font-size:18px;font-weight:900;color:var(--dark);
-  letter-spacing:.1px;margin:0 0 4px;line-height:1.25;
+  font-family:'Noto Serif TC','Cormorant Garamond',serif;
+  font-size:22px;font-weight:900;color:var(--dark);
+  letter-spacing:.2px;margin:0 0 5px;line-height:1.2;
+  position:relative;padding-right:90px;
 }
-.rep-page-subtitle{
-  font-size:11.5px;color:var(--muted);font-weight:500;
-  margin-bottom:14px;line-height:1.5;
-}
-/* Section title badge — like CTBC/BCG report's "圖 1-2" pill */
-.rep-section-title{
-  display:inline-block;
-  font-size:10.5px;font-weight:800;color:#fff;background:var(--red);
-  text-transform:uppercase;letter-spacing:1.2px;
-  margin:14px 0 8px;
-  padding:4px 12px;border-radius:4px;border:none;
+/* Aria upgrade: red 6px underline accent on every chapter title */
+.rep-page-title::after{
+  content:'';display:block;width:38px;height:2.5px;background:var(--red);
+  margin-top:5px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-section-title:first-of-type{margin-top:0}
+/* Aria Phase 2: smaller chapter number in top-right (less wasted space) */
+.rep-page[data-chapter]::after{
+  content:attr(data-chapter);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:500;
+  position:absolute;top:14mm;right:14mm;
+  font-size:36pt;line-height:1;color:#F0F1F3;
+  letter-spacing:-1.5px;pointer-events:none;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-page-subtitle{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;
+  font-size:12px;color:var(--muted);font-weight:500;
+  margin-bottom:14px;line-height:1.5;letter-spacing:.2px;
+}
+/* Aria upgrade: Section title pill — refined letter-spacing + softer red */
+.rep-section-title{
+  display:inline-block;
+  font-size:9.5px;font-weight:800;color:#fff;background:var(--red);
+  text-transform:uppercase;letter-spacing:2.4px;
+  margin:14px 0 8px;
+  padding:4px 11px;border-radius:3px;border:none;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-section-title:first-of-type{margin-top:2px}
 
 /* Client profile box ─────────────────────────────── */
 .rep-client-box{
@@ -621,14 +674,15 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 .rep-finding-text b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
 .rep-finding.p2 .rep-finding-text b{color:#B45309}
 .rep-finding.p3 .rep-finding-text b{color:#4338CA}
+/* Aria upgrade: softer priority pills — -20% saturation + 1px border + tighter weight */
 .rep-finding-prio{
-  font-size:9.5px;font-weight:800;letter-spacing:.8px;
-  padding:3px 8px;border-radius:99px;flex-shrink:0;
-  background:var(--gap);color:#fff;
+  font-size:9px;font-weight:800;letter-spacing:1.4px;
+  padding:3px 9px;border-radius:99px;flex-shrink:0;
+  background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-finding.p2 .rep-finding-prio{background:#F59E0B}
-.rep-finding.p3 .rep-finding-prio{background:#6366F1}
+.rep-finding.p2 .rep-finding-prio{background:#FEF3C7;color:#B45309;border-color:#FDE68A}
+.rep-finding.p3 .rep-finding-prio{background:#E0E7FF;color:#4338CA;border-color:#C7D2FE}
 
 /* Bottom callout — single-sentence summary ────────── */
 .rep-bottom-callout{
@@ -672,14 +726,25 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 .rep-pct-bar.mid i{background:#F59E0B}
 .rep-pct-bar.ok i{background:#2563EB}
 .rep-pct-text{font-weight:700;font-size:10px;color:var(--dark);vertical-align:middle}
+/* Aria upgrade: subtler priority tags in tables */
 .rep-prio-tag{
-  display:inline-block;padding:2px 7px;border-radius:99px;
-  font-weight:800;font-size:9px;letter-spacing:.7px;color:#fff;
-  background:var(--gap);
+  display:inline-block;padding:2px 8px;border-radius:99px;
+  font-weight:800;font-size:8.5px;letter-spacing:1.3px;
+  background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-prio-tag.p2{background:#F59E0B}
-.rep-prio-tag.p3{background:#6366F1}
+.rep-prio-tag.p2{background:#FEF3C7;color:#B45309;border-color:#FDE68A}
+.rep-prio-tag.p3{background:#E0E7FF;color:#4338CA;border-color:#C7D2FE}
+
+/* Aria Phase 2: Coverage Allocation Donut Chart ──────────── */
+.rep-donut-wrap{display:flex;gap:32px;align-items:center;margin-bottom:8px;padding:6px 4px}
+.rep-donut-svg{width:140px;height:140px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rep-donut-svg text{font-family:'Noto Serif TC',serif;font-weight:900;fill:var(--dark)}
+.rep-donut-legend{display:flex;flex-direction:column;gap:7px;flex:1;font-size:11.5px}
+.rep-donut-legend-item{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center}
+.rep-donut-legend-swatch{width:11px;height:11px;border-radius:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rep-donut-legend-cat{font-weight:700;color:var(--dark)}
+.rep-donut-legend-pct{font-weight:800;color:#6B7280;font-variant-numeric:tabular-nums}
 
 /* Premium budget cards row ──────────────────────────────── */
 .rep-prem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -731,48 +796,82 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
   margin:-1px 0;
 }
 
-/* Blind Spots — personalized risk cards (Page 4) ──────────── */
-.rep-blindspot-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+/* Aria Phase 2: Blind Spots — editorial restyle (large icon + italic quote + data) */
+.rep-blindspot-list{display:flex;flex-direction:column;gap:14px;margin-bottom:6px}
 .rep-blindspot{
-  display:grid;grid-template-columns:32px 1fr;gap:10px;
-  padding:9px 13px;background:#FFFAF5;border:1px solid #FDE68A;
-  border-left:3px solid #F59E0B;border-radius:7px;
+  display:grid;grid-template-columns:54px 1fr;gap:18px;align-items:start;
+  padding:18px 22px 18px 18px;background:#FFFCFA;border:0;
+  border-left:4px solid #F59E0B;border-radius:0;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-blindspot.high{background:#FEF2F2;border-color:#FECACA;border-left-color:var(--gap)}
-.rep-blindspot.low{background:#EEF2FF;border-color:#C7D2FE;border-left-color:#6366F1}
+.rep-blindspot.high{background:#FFFAFA;border-left-color:var(--gap)}
+.rep-blindspot.low{background:#F8FAFF;border-left-color:#6366F1}
 .rep-blindspot-icon{
-  width:28px;height:28px;border-radius:50%;
-  background:#fff;border:1px solid #FDE68A;
+  width:48px;height:48px;border-radius:0;
+  background:#fff;border:1.5px solid #FDE68A;
   display:flex;align-items:center;justify-content:center;
-  font-size:14px;flex-shrink:0;
+  font-size:24px;flex-shrink:0;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-blindspot.high .rep-blindspot-icon{border-color:#FECACA}
 .rep-blindspot.low .rep-blindspot-icon{border-color:#C7D2FE}
-.rep-blindspot-body{display:flex;flex-direction:column;gap:2px;min-width:0}
-.rep-blindspot-title{font-size:11.5px;font-weight:800;color:var(--dark);line-height:1.3}
-.rep-blindspot-fact{font-size:10px;color:#6B7280;font-weight:500;line-height:1.45}
-.rep-blindspot-pain{font-size:11px;color:var(--dark);line-height:1.5;font-weight:500;margin-top:1px}
+.rep-blindspot-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.rep-blindspot-title{
+  font-family:'Noto Serif TC',serif;
+  font-size:14px;font-weight:900;color:var(--dark);line-height:1.3;letter-spacing:.2px;
+}
+.rep-blindspot-fact{
+  font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:11.5px;color:#6B7280;font-weight:500;line-height:1.55;letter-spacing:.2px;
+}
+.rep-blindspot-pain{
+  font-size:11.5px;color:var(--dark);line-height:1.65;font-weight:500;margin-top:4px;
+  padding-left:11px;border-left:2px solid #FDE68A;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.rep-blindspot.high .rep-blindspot-pain{border-left-color:#FECACA}
+.rep-blindspot.low .rep-blindspot-pain{border-left-color:#C7D2FE}
 .rep-blindspot-pain b{color:var(--gap);font-weight:800;font-variant-numeric:tabular-nums}
 .rep-blindspot.high .rep-blindspot-pain b{color:var(--gap)}
 .rep-blindspot.low .rep-blindspot-pain b{color:#4338CA}
 
 /* Follow-up plan — commitment cards (Page 12) ──────────── */
-.rep-commit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:4px}
+/* Aria Phase 2: Follow-up commitments as vertical TIMELINE (not 2x2 grid) */
+.rep-commit-grid{
+  display:flex;flex-direction:column;gap:0;margin-bottom:8px;
+  position:relative;padding-left:8px;
+}
+/* Continuous vertical line connecting all timeline dots */
+.rep-commit-grid::before{
+  content:'';position:absolute;left:21px;top:14px;bottom:14px;
+  width:2px;background:linear-gradient(180deg,var(--red) 0%,#FECACA 50%,var(--red) 100%);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
 .rep-commit-card{
-  background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;
-  padding:9px 12px;display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:start;
+  background:transparent;border:0;border-radius:0;
+  padding:11px 0 11px 38px;position:relative;
+  display:block;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+/* Timeline dot for each commitment */
+.rep-commit-card::before{
+  content:'';position:absolute;left:8px;top:14px;width:14px;height:14px;
+  background:#fff;border:2.5px solid var(--red);border-radius:50%;z-index:1;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
 .rep-commit-icon{
-  width:26px;height:26px;border-radius:6px;
-  background:#FFF;border:1px solid #E2E8F0;
-  display:flex;align-items:center;justify-content:center;font-size:14px;
-  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  display:inline-flex;width:auto;height:auto;border-radius:0;background:transparent;border:0;
+  font-size:14px;margin-right:6px;vertical-align:middle;
 }
-.rep-commit-title{font-size:11px;font-weight:800;color:var(--dark);margin-bottom:2px;line-height:1.25}
-.rep-commit-desc{font-size:10px;color:#6B7280;line-height:1.45;font-weight:500}
+.rep-commit-title{
+  font-family:'Noto Serif TC',serif;
+  font-size:12.5px;font-weight:900;color:var(--dark);
+  margin-bottom:3px;line-height:1.3;display:inline-block;letter-spacing:.3px;
+}
+.rep-commit-desc{
+  font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  font-size:11.5px;color:#6B7280;line-height:1.55;font-weight:500;letter-spacing:.2px;
+}
 
 .rep-trigger-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;
@@ -991,13 +1090,15 @@ body.report-active .rep-back-to-edit{display:inline-flex;align-items:center;gap:
 }
 .rep-action-item.p2{border-left-color:#F59E0B;background:#FFFBEB}
 .rep-action-item.p3{border-left-color:#6366F1;background:#EEF2FF}
+/* Aria upgrade: subtler priority badges in action plan */
 .rep-action-prio-tag{
-  font-size:11px;font-weight:900;text-align:center;color:#fff;
-  background:var(--gap);border-radius:6px;padding:5px 0;letter-spacing:.4px;
+  font-size:10px;font-weight:900;text-align:center;
+  background:#FEE2E2;color:#B91C1C;border:1px solid #FECACA;
+  border-radius:6px;padding:5px 0;letter-spacing:1.2px;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.rep-action-item.p2 .rep-action-prio-tag{background:#F59E0B}
-.rep-action-item.p3 .rep-action-prio-tag{background:#6366F1}
+.rep-action-item.p2 .rep-action-prio-tag{background:#FEF3C7;color:#B45309;border-color:#FDE68A}
+.rep-action-item.p3 .rep-action-prio-tag{background:#E0E7FF;color:#4338CA;border-color:#C7D2FE}
 .rep-action-body{display:flex;flex-direction:column;gap:2px;min-width:0}
 .rep-action-cat{font-size:11.5px;font-weight:800;color:var(--dark)}
 .rep-action-amt{font-size:12px;font-weight:900;color:var(--gap);font-variant-numeric:tabular-nums}
@@ -1875,7 +1976,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     </div>
     <div class="grid2">
       <div class="field"><label data-i18n="lPlannerEmail">Email / 公司</label><input id="plannerEmail" value="tenconsultancy10@gmail.com" oninput="recalc();autoSaveProfile()"></div>
-      <div class="field"><label data-i18n="lReportDate">報告日期</label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lReportDate">報告日期 <button type="button" onclick="setReportDateToday()" style="margin-left:6px;font-size:11px;padding:1px 7px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;border-radius:5px;cursor:pointer;font-weight:600">今天</button></label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
     </div>
   </div>
   <div class="profile-save-row">
@@ -1887,8 +1988,13 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 <!-- TOAST -->
 <div class="toast-wrap"><div class="toast" id="toastMsg"></div></div>
 
-<!-- PRINT COVER PAGE -->
+<!-- PRINT COVER PAGE (Aria editorial upgrade) -->
 <div class="cover-page">
+  <!-- Aria upgrade: top brand band — report number + classification -->
+  <div class="cover-top-band">
+    <span class="cover-doc-id">FAR · 2026 · <span id="cover-doc-num">00001</span></span>
+    <span class="cover-confidential">CONFIDENTIAL · 機密</span>
+  </div>
   <div class="cover-logo"><img id="cover-logo-img" alt="TEN Consultancy"></div>
   <div class="cover-divider"></div>
   <div class="cover-title">財務體檢報告</div>
@@ -2283,11 +2389,11 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
 </div>
 
 
-<!-- ══ PLAN RECOMMENDATIONS ══ -->
-<div class="section break-before">
+<!-- ══ PLAN RECOMMENDATIONS ══ (Aria: no-print — only for consultant use; report has its own Plan A/B/C table) -->
+<div class="section break-before no-print">
   <div class="section-header">
     <span class="section-tag tag-analysis" data-i18n="tagRecommend">建議</span>
-    <h2 data-i18n="stPlanCmp">保障需求建議方案</h2>
+    <h2 data-i18n="stPlanCmp">保障需求建議方案 <span style="font-size:12px;color:#94A3B8;font-weight:500;letter-spacing:.3px">· 顧問規劃用(不列印)</span></h2>
   </div>
   <div class="section-body">
     <div class="pcc-wrap">
@@ -2913,6 +3019,12 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
       </thead>
       <tbody id="rep_recTbody"></tbody>
     </table>
+
+    <h2 class="rep-section-title"
+      data-tr-zh="保障組合視覺化"
+      data-tr-en="Coverage Allocation"
+      data-tr-bm="Peruntukan Lindungan">保障組合視覺化</h2>
+    <div class="rep-donut-wrap" id="rep_coverageDonut"></div>
 
     <h2 class="rep-section-title"
       data-tr-zh="保費預算分析"
@@ -4683,6 +4795,12 @@ function loadRecord(id) {
   for(let i=lr+1;i<=15;i++) { const r=document.getElementById('lifeRow'+i); if(r)r.style.display='none'; }
   for(let i=mr+1;i<=5;i++) { const r=document.getElementById('medRow'+i); if(r)r.style.display='none'; }
   updateRowButtons();
+  // Aria fix: after restoring all fields from saved record, force reportDate to today
+  // (saved records carry the date when they were saved; consultant wants today)
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   formatAllInputs();
   pccRestoreRows();
   recalc();
@@ -4876,6 +4994,27 @@ function toggleReportView() {
 // modal (printPrepare) forces user to acknowledge they will disable
 // "Headers and Footers" in browser print dialog. If they actually do
 // disable it, the @page CSS rules suppress URL/date completely.
+// Set Report Date input to today (button on consultant profile)
+function setReportDateToday() {
+  const el = document.getElementById('reportDate');
+  if (!el) return;
+  el.value = new Date().toISOString().split('T')[0];
+  try { if (typeof recalc === 'function') recalc(); } catch(e){}
+  try { if (typeof autoSaveProfile === 'function') autoSaveProfile(); } catch(e){}
+  if (typeof showToast === 'function') {
+    showToast('報告日期已更新 / Report date updated', 'green');
+  }
+}
+
+// Aria upgrade Phase 2: assign chapter numbers 01..N to each rep-page
+function _ariaApplyChapterNumbers() {
+  const pages = document.querySelectorAll('#reportView .rep-page');
+  pages.forEach((p, i) => {
+    const n = String(i + 1).padStart(2, '0');
+    p.setAttribute('data-chapter', n);
+  });
+}
+
 function generateReportPDF() {
   const rv = document.getElementById('reportView');
   if (!rv) {
@@ -4885,6 +5024,7 @@ function generateReportPDF() {
   if (typeof renderReport === 'function') {
     try { renderReport(); } catch(e){}
   }
+  try { _ariaApplyChapterNumbers(); } catch(e){}
   rv.style.display = 'block';
   document.body.classList.add('report-active');
   window.scrollTo({top:0, behavior:'instant'});
@@ -5753,6 +5893,43 @@ function renderReport() {
   ));
   setHtml('rep_recBullets', recBullets.map(b => `<li>${b}</li>`).join(''));
 
+  // Aria Phase 2: Coverage Allocation donut — proportion of recommended coverage by type
+  try {
+    const _donutData = [
+      { cat: tr('身故 Death','Death','Kematian'),                value: deathNeed,                          color: '#DC2626' },
+      { cat: tr('全殘 TPD','TPD','TPD'),                          value: tpdNeed,                            color: '#0F1A2B' },
+      { cat: tr('危疾 CI','Critical Illness','Penyakit Kritikal'),value: ciNeed,                             color: '#F59E0B' },
+      { cat: tr('醫療 Medical','Medical','Perubatan'),            value: Math.max(1000000, lifetimeLimit),  color: '#2563EB' },
+      { cat: tr('意外 PA','Personal Accident','Kemalangan Diri'), value: Math.max(75000, Math.round(deathBenefit*0.5)), color: '#86A789' },
+    ];
+    const _donutTotal = _donutData.reduce((s,d) => s + d.value, 0);
+    const cx = 70, cy = 70, r = 50, sw = 18;
+    const C = 2 * Math.PI * r;
+    let _offset = 0;
+    const _segs = _donutData.map(d => {
+      const pct = _donutTotal > 0 ? d.value / _donutTotal : 0;
+      const dash = pct * C;
+      const seg = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${d.color}" stroke-width="${sw}" stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" stroke-dashoffset="${(-_offset).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`;
+      _offset += dash;
+      return seg;
+    }).join('');
+    const _legend = _donutData.map(d => {
+      const pct = _donutTotal > 0 ? (d.value / _donutTotal * 100) : 0;
+      return `<div class="rep-donut-legend-item">
+        <span class="rep-donut-legend-swatch" style="background:${d.color}"></span>
+        <span class="rep-donut-legend-cat">${d.cat}</span>
+        <span class="rep-donut-legend-pct">${pct.toFixed(0)}%</span>
+      </div>`;
+    }).join('');
+    setHtml('rep_coverageDonut', `
+      <svg class="rep-donut-svg" viewBox="0 0 140 140">${_segs}
+        <text x="70" y="65" text-anchor="middle" font-size="10" fill="#9CA3AF" font-weight="600" font-family="-apple-system,sans-serif" style="text-transform:uppercase;letter-spacing:1.5px">${tr('總保障','Coverage','Lindungan')}</text>
+        <text x="70" y="84" text-anchor="middle" font-size="14" fill="#0F1A2B" font-weight="900">${(_donutTotal/1000000).toFixed(2)}M</text>
+      </svg>
+      <div class="rep-donut-legend">${_legend}</div>
+    `);
+  } catch(e) { console.warn('donut render failed', e); }
+
   // ── Plan A / B / C comparison table (Recommendations page) ──
   // Renders only if at least one plan has any input. Otherwise shows
   // a placeholder telling the consultant to fill in plans first.
@@ -6140,9 +6317,8 @@ function loadProfile() {
 // ══ INIT ══
 buildPolicyRows();
 loadProfile();
-// Set today as default date only if profile has no saved date
-if(!document.getElementById('reportDate').value)
-  document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+// Aria fix: ALWAYS set reportDate to today on init (override saved profile date)
+document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
 formatAllInputs();
 recalc();
 renderRecords();
@@ -6524,12 +6700,18 @@ function showLanding() {
 // Save the record AND open the report preview (no auto-print).
 // User clicks Print/PDF from inside the preview when ready.
 function saveAndPreview() {
+  // Aria fix: always stamp report with today's date before preview
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   try { if (typeof saveRecord === 'function') saveRecord(); } catch(e){}
   const rv = document.getElementById('reportView');
   if (!rv) return;
   if (typeof renderReport === 'function') {
     try { renderReport(); } catch(e){}
   }
+  try { _ariaApplyChapterNumbers(); } catch(e){}
   rv.style.display = 'block';
   document.body.classList.add('report-active');
   window.scrollTo({top: 0, behavior: 'instant'});
@@ -6556,6 +6738,11 @@ function resetNextReviewDate() {
 
 function enterFAR() {
   document.body.classList.remove('landing');
+  // Aria fix: ensure report date is today's date on every fresh FAR entry
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   // Fade out welcomeScreen (the new landing) and enter the FAR wizard
   const ws = document.getElementById('welcomeScreen');
   if (ws) {
