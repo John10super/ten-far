@@ -4795,6 +4795,12 @@ function loadRecord(id) {
   for(let i=lr+1;i<=15;i++) { const r=document.getElementById('lifeRow'+i); if(r)r.style.display='none'; }
   for(let i=mr+1;i<=5;i++) { const r=document.getElementById('medRow'+i); if(r)r.style.display='none'; }
   updateRowButtons();
+  // Aria fix: after restoring all fields from saved record, force reportDate to today
+  // (saved records carry the date when they were saved; consultant wants today)
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   formatAllInputs();
   pccRestoreRows();
   recalc();
@@ -6311,9 +6317,8 @@ function loadProfile() {
 // ══ INIT ══
 buildPolicyRows();
 loadProfile();
-// Set today as default date only if profile has no saved date
-if(!document.getElementById('reportDate').value)
-  document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+// Aria fix: ALWAYS set reportDate to today on init (override saved profile date)
+document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
 formatAllInputs();
 recalc();
 renderRecords();
