@@ -1976,7 +1976,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
     </div>
     <div class="grid2">
       <div class="field"><label data-i18n="lPlannerEmail">Email / 公司</label><input id="plannerEmail" value="tenconsultancy10@gmail.com" oninput="recalc();autoSaveProfile()"></div>
-      <div class="field"><label data-i18n="lReportDate">報告日期</label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
+      <div class="field"><label data-i18n="lReportDate">報告日期 <button type="button" onclick="setReportDateToday()" style="margin-left:6px;font-size:11px;padding:1px 7px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;border-radius:5px;cursor:pointer;font-weight:600">今天</button></label><input type="date" id="reportDate" oninput="recalc();autoSaveProfile()"></div>
     </div>
   </div>
   <div class="profile-save-row">
@@ -4988,6 +4988,18 @@ function toggleReportView() {
 // modal (printPrepare) forces user to acknowledge they will disable
 // "Headers and Footers" in browser print dialog. If they actually do
 // disable it, the @page CSS rules suppress URL/date completely.
+// Set Report Date input to today (button on consultant profile)
+function setReportDateToday() {
+  const el = document.getElementById('reportDate');
+  if (!el) return;
+  el.value = new Date().toISOString().split('T')[0];
+  try { if (typeof recalc === 'function') recalc(); } catch(e){}
+  try { if (typeof autoSaveProfile === 'function') autoSaveProfile(); } catch(e){}
+  if (typeof showToast === 'function') {
+    showToast('報告日期已更新 / Report date updated', 'green');
+  }
+}
+
 // Aria upgrade Phase 2: assign chapter numbers 01..N to each rep-page
 function _ariaApplyChapterNumbers() {
   const pages = document.querySelectorAll('#reportView .rep-page');
@@ -6683,6 +6695,11 @@ function showLanding() {
 // Save the record AND open the report preview (no auto-print).
 // User clicks Print/PDF from inside the preview when ready.
 function saveAndPreview() {
+  // Aria fix: always stamp report with today's date before preview
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   try { if (typeof saveRecord === 'function') saveRecord(); } catch(e){}
   const rv = document.getElementById('reportView');
   if (!rv) return;
@@ -6716,6 +6733,11 @@ function resetNextReviewDate() {
 
 function enterFAR() {
   document.body.classList.remove('landing');
+  // Aria fix: ensure report date is today's date on every fresh FAR entry
+  try {
+    const _rd = document.getElementById('reportDate');
+    if (_rd) _rd.value = new Date().toISOString().split('T')[0];
+  } catch(e){}
   // Fade out welcomeScreen (the new landing) and enter the FAR wizard
   const ws = document.getElementById('welcomeScreen');
   if (ws) {
