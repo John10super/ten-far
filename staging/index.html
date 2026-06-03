@@ -193,6 +193,26 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .ll-cell .ll-unlim-label input[type=checkbox]{margin:0;cursor:pointer;width:14px;height:14px}
 .ll-cell .ll-input:disabled{background:#F3F4F6;color:#9CA3AF;cursor:not-allowed}
 .ll-cell .ll-input:disabled::placeholder{color:#9CA3AF;opacity:.6}
+
+/* ─── Formula info tooltip (ⓘ icon) ─────────────────────────── */
+.info-tip-wrap{position:relative;display:inline-flex;align-items:center;gap:6px;justify-content:flex-end}
+.info-tip-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid #94A3B8;background:#fff;font-family:Georgia,serif;font-style:italic;font-size:11px;font-weight:700;color:#64748B;cursor:help;transition:.15s;flex-shrink:0;user-select:none}
+.info-tip-icon:hover,.info-tip-icon:focus{background:#F1F5F9;border-color:#475569;color:#1E293B;outline:none}
+.info-tip-content{position:absolute;bottom:calc(100% + 8px);right:0;width:340px;max-width:92vw;background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px;box-shadow:0 10px 28px rgba(15,26,43,.15);color:#6B7280;font-size:12px;font-weight:400;line-height:1.6;text-align:left;opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .18s,transform .18s,visibility .18s;z-index:1000;pointer-events:none;white-space:normal}
+.info-tip-icon:hover .info-tip-content,.info-tip-icon:focus .info-tip-content{opacity:1;visibility:visible;transform:translateY(0)}
+.info-tip-content::after{content:'';position:absolute;top:100%;right:6px;border:6px solid transparent;border-top-color:#fff;filter:drop-shadow(0 1px 0 #E5E7EB)}
+.info-tip-title{color:var(--dark);font-weight:700;font-size:13px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #F1F5F9}
+.info-tip-formula{background:#F8FAFC;border-left:3px solid var(--red);padding:6px 10px;margin:6px 0 10px;font-family:'Courier New',monospace;font-size:11px;color:#475569;border-radius:3px}
+.info-tip-line{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.info-tip-line.indent{padding-left:14px;font-size:11.5px;color:#94A3B8}
+.info-tip-line.subtotal{border-top:1px dashed #E5E7EB;margin-top:4px;padding-top:5px;font-weight:600;color:#475569}
+.info-tip-line.total{border-top:2px solid var(--red);margin-top:8px;padding-top:7px;font-weight:700;color:var(--dark);font-size:13px}
+.info-tip-line .ti-lbl{flex:1}
+.info-tip-line .ti-val{font-variant-numeric:tabular-nums;white-space:nowrap}
+.info-tip-note{font-size:11px;color:#94A3B8;font-style:italic;margin-top:8px;padding-top:6px;border-top:1px dashed #F1F5F9}
+@media (max-width:640px){
+  .info-tip-content{width:280px;right:-4px}
+}
 .policy-row-del{background:none;border:1px solid #FECACA;border-radius:4px;color:#EF4444;cursor:pointer;font-size:15px;padding:3px 6px;line-height:1;transition:.15s}
 .policy-row-del:hover{background:#FEE2E2}
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:15px;font-weight:600;cursor:pointer;transition:.15s}
@@ -4082,6 +4102,16 @@ function fmtLifetime(v) {
   if (v === Infinity) return tr('無限額','Unlimited','Tanpa Had');
   return fmtRaw(v);
 }
+// ── Formula tooltip helpers ──
+// Build a single key/value line for the tooltip
+function _tipLine(label, val, cls='') {
+  return `<div class="info-tip-line ${cls}"><span class="ti-lbl">${label}</span><span class="ti-val">${typeof val === 'number' ? fmtRaw(val) : val}</span></div>`;
+}
+// Wrap a need-value with ⓘ icon + hover tooltip showing the formula breakdown
+function _needWithTip(val, tooltipHtml) {
+  if(!tooltipHtml) return fmtRaw(val);
+  return `<span class="info-tip-wrap">${fmtRaw(val)}<span class="info-tip-icon" tabindex="0" role="button" aria-label="${tr('查看計算公式','View formula','Lihat formula')}">i<span class="info-tip-content">${tooltipHtml}</span></span></span>`;
+}
 function fmtNum(v, d=0, suffix='') {
   if(!isFinite(v)||isNaN(v)) return '—';
   return v.toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d}) + suffix;
@@ -4372,19 +4402,70 @@ function recalc() {
   `);
 
   // ── Insurance Needs Table ──
+  // Build formula tooltip content for each row (PV breakdown + inputs)
+  const _monthlyExpForTip = monthlyExpBase;
+  const _realRatePct = (realRate * 100).toFixed(2);
+  const _formulaLabel = tr('計算公式','Formula','Formula');
+  const _noteLabel = tr('註:現值(PV)計算考量通脹 vs 利率;若通脹 > 利率,需要準備的金額會略大於名目合計。','Note: Present Value adjusts for inflation vs interest. If inflation > interest, the required amount slightly exceeds nominal sum.','Nota: Nilai Semasa (PV) menyesuaikan inflasi vs kadar faedah. Jika inflasi > faedah, jumlah diperlukan melebihi jumlah nominal.');
+
+  // Death tooltip
+  const _annExpDeathTip = (monthlyExpBase - annPremium/12) * 12;
+  const _pvDeathTip = Math.max(0, PV(realRate, yearsResp, -_annExpDeathTip));
+  const _deathTip = `
+    <div class="info-tip-title">${tr('身故保障計算明細','Death Coverage Breakdown','Pecahan Lindungan Kematian')}</div>
+    <div class="info-tip-formula">${tr('身故 = 家庭生活費(現值) + IDE + 全部債務','Death = PV(family expenses) + IDE + All Debts','Kematian = PV(perbelanjaan keluarga) + IDE + Semua Hutang')}</div>
+    ${_tipLine(tr(`家庭 ${yearsResp} 年生活費(現值)`,`Family ${yearsResp}-yr Expenses (PV)`,`Perbelanjaan Keluarga ${yearsResp} thn (PV)`), _pvDeathTip)}
+    ${_tipLine(tr(`　月支出 ${fmtRaw(monthlyExpBase)} → 年 ${fmtRaw(_annExpDeathTip)}`,`Monthly ${fmtRaw(monthlyExpBase)} → Annual ${fmtRaw(_annExpDeathTip)}`,`Bulanan ${fmtRaw(monthlyExpBase)} → Tahunan ${fmtRaw(_annExpDeathTip)}`), tr(`PV ${_realRatePct}%/年 × ${yearsResp}年`,`PV ${_realRatePct}%/yr × ${yearsResp}yr`,`PV ${_realRatePct}%/thn × ${yearsResp}thn`), 'indent')}
+    ${_tipLine(tr('即時身故費用 (IDE)','Immediate Death Expense (IDE)','Perbelanjaan Kematian Segera (IDE)'), IDE)}
+    ${_tipLine(tr('全部債務','Total Debts','Jumlah Hutang'), totalDebts)}
+    ${_tipLine(tr('　房貸 + 投資物業','　Home + Investment Mortgages','　Pinjaman Rumah + Pelaburan'), homeOfficeBal + investBal, 'indent')}
+    ${_tipLine(tr('　車貸','　Car Loan','　Pinjaman Kereta'), carLoanBal, 'indent')}
+    ${_tipLine(tr('　信用卡 + 私人貸款','　Credit Card + Personal Loan','　Kad Kredit + Pinjaman Peribadi'), ccPersonal, 'indent')}
+    ${_tipLine(`<b>${tr('合計 Total','Total','Jumlah')}</b>`, deathNeed, 'total')}
+    <div class="info-tip-note">${_noteLabel}</div>
+  `;
+
+  // TPD tooltip
+  const _annExpTPDTip = (monthlyExpBase - tpdWaiverPremium/12) * 12;
+  const _tpdTip = `
+    <div class="info-tip-title">${tr('全殘保障計算明細','TPD Coverage Breakdown','Pecahan Lindungan OKU')}</div>
+    <div class="info-tip-formula">${tr('全殘 = 家庭 10 年生活費(現值)','TPD = PV(10-yr family expenses)','OKU = PV(perbelanjaan keluarga 10 thn)')}</div>
+    ${_tipLine(tr('每月支出','Monthly Expenses','Perbelanjaan Bulanan'), monthlyExpBase)}
+    ${tpdWaiverPremium > 0 ? _tipLine(tr('　扣 TPD 豁免月額','　Less TPD Waiver/mo','　Tolak Pengecualian OKU/blln'), -tpdWaiverPremium/12, 'indent') : ''}
+    ${_tipLine(tr('年支出','Annual Expenses','Perbelanjaan Tahunan'), _annExpTPDTip, 'subtotal')}
+    ${_tipLine(tr(`PV ${_realRatePct}%/年 × 10 年`,`PV ${_realRatePct}%/yr × 10 yrs`,`PV ${_realRatePct}%/thn × 10 thn`), tpdNeed, 'total')}
+    <div class="info-tip-note">${_noteLabel}</div>
+  `;
+
+  // CI tooltip
+  const _annExpCITip = (totalMonthlyExp - ciWaiverPremium/12) * 12;
+  const _pvCITip = Math.max(0, PV(realRate, 3, -_annExpCITip));
+  const _rrfAnnualTip = RRF * 12;
+  const _rrfPVTip = Math.max(0, PV(realRate, 3, -_rrfAnnualTip));
+  const _ciTip = `
+    <div class="info-tip-title">${tr('危疾保障計算明細','CI Coverage Breakdown','Pecahan Lindungan CI')}</div>
+    <div class="info-tip-formula">${tr('危疾 = 3 年治療期生活費(現值) + RRF 康復儲備(現值)','CI = PV(3-yr expenses) + PV(3-yr RRF)','CI = PV(perbelanjaan 3 thn) + PV(RRF 3 thn)')}</div>
+    ${_tipLine(tr('3 年治療期生活費(現值)','3-yr Treatment Expenses (PV)','Perbelanjaan Rawatan 3 thn (PV)'), _pvCITip)}
+    ${_tipLine(tr(`　月支出含全部貸款 ${fmtRaw(totalMonthlyExp)}`,`　Monthly w/ all loans ${fmtRaw(totalMonthlyExp)}`,`　Bulanan + semua pinjaman ${fmtRaw(totalMonthlyExp)}`), tr(`PV ${_realRatePct}%/年 × 3 年`,`PV ${_realRatePct}%/yr × 3 yrs`,`PV ${_realRatePct}%/thn × 3 thn`), 'indent')}
+    ${_tipLine(tr('康復儲備金 RRF(3 年總現值)','Recovery Reserve Fund (3-yr PV)','Dana Rizab Pemulihan (PV 3 thn)'), _rrfPVTip)}
+    ${_tipLine(tr(`　RM ${fmtRaw(RRF).replace('RM ','')}/月 × 36 個月`,`　RM ${fmtRaw(RRF).replace('RM ','')}/mo × 36 mo`,`　RM ${fmtRaw(RRF).replace('RM ','')}/blln × 36 blln`), tr(`年 ${fmtRaw(_rrfAnnualTip)} → PV`,`Annual ${fmtRaw(_rrfAnnualTip)} → PV`,`Tahunan ${fmtRaw(_rrfAnnualTip)} → PV`), 'indent')}
+    ${_tipLine(`<b>${tr('合計 Total','Total','Jumlah')}</b>`, ciNeed, 'total')}
+    <div class="info-tip-note">${_noteLabel}</div>
+  `;
+
   const needsRows = [
-    [L('nDeath'), deathNeed, deathBenefit, deathGap, L('nDeathNote').replace('%y', yearsResp)],
-    [L('nTPD'), tpdNeed, tpdBenefit, tpdGap, L('nTPDNote')],
-    [L('nCI'), ciNeed, totalCI, ciGap, L('nCINote')],
+    [L('nDeath'), deathNeed, deathBenefit, deathGap, L('nDeathNote').replace('%y', yearsResp), _deathTip],
+    [L('nTPD'), tpdNeed, tpdBenefit, tpdGap, L('nTPDNote'), _tpdTip],
+    [L('nCI'), ciNeed, totalCI, ciGap, L('nCINote'), _ciTip],
   ];
-  setHtml('needsTable', needsRows.map(([label, need, current, gap, note]) => {
+  setHtml('needsTable', needsRows.map(([label, need, current, gap, note, tip]) => {
     const hasGap = gap < 0;
     const gapCls = hasGap ? 'gap-val' : 'gap-val positive';
     const badge = statusBadge(!hasGap, hasGap?L('statusGap'):L('statusOk'));
     const prog = progressBar(Math.min(current, need*1.5), need*1.5, hasGap?'gap':'ok');
     return `<tr>
       <td><b>${label}</b><div class="text-sm">${note}</div></td>
-      <td class="need-val" style="text-align:right">${fmtRaw(need)}</td>
+      <td class="need-val" style="text-align:right">${_needWithTip(need, tip)}</td>
       <td class="current-val" style="text-align:right">${fmtRaw(current)}${prog}</td>
       <td class="${gapCls}" style="text-align:right">${hasGap?'▼ -':'+ '}${fmtRaw(Math.abs(gap))}</td>
       <td>${badge}</td>
