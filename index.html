@@ -173,18 +173,23 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .gap-val.positive{color:var(--ok)}
 
 /* ── POLICY TABLE ─── */
-.policy-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;border:1px solid var(--border)}
-.policy-hint{font-size:14px;color:var(--muted);text-align:center;padding:3px 0;display:none}
-.policy-tbl{width:100%;border-collapse:collapse;font-size:15px;min-width:680px}
-.policy-tbl th{background:var(--dark);color:#fff;padding:7px 8px;text-align:left;font-size:14px;font-weight:600;white-space:nowrap}
+.policy-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;border:1px solid var(--border);position:relative}
+.policy-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:24px;background:linear-gradient(to right,transparent,rgba(255,255,255,.9));pointer-events:none;border-radius:0 8px 8px 0}
+.policy-hint{font-size:13px;color:var(--red);text-align:right;padding:4px 8px 6px;display:block;font-weight:600;letter-spacing:.2px}
+@media (min-width:1500px){.policy-hint{display:none}.policy-wrap::after{display:none}}
+.policy-tbl{width:100%;border-collapse:collapse;font-size:15px;min-width:1400px}
+.policy-tbl th{background:var(--dark);color:#fff;padding:7px 6px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap}
 .policy-tbl td{padding:4px 5px;border-bottom:1px solid var(--border);vertical-align:middle}
 .policy-tbl tr:last-child td{border-bottom:none}
 .policy-tbl tr:nth-child(even) td{background:#FAFAFA}
 .policy-tbl .nc{text-align:center;font-weight:700;color:var(--muted);font-size:14px;width:24px;padding:4px 6px}
-.policy-tbl input[type=number]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:95px;background:#fff;color:var(--text);text-align:right;-moz-appearance:textfield}
+.policy-tbl input[type=number]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:14px;width:88px;background:#fff;color:var(--text);text-align:right;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
 .policy-tbl input[type=number]::-webkit-inner-spin-button,.policy-tbl input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.policy-tbl input[type=text]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:95px;background:#fff}
-.policy-tbl select{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:140px;background:#fff}
+.policy-tbl input[type=text]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:14px;width:88px;background:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.policy-tbl input[data-fmt="1"]{text-align:right;font-variant-numeric:tabular-nums}
+.policy-tbl select{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:14px;width:120px;background:#fff}
+.policy-tbl tfoot td{font-variant-numeric:tabular-nums;text-align:right}
+.policy-tbl tfoot td:first-child{text-align:left}
 .policy-tbl input:focus,.policy-tbl select:focus{border-color:var(--red);outline:none}
 .policy-tbl .th-unit{font-weight:400;opacity:.7;font-size:12px}
 .ll-cell{display:flex;flex-direction:row;gap:8px;align-items:center;min-width:165px;justify-content:flex-end}
@@ -2237,7 +2242,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
   <div class="section-body">
 
     <div class="sub-title" data-i18n="stLifeCoverage">人壽 / 傷殘 / 危疾 保障</div>
-    <div class="policy-hint">← 左右滑動查看完整欄位</div>
+    <div class="policy-hint">← 左右滑動查看所有欄位(包含 TPD 豁免、殘障月收入、年繳保費)</div>
     <div class="policy-wrap">
       <table class="policy-tbl">
         <thead>
@@ -3851,23 +3856,25 @@ function buildInsurerOpts() {
 }
 
 function buildPolicyRows() {
+  // Shared number-input attrs — text + thousands-format on blur, raw on focus
+  const _ni = 'type="text" inputmode="numeric" data-fmt="1" placeholder="" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,\'\');recalc()"';
   const opts = buildInsurerOpts();
   let lifeHtml = '';
   for (let i = 1; i <= LIFE_MAX; i++) {
     lifeHtml += `<tr id="lifeRow${i}"${i>1?' style="display:none"':''}>
       <td class="nc">${i}</td>
       <td><select id="p${i}co" onchange="recalc()">${opts}</select></td>
-      <td><input type="text" id="p${i}pno" placeholder="${L('policyNoPlh')}" style="width:95px" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}death" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}tpd" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}pa" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}ci" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}eci" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}dh" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}ciw" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}tpdw" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}dis" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}prem" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input type="text" id="p${i}pno" placeholder="${L('policyNoPlh')}" style="width:90px" oninput="recalc()"></td>
+      <td><input ${_ni} id="p${i}death"></td>
+      <td><input ${_ni} id="p${i}tpd"></td>
+      <td><input ${_ni} id="p${i}pa"></td>
+      <td><input ${_ni} id="p${i}ci"></td>
+      <td><input ${_ni} id="p${i}eci"></td>
+      <td><input ${_ni} id="p${i}dh"></td>
+      <td><input ${_ni} id="p${i}ciw"></td>
+      <td><input ${_ni} id="p${i}tpdw"></td>
+      <td><input ${_ni} id="p${i}dis"></td>
+      <td><input ${_ni} id="p${i}prem"></td>
       <td class="no-print"><button class="policy-row-del" id="lifeDelBtn${i}" onclick="removeLifeRow(${i})" title="Remove">✕</button></td>
     </tr>`;
   }
@@ -3877,17 +3884,17 @@ function buildPolicyRows() {
     medHtml += `<tr id="medRow${i}"${i>1?' style="display:none"':''}>
       <td class="nc">${i}</td>
       <td><select id="pm${i}co" onchange="recalc()">${medOpts}</select></td>
-      <td><input type="number" id="p${i}rb" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input ${_ni} id="p${i}rb"></td>
       <td>
         <div class="ll-cell">
-          <input type="number" id="p${i}ll" placeholder="" min="0" oninput="recalc()" class="ll-input">
+          <input type="text" inputmode="numeric" data-fmt="1" id="p${i}ll" placeholder="" onfocus="unFmtInput(this)" onblur="fmtInput(this)" oninput="this.value=this.value.replace(/-/g,'');recalc()" class="ll-input">
           <label class="ll-unlim-label">
             <input type="checkbox" id="p${i}ll_unlim" onchange="toggleNoLimit(${i})">
             <span data-i18n="chkNoLimit">無終身限額</span>
           </label>
         </div>
       </td>
-      <td><input type="number" id="p${i}al" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input ${_ni} id="p${i}al"></td>
       <td class="no-print"><button class="policy-row-del" id="medDelBtn${i}" onclick="removeMedRow(${i})" title="Remove">✕</button></td>
     </tr>`;
   }
