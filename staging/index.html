@@ -4129,6 +4129,25 @@ function _needWithTip(val, tooltipHtml) {
   if(!tooltipHtml) return fmtRaw(val);
   return `<span class="info-tip-wrap">${fmtRaw(val)}<span class="info-tip-icon" tabindex="0" role="button" aria-label="${tr('查看計算公式','View formula','Lihat formula')}">i<span class="info-tip-content">${tooltipHtml}</span></span></span>`;
 }
+// Wrap any pre-rendered HTML (e.g. status badge) with ⓘ icon + tooltip
+function _badgeWithTip(badgeHtml, tooltipHtml) {
+  if(!tooltipHtml) return badgeHtml;
+  return `<span class="info-tip-wrap">${badgeHtml}<span class="info-tip-icon" tabindex="0" role="button" aria-label="${tr('查看計算公式','View formula','Lihat formula')}">i<span class="info-tip-content">${tooltipHtml}</span></span></span>`;
+}
+// Build a ratio-row tooltip body from structured data
+function _ratioTip(title, formula, lines, resultLabel, resultVal, benchmark) {
+  const linesHtml = lines.map(([lbl, val, cls]) => _tipLine(lbl, val, cls||'')).join('');
+  const benchmarkHtml = benchmark
+    ? `<div class="info-tip-note">${tr('建議','Recommend','Disyorkan')}: ${benchmark}</div>`
+    : '';
+  return `
+    <div class="info-tip-title">${title}</div>
+    <div class="info-tip-formula">${formula}</div>
+    ${linesHtml}
+    ${_tipLine(`<b>${resultLabel}</b>`, resultVal, 'total')}
+    ${benchmarkHtml}
+  `;
+}
 function fmtNum(v, d=0, suffix='') {
   if(!isFinite(v)||isNaN(v)) return '—';
   return v.toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d}) + suffix;
@@ -4516,22 +4535,140 @@ function recalc() {
   // To convey the actual shortage to the client we surface the dollar gap.
   const dtfShortfall = pvDTF < 0 ? -pvDTF : 0;
   const dbfShortfall = pvDBF < 0 ? -pvDBF : 0;
+  // Pre-compute display values for use inside formula tooltips
+  const _mr = (realRate * 100 / 12).toFixed(3);  // monthly real rate %
+  const _rrStr = (realRate * 100).toFixed(2);    // annual real rate %
+  const _coverTip = _ratioTip(
+    tr('保額倍數 Sum Assured Multiple','Sum Assured Multiple','Gandaan Jumlah Insured'),
+    tr('身故保額 ÷ 年繳保費','Death Benefit ÷ Annual Premium','Manfaat Kematian ÷ Premium Tahunan'),
+    [
+      [tr('身故保額','Death Benefit','Manfaat Kematian'), deathBenefit],
+      [tr('年繳保費(含 Life + Med)','Annual Premium (Life + Med)','Premium Tahunan (Life + Med)'), annPremium],
+    ],
+    tr('倍數','Multiple','Gandaan'),
+    isFinite(coverRatio) && coverRatio > 0 ? coverRatio.toFixed(1) + 'x' : '—',
+    `${crLow.toFixed(0)}x - ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`
+  );
+  const _dtfTip = _ratioTip(
+    tr('家庭收入替代期 DTF','Family Income Replacement Period','Tempoh Penggantian Pendapatan'),
+    tr('NPER(月利率, -月支出, 死後可用淨額)','NPER(monthly rate, -monthly exp, post-death residual)','NPER(kadar bulanan, -bulanan, baki selepas kematian)'),
+    [
+      [tr('死後淨額(身故 - 全部債務 - IDE)','Residual (Death - Debts - IDE)','Baki (Kematian - Hutang - IDE)'), pvDTF],
+      [tr('每月支出(扣保費)','Monthly Exp (less premium)','Bulanan (tolak premium)'), mthlyForDTF],
+      [tr('月實質利率','Monthly real rate','Kadar bulanan'), `${_mr}%`],
+    ],
+    tr('可支撐月數','Months Supported','Bulan Disokong'),
+    isFinite(DTF) && DTF > 0 ? DTF.toFixed(1) + ' mo' : (dtfShortfall > 0 ? `0 mo (shortfall ${fmtRaw(dtfShortfall)})` : '—'),
+    `> ${requiredMonths} ${L('bmMo')}`
+  );
+  const _totalIFSTip = _ratioTip(
+    tr('總保障充足率 Total Funding Sufficiency','Total Funding Sufficiency','Kecukupan Pembiayaan'),
+    tr('身故保額 ÷ 全部需求','Death Benefit ÷ Total Need','Manfaat Kematian ÷ Jumlah Diperlukan'),
+    [
+      [tr('身故保額','Death Benefit','Manfaat Kematian'), deathBenefit],
+      [tr(`全部需求 = PV(月支出 × ${requiredMonths}個月) + 全部債務 + IDE`,`Total Need = PV(monthly × ${requiredMonths}mo) + Debts + IDE`,`Diperlukan = PV(bulanan × ${requiredMonths}blln) + Hutang + IDE`), fundNeedTotal],
+    ],
+    tr('比率','Ratio','Nisbah'),
+    isFinite(totalIFS) && totalIFS > 0 ? (totalIFS * 100).toFixed(1) + '%' : '—',
+    '> 100%'
+  );
+  const _accIFSTip = _ratioTip(
+    tr('意外死亡保障倍數 Accidental Death Coverage Index','Accidental Death Coverage Index','Indeks Lindungan Kemalangan'),
+    tr('(身故保額 + PA保額) ÷ 全部需求','(Death + PA) ÷ Total Need','(Kematian + PA) ÷ Jumlah Diperlukan'),
+    [
+      [tr('身故保額','Death Benefit','Manfaat Kematian'), deathBenefit],
+      [tr('意外身故 PA','Personal Accident','PA'), paBenefit],
+      [tr('合計','Subtotal','Subjumlah'), accDeathTotal, 'subtotal'],
+      [tr('全部需求','Total Need','Jumlah Diperlukan'), fundNeedTotal],
+    ],
+    tr('比率','Ratio','Nisbah'),
+    isFinite(accTotalIFS) && accTotalIFS > 0 ? (accTotalIFS * 100).toFixed(1) + '%' : '—',
+    '> 100%'
+  );
+  const _ciMoTip = _ratioTip(
+    tr('危疾收入替代期 CI Income Replacement','CI Income Replacement Period','Tempoh Penggantian CI'),
+    tr('NPER(月利率, -CI月支出, CI保額)','NPER(monthly rate, -CI monthly exp, CI benefit)','NPER(kadar, -bulanan CI, manfaat CI)'),
+    [
+      [tr('CI保額(含早期)','CI Benefit (incl. Early)','Manfaat CI (+ Awal)'), totalCI],
+      [tr('CI月支出(扣 CI 豁免)','CI Monthly Exp (less waiver)','Bulanan CI (tolak waiver)'), ciMthlyExp],
+    ],
+    tr('可支撐月數','Months Supported','Bulan Disokong'),
+    isFinite(ciToMonths) && ciToMonths > 0 ? ciToMonths.toFixed(1) + ' mo' : '—',
+    `36 - 60 ${L('bmMo')}`
+  );
+  const _eciMoTip = _ratioTip(
+    tr('早期危疾收入替代期 Early CI Replacement','Early CI Replacement Period','Tempoh Penggantian CI Awal'),
+    tr('NPER(月利率, -CI月支出, 早期CI保額)','NPER(monthly rate, -CI monthly exp, Early CI benefit)','NPER(kadar, -bulanan CI, manfaat CI awal)'),
+    [
+      [tr('早期CI保額','Early CI Benefit','Manfaat CI Awal'), earlyCI],
+      [tr('CI月支出','CI Monthly Exp','Bulanan CI'), ciMthlyExp],
+    ],
+    tr('可支撐月數','Months Supported','Bulan Disokong'),
+    isFinite(earlyToMonths) && earlyToMonths > 0 ? earlyToMonths.toFixed(1) + ' mo' : '—',
+    `36 - 60 ${L('bmMo')}`
+  );
+  const _ciIFSTip = _ratioTip(
+    tr('危疾保障充足率 CI Funding Sufficiency','CI Funding Sufficiency','Kecukupan Pembiayaan CI'),
+    tr('CI保額 ÷ CI需求(3 年月支出 PV)','CI Benefit ÷ 3-yr expense PV','Manfaat CI ÷ PV perbelanjaan 3 thn'),
+    [
+      [tr('CI保額(含早期)','CI Benefit (incl. Early)','Manfaat CI (+ Awal)'), totalCI],
+      [tr('3 年月支出 PV','3-yr monthly exp PV','PV bulanan 3 thn'), ciNeedMonths],
+    ],
+    tr('比率','Ratio','Nisbah'),
+    isFinite(ciBasicIFS) && ciBasicIFS > 0 ? (ciBasicIFS * 100).toFixed(1) + '%' : '—',
+    '> 100%'
+  );
+  const _tpdMoTip = _ratioTip(
+    tr('全殘收入替代期 TPD Income Replacement','TPD Income Replacement Period','Tempoh Penggantian TPD'),
+    tr('NPER(月利率, -TPD月支出, TPD保額)','NPER(monthly rate, -TPD monthly exp, TPD benefit)','NPER(kadar, -bulanan TPD, manfaat TPD)'),
+    [
+      [tr('TPD保額','TPD Benefit','Manfaat TPD'), tpdBenefit],
+      [tr('TPD月支出(扣 TPD 豁免 - 殘障收入)','TPD Monthly Exp (less waiver, disability income)','Bulanan TPD (tolak waiver, pendapatan)'), tpdMthlyExp],
+    ],
+    tr('可支撐月數','Months Supported','Bulan Disokong'),
+    isFinite(tpdToMonths) && tpdToMonths > 0 ? tpdToMonths.toFixed(1) + ' mo' : '—',
+    `120 - 240 ${L('bmMo')}`
+  );
+  const _mhiTip = _ratioTip(
+    tr('醫療終身限額抗病倍數 MHI Lifetime Capacity','MHI Lifetime Capacity','Kapasiti Had Seumur Hidup'),
+    tr('終身限額 ÷ RM 200,000(重大疾病標準費用)','Lifetime Limit ÷ RM 200,000 (major illness cost)','Had Seumur Hidup ÷ RM 200,000 (kos penyakit serius)'),
+    [
+      [tr('醫療卡終身限額','Medical Lifetime Limit','Had Perubatan'), lifetimeLimit === Infinity ? tr('無限額','Unlimited','Tanpa Had') : lifetimeLimit],
+      [tr('參考單位','Reference','Rujukan'), 200000],
+    ],
+    tr('倍數','Multiple','Gandaan'),
+    mhiFunding200k === Infinity ? '∞' : (mhiFunding200k > 0 ? mhiFunding200k.toFixed(1) + 'x' : '—'),
+    '> 2x'
+  );
+  const _mhiCITip = _ratioTip(
+    tr('醫療 + 危疾合併倍數 MHI + CI Combined','MHI + CI Combined Capacity','Kapasiti MHI + CI'),
+    tr('(終身限額 + CI保額) ÷ RM 200,000','(Lifetime Limit + CI) ÷ RM 200,000','(Had Seumur Hidup + CI) ÷ RM 200,000'),
+    [
+      [tr('終身限額','Lifetime Limit','Had Seumur Hidup'), lifetimeLimit === Infinity ? tr('無限額','Unlimited','Tanpa Had') : lifetimeLimit],
+      [tr('CI保額','CI Benefit','Manfaat CI'), totalCI],
+      [tr('合計','Subtotal','Subjumlah'), lifetimeLimit === Infinity ? tr('無限額','Unlimited','Tanpa Had') : (lifetimeLimit + totalCI), 'subtotal'],
+      [tr('參考單位','Reference','Rujukan'), 200000],
+    ],
+    tr('倍數','Multiple','Gandaan'),
+    mhiCIFunding200k === Infinity ? '∞' : (mhiCIFunding200k > 0 ? mhiCIFunding200k.toFixed(1) + 'x' : '—'),
+    '> 2x'
+  );
   const ratioRows = [
-    {label:L('rlCoverRatio'), val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio')},
-    {label:L('rlDTF'), val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF')},
+    {label:L('rlCoverRatio'), val:coverRatio, unit:'x', ok:coverRatio>=crLow, benchmark:`${crLow.toFixed(0)}x – ${crHigh.toFixed(0)}x (Age ${Math.round(age)})`, desc:L('rdCoverRatio'), tip:_coverTip},
+    {label:L('rlDTF'), val:DTF, unit:'mo', shortfall:dtfShortfall, ok:DTF>=requiredMonths, benchmark:`> ${requiredMonths} ${L('bmMo')}`, desc:L('rdDTF'), tip:_dtfTip},
     // DBF (Basic) and DUF (Unsettled) rows intentionally hidden — the model's
     // monthly-payment simplification (no amortization, no residual debt
     // accounting) makes them counterintuitive to explain to clients.
     // Underlying calculations preserved above for any future re-display.
-    {label:L('rlTotalIFS'), val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS')},
+    {label:L('rlTotalIFS'), val:totalIFS, unit:'%', ok:totalIFS>=1, benchmark:'> 100%', desc:L('rdTotalIFS'), tip:_totalIFSTip},
     // Basic IFS hidden — same DBF scenario as the hidden DBF (Basic) row above.
-    {label:L('rlAccIFS'), val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS')},
-    {label:L('rlCIMo'), val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdCImo')},
-    {label:L('rlECIMo'), val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdECImo')},
-    {label:L('rlBasicCIIFS'), val:ciBasicIFS, unit:'%', ok:ciBasicIFS>=1, benchmark:'> 100%', desc:L('rdBasicCIIFS')},
-    {label:L('rlTPDMo'), val:tpdToMonths, unit:'mo', ok:tpdToMonths>=120, benchmark:`120 – 240 ${L('bmMo')}`, desc:L('rdTPDmo')},
-    {label:L('rlMHI200'), val:mhiFunding200k, unit:'x', ok:mhiFunding200k>=2, benchmark:'> 2x', desc:L('rdMHI200')},
-    {label:L('rlMHICI200'), val:mhiCIFunding200k, unit:'x', ok:mhiCIFunding200k>=2, benchmark:'> 2x', desc:L('rdMHICI200')},
+    {label:L('rlAccIFS'), val:accTotalIFS, unit:'%', ok:accTotalIFS>=1, benchmark:'> 100%', desc:L('rdAccIFS'), tip:_accIFSTip},
+    {label:L('rlCIMo'), val:ciToMonths, unit:'mo', ok:ciToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdCImo'), tip:_ciMoTip},
+    {label:L('rlECIMo'), val:earlyToMonths, unit:'mo', ok:earlyToMonths>=36, benchmark:`36 – 60 ${L('bmMo')}`, desc:L('rdECImo'), tip:_eciMoTip},
+    {label:L('rlBasicCIIFS'), val:ciBasicIFS, unit:'%', ok:ciBasicIFS>=1, benchmark:'> 100%', desc:L('rdBasicCIIFS'), tip:_ciIFSTip},
+    {label:L('rlTPDMo'), val:tpdToMonths, unit:'mo', ok:tpdToMonths>=120, benchmark:`120 – 240 ${L('bmMo')}`, desc:L('rdTPDmo'), tip:_tpdMoTip},
+    {label:L('rlMHI200'), val:mhiFunding200k, unit:'x', ok:mhiFunding200k>=2, benchmark:'> 2x', desc:L('rdMHI200'), tip:_mhiTip},
+    {label:L('rlMHICI200'), val:mhiCIFunding200k, unit:'x', ok:mhiCIFunding200k>=2, benchmark:'> 2x', desc:L('rdMHICI200'), tip:_mhiCITip},
   ];
   setHtml('riskRatioTable', ratioRows.map(r => {
     let display;
@@ -4543,11 +4680,12 @@ function recalc() {
     else if(r.unit==='%') display = isFinite(r.val)&&r.val>0 ? (r.val*100).toFixed(1)+'%' : '—';
     else display = isFinite(r.val)&&r.val>0 ? r.val.toFixed(1)+'x' : '—';
     const badge = statusBadge(r.ok, r.ok?L('statusOk'):L('statusGap'));
+    const badgeWithTip = _badgeWithTip(badge, r.tip);
     return `<tr>
       <td><b>${r.label}</b></td>
       <td style="text-align:right;font-weight:700;color:${r.ok?'var(--ok)':'var(--gap)'}">${display}</td>
       <td>${r.benchmark}</td>
-      <td style="text-align:center">${badge}</td>
+      <td style="text-align:center">${badgeWithTip}</td>
       <td class="text-sm">${r.desc}</td>
     </tr>`;
   }).join(''));
