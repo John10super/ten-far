@@ -3353,7 +3353,7 @@ const I18N = {
     fsInvMthly:'投資房產月供 (不含 MRTA)', fsCarMthly:'車貸月供', fsBasic:'基本月開銷 (Basic)', fsTotal:'全部月支出 (Total)',
     fsHomeBal:'自住房貸餘額', fsInvBal:'投資房產貸款餘額 (不含 MRTA)', fsCarBal:'車貸餘額', fsCCP:'信用卡 + 私人貸款', fsTotalDebt:'總債務',
     nDeath:'身故保障 Death', nTPD:'全殘保障 TPD', nCI:'危疾保障 CI (含早期)', nPA:'意外身故 PA', nMed:'醫療卡 Medical Card',
-    nDeathNote:'保障家人 %y 年生活費 + 債務 + IDE', nTPDNote:'保障 10 年生活費', nCINote:'保障 3 年生活費 + 康復儲備金 RRF',
+    nDeathNote:'保障家人 %y 年生活費(80%)+ 債務 + IDE', nTPDNote:'保障 10 年生活費(100%)+ 債務', nCINote:'保障 3 年生活費 + 康復儲備金 RRF',
     nPANote:'建議至少 50% 身故保障', nMedNote:'建議終身限額 ≥ RM 1,000,000',
     statusOk:'保障充足', statusGap:'保障不足',
     recMed1:'升級病房等級至 RM200/天或以上，確保入住政府醫院也有足夠補貼',
@@ -3487,7 +3487,7 @@ const I18N = {
     fsInvMthly:'Investment Property Monthly (excl. MRTA)', fsCarMthly:'Car Loan Monthly', fsBasic:'Basic Monthly Expenses', fsTotal:'Total Monthly Expenses',
     fsHomeBal:'Home Loan Balance', fsInvBal:'Investment Property Balance (excl. MRTA)', fsCarBal:'Car Loan Balance', fsCCP:'Credit Card + Personal Loan', fsTotalDebt:'Total Debt',
     nDeath:'Death Benefit', nTPD:'Total Permanent Disability (TPD)', nCI:'Critical Illness CI (incl. Early)', nPA:'Personal Accident (PA)', nMed:'Medical Card',
-    nDeathNote:'Covers family %y years + debts + IDE', nTPDNote:'Covers 10 years expenses', nCINote:'Covers 3 years expenses + RRF',
+    nDeathNote:'Covers family %y yrs (80%) + debts + IDE', nTPDNote:'Covers 10 yrs (100%) + debts', nCINote:'Covers 3 years expenses + RRF',
     nPANote:'Recommend at least 50% of death coverage', nMedNote:'Recommend lifetime limit ≥ RM 1,000,000',
     statusOk:'Covered', statusGap:'Insufficient',
     recMed1:'Upgrade room class to RM200/day or above to ensure adequate cover when admitted to government hospital',
@@ -3622,7 +3622,7 @@ const I18N = {
     fsInvMthly:'Ansuran Hartanah Pelaburan (tidak termasuk MRTA)', fsCarMthly:'Ansuran Kereta Bulanan', fsBasic:'Perbelanjaan Asas Bulanan', fsTotal:'Jumlah Perbelanjaan Bulanan',
     fsHomeBal:'Baki Pinjaman Rumah', fsInvBal:'Baki Hartanah Pelaburan (tidak termasuk MRTA)', fsCarBal:'Baki Pinjaman Kereta', fsCCP:'Kad Kredit + Pinjaman Peribadi', fsTotalDebt:'Jumlah Hutang',
     nDeath:'Faedah Kematian', nTPD:'Hilang Upaya Kekal (TPD)', nCI:'Penyakit Kritikal (termasuk Awal)', nPA:'Kemalangan Diri (PA)', nMed:'Kad Perubatan',
-    nDeathNote:'Melindungi keluarga %y tahun + hutang + IDE', nTPDNote:'Melindungi 10 tahun perbelanjaan', nCINote:'Melindungi 3 tahun perbelanjaan + RRF',
+    nDeathNote:'Melindungi keluarga %y thn (80%) + hutang + IDE', nTPDNote:'Melindungi 10 thn (100%) + hutang', nCINote:'Melindungi 3 tahun perbelanjaan + RRF',
     nPANote:'Disyorkan sekurang-kurangnya 50% liputan kematian', nMedNote:'Disyorkan had seumur hidup ≥ RM 1,000,000',
     statusOk:'Mencukupi', statusGap:'Tidak Mencukupi',
     recMed1:'Naik taraf kelas bilik ke RM200/hari atau lebih untuk memastikan liputan mencukupi di hospital kerajaan',
@@ -4280,15 +4280,23 @@ function recalc() {
   // corresponding rows in the risk-ratio table (DBF, DUF, Basic IFS) are also
   // hidden from display for the same reason. Keep the calculations for any
   // future model upgrade that adds amortization.
-  const annExpDTF = (monthlyExpBase - annPremium/12) * 12;
+  // 田總 actuarial guidance (2026-06-03):
+  //   Death: surviving family expense = 80% of variable expenses
+  //          (breadwinner's share removed + their premium ceases on payout).
+  //          Lump-sum clears all debts + IDE.
+  //   TPD  : family expense stays 100% (insured still alive, all costs persist).
+  //          Lump-sum also clears all debts (TPD payout effectively pays off
+  //          mortgages/loans so family isn't burdened by ongoing debt service).
+  const DEATH_EXP_FACTOR = 0.80;
+  const annExpDTF = varExp * DEATH_EXP_FACTOR * 12;
   const annExpDBF = (monthlyExpBase - annPremium/12 + investMthly + carMthly) * 12;
   const annExpDUF = (unsettledMonthlyExp - annPremium/12) * 12;
   const deathNeed_DTF = Math.max(0, PV(realRate, yearsResp, -annExpDTF)) + IDE + totalDebts;
   const deathNeed_DBF = Math.max(0, PV(realRate, yearsResp, -annExpDBF)) + IDE + homeOfficeBal;
   const deathNeed_DUF = Math.max(0, PV(realRate, yearsResp, -annExpDUF)) + IDE;
   const deathNeed     = deathNeed_DTF;
-  const annExpTPD = (monthlyExpBase - tpdWaiverPremium/12) * 12;
-  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
+  const annExpTPD = varExp * 12;
+  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD)) + totalDebts;
   const annExpCI = (totalMonthlyExp - ciWaiverPremium/12) * 12;
   // RRF is now monthly (RM/month) — convert to 3-year PV recovery reserve
   const rrfAnnualCI = RRF * 12;
@@ -4408,33 +4416,40 @@ function recalc() {
   const _formulaLabel = tr('計算公式','Formula','Formula');
   const _noteLabel = tr('註:現值(PV)計算考量通脹 vs 利率;若通脹 > 利率,需要準備的金額會略大於名目合計。','Note: Present Value adjusts for inflation vs interest. If inflation > interest, the required amount slightly exceeds nominal sum.','Nota: Nilai Semasa (PV) menyesuaikan inflasi vs kadar faedah. Jika inflasi > faedah, jumlah diperlukan melebihi jumlah nominal.');
 
-  // Death tooltip
-  const _annExpDeathTip = (monthlyExpBase - annPremium/12) * 12;
+  // Death tooltip — 80% factor (surviving family)
+  const _annExpDeathTip = varExp * DEATH_EXP_FACTOR * 12;
   const _pvDeathTip = Math.max(0, PV(realRate, yearsResp, -_annExpDeathTip));
+  const _deathPctLabel = `${Math.round(DEATH_EXP_FACTOR * 100)}%`;
   const _deathTip = `
     <div class="info-tip-title">${tr('身故保障計算明細','Death Coverage Breakdown','Pecahan Lindungan Kematian')}</div>
-    <div class="info-tip-formula">${tr('身故 = 家庭生活費(現值) + IDE + 全部債務','Death = PV(family expenses) + IDE + All Debts','Kematian = PV(perbelanjaan keluarga) + IDE + Semua Hutang')}</div>
+    <div class="info-tip-formula">${tr(`身故 = PV(${_deathPctLabel} × 變動支出 × ${yearsResp}年) + IDE + 全部債務`,`Death = PV(${_deathPctLabel} × varExp × ${yearsResp}yr) + IDE + All Debts`,`Kematian = PV(${_deathPctLabel} × perbelanjaan × ${yearsResp}thn) + IDE + Semua Hutang`)}</div>
     ${_tipLine(tr(`家庭 ${yearsResp} 年生活費(現值)`,`Family ${yearsResp}-yr Expenses (PV)`,`Perbelanjaan Keluarga ${yearsResp} thn (PV)`), _pvDeathTip)}
-    ${_tipLine(tr(`　月支出 ${fmtRaw(monthlyExpBase)} → 年 ${fmtRaw(_annExpDeathTip)}`,`Monthly ${fmtRaw(monthlyExpBase)} → Annual ${fmtRaw(_annExpDeathTip)}`,`Bulanan ${fmtRaw(monthlyExpBase)} → Tahunan ${fmtRaw(_annExpDeathTip)}`), tr(`PV ${_realRatePct}%/年 × ${yearsResp}年`,`PV ${_realRatePct}%/yr × ${yearsResp}yr`,`PV ${_realRatePct}%/thn × ${yearsResp}thn`), 'indent')}
+    ${_tipLine(tr(`　變動支出 ${fmtRaw(varExp)}/月 × ${_deathPctLabel}`,`　Var Exp ${fmtRaw(varExp)}/mo × ${_deathPctLabel}`,`　Perbelanjaan ${fmtRaw(varExp)}/blln × ${_deathPctLabel}`), tr(`= ${fmtRaw(varExp * DEATH_EXP_FACTOR)}/月`,`= ${fmtRaw(varExp * DEATH_EXP_FACTOR)}/mo`,`= ${fmtRaw(varExp * DEATH_EXP_FACTOR)}/blln`), 'indent')}
+    ${_tipLine(tr(`　年支出 → PV ${_realRatePct}%/年 × ${yearsResp}年`,`　Annual → PV ${_realRatePct}%/yr × ${yearsResp}yr`,`　Tahunan → PV ${_realRatePct}%/thn × ${yearsResp}thn`), fmtRaw(_annExpDeathTip), 'indent')}
     ${_tipLine(tr('即時身故費用 (IDE)','Immediate Death Expense (IDE)','Perbelanjaan Kematian Segera (IDE)'), IDE)}
-    ${_tipLine(tr('全部債務','Total Debts','Jumlah Hutang'), totalDebts)}
+    ${_tipLine(tr('全部債務(一次過還清)','Total Debts (lump-sum payoff)','Jumlah Hutang (bayar sekali gus)'), totalDebts)}
     ${_tipLine(tr('　房貸 + 投資物業','　Home + Investment Mortgages','　Pinjaman Rumah + Pelaburan'), homeOfficeBal + investBal, 'indent')}
     ${_tipLine(tr('　車貸','　Car Loan','　Pinjaman Kereta'), carLoanBal, 'indent')}
     ${_tipLine(tr('　信用卡 + 私人貸款','　Credit Card + Personal Loan','　Kad Kredit + Pinjaman Peribadi'), ccPersonal, 'indent')}
     ${_tipLine(`<b>${tr('合計 Total','Total','Jumlah')}</b>`, deathNeed, 'total')}
-    <div class="info-tip-note">${_noteLabel}</div>
+    <div class="info-tip-note">${tr(`註:身故後家庭支出降至 ${_deathPctLabel}(受保人份額移除)。lump sum 一次過還清全部債務。`,`Note: Surviving family expense drops to ${_deathPctLabel} (insured's share removed). Lump-sum clears all debts.`,`Nota: Perbelanjaan keluarga turun ke ${_deathPctLabel} (bahagian individu dilindungi ditolak). Sekali gus selesaikan semua hutang.`)}</div>
   `;
 
-  // TPD tooltip
-  const _annExpTPDTip = (monthlyExpBase - tpdWaiverPremium/12) * 12;
+  // TPD tooltip — 100% factor + totalDebts
+  const _annExpTPDTip = varExp * 12;
+  const _pvTPDTip = Math.max(0, PV(realRate, 10, -_annExpTPDTip));
   const _tpdTip = `
     <div class="info-tip-title">${tr('全殘保障計算明細','TPD Coverage Breakdown','Pecahan Lindungan OKU')}</div>
-    <div class="info-tip-formula">${tr('全殘 = 家庭 10 年生活費(現值)','TPD = PV(10-yr family expenses)','OKU = PV(perbelanjaan keluarga 10 thn)')}</div>
-    ${_tipLine(tr('每月支出','Monthly Expenses','Perbelanjaan Bulanan'), monthlyExpBase)}
-    ${tpdWaiverPremium > 0 ? _tipLine(tr('　扣 TPD 豁免月額','　Less TPD Waiver/mo','　Tolak Pengecualian OKU/blln'), -tpdWaiverPremium/12, 'indent') : ''}
-    ${_tipLine(tr('年支出','Annual Expenses','Perbelanjaan Tahunan'), _annExpTPDTip, 'subtotal')}
-    ${_tipLine(tr(`PV ${_realRatePct}%/年 × 10 年`,`PV ${_realRatePct}%/yr × 10 yrs`,`PV ${_realRatePct}%/thn × 10 thn`), tpdNeed, 'total')}
-    <div class="info-tip-note">${_noteLabel}</div>
+    <div class="info-tip-formula">${tr('全殘 = PV(100% × 變動支出 × 10年) + 全部債務','TPD = PV(100% × varExp × 10yr) + All Debts','OKU = PV(100% × perbelanjaan × 10thn) + Semua Hutang')}</div>
+    ${_tipLine(tr('家庭 10 年生活費(現值)','Family 10-yr Expenses (PV)','Perbelanjaan Keluarga 10 thn (PV)'), _pvTPDTip)}
+    ${_tipLine(tr(`　變動支出 ${fmtRaw(varExp)}/月 × 100%`,`　Var Exp ${fmtRaw(varExp)}/mo × 100%`,`　Perbelanjaan ${fmtRaw(varExp)}/blln × 100%`), tr(`年 ${fmtRaw(_annExpTPDTip)}`,`Annual ${fmtRaw(_annExpTPDTip)}`,`Tahunan ${fmtRaw(_annExpTPDTip)}`), 'indent')}
+    ${_tipLine(tr(`　PV ${_realRatePct}%/年 × 10 年`,`　PV ${_realRatePct}%/yr × 10 yrs`,`　PV ${_realRatePct}%/thn × 10 thn`), '', 'indent')}
+    ${_tipLine(tr('全部債務(一次過還清)','Total Debts (lump-sum payoff)','Jumlah Hutang (bayar sekali gus)'), totalDebts)}
+    ${_tipLine(tr('　房貸 + 投資物業','　Home + Investment Mortgages','　Pinjaman Rumah + Pelaburan'), homeOfficeBal + investBal, 'indent')}
+    ${_tipLine(tr('　車貸','　Car Loan','　Pinjaman Kereta'), carLoanBal, 'indent')}
+    ${_tipLine(tr('　信用卡 + 私人貸款','　Credit Card + Personal Loan','　Kad Kredit + Pinjaman Peribadi'), ccPersonal, 'indent')}
+    ${_tipLine(`<b>${tr('合計 Total','Total','Jumlah')}</b>`, tpdNeed, 'total')}
+    <div class="info-tip-note">${tr('註:TPD 後人還活著,家庭支出維持 100%。lump sum 一次過還清全部債務。','Note: Family expense stays 100% (insured still alive). Lump-sum clears all debts.','Nota: Perbelanjaan kekal 100% (individu masih hidup). Sekali gus selesaikan semua hutang.')}</div>
   `;
 
   // CI tooltip
@@ -5352,11 +5367,14 @@ function renderReport() {
   const netCashFlow = totalIncome - unsettledMonthlyExp;
 
   // Insurance need — DTF formula (matches recalc)
-  const annExpDeath = (monthlyExpBase - annPremium/12) * 12;
+  // Death: 80% of variable expenses (survivor reduction)
+  // TPD : 100% of variable expenses + clears all debts
+  const DEATH_EXP_FACTOR = 0.80;
+  const annExpDeath = varExp * DEATH_EXP_FACTOR * 12;
   const pvDeath = Math.max(0, PV(realRate, yearsResp, -annExpDeath));
   const deathNeed = pvDeath + IDE + totalDebts;
-  const annExpTPD = (monthlyExpBase - 0/12) * 12;
-  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
+  const annExpTPD = varExp * 12;
+  const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD)) + totalDebts;
   const annExpCI = (unsettledMonthlyExp - 0/12) * 12;
   // RRF is monthly (RM/month) — PV the 3-year recovery stream
   const _rrfAnnualCI = n('rrf') * 12;
@@ -5686,10 +5704,15 @@ function renderReport() {
       </div>
     </div>
   `);
+  const _tpdPVOnly = Math.max(0, tpdNeed - totalDebts);
   setHtml('rep_tpdBreakdown', `
     <div class="rep-breakdown-row">
-      <div class="rep-breakdown-lbl">${tr('家人 10 年基本生活費(現值)',"Family's 10-year basic living (present value)",'Sara hidup asas keluarga 10 tahun (nilai semasa)')}<span class="rep-breakdown-lbl-note">${tr('受保人傷殘無法工作,以 10 年為支撐橫線','If insured is disabled, 10 years is the support horizon','Jika dilindungi cacat, 10 tahun ialah garis sokongan')}</span></div>
-      <div class="rep-breakdown-val">RM ${Math.round(tpdNeed).toLocaleString('en-MY')}</div>
+      <div class="rep-breakdown-lbl">${tr('家人 10 年生活費(現值,100%)',"Family's 10-year living (PV, 100%)",'Sara hidup keluarga 10 thn (PV, 100%)')}<span class="rep-breakdown-lbl-note">${tr('受保人全殘但人在,家庭支出維持 100%','Insured alive — family expense remains 100%','Individu masih hidup — perbelanjaan kekal 100%')}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(_tpdPVOnly).toLocaleString('en-MY')}</div>
+    </div>
+    <div class="rep-breakdown-row">
+      <div class="rep-breakdown-lbl">${tr('全部債務(一次過還清)','Total Debts (lump-sum payoff)','Jumlah Hutang (bayar sekali gus)')}<span class="rep-breakdown-lbl-note">${tr('TPD 賠款一次過清掉房貸、車貸、信用卡','TPD payout clears mortgages, car loan, credit card','Pembayaran TPD selesaikan pinjaman rumah/kereta/kad')}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(totalDebts).toLocaleString('en-MY')}</div>
     </div>
     <div class="rep-breakdown-row total">
       <div class="rep-breakdown-lbl">${tr('所需全殘保障','TPD Coverage Need','Keperluan Lindungan TPD')}</div>
@@ -5698,9 +5721,9 @@ function renderReport() {
   `);
   setHtml('rep_tpdInterp', tpdShortAmt > 0
     ? tr(
-        `<p>若受保人因傷殘無法工作,家人需 <b>${fmtRaw(Math.round(tpdNeed))}</b> 維持 10 年基本生活費。目前 TPD 保額 <b>${fmtRaw(tpdBenefit)}</b>,<b class="gap-num">缺口 ${fmtRaw(Math.round(tpdShortAmt))}</b>,建議補足。</p>`,
-        `<p>If the insured becomes disabled and unable to work, the family needs <b>${fmtRaw(Math.round(tpdNeed))}</b> for 10 years of basic living. Current TPD cover is <b>${fmtRaw(tpdBenefit)}</b>, <b class="gap-num">short by ${fmtRaw(Math.round(tpdShortAmt))}</b>. Recommend closing the gap.</p>`,
-        `<p>Jika individu yang dilindungi cacat dan tidak boleh bekerja, keluarga memerlukan <b>${fmtRaw(Math.round(tpdNeed))}</b> untuk 10 tahun sara hidup asas. Lindungan TPD semasa adalah <b>${fmtRaw(tpdBenefit)}</b>, <b class="gap-num">kurang ${fmtRaw(Math.round(tpdShortAmt))}</b>. Disyorkan tutup jurang.</p>`
+        `<p>若受保人因傷殘無法工作,家人需 <b>${fmtRaw(Math.round(tpdNeed))}</b> 一次過清掉全部債務並維持 10 年生活費。目前 TPD 保額 <b>${fmtRaw(tpdBenefit)}</b>,<b class="gap-num">缺口 ${fmtRaw(Math.round(tpdShortAmt))}</b>,建議補足。</p>`,
+        `<p>If the insured becomes disabled and unable to work, the family needs <b>${fmtRaw(Math.round(tpdNeed))}</b> to clear all debts and sustain 10 years of living. Current TPD cover is <b>${fmtRaw(tpdBenefit)}</b>, <b class="gap-num">short by ${fmtRaw(Math.round(tpdShortAmt))}</b>. Recommend closing the gap.</p>`,
+        `<p>Jika individu yang dilindungi cacat dan tidak boleh bekerja, keluarga memerlukan <b>${fmtRaw(Math.round(tpdNeed))}</b> untuk selesaikan semua hutang dan menyara 10 tahun sara hidup. Lindungan TPD semasa adalah <b>${fmtRaw(tpdBenefit)}</b>, <b class="gap-num">kurang ${fmtRaw(Math.round(tpdShortAmt))}</b>. Disyorkan tutup jurang.</p>`
       )
     : tr(
         `<p>TPD 保障已達建議水準,可支撐家庭 10 年生活費。</p>`,
