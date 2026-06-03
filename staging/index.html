@@ -186,11 +186,13 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .policy-tbl input[type=text]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:95px;background:#fff}
 .policy-tbl select{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:140px;background:#fff}
 .policy-tbl input:focus,.policy-tbl select:focus{border-color:var(--red);outline:none}
-.ll-cell{display:flex;flex-direction:column;gap:3px;align-items:flex-end;min-width:120px}
+.policy-tbl .th-unit{font-weight:400;opacity:.7;font-size:12px}
+.ll-cell{display:flex;flex-direction:row;gap:8px;align-items:center;min-width:165px;justify-content:flex-end}
 .ll-cell .ll-input{width:95px}
 .ll-cell .ll-unlim-label{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
-.ll-cell .ll-unlim-label input[type=checkbox]{margin:0;cursor:pointer}
+.ll-cell .ll-unlim-label input[type=checkbox]{margin:0;cursor:pointer;width:14px;height:14px}
 .ll-cell .ll-input:disabled{background:#F3F4F6;color:#9CA3AF;cursor:not-allowed}
+.ll-cell .ll-input:disabled::placeholder{color:#9CA3AF;opacity:.6}
 .policy-row-del{background:none;border:1px solid #FECACA;border-radius:4px;color:#EF4444;cursor:pointer;font-size:15px;padding:3px 6px;line-height:1;transition:.15s}
 .policy-row-del:hover{background:#FEE2E2}
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:15px;font-weight:600;cursor:pointer;transition:.15s}
@@ -2223,23 +2225,23 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <th class="nc">#</th>
             <th data-i18n="thInsurer">保險公司</th>
             <th data-i18n="thPolicyNo">保單號碼 (選填)</th>
-            <th><span data-i18n="thDeath">身故 Death</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thTPD">全殘 TPD</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thPA">意外身故 PA</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thCI">危疾 CI</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thECI">早期危疾</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thDailyHosp">每日住院津貼</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th><span data-i18n="thCIWaiver">CI 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
-            <th><span data-i18n="thTPDWaiver">TPD 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
-            <th><span data-i18n="thDis">殘障月收入</span><br><span style="font-weight:400;opacity:.7">(RM/月)</span></th>
-            <th><span data-i18n="thPrem">年繳保費</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thDeath">身故 Death</span></th>
+            <th><span data-i18n="thTPD">全殘 TPD</span></th>
+            <th><span data-i18n="thPA">意外身故 PA</span></th>
+            <th><span data-i18n="thCI">危疾 CI</span></th>
+            <th><span data-i18n="thECI">早期危疾</span></th>
+            <th><span data-i18n="thDailyHosp">每日住院津貼</span><br><span class="th-unit">/日</span></th>
+            <th><span data-i18n="thCIWaiver">CI 豁免保費</span><br><span class="th-unit">/年</span></th>
+            <th><span data-i18n="thTPDWaiver">TPD 豁免保費</span><br><span class="th-unit">/年</span></th>
+            <th><span data-i18n="thDis">殘障月收入</span><br><span class="th-unit">/月</span></th>
+            <th><span data-i18n="thPrem">年繳保費</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
         <tbody id="policyLifeBody"></tbody>
         <tfoot>
           <tr class="policy-total-row">
-            <td colspan="3" style="text-align:left" data-i18n="totTotal">合計 Total</td>
+            <td colspan="3" style="text-align:left" data-i18n="totTotalRM">合計 Total (RM)</td>
             <td id="tot_death">—</td>
             <td id="tot_tpd">—</td>
             <td id="tot_pa">—</td>
@@ -2264,16 +2266,16 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
           <tr>
             <th class="nc">#</th>
             <th data-i18n="thInsurer">保險公司</th>
-            <th><span data-i18n="thRoomBoard">每日病房費</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th><span data-i18n="thLifetimeLimit">終身限額</span><br><span style="font-weight:400;opacity:.7" data-i18n="thLifetimeLimitNote">(RM 或勾「無限額」)</span></th>
-            <th><span data-i18n="thAnnualLimit">年度限額</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thRoomBoard">每日病房費</span><br><span class="th-unit">/日</span></th>
+            <th><span data-i18n="thLifetimeLimit">終身限額</span></th>
+            <th><span data-i18n="thAnnualLimit">年度限額</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
         <tbody id="policyMedBody"></tbody>
         <tfoot>
           <tr class="policy-total-row">
-            <td colspan="2" style="text-align:left" data-i18n="totMaxSum">最高 / 合計</td>
+            <td colspan="2" style="text-align:left" data-i18n="totMaxSumRM">最高 / 合計 (RM)</td>
             <td id="tot_rb">—</td>
             <td id="tot_ll">—</td>
             <td id="tot_al">—</td>
@@ -3317,7 +3319,7 @@ const I18N = {
     thCoverage:'保障類別', thNeed:'所需保障', thCurrent:'現有保障', thGap:'缺口 / 盈餘', thStatus:'狀態',
     thBefore:'現有 (Before)',
     thIndicator:'指標', thCurrentVal:'現有值', thBenchmark:'標準', thDesc2:'說明',
-    totTotal:'合計 Total', totMaxSum:'最高 / 合計',
+    totTotal:'合計 Total', totMaxSum:'最高 / 合計', totTotalRM:'合計 Total (RM)', totMaxSumRM:'最高 / 合計 (RM)',
     assumpTitle:'📐 計算假設', assumpInflation:'通脹率：', assumpInterest:'存款利率：', assumpReal:'調整後實際利率：', assumpIDE:'即時身故費用：',
     riskLegend:'⭐ = 符合標準 | ⚠ = 邊緣 | ✗ = 保障不足，需要補足',
     sigNote:'此報告由 <strong style="color:var(--dark)">TEN Consultancy</strong> 出具，供參考用途。<br>所有建議應在顧問陪同下詳細討論後方可執行。',
@@ -3452,7 +3454,7 @@ const I18N = {
     thCoverage:'Coverage Type', thNeed:'Need', thCurrent:'Current', thGap:'Gap / Surplus', thStatus:'Status',
     thBefore:'Before',
     thIndicator:'Indicator', thCurrentVal:'Current Value', thBenchmark:'Benchmark', thDesc2:'Description',
-    totTotal:'Total', totMaxSum:'Max / Total',
+    totTotal:'Total', totMaxSum:'Max / Total', totTotalRM:'Total (RM)', totMaxSumRM:'Max / Total (RM)',
     assumpTitle:'📐 Calculation Assumptions', assumpInflation:'Inflation:', assumpInterest:'Interest Rate:', assumpReal:'Real Rate (adj.):', assumpIDE:'Immediate Death Exp.:',
     riskLegend:'⭐ = Meets Standard | ⚠ = Borderline | ✗ = Insufficient',
     sigNote:'This report is prepared by <strong style="color:var(--dark)">TEN Consultancy</strong> for reference purposes only.<br>All recommendations should be discussed in detail with your advisor before implementation.',
@@ -3587,7 +3589,7 @@ const I18N = {
     thCoverage:'Jenis Liputan', thNeed:'Keperluan', thCurrent:'Semasa', thGap:'Jurang / Lebihan', thStatus:'Status',
     thBefore:'Sebelum',
     thIndicator:'Penunjuk', thCurrentVal:'Nilai Semasa', thBenchmark:'Penanda Aras', thDesc2:'Penerangan',
-    totTotal:'Jumlah', totMaxSum:'Maks / Jumlah',
+    totTotal:'Jumlah', totMaxSum:'Maks / Jumlah', totTotalRM:'Jumlah (RM)', totMaxSumRM:'Maks / Jumlah (RM)',
     assumpTitle:'📐 Andaian Pengiraan', assumpInflation:'Inflasi:', assumpInterest:'Kadar Faedah:', assumpReal:'Kadar Benar (laras):', assumpIDE:'Perbelanjaan Kematian Segera:',
     riskLegend:'⭐ = Memenuhi Piawaian | ⚠ = Sempadan | ✗ = Tidak Mencukupi',
     sigNote:'Laporan ini disediakan oleh <strong style="color:var(--dark)">TEN Consultancy</strong> untuk rujukan sahaja.<br>Semua cadangan hendaklah dibincangkan bersama penasihat anda sebelum dilaksanakan.',
@@ -4070,6 +4072,11 @@ function fmtRaw(v, d=0) {
   if(!isFinite(v)||isNaN(v)||v===0) return '—';
   return 'RM ' + Math.abs(v).toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d});
 }
+// Same as fmtRaw but without "RM " prefix — for footer cells where label already says "(RM)"
+function fmtNumOnly(v, d=0) {
+  if(!isFinite(v)||isNaN(v)||v===0) return '—';
+  return Math.abs(v).toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d});
+}
 // Display formatter for lifetime limit — handles "unlimited" (Infinity) case
 function fmtLifetime(v) {
   if (v === Infinity) return tr('無限額','Unlimited','Tanpa Had');
@@ -4209,9 +4216,9 @@ function recalc() {
     const el=document.getElementById(id);
     if(!el) return;
     if(id === 'tot_ll') {
-      el.textContent = (v === Infinity) ? tr('無限額','Unlimited','Tanpa Had') : (v>0 ? fmtRaw(v) : '—');
+      el.textContent = (v === Infinity) ? tr('無限額','Unlimited','Tanpa Had') : (v>0 ? fmtNumOnly(v) : '—');
     } else {
-      el.textContent = v>0 ? fmtRaw(v) : '—';
+      el.textContent = v>0 ? fmtNumOnly(v) : '—';
     }
   });
 
