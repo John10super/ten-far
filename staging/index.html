@@ -3288,7 +3288,7 @@ const I18N = {
     s8Title:'保障缺口總覽 — Before vs After',
     s9Title:'醫療保障分析', s10Title:'建議方案 — Recommendations', s11Title:'行動計劃 — Action Plan',
     lPlannerName:'顧問姓名', lPlannerPhone:'顧問聯絡', lPlannerEmail:'Email / 公司', lReportDate:'報告日期',
-    lInflation:'通脹率 (%)', lInterest:'利率 / FD Rate (%)', lIDE:'即時身故費用 IDE (RM)', lRRF:'CI 康復儲備金 RRF (RM)',
+    lInflation:'通脹率 (%)', lInterest:'利率 / FD Rate (%)', lIDE:'即時身故費用 IDE (RM)', lRRF:'CI 康復儲備金 RRF (RM/月)',
     lClientName:'客戶姓名', lICNum:'身份證號碼', lOccupation:'職業', lAge:'年齡 (歲)',
     lContact1:'聯絡電話 1', lContact2:'聯絡電話 2 (如有)', lClientEmail:'電郵地址',
     lSpouseAge:'配偶年齡 (如有)', lYoungDep:'最小受撫養人年齡', lYearsResp:'負擔責任年數 (年)',
@@ -3423,7 +3423,7 @@ const I18N = {
     s8Title:'Coverage Gap Overview — Before vs After',
     s9Title:'Medical Coverage Analysis', s10Title:'Recommendations', s11Title:'Action Plan',
     lPlannerName:'Advisor Name', lPlannerPhone:'Advisor Contact', lPlannerEmail:'Email / Company', lReportDate:'Report Date',
-    lInflation:'Inflation Rate (%)', lInterest:'Interest / FD Rate (%)', lIDE:'Immediate Death Expense IDE (RM)', lRRF:'CI Recovery Reserve RRF (RM)',
+    lInflation:'Inflation Rate (%)', lInterest:'Interest / FD Rate (%)', lIDE:'Immediate Death Expense IDE (RM)', lRRF:'CI Recovery Reserve RRF (RM/month)',
     lClientName:'Client Name', lICNum:'IC Number', lOccupation:'Occupation', lAge:'Age (years)',
     lContact1:'Contact No. 1', lContact2:'Contact No. 2 (optional)', lClientEmail:'Email Address',
     lSpouseAge:'Spouse Age (if any)', lYoungDep:'Youngest Dependent Age', lYearsResp:'Years of Responsibility',
@@ -3558,7 +3558,7 @@ const I18N = {
     s8Title:'Jurang Liputan — Sebelum vs Selepas',
     s9Title:'Analisis Liputan Perubatan', s10Title:'Cadangan', s11Title:'Pelan Tindakan',
     lPlannerName:'Nama Penasihat', lPlannerPhone:'Hubungi Penasihat', lPlannerEmail:'E-mel / Syarikat', lReportDate:'Tarikh Laporan',
-    lInflation:'Kadar Inflasi (%)', lInterest:'Kadar Faedah / FD (%)', lIDE:'Perbelanjaan Kematian Segera IDE (RM)', lRRF:'Rizab Pemulihan CI RRF (RM)',
+    lInflation:'Kadar Inflasi (%)', lInterest:'Kadar Faedah / FD (%)', lIDE:'Perbelanjaan Kematian Segera IDE (RM)', lRRF:'Rizab Pemulihan CI RRF (RM/bulan)',
     lClientName:'Nama Pelanggan', lICNum:'No. Kad Pengenalan', lOccupation:'Pekerjaan', lAge:'Umur (tahun)',
     lContact1:'No. Hubungi 1', lContact2:'No. Hubungi 2 (jika ada)', lClientEmail:'Alamat E-mel',
     lSpouseAge:'Umur Pasangan (jika ada)', lYoungDep:'Umur Tanggungan Termuda', lYearsResp:'Tahun Tanggungjawab',
@@ -4196,7 +4196,10 @@ function recalc() {
   const annExpTPD = (monthlyExpBase - tpdWaiverPremium/12) * 12;
   const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
   const annExpCI = (totalMonthlyExp - ciWaiverPremium/12) * 12;
-  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + RRF;
+  // RRF is now monthly (RM/month) — convert to 3-year PV recovery reserve
+  const rrfAnnualCI = RRF * 12;
+  const rrfPVCI = Math.max(0, PV(realRate, 3, -rrfAnnualCI));
+  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + rrfPVCI;
   const deathGap = deathBenefit - deathNeed;
   const tpdGap   = tpdBenefit - tpdNeed;
   const ciGap    = totalCI - ciNeed;
@@ -4236,7 +4239,9 @@ function recalc() {
   const earlyToMonths  = ciMthlyExp > 0 ? NPER(monthlyRate, -ciMthlyExp, earlyCI) : 0;
   const ciNeedMonths   = Math.max(0, PV(monthlyRate, 3*12, -ciMthlyExp));
   const ciBasicIFS     = ciNeedMonths > 0 ? totalCI / ciNeedMonths : 0;
-  const ciCompleteIFS  = (ciNeedMonths + RRF) > 0 ? totalCI / (ciNeedMonths + RRF) : 0;
+  // RRF is monthly — present-value the 36-month recovery stream
+  const rrfPVMonths    = Math.max(0, PV(monthlyRate, 3*12, -RRF));
+  const ciCompleteIFS  = (ciNeedMonths + rrfPVMonths) > 0 ? totalCI / (ciNeedMonths + rrfPVMonths) : 0;
   const mhiFunding200k     = lifetimeLimit > 0 ? lifetimeLimit / 200000 : 0;
   const mhiCIFunding200k   = (lifetimeLimit + totalCI) > 0 ? (lifetimeLimit + totalCI) / 200000 : 0;
   const tpdMthlyExp        = Math.max(0, unsettledMonthlyExp - tpdWaiverPremium/12 - disabilityIncome);
@@ -5193,7 +5198,10 @@ function renderReport() {
   const annExpTPD = (monthlyExpBase - 0/12) * 12;
   const tpdNeed = Math.max(0, PV(realRate, 10, -annExpTPD));
   const annExpCI = (unsettledMonthlyExp - 0/12) * 12;
-  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + n('rrf');
+  // RRF is monthly (RM/month) — PV the 3-year recovery stream
+  const _rrfAnnualCI = n('rrf') * 12;
+  const _rrfPVCI = Math.max(0, PV(realRate, 3, -_rrfAnnualCI));
+  const ciNeed = Math.max(0, PV(realRate, 3, -annExpCI)) + _rrfPVCI;
 
   const deathGap = deathBenefit - deathNeed;
   const tpdGap   = tpdBenefit - tpdNeed;
@@ -5388,11 +5396,11 @@ function renderReport() {
   `);
 
   let interpHtml = tr(
-    `<p>若受保人 <b>${clientName}</b>(${Math.round(age)} 歲)不幸身故,家人需要 <b>${fmtRaw(Math.round(deathNeed))}</b> 才能:清還所有債務(${fmtRaw(totalDebts)})、應付即時身故費用(${fmtRaw(IDE)})、並維持 ${yearsResp} 年基本生活費(${fmtRaw(Math.round(pvDeath))})。</p>
+    `<p>若受保人不幸身故,家人需要 <b>${fmtRaw(Math.round(deathNeed))}</b> 才能:清還所有債務(${fmtRaw(totalDebts)})、應付即時身故費用(${fmtRaw(IDE)})、並維持 ${yearsResp} 年基本生活費(${fmtRaw(Math.round(pvDeath))})。</p>
     <p>目前身故保額為 <b>${fmtRaw(deathBenefit)}</b>,覆蓋率 <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>。</p>`,
-    `<p>If the bread winner <b>${clientName}</b> (${Math.round(age)} yrs) passes away, the family needs <b>${fmtRaw(Math.round(deathNeed))}</b> to: clear all debts (${fmtRaw(totalDebts)}), cover immediate death expenses (${fmtRaw(IDE)}), and maintain ${yearsResp} years of basic living (${fmtRaw(Math.round(pvDeath))}).</p>
+    `<p>If the insured passes away, the family needs <b>${fmtRaw(Math.round(deathNeed))}</b> to: clear all debts (${fmtRaw(totalDebts)}), cover immediate death expenses (${fmtRaw(IDE)}), and maintain ${yearsResp} years of basic living (${fmtRaw(Math.round(pvDeath))}).</p>
     <p>Current death cover is <b>${fmtRaw(deathBenefit)}</b>, coverage <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>.</p>`,
-    `<p>Jika individu yang dilindungi <b>${clientName}</b> (${Math.round(age)} thn) meninggal, keluarga memerlukan <b>${fmtRaw(Math.round(deathNeed))}</b> untuk: selesaikan semua hutang (${fmtRaw(totalDebts)}), tampung perbelanjaan kematian segera (${fmtRaw(IDE)}), dan kekalkan ${yearsResp} tahun sara hidup asas (${fmtRaw(Math.round(pvDeath))}).</p>
+    `<p>Jika individu yang dilindungi meninggal, keluarga memerlukan <b>${fmtRaw(Math.round(deathNeed))}</b> untuk: selesaikan semua hutang (${fmtRaw(totalDebts)}), tampung perbelanjaan kematian segera (${fmtRaw(IDE)}), dan kekalkan ${yearsResp} tahun sara hidup asas (${fmtRaw(Math.round(pvDeath))}).</p>
     <p>Lindungan kematian semasa adalah <b>${fmtRaw(deathBenefit)}</b>, liputan <b class="${deathPct>=1?'ok-num':'gap-num'}">${(deathPct*100).toFixed(0)}%</b>.</p>`
   );
   if (deathGapAbs > 0) {
@@ -5565,15 +5573,17 @@ function renderReport() {
       </div>
     </div>
   `);
-  const ciPV = Math.max(0, ciNeed - n('rrf'));
+  const ciPV = Math.max(0, ciNeed - _rrfPVCI);
+  const _rrfMonthly = Math.round(n('rrf'));
+  const _rrfMonthlyFmt = _rrfMonthly.toLocaleString('en-MY');
   setHtml('rep_ciBreakdown', `
     <div class="rep-breakdown-row">
       <div class="rep-breakdown-lbl">${tr('3 年家庭總支出(現值)','3-year Total Family Expenses (present value)','Jumlah Perbelanjaan Keluarga 3 Tahun (nilai semasa)')}<span class="rep-breakdown-lbl-note">${tr('罹病治療期間,家庭支出含全部貸款月供','During treatment, family expenses include all loan monthlies','Semasa rawatan, perbelanjaan keluarga termasuk semua ansuran pinjaman')}</span></div>
       <div class="rep-breakdown-val">RM ${Math.round(ciPV).toLocaleString('en-MY')}</div>
     </div>
     <div class="rep-breakdown-row">
-      <div class="rep-breakdown-lbl">${tr('康復儲備金 RRF','Recovery Reserve Fund (RRF)','Dana Rizab Pemulihan (RRF)')}<span class="rep-breakdown-lbl-note">${tr('復原期所需額外保健、休養、復健支出','Additional healthcare, recuperation, rehabilitation expenses','Kos tambahan penjagaan, pemulihan, rehabilitasi')}</span></div>
-      <div class="rep-breakdown-val">RM ${Math.round(n('rrf')).toLocaleString('en-MY')}</div>
+      <div class="rep-breakdown-lbl">${tr('康復儲備金 RRF(3 年總額,現值)','Recovery Reserve Fund RRF (3-yr total, present value)','Dana Rizab Pemulihan RRF (Jumlah 3 thn, nilai semasa)')}<span class="rep-breakdown-lbl-note">${tr(`復原期所需額外保健、休養、復健支出 · RM ${_rrfMonthlyFmt}/月 × 36 個月`,`Additional healthcare, recuperation, rehabilitation · RM ${_rrfMonthlyFmt}/month × 36 months`,`Kos tambahan penjagaan, pemulihan, rehabilitasi · RM ${_rrfMonthlyFmt}/bulan × 36 bulan`)}</span></div>
+      <div class="rep-breakdown-val">RM ${Math.round(_rrfPVCI).toLocaleString('en-MY')}</div>
     </div>
     <div class="rep-breakdown-row total">
       <div class="rep-breakdown-lbl">${tr('所需危疾保障','CI Coverage Need','Keperluan Lindungan CI')}</div>
