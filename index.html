@@ -2294,6 +2294,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <th><span data-i18n="thRoomBoard">每日病房費</span><br><span class="th-unit">/日</span></th>
             <th><span data-i18n="thLifetimeLimit">終身限額</span></th>
             <th><span data-i18n="thAnnualLimit">年度限額</span></th>
+            <th><span data-i18n="thPrem">年繳保費</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
@@ -2304,6 +2305,7 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <td id="tot_rb">—</td>
             <td id="tot_ll">—</td>
             <td id="tot_al">—</td>
+            <td id="tot_med_prem">—</td>
           </tr>
         </tfoot>
       </table>
@@ -3895,6 +3897,7 @@ function buildPolicyRows() {
         </div>
       </td>
       <td><input ${_ni} id="p${i}al"></td>
+      <td><input ${_ni} id="pm${i}prem"></td>
       <td class="no-print"><button class="policy-row-del" id="medDelBtn${i}" onclick="removeMedRow(${i})" title="Remove">✕</button></td>
     </tr>`;
   }
@@ -4034,12 +4037,16 @@ function removeMedRow(idx) {
     const srcCo = document.getElementById(`pm${i+1}co`);
     const dstCo = document.getElementById(`pm${i}co`);
     if(srcCo && dstCo) dstCo.value = srcCo.value;
+    const srcPrem = document.getElementById(`pm${i+1}prem`);
+    const dstPrem = document.getElementById(`pm${i}prem`);
+    if(srcPrem && dstPrem) dstPrem.value = srcPrem.value;
   }
   fields.forEach(f => {
     const el = document.getElementById(`p${medVisibleRows}${f}`);
     if(el) { if(el.type==='checkbox') el.checked=false; else el.value=''; }
   });
   const coEl = document.getElementById(`pm${medVisibleRows}co`); if(coEl)coEl.value='';
+  const lastPremEl = document.getElementById(`pm${medVisibleRows}prem`); if(lastPremEl) lastPremEl.value='';
   // re-apply unlim state to shifted rows (input enable/disable)
   for(let i=1; i<=medVisibleRows; i++) {
     const chk = document.getElementById(`p${i}ll_unlim`);
@@ -4233,6 +4240,12 @@ function recalc() {
     ciWaiverPremium += n(`p${i}ciw`);
     tpdWaiverPremium+= n(`p${i}tpdw`);
   }
+  // Medical card premiums (standalone medical plans, kept separate from
+  // life policy premiums for footer display, summed into annPremium below)
+  const lifePremium = annPremium; // capture life-only total before adding med
+  let medPremium = 0;
+  for (let i = 1; i <= 5; i++) medPremium += n(`pm${i}prem`);
+  annPremium = lifePremium + medPremium;
   const totalCI = ciBenefit + earlyCI;
 
   // Update annual premium display
@@ -4245,8 +4258,8 @@ function recalc() {
   // Update policy totals row
   const totMap = {
     tot_death:deathBenefit, tot_tpd:tpdBenefit, tot_pa:paBenefit,
-    tot_ci:ciBenefit, tot_eci:earlyCI, tot_dis:disabilityIncome, tot_prem:annPremium,
-    tot_rb:roomBoard, tot_ll:lifetimeLimit, tot_al:annualLimit,
+    tot_ci:ciBenefit, tot_eci:earlyCI, tot_dis:disabilityIncome, tot_prem:lifePremium,
+    tot_rb:roomBoard, tot_ll:lifetimeLimit, tot_al:annualLimit, tot_med_prem:medPremium,
     tot_dh:dailyHospital, tot_ciw:ciWaiverPremium, tot_tpdw:tpdWaiverPremium
   };
   Object.entries(totMap).forEach(([id,v]) => {
@@ -4887,7 +4900,7 @@ function _allPolicyIds() {
       `p${i}dis`,`p${i}prem`);
   }
   for(let i=1;i<=5;i++) {
-    ids.push(`pm${i}co`,`p${i}rb`,`p${i}ll`,`p${i}ll_unlim`,`p${i}al`);
+    ids.push(`pm${i}co`,`p${i}rb`,`p${i}ll`,`p${i}ll_unlim`,`p${i}al`,`pm${i}prem`);
   }
   return ids;
 }
@@ -4969,7 +4982,7 @@ function loadRecord(id) {
   }
   let mr = 1;
   for(let i=2;i<=5;i++) {
-    if(record.data[`pm${i}co`] || record.data[`p${i}rb`] || record.data[`p${i}ll`]) mr=i;
+    if(record.data[`pm${i}co`] || record.data[`p${i}rb`] || record.data[`p${i}ll`] || record.data[`pm${i}prem`]) mr=i;
   }
   // Show the right number of rows
   lifeVisibleRows=0; for(let i=1;i<=lr;i++) { lifeVisibleRows++; const r=document.getElementById('lifeRow'+i); if(r)r.style.display=''; }
@@ -5365,6 +5378,8 @@ function renderReport() {
       lifetimeLimit = Math.max(lifetimeLimit, n(`p${i}ll`));
     }
   }
+  // Standalone medical card premiums
+  for (let i = 1; i <= 5; i++) annPremium += n(`pm${i}prem`);
   const totalCI = ciBenefit + earlyCI;
   const insExp  = annPremium / 12;
   const monthlyExpBase = varExp + insExp;
