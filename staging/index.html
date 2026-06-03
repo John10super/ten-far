@@ -186,6 +186,11 @@ body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);colo
 .policy-tbl input[type=text]{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:95px;background:#fff}
 .policy-tbl select{border:1px solid var(--border);border-radius:4px;padding:5px 6px;font-size:15px;width:140px;background:#fff}
 .policy-tbl input:focus,.policy-tbl select:focus{border-color:var(--red);outline:none}
+.ll-cell{display:flex;flex-direction:column;gap:3px;align-items:flex-end;min-width:120px}
+.ll-cell .ll-input{width:95px}
+.ll-cell .ll-unlim-label{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--muted);cursor:pointer;user-select:none;white-space:nowrap}
+.ll-cell .ll-unlim-label input[type=checkbox]{margin:0;cursor:pointer}
+.ll-cell .ll-input:disabled{background:#F3F4F6;color:#9CA3AF;cursor:not-allowed}
 .policy-row-del{background:none;border:1px solid #FECACA;border-radius:4px;color:#EF4444;cursor:pointer;font-size:15px;padding:3px 6px;line-height:1;transition:.15s}
 .policy-row-del:hover{background:#FEE2E2}
 .btn-add-row{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:6px 14px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--muted);font-size:15px;font-weight:600;cursor:pointer;transition:.15s}
@@ -2223,6 +2228,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <th><span data-i18n="thPA">意外身故 PA</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
             <th><span data-i18n="thCI">危疾 CI</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
             <th><span data-i18n="thECI">早期危疾</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thDailyHosp">每日住院津貼</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
+            <th><span data-i18n="thCIWaiver">CI 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
+            <th><span data-i18n="thTPDWaiver">TPD 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
             <th><span data-i18n="thDis">殘障月收入</span><br><span style="font-weight:400;opacity:.7">(RM/月)</span></th>
             <th><span data-i18n="thPrem">年繳保費</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
             <th class="no-print" style="width:32px"></th>
@@ -2237,6 +2245,9 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <td id="tot_pa">—</td>
             <td id="tot_ci">—</td>
             <td id="tot_eci">—</td>
+            <td id="tot_dh">—</td>
+            <td id="tot_ciw">—</td>
+            <td id="tot_tpdw">—</td>
             <td id="tot_dis">—</td>
             <td id="tot_prem">—</td>
           </tr>
@@ -2254,11 +2265,8 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <th class="nc">#</th>
             <th data-i18n="thInsurer">保險公司</th>
             <th><span data-i18n="thRoomBoard">每日病房費</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th><span data-i18n="thLifetimeLimit">終身限額</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
+            <th><span data-i18n="thLifetimeLimit">終身限額</span><br><span style="font-weight:400;opacity:.7" data-i18n="thLifetimeLimitNote">(RM 或勾「無限額」)</span></th>
             <th><span data-i18n="thAnnualLimit">年度限額</span><br><span style="font-weight:400;opacity:.7">(RM)</span></th>
-            <th><span data-i18n="thDailyHosp">每日住院津貼</span><br><span style="font-weight:400;opacity:.7">(RM/日)</span></th>
-            <th><span data-i18n="thCIWaiver">CI 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
-            <th><span data-i18n="thTPDWaiver">TPD 豁免保費</span><br><span style="font-weight:400;opacity:.7">(RM/年)</span></th>
             <th class="no-print" style="width:32px"></th>
           </tr>
         </thead>
@@ -2269,9 +2277,6 @@ body.far-show-all .far-show-all-toggle:hover{background:#E11900;border-color:#E1
             <td id="tot_rb">—</td>
             <td id="tot_ll">—</td>
             <td id="tot_al">—</td>
-            <td id="tot_dh">—</td>
-            <td id="tot_ciw">—</td>
-            <td id="tot_tpdw">—</td>
           </tr>
         </tfoot>
       </table>
@@ -3305,8 +3310,8 @@ const I18N = {
     lCarLoan:'車貸餘額 (RM)', lCarMonthly:'車貸月供 (RM)', lCCPersonal:'信用卡 + 私人貸款 (RM)', lAnnualPrem:'年繳保費合計 (RM)',
     thInsurer:'保險公司', thPolicyNo:'保單號碼 (選填)',
     thDeath:'身故 Death', thTPD:'全殘 TPD', thPA:'意外身故 PA', thCI:'危疾 CI', thECI:'早期危疾', thDis:'殘障月收入', thPrem:'年繳保費',
-    thRoomBoard:'每日病房費', thLifetimeLimit:'終身限額', thAnnualLimit:'年度限額',
-    thDailyHosp:'每日住院津貼', thCIWaiver:'CI 豁免保費', thTPDWaiver:'TPD 豁免保費',
+    thRoomBoard:'每日病房費', thLifetimeLimit:'終身限額', thLifetimeLimitNote:'(RM 或勾「無限額」)', thAnnualLimit:'年度限額',
+    thDailyHosp:'每日住院津貼', thCIWaiver:'CI 豁免保費', thTPDWaiver:'TPD 豁免保費', chkNoLimit:'無終身限額',
     thDesc:'說明', thBalance:'貸款餘額 (RM)', thMonthly:'月供 (RM)', thMRTA:'有 MRTA?',
     thItem:'項目', thAmount:'金額 (RM)', thNote:'備注',
     thCoverage:'保障類別', thNeed:'所需保障', thCurrent:'現有保障', thGap:'缺口 / 盈餘', thStatus:'狀態',
@@ -3345,7 +3350,7 @@ const I18N = {
     noMedCard:'— 無醫療保障 / No Medical Card —',
     gapDeath:'身故保障', gapTPD:'全殘 TPD', gapCI:'危疾 CI',
     gapMed:'醫療卡升級', gapMedNote:'終身限額升至 RM 1M 以上', gapPA:'意外保障 PA',
-    medHint:'病房費 / 終身 / 年度限額 顯示最高單份保單數值；住院津貼 / 豁免保費為各保單合計',
+    medHint:'病房費 / 終身 / 年度限額 顯示最高單份保單數值。終身限額可勾「無限額」(market 上很多 no-lifetime-limit plan，年限額用完每年自動續至保單終期)',
     insSelect:'— 選擇保險公司 —',
     policyNoPlh:'如有',
     homeDescDef:'自住房屋',
@@ -3440,8 +3445,8 @@ const I18N = {
     lCarLoan:'Car Loan Balance (RM)', lCarMonthly:'Car Loan Monthly (RM)', lCCPersonal:'Credit Card + Personal Loan (RM)', lAnnualPrem:'Total Annual Premium (RM)',
     thInsurer:'Insurer', thPolicyNo:'Policy No. (optional)',
     thDeath:'Death', thTPD:'Total Perm. Disability', thPA:'Personal Accident', thCI:'Critical Illness', thECI:'Early CI', thDis:'Disability Income/mo', thPrem:'Annual Premium',
-    thRoomBoard:'Room & Board/day', thLifetimeLimit:'Lifetime Limit', thAnnualLimit:'Annual Limit',
-    thDailyHosp:'Daily Hosp. Allowance', thCIWaiver:'CI Premium Waiver', thTPDWaiver:'TPD Premium Waiver',
+    thRoomBoard:'Room & Board/day', thLifetimeLimit:'Lifetime Limit', thLifetimeLimitNote:'(RM or tick "Unlimited")', thAnnualLimit:'Annual Limit',
+    thDailyHosp:'Daily Hosp. Allowance', thCIWaiver:'CI Premium Waiver', thTPDWaiver:'TPD Premium Waiver', chkNoLimit:'No Lifetime Limit',
     thDesc:'Description', thBalance:'Loan Balance (RM)', thMonthly:'Monthly (RM)', thMRTA:'MRTA?',
     thItem:'Item', thAmount:'Amount (RM)', thNote:'Notes',
     thCoverage:'Coverage Type', thNeed:'Need', thCurrent:'Current', thGap:'Gap / Surplus', thStatus:'Status',
@@ -3479,7 +3484,7 @@ const I18N = {
     noMedCard:'— No Medical Card Coverage —',
     gapDeath:'Death Benefit', gapTPD:'Total Perm. Disability', gapCI:'Critical Illness CI',
     gapMed:'Medical Card Upgrade', gapMedNote:'Upgrade lifetime limit to RM 1M+', gapPA:'Personal Accident (PA)',
-    medHint:'Room & Board / Lifetime / Annual Limit show highest single-policy value; Daily Allowance / Waiver are summed',
+    medHint:'Room & Board / Lifetime / Annual Limit show highest single-policy value. Tick "No Lifetime Limit" for plans where annual limit auto-renews until policy term-end',
     insSelect:'— Select Insurer —',
     policyNoPlh:'If any',
     homeDescDef:'Own Home',
@@ -3575,8 +3580,8 @@ const I18N = {
     lCarLoan:'Baki Pinjaman Kereta (RM)', lCarMonthly:'Ansuran Kereta Bulanan (RM)', lCCPersonal:'Kad Kredit + Pinjaman Peribadi (RM)', lAnnualPrem:'Jumlah Premium Tahunan (RM)',
     thInsurer:'Syarikat Insurans', thPolicyNo:'No. Polisi (pilihan)',
     thDeath:'Kematian', thTPD:'Hilang Upaya Kekal', thPA:'Kemalangan Diri', thCI:'Penyakit Kritikal', thECI:'CI Awal', thDis:'Pendapatan OKU/bln', thPrem:'Premium Tahunan',
-    thRoomBoard:'Caj Bilik/hari', thLifetimeLimit:'Had Seumur Hidup', thAnnualLimit:'Had Tahunan',
-    thDailyHosp:'Elaun Hospital Harian', thCIWaiver:'Pengecualian Premium CI', thTPDWaiver:'Pengecualian Premium OKU',
+    thRoomBoard:'Caj Bilik/hari', thLifetimeLimit:'Had Seumur Hidup', thLifetimeLimitNote:'(RM atau tanda "Tanpa Had")', thAnnualLimit:'Had Tahunan',
+    thDailyHosp:'Elaun Hospital Harian', thCIWaiver:'Pengecualian Premium CI', thTPDWaiver:'Pengecualian Premium OKU', chkNoLimit:'Tanpa Had Seumur Hidup',
     thDesc:'Keterangan', thBalance:'Baki Pinjaman (RM)', thMonthly:'Bulanan (RM)', thMRTA:'MRTA?',
     thItem:'Perkara', thAmount:'Jumlah (RM)', thNote:'Catatan',
     thCoverage:'Jenis Liputan', thNeed:'Keperluan', thCurrent:'Semasa', thGap:'Jurang / Lebihan', thStatus:'Status',
@@ -3614,7 +3619,7 @@ const I18N = {
     noMedCard:'— Tiada Kad Perubatan —',
     gapDeath:'Faedah Kematian', gapTPD:'Hilang Upaya Kekal', gapCI:'Penyakit Kritikal CI',
     gapMed:'Naik Taraf Kad Perubatan', gapMedNote:'Naik taraf had seumur hidup ke RM 1M+', gapPA:'Kemalangan Diri (PA)',
-    medHint:'Bilik & Makan / Had Seumur Hidup / Had Tahunan menunjukkan nilai polisi tertinggi; Elaun Harian / Pengecualian Premium dijumlahkan',
+    medHint:'Bilik & Makan / Had Seumur Hidup / Had Tahunan menunjukkan nilai polisi tertinggi. Tanda "Tanpa Had Seumur Hidup" untuk plan yang had tahunannya diperbaharui sehingga tamat tempoh polisi',
     insSelect:'— Pilih Penginsurans —',
     policyNoPlh:'Jika ada',
     homeDescDef:'Rumah Sendiri',
@@ -3836,6 +3841,9 @@ function buildPolicyRows() {
       <td><input type="number" id="p${i}pa" placeholder="" min="0" oninput="recalc()"></td>
       <td><input type="number" id="p${i}ci" placeholder="" min="0" oninput="recalc()"></td>
       <td><input type="number" id="p${i}eci" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input type="number" id="p${i}dh" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input type="number" id="p${i}ciw" placeholder="" min="0" oninput="recalc()"></td>
+      <td><input type="number" id="p${i}tpdw" placeholder="" min="0" oninput="recalc()"></td>
       <td><input type="number" id="p${i}dis" placeholder="" min="0" oninput="recalc()"></td>
       <td><input type="number" id="p${i}prem" placeholder="" min="0" oninput="recalc()"></td>
       <td class="no-print"><button class="policy-row-del" id="lifeDelBtn${i}" onclick="removeLifeRow(${i})" title="Remove">✕</button></td>
@@ -3848,11 +3856,16 @@ function buildPolicyRows() {
       <td class="nc">${i}</td>
       <td><select id="pm${i}co" onchange="recalc()">${medOpts}</select></td>
       <td><input type="number" id="p${i}rb" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}ll" placeholder="" min="0" oninput="recalc()"></td>
+      <td>
+        <div class="ll-cell">
+          <input type="number" id="p${i}ll" placeholder="" min="0" oninput="recalc()" class="ll-input">
+          <label class="ll-unlim-label">
+            <input type="checkbox" id="p${i}ll_unlim" onchange="toggleNoLimit(${i})">
+            <span data-i18n="chkNoLimit">無終身限額</span>
+          </label>
+        </div>
+      </td>
       <td><input type="number" id="p${i}al" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}dh" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}ciw" placeholder="" min="0" oninput="recalc()"></td>
-      <td><input type="number" id="p${i}tpdw" placeholder="" min="0" oninput="recalc()"></td>
       <td class="no-print"><button class="policy-row-del" id="medDelBtn${i}" onclick="removeMedRow(${i})" title="Remove">✕</button></td>
     </tr>`;
   }
@@ -3931,7 +3944,7 @@ function addLifeRow() {
 function removeLifeRow(idx) {
   if(lifeVisibleRows <= 1) return;
   // Shift data from idx+1..lifeVisibleRows down by 1
-  const fields = ['co','pno','death','tpd','pa','ci','eci','dis','prem'];
+  const fields = ['co','pno','death','tpd','pa','ci','eci','dh','ciw','tpdw','dis','prem'];
   for(let i=idx; i<lifeVisibleRows; i++) {
     fields.forEach(f => {
       const src = document.getElementById(`p${i+1}${f}`);
@@ -3951,6 +3964,27 @@ function removeLifeRow(idx) {
   recalc();
 }
 
+// Toggle "No Lifetime Limit" checkbox for medical card row
+function toggleNoLimit(i) {
+  const chk = document.getElementById(`p${i}ll_unlim`);
+  const inp = document.getElementById(`p${i}ll`);
+  if(!chk || !inp) return;
+  if(chk.checked) {
+    inp.disabled = true;
+    inp.placeholder = '∞';
+    inp.dataset._prevVal = inp.value;  // stash existing value
+    inp.value = '';
+  } else {
+    inp.disabled = false;
+    inp.placeholder = '';
+    if(inp.dataset._prevVal !== undefined) {
+      inp.value = inp.dataset._prevVal;
+      delete inp.dataset._prevVal;
+    }
+  }
+  recalc();
+}
+
 function addMedRow() {
   if(medVisibleRows >= MED_MAX) return;
   medVisibleRows++;
@@ -3961,7 +3995,7 @@ function addMedRow() {
 
 function removeMedRow(idx) {
   if(medVisibleRows <= 1) return;
-  const fields = ['rb','ll','al','dh','ciw','tpdw'];
+  const fields = ['rb','ll','al','ll_unlim'];
   for(let i=idx; i<medVisibleRows; i++) {
     fields.forEach(f => {
       const src = document.getElementById(`p${i+1}${f}`);
@@ -3972,9 +4006,16 @@ function removeMedRow(idx) {
     const dstCo = document.getElementById(`pm${i}co`);
     if(srcCo && dstCo) dstCo.value = srcCo.value;
   }
-  const lf = ['rb','ll','al','dh','ciw','tpdw'];
-  lf.forEach(f => { const el=document.getElementById(`p${medVisibleRows}${f}`); if(el)el.value=''; });
+  fields.forEach(f => {
+    const el = document.getElementById(`p${medVisibleRows}${f}`);
+    if(el) { if(el.type==='checkbox') el.checked=false; else el.value=''; }
+  });
   const coEl = document.getElementById(`pm${medVisibleRows}co`); if(coEl)coEl.value='';
+  // re-apply unlim state to shifted rows (input enable/disable)
+  for(let i=1; i<=medVisibleRows; i++) {
+    const chk = document.getElementById(`p${i}ll_unlim`);
+    if(chk) toggleNoLimit(i);  // syncs disabled state — but toggleNoLimit calls recalc()
+  }
   const lastRow = document.getElementById('medRow'+medVisibleRows);
   if(lastRow) lastRow.style.display='none';
   medVisibleRows--;
@@ -4028,6 +4069,11 @@ function fmt(v, d=0) {
 function fmtRaw(v, d=0) {
   if(!isFinite(v)||isNaN(v)||v===0) return '—';
   return 'RM ' + Math.abs(v).toLocaleString('en-MY', {minimumFractionDigits:d, maximumFractionDigits:d});
+}
+// Display formatter for lifetime limit — handles "unlimited" (Infinity) case
+function fmtLifetime(v) {
+  if (v === Infinity) return tr('無限額','Unlimited','Tanpa Had');
+  return fmtRaw(v);
 }
 function fmtNum(v, d=0, suffix='') {
   if(!isFinite(v)||isNaN(v)) return '—';
@@ -4131,7 +4177,13 @@ function recalc() {
     annPremium      += n(`p${i}prem`);
     // Medical: max for room/limits, sum for allowance/waiver
     roomBoard        = Math.max(roomBoard, n(`p${i}rb`));
-    lifetimeLimit    = Math.max(lifetimeLimit, n(`p${i}ll`));
+    // Lifetime limit: any policy marked "No Lifetime Limit" makes total unlimited
+    const llUnlim    = document.getElementById(`p${i}ll_unlim`);
+    if (llUnlim && llUnlim.checked) {
+      lifetimeLimit  = Infinity;
+    } else {
+      lifetimeLimit  = Math.max(lifetimeLimit, n(`p${i}ll`));
+    }
     annualLimit      = Math.max(annualLimit, n(`p${i}al`));
     dailyHospital   += n(`p${i}dh`);
     ciWaiverPremium += n(`p${i}ciw`);
@@ -4155,7 +4207,12 @@ function recalc() {
   };
   Object.entries(totMap).forEach(([id,v]) => {
     const el=document.getElementById(id);
-    if(el) el.textContent = v>0 ? fmtRaw(v) : '—';
+    if(!el) return;
+    if(id === 'tot_ll') {
+      el.textContent = (v === Infinity) ? tr('無限額','Unlimited','Tanpa Had') : (v>0 ? fmtRaw(v) : '—');
+    } else {
+      el.textContent = v>0 ? fmtRaw(v) : '—';
+    }
   });
 
   const insExp = annPremium / 12;
@@ -4371,6 +4428,10 @@ function recalc() {
 
   // ── Gap Comparison — Before vs After Plan A/B/C ──
   const _gcBefore = (val, need) => {
+    if (val === Infinity) {
+      return `<span style="display:block;color:var(--ok);font-weight:700;font-size:16px">${tr('無限額','Unlimited','Tanpa Had')}</span>`
+        + `<span style="display:block;font-size:14px;font-weight:600;color:var(--ok);margin-top:1px">✓ ∞</span>`;
+    }
     const ok = val >= need;
     const diff = Math.abs(val - need);
     return `<span style="display:block;color:${ok?'var(--ok)':'var(--gap)'};font-weight:700;font-size:16px">${fmtRaw(val)}</span>`
@@ -4378,6 +4439,10 @@ function recalc() {
   };
   const _gcAfter = (after, orig, need) => {
     if(after === orig) return `<span style="color:var(--muted);font-size:15px;font-weight:500">—</span>`;
+    if (after === Infinity) {
+      return `<span style="display:block;color:var(--ok);font-weight:700;font-size:16px">${tr('無限額','Unlimited','Tanpa Had')}</span>`
+        + `<span style="display:block;font-size:14px;font-weight:600;color:var(--ok);margin-top:1px">✓ ∞</span>`;
+    }
     const ok = after >= need;
     const diff = Math.abs(after - need);
     return `<span style="display:block;color:${ok?'var(--ok)':'var(--gap)'};font-weight:700;font-size:16px">${fmtRaw(after)}</span>`
@@ -4431,12 +4496,12 @@ function recalc() {
     </div>
     <div class="kpi-card kpi-card-sm ${medOk2?'ok':'gap'}">
       <div class="kpi-label">${L('kpiLifetime')}</div>
-      <div class="kpi-value">${fmtRaw(lifetimeLimit)}</div>
+      <div class="kpi-value">${fmtLifetime(lifetimeLimit)}</div>
       <div class="kpi-sub">${medOk2?'✓ ≥ 1M':'✗ ≥ RM 1M'}</div>
     </div>
     <div class="kpi-card kpi-card-sm ${medOk3?'ok':'warn'}">
       <div class="kpi-label">${L('kpiMHI')}</div>
-      <div class="kpi-value">${mhiFunding200k>0?mhiFunding200k.toFixed(1)+'x':'—'}</div>
+      <div class="kpi-value">${mhiFunding200k===Infinity?'∞':(mhiFunding200k>0?mhiFunding200k.toFixed(1)+'x':'—')}</div>
       <div class="kpi-sub">${medOk3?'✓ >2x':'⚠ >2x'}</div>
     </div>
     <div class="kpi-card kpi-card-sm neutral">
@@ -4707,10 +4772,12 @@ function _allPolicyIds() {
   const ids = [];
   for(let i=1;i<=15;i++) {
     ids.push(`p${i}co`,`p${i}pno`,
-      `p${i}death`,`p${i}tpd`,`p${i}pa`,`p${i}ci`,`p${i}eci`,`p${i}dis`,`p${i}prem`);
+      `p${i}death`,`p${i}tpd`,`p${i}pa`,`p${i}ci`,`p${i}eci`,
+      `p${i}dh`,`p${i}ciw`,`p${i}tpdw`,
+      `p${i}dis`,`p${i}prem`);
   }
   for(let i=1;i<=5;i++) {
-    ids.push(`pm${i}co`,`p${i}rb`,`p${i}ll`,`p${i}al`,`p${i}dh`,`p${i}ciw`,`p${i}tpdw`);
+    ids.push(`pm${i}co`,`p${i}rb`,`p${i}ll`,`p${i}ll_unlim`,`p${i}al`);
   }
   return ids;
 }
@@ -5181,7 +5248,12 @@ function renderReport() {
     earlyCI       += n(`p${i}eci`);
     annPremium    += n(`p${i}prem`);
     roomBoard      = Math.max(roomBoard, n(`p${i}rb`));
-    lifetimeLimit  = Math.max(lifetimeLimit, n(`p${i}ll`));
+    const llUnlim2 = document.getElementById(`p${i}ll_unlim`);
+    if (llUnlim2 && llUnlim2.checked) {
+      lifetimeLimit = Infinity;
+    } else {
+      lifetimeLimit = Math.max(lifetimeLimit, n(`p${i}ll`));
+    }
   }
   const totalCI = ciBenefit + earlyCI;
   const insExp  = annPremium / 12;
@@ -5615,12 +5687,12 @@ function renderReport() {
     </div>
     <div class="rep-hk ${medOk2?'ok':'gap'}">
       <div class="rep-hk-lbl">${tr('終身限額','Lifetime Limit','Had Seumur Hidup')}</div>
-      <div class="rep-hk-val">${fmtRaw(lifetimeLimit)}</div>
-      <div class="rep-hk-sub">${medOk2?tr('✓ 達 RM 1M 標準','✓ Meets RM 1M','✓ Capai RM 1M'):tr('✗ 建議 ≥ RM 1M','✗ Recommend ≥ RM 1M','✗ Disyorkan ≥ RM 1M')}</div>
+      <div class="rep-hk-val">${fmtLifetime(lifetimeLimit)}</div>
+      <div class="rep-hk-sub">${medOk2?tr('✓ 達標','✓ Meets standard','✓ Capai piawai'):tr('✗ 建議 ≥ RM 1M','✗ Recommend ≥ RM 1M','✗ Disyorkan ≥ RM 1M')}</div>
     </div>
     <div class="rep-hk ${medOk3?'ok':'gap'}">
       <div class="rep-hk-lbl">${tr('抗大病次數','Major-Illness Capacity','Kapasiti Penyakit Serius')}</div>
-      <div class="rep-hk-val">${mhiFunding.toFixed(1)}x</div>
+      <div class="rep-hk-val">${mhiFunding===Infinity?'∞':mhiFunding.toFixed(1)+'x'}</div>
       <div class="rep-hk-sub">${medOk3?tr('✓ 達 2x 標準','✓ Meets 2× standard','✓ Capai 2× piawai'):tr('✗ 建議 ≥ 2x','✗ Recommend ≥ 2×','✗ Disyorkan ≥ 2×')}</div>
     </div>
   `);
@@ -5631,7 +5703,7 @@ function renderReport() {
     </div>
     <div class="rep-breakdown-row">
       <div class="rep-breakdown-lbl">${tr('終身保額限額','Lifetime Coverage Limit','Had Lindungan Seumur Hidup')}</div>
-      <div class="rep-breakdown-val">RM ${lifetimeLimit.toLocaleString('en-MY')}</div>
+      <div class="rep-breakdown-val">${fmtLifetime(lifetimeLimit)}</div>
     </div>
     <div class="rep-breakdown-row">
       <div class="rep-breakdown-lbl">${tr('RM 200k 大病應付能力','RM 200k Major-Illness Capacity','Kapasiti Penyakit Serius RM 200k')}</div>
@@ -5823,15 +5895,19 @@ function renderReport() {
     {cat: tr('意外 PA','Personal Accident','Kemalangan Diri'), cur: paBenefit,        need: Math.max(75000, Math.round(deathBenefit*0.5)),      prio: 'P3'},
   ];
   setHtml('rep_recTbody', recRows.map(r => {
-    const gap     = Math.max(0, r.need - r.cur);
-    const pct     = r.need > 0 ? Math.min(100, (r.cur / r.need) * 100) : 0;
+    const isUnlim = (r.cur === Infinity || r.need === Infinity);
+    const gap     = isUnlim ? 0 : Math.max(0, r.need - r.cur);
+    const pct     = isUnlim ? 100 : (r.need > 0 ? Math.min(100, (r.cur / r.need) * 100) : 0);
     const barCls  = pct >= 95 ? 'ok' : (pct >= 50 ? 'mid' : '');
     const prioCls = r.prio.toLowerCase();
+    const curDisp = isUnlim ? tr('無限額','Unlimited','Tanpa Had') : ('RM ' + fmtRaw(r.cur));
+    const needDisp = isUnlim ? tr('無限額','Unlimited','Tanpa Had') : ('RM ' + fmtRaw(r.need));
+    const gapDisp = isUnlim ? '—' : (gap > 0 ? '+RM ' + fmtRaw(gap) : '—');
     return `<tr>
       <td class="cat">${r.cat}</td>
-      <td class="num">RM ${fmtRaw(r.cur)}</td>
-      <td class="num need">RM ${fmtRaw(r.need)}</td>
-      <td class="num gap">${gap > 0 ? '+RM ' + fmtRaw(gap) : '—'}</td>
+      <td class="num">${curDisp}</td>
+      <td class="num need">${needDisp}</td>
+      <td class="num gap">${gapDisp}</td>
       <td class="pct"><span class="rep-pct-bar ${barCls}"><i style="width:${pct.toFixed(0)}%"></i></span><span class="rep-pct-text">${pct.toFixed(0)}%</span></td>
       <td class="prio"><span class="rep-prio-tag ${prioCls}">${r.prio}</span></td>
     </tr>`;
@@ -5905,11 +5981,15 @@ function renderReport() {
 
   // Aria Phase 2: Coverage Allocation donut — proportion of recommended coverage by type
   try {
+    // If lifetime is unlimited (Infinity), cap visualization at 2× CI need or RM 2M (whichever larger) so donut renders
+    const _medForDonut = (lifetimeLimit === Infinity)
+      ? Math.max(2_000_000, Math.round(ciNeed * 2))
+      : Math.max(1_000_000, lifetimeLimit);
     const _donutData = [
       { cat: tr('身故 Death','Death','Kematian'),                value: deathNeed,                          color: '#DC2626' },
       { cat: tr('全殘 TPD','TPD','TPD'),                          value: tpdNeed,                            color: '#0F1A2B' },
       { cat: tr('危疾 CI','Critical Illness','Penyakit Kritikal'),value: ciNeed,                             color: '#F59E0B' },
-      { cat: tr('醫療 Medical','Medical','Perubatan'),            value: Math.max(1000000, lifetimeLimit),  color: '#2563EB' },
+      { cat: tr('醫療 Medical','Medical','Perubatan'),            value: _medForDonut,                       color: '#2563EB' },
       { cat: tr('意外 PA','Personal Accident','Kemalangan Diri'), value: Math.max(75000, Math.round(deathBenefit*0.5)), color: '#86A789' },
     ];
     const _donutTotal = _donutData.reduce((s,d) => s + d.value, 0);
