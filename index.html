@@ -485,7 +485,7 @@ select option:first-child{color:#C4C9D4}
      .rep-page elements — so cover doesn't count, Exec Summary = Page 1.  */
   @page {
     size: A4 portrait;
-    margin: 13mm 0 13mm 0;        /* top margin reserves uniform clearance for the fixed red bar on EVERY physical page */
+    margin: 0 0 13mm 0;
     @top-left { content: ""; }
     @top-center { content: ""; }
     @top-right { content: ""; }
@@ -504,7 +504,6 @@ select option:first-child{color:#C4C9D4}
   }
   /* Cover (first page) has no page number — numbering starts from Page 2 */
   @page :first {
-    margin: 0 0 13mm 0;        /* preserve cover exactly (no top margin) — its bar/layout unchanged */
     @bottom-right { content: ""; }
     @bottom-left { content: ""; }
   }
@@ -512,7 +511,7 @@ select option:first-child{color:#C4C9D4}
   /* Print-only sizing: rep-page absorbs ALL page padding (since @page margin=0) */
   body.report-active #reportView{padding:0 !important;margin:0 !important}
   body.report-active .rep-page{
-    padding:0 14mm 12mm !important;        /* top space now comes from @page margin-top so overflow pages get it too */
+    padding:13mm 14mm 12mm !important;        /* Aria compaction: less top/bottom */
     margin:0 !important;
     border:none !important;border-radius:0 !important;
     box-shadow:none !important;
@@ -520,19 +519,16 @@ select option:first-child{color:#C4C9D4}
     page-break-after:always;
     position:relative !important;
   }
-  /* Aria fix: 3mm red brand line at top of EVERY physical page — including
-     overflow/continuation pages (e.g. a chapter that spans 2 pages) and the
-     cover. position:fixed makes Chrome repaint it on every printed page;
-     @page margin-top reserves clearance so it never overlaps content. */
+  /* Aria fix: 3mm red brand line at the BOTTOM of EVERY physical page —
+     including overflow/continuation pages. position:fixed makes Chrome
+     repaint it on every printed page; anchoring it to the bottom edge (inside
+     the 13mm @page bottom margin) means it never overlaps the page header or
+     body content — a top bar overlapped the header on continuation pages. */
   body.report-active::before{
-    content:'';position:fixed;top:0;left:0;right:0;height:3mm;
+    content:'';position:fixed;bottom:0;left:0;right:0;height:3mm;
     background:var(--red);z-index:9999;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
-  /* Chapter number sits relative to the rep-page; rep-page now starts at the
-     @page content top (13mm), so pull the number up to keep it level with the
-     header (was 14mm when rep-page padding-top provided the 13mm). */
-  body.report-active .rep-page[data-chapter]::after{ top:1mm !important; }
   body.report-active .rep-page-hdr,
   body.report-active .rep-section-title,
   body.report-active .rep-findings,
